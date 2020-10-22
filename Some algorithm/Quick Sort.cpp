@@ -1,25 +1,15 @@
 #include <iostream>
-#include <time.h>
-unsigned long long nComp = 0;
-unsigned long long nAssign = 0;
 using namespace std;
-
-double gettime(int restart = 0)
+void QuickSort(int *a, int length)
 {
-    const double c = 1.0 / CLOCKS_PER_SEC;
-    static long t = clock();
-    if (restart)
-        t = clock();
-    return c * (clock() - t);
-}
-void basicquicksort(double *a, int size, int judge)
-{
-    double pivot, temp;
-    int left = 0, right = size - 1;
-
-    if (size <= 1)
+    static long long nComp = 0;
+    static long long nAssign = 0;
+    int pivot, temp;
+    int left = 0, right = length - 1;
+    if (length <= 1)
+    {
         return;
-
+    }
     pivot = a[right];
     do
     {
@@ -41,34 +31,32 @@ void basicquicksort(double *a, int size, int judge)
             nAssign += 3;
         }
     } while (left < right);
-    a[size - 1] = a[left];
+    a[length - 1] = a[left];
     a[left] = pivot;
     nAssign += 2;
-    basicquicksort(a, left, 0);
-    basicquicksort(a + left + 1, size - left - 1, 0);
-    if (judge == 1)
-    {
-        cout << "比较次数为：" << nComp << "次，赋值次数为：" << nAssign << "次。" << '\n';
-    }
+    QuickSort(a, left);
+    QuickSort(a + left + 1, length - left - 1);
 }
-
 int main()
 {
-    double arr[500];
+    cout << "Please input an array:";
+    int a[1000] = {0};
     int i = 0;
-    while (cin.peek() != '\n')
+    do
     {
-        cin >> arr[i++];
-    }
-    double t;
-    gettime(1);
-    basicquicksort(arr, i, 1);
-    t = gettime(0);
-    for (int k = 0; k < i; k++)
+        cin >> a[i];
+        i++;
+    } while (getchar() != '\n');
+    QuickSort(a, i);
+    cout << "The result is: ";
+    for (int j = 0; j < i; j++)
     {
-        cout << arr[k] << " ";
+        cout << a[j];
+        if (j != i - 1)
+        {
+            cout << ", ";
+        }
     }
-    cout << '\n';
-    cout << "排序用时：" << t << "s" << '\n';
+    cout << endl;
     return 0;
 }
