@@ -1,36 +1,36 @@
 #include <iostream>
 #include <time.h>
-unsigned long long nComp = 0;   // 未使用引用型传递,因为做不来
-unsigned long long nAssign = 0; // 非递归函数，可在此置0
+unsigned long long nComp = 0;
+unsigned long long nAssign = 0;
 using namespace std;
 
-double gettime(int restart = 0) // 参数带默认值，非零表示重新设置计时起点
+double gettime(int restart = 0)
 {
-    const double c = 1.0 / CLOCKS_PER_SEC; // 毫秒转换至秒
-    static long t = clock();               // 静态局部变量，第一次调用本函数时，确定计时起点
+    const double c = 1.0 / CLOCKS_PER_SEC;
+    static long t = clock();
     if (restart)
-        t = clock();          // 根据实参决定是否重新确定计时起点
-    return c * (clock() - t); // 从上一计时点到现在所经历的时间差
+        t = clock();
+    return c * (clock() - t);
 }
-void basicquicksort(double *a, int size, int judge) //基本快排
+void basicquicksort(double *a, int size, int judge)
 {
     double pivot, temp;
-    int left = 0, right = size - 1; // 下标（整数）
+    int left = 0, right = size - 1;
 
     if (size <= 1)
         return;
 
-    pivot = a[right]; // 选择最后一个值为分界值
+    pivot = a[right];
     do
     {
         while (left < right && a[left] <= pivot)
         {
-            left++; // 此处 "<=" 是让与分界值相等的元素暂时留在原地
+            left++;
             nComp++;
         }
         while (left < right && a[right] >= pivot)
         {
-            right--; // 此处 ">=" 是让与分界值相等的元素暂时留在原地
+            right--;
             nComp++;
         }
         if (left < right)
@@ -44,9 +44,8 @@ void basicquicksort(double *a, int size, int judge) //基本快排
     a[size - 1] = a[left];
     a[left] = pivot;
     nAssign += 2;
-    // 找到分界点 left
-    basicquicksort(a, left, 0);                       // 递归调用(左侧部分)
-    basicquicksort(a + left + 1, size - left - 1, 0); // 递归调用(右侧部分)
+    basicquicksort(a, left, 0);
+    basicquicksort(a + left + 1, size - left - 1, 0);
     if (judge == 1)
     {
         cout << "比较次数为：" << nComp << "次，赋值次数为：" << nAssign << "次。" << '\n';
