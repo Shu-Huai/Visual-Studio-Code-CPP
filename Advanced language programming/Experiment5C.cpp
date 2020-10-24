@@ -18,7 +18,7 @@ bool judge(string &str)
 int main()
 {
     string input;
-    while (cin >> input)
+    while (getline(cin, input))
     {
         if (input.length() != 0)
         {
