@@ -5,7 +5,7 @@ class A
 public:
     virtual void foo()
     {
-        cout << "A's foo()" << endl;
+        cout << "A'sfoo()" << endl;
         bar();
     }
     virtual void bar()
