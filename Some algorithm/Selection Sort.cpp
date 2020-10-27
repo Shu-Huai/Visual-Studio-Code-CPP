@@ -1,21 +1,21 @@
 #include <iostream>
 using namespace std;
-void SelectionSort(int (&a)[1000],int length)
+void SelectionSort(int (&a)[1000], int length)
 {
-    for (int i = 0; i < length - 1; i++)
+    for (int i = 0; i < length; i++)
     {
+        int min = a[i];
         int index = i;
-        int j;
-        for (j = i + 1; j < length; j++)
+        for (int j = i + 1; j < length; j++)
         {
-            if (a[j] < a[index])
+            if (a[j] < min)
             {
+                min = a[j];
                 index = j;
             }
         }
-        int tmp = a[index];
         a[index] = a[i];
-        a[i] = tmp;
+        a[i] = min;
     }
 }
 int main()
