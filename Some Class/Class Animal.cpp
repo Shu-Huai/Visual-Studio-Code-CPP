@@ -2,83 +2,53 @@
 using namespace std;
 class Animal
 {
-protected:
-    string kind;
-
 public:
-    Animal(const string &KIND)
-    {
-        kind = KIND;
-    }
-    void Sound() const;
+    virtual void Sound() const=0;
 };
 class Cat : public Animal
 {
 public:
-    Cat();
+    void Sound() const;
 };
 class Dog : public Animal
 {
 public:
-    Dog();
+    void Sound() const;
 };
 class Rooster : public Animal
 {
 public:
-    Rooster();
+    void Sound() const;
 };
 class Cattle : public Animal
 {
 public:
-    Cattle();
+    void Sound() const;
 };
 class Horse : public Animal
 {
 public:
-    Horse();
+    void Sound() const;
 };
-void Animal::Sound() const
+void Cat::Sound() const
 {
-    if (kind == "Cat")
-    {
-        cout << "miaow ...";
-    }
-    else if (kind == "Dog")
-    {
-        cout << "wang ...";
-    }
-    else if (kind == "Rooster")
-    {
-        cout << "crow ...";
-    }
-    else if (kind == "Cattle")
-    {
-        cout << "moo ...";
-    }
-    else if (kind == "Horse")
-    {
-        cout << "neigh ...";
-    }
-    else
-    {
-        return;
-    }
-    cout << endl;
+    cout << "miaow ..." << endl;
 }
-Cat::Cat() : Animal("Cat")
+void Dog::Sound() const
 {
+    cout << "wang ..." << endl;
 }
-Dog::Dog() : Animal("Dog")
+void Rooster::Sound() const
 {
+    cout << "crow ..." << endl;
 }
-Rooster::Rooster() : Animal("Rooster")
+void Cattle::Sound() const
 {
+    cout << "moo ..." << endl;
 }
-Cattle::Cattle() : Animal("Cattle")
+void Horse::Sound() const
 {
-}
-Horse::Horse() : Animal("Horse")
-{
+    cout << "neigh ..." << endl;
 }
 void Speaker(const Animal &a)
 {
