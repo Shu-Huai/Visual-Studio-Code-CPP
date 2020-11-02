@@ -14,25 +14,26 @@ bool judge(string &s)
 int main()
 {
     int case_ = 0;
-    cin >> case_;
-    for (int i = 0; i < case_; i++)
+    int count = 0;
+    while (cin >> case_)
     {
-        string input;
-        if (i == 0)
+        cin.get();
+        for (int i = 0; i < case_; i++)
         {
-            getchar();
+            count++;
+            string input;
+            getline(cin, input);
+            cout << "Case " << i + 1 << ": ";
+            if (judge(input))
+            {
+                cout << "Yes";
+            }
+            else
+            {
+                cout << "No";
+            }
+            cout << endl;
         }
-        getline(cin, input);
-        cout << "Case " << i + 1 << ": ";
-        if (judge(input))
-        {
-            cout << "Yes";
-        }
-        else
-        {
-            cout << "No";
-        }
-        cout << endl;
     }
     return 0;
 }
