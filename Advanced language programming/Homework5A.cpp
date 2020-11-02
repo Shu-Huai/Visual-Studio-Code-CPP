@@ -23,7 +23,7 @@ int main()
             count++;
             string input;
             getline(cin, input);
-            cout << "Case " << i + 1 << ": ";
+            cout << "Case " << count << ": ";
             if (judge(input))
             {
                 cout << "Yes";
