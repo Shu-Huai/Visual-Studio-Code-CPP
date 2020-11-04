@@ -1,18 +1,81 @@
 #include <iostream>
 using namespace std;
-struct student
+struct ListNode
 {
-    int id = 0;
-    string name;
-    int mark = 0;
-    student *next;
+    double value;
+    ListNode *next;
 };
+void InitializeList(ListNode *&head)
+{
+    head = new ListNode;
+    head->value = 1;
+    head->next = NULL;
+}
+void Insert(ListNode *&head, int val)
+{
+    ListNode *p = new ListNode;
+    p->value = val;
+    p->next = head;
+    head = p;
+    int a = 0;
+}
+void Expand(ListNode *&head, int val)
+{
+    ListNode *p = head;
+    ListNode *temp = new ListNode;
+    temp->value = val;
+    temp->next = NULL;
+    while (p->next != NULL)
+    {
+        p = p->next;
+    }
+    p->next = temp;
+}
+void ChangeValue(ListNode *head, int val, int n)
+{
+    ListNode *p = head;
+    int count = 0;
+    for (ListNode *p = head; p != NULL; p = p->next)
+    {
+        if (count == n)
+        {
+            p->value = val;
+        }
+        count++;
+    }
+}
+void ShowList(ListNode *head)
+{
+    for (ListNode *p = head; p != NULL; p = p->next)
+    {
+        cout << p->value;
+        if (p->next != NULL)
+        {
+            cout << " -> ";
+        }
+    }
+    cout << endl;
+}
+void Delete(ListNode *&head, int n)
+{
+    int count = 0;
+    for (ListNode *p = head; p != NULL; p = p->next)
+    {
+        if (count == n - 1)
+        {
+            p->next = p->next->next;
+        }
+        count++;
+    }
+}
 int main()
 {
-    student *head = NULL;
-    student student1 = {12345, "fgtredcvg", 100};
-    head = &student1;
-    student student2 = {23456789, "349rcfl", 90};
-    student1.next = &student2;
+    ListNode *head = NULL;
+    InitializeList(head);
+    Insert(head, 0);
+    Expand(head, 2);
+    ChangeValue(head, 2020, 2);
+    ShowList(head);
+    Delete(head, 2);
     return 0;
 }
