@@ -68,6 +68,16 @@ void Delete(ListNode *&head, int n)
         count++;
     }
 }
+void DeleteList(ListNode *&head)
+{
+    ListNode *p;
+    while (head != NULL)
+    {
+        p = head;
+        head = head->next;
+        delete p;
+    }
+}
 int main()
 {
     ListNode *head = NULL;
@@ -77,5 +87,6 @@ int main()
     ChangeValue(head, 2020, 2);
     ShowList(head);
     Delete(head, 2);
+    DeleteList(head);
     return 0;
 }
