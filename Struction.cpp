@@ -44,6 +44,19 @@ void ChangeValue(ListNode *head, int val, int n)
         count++;
     }
 }
+void Show(ListNode *&head, int n)
+{
+    int count = 0;
+    for (ListNode *p = head; p != NULL; p = p->next)
+    {
+        if (count == n)
+        {
+            cout << p->value << endl;
+            break;
+        }
+        count++;
+    }
+}
 void ShowList(ListNode *head)
 {
     for (ListNode *p = head; p != NULL; p = p->next)
@@ -85,6 +98,7 @@ int main()
     Insert(head, 0);
     Expand(head, 2);
     ChangeValue(head, 2020, 2);
+    Show(head, 2);
     ShowList(head);
     Delete(head, 2);
     DeleteList(head);
