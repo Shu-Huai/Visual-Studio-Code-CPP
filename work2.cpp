@@ -1,13 +1,11 @@
 #include <iostream>
 using namespace std;
-
 struct T_shirt
 {
     int size;
     int amount;
     T_shirt *next;
 };
-
 void insertLast(T_shirt *&head)
 {
     T_shirt *p, *q;
@@ -30,7 +28,6 @@ void insertLast(T_shirt *&head)
     }
     p->next = NULL;
 }
-
 void insertFirst(T_shirt *&head)
 {
     T_shirt *p;
@@ -48,7 +45,6 @@ void insertFirst(T_shirt *&head)
         head->next = p;
     }
 }
-
 void displayList(T_shirt *&head)
 {
     T_shirt *p = head->next;
@@ -60,7 +56,6 @@ void displayList(T_shirt *&head)
         p = p->next;
     }
 }
-
 void sortList(T_shirt *&head)
 {
     T_shirt *a, *b, *c;
@@ -77,7 +72,6 @@ void sortList(T_shirt *&head)
         }
     }
 }
-
 int main()
 {
     T_shirt *head;
@@ -94,5 +88,5 @@ int main()
     displayList(head);
     sortList(head);
     displayList(head);
-    system("pause");
+    return 0;
 }
