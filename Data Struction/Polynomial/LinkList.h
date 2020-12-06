@@ -1,245 +1,254 @@
 #ifndef __LK_LIST_H__
 #define __LK_LIST_H__
 
-#include "Node.h"					// ½áµãÀà
+#include "Node.h" // ç»“ç‚¹ç±»
 
-// µ¥Á´±íÀà
+// å•é“¾è¡¨ç±»
 template <class ElemType>
 class LinkList
 {
 protected:
-	//  µ¥Á´±íµÄÊı¾İ³ÉÔ±
-	Node<ElemType>* head;				// Í·½áµãÖ¸Õë
-	int length;							// µ¥Á´±í³¤¶È 
+    //  å•é“¾è¡¨çš„æ•°æ®æˆå‘˜
+    Node<ElemType> *head; // å¤´ç»“ç‚¹æŒ‡é’ˆ
+    int length;           // å•é“¾è¡¨é•¿åº¦
 
 public:
-	//  µ¥Á´±íµÄº¯Êı³ÉÔ± 
-	LinkList();							// ÎŞ²ÎÊıµÄ¹¹Ôìº¯Êı
-	LinkList(ElemType v[], int n);		// ÓĞ²ÎÊıµÄ¹¹Ôìº¯Êı
-	virtual ~LinkList();				// Îö¹¹º¯Êı
-	int GetLength() const;				// Çóµ¥Á´±í³¤¶È			 
-	bool IsEmpty() const;	 			// ÅĞ¶Ïµ¥Á´±íÊÇ·ñÎª¿Õ
-	void Clear();						// ½«µ¥Á´±íÇå¿Õ
-	void Traverse(void (*Visit)(const ElemType&)) const;// ±éÀúµ¥Á´±í
-	int LocateElem(const ElemType& e) const;	         // ÔªËØ¶¨Î» 
-	Status GetElem(int position, ElemType& e) const;	 // ÇóÖ¸¶¨Î»ÖÃµÄÔªËØ	
-	Status SetElem(int position, const ElemType& e);	 // ÉèÖÃÖ¸¶¨Î»ÖÃµÄÔªËØÖµ
-	Status DeleteElem(int position, ElemType& e);		 // É¾³ıÔªËØ		
-	Status InsertElem(int position, const ElemType& e);	 // ÔÚÖÆ¶¨Î»ÖÃ²åÈëÔªËØ
-	Status InsertElem(const ElemType& e);	             // ÔÚ±íÎ²²åÈëÔªËØ
-	LinkList(const LinkList<ElemType>& copy);            // ¸´ÖÆ¹¹Ôìº¯Êı
-	LinkList<ElemType>& operator =(const LinkList<ElemType>& copy); // ÖØÔØ¸³ÖµÔËËã 
+    //  å•é“¾è¡¨çš„å‡½æ•°æˆå‘˜
+    LinkList();                                                    // æ— å‚æ•°çš„æ„é€ å‡½æ•°
+    LinkList(ElemType v[], int n);                                 // æœ‰å‚æ•°çš„æ„é€ å‡½æ•°
+    virtual ~LinkList();                                           // ææ„å‡½æ•°
+    int GetLength() const;                                         // æ±‚å•é“¾è¡¨é•¿åº¦
+    bool IsEmpty() const;                                          // åˆ¤æ–­å•é“¾è¡¨æ˜¯å¦ä¸ºç©º
+    void Clear();                                                  // å°†å•é“¾è¡¨æ¸…ç©º
+    void Traverse(void (*Visit)(const ElemType &)) const;          // éå†å•é“¾è¡¨
+    int LocateElem(const ElemType &e) const;                       // å…ƒç´ å®šä½
+    Status GetElem(int position, ElemType &e) const;               // æ±‚æŒ‡å®šä½ç½®çš„å…ƒç´ 
+    Status SetElem(int position, const ElemType &e);               // è®¾ç½®æŒ‡å®šä½ç½®çš„å…ƒç´ å€¼
+    Status DeleteElem(int position, ElemType &e);                  // åˆ é™¤å…ƒç´ 
+    Status InsertElem(int position, const ElemType &e);            // åœ¨åˆ¶å®šä½ç½®æ’å…¥å…ƒç´ 
+    Status InsertElem(const ElemType &e);                          // åœ¨è¡¨å°¾æ’å…¥å…ƒç´ 
+    LinkList(const LinkList<ElemType> &copy);                      // å¤åˆ¶æ„é€ å‡½æ•°
+    LinkList<ElemType> &operator=(const LinkList<ElemType> &copy); // é‡è½½èµ‹å€¼è¿ç®—
 };
 
-
-// µ¥Á´±íÀàµÄÊµÏÖ²¿·Ö
-
+// å•é“¾è¡¨ç±»çš„å®ç°éƒ¨åˆ†
 
 template <class ElemType>
 LinkList<ElemType>::LinkList()
-// ²Ù×÷½á¹û£º¹¹ÔìÒ»¸ö¿ÕÁ´±í
+// æ“ä½œç»“æœï¼šæ„é€ ä¸€ä¸ªç©ºé“¾è¡¨
 {
-	head = new Node<ElemType>;		// ¹¹ÔìÍ·½áµã
-	assert(head != 0);              // ¹¹ÔìÍ·½áµãÊ§°Ü£¬ÖÕÖ¹³ÌĞòÔËĞĞ 
-	length = 0;						// ³õÊ¼»¯µ¥Á´±í³¤¶ÈÎª0 
+    head = new Node<ElemType>; // æ„é€ å¤´ç»“ç‚¹
+    assert(head != 0);         // æ„é€ å¤´ç»“ç‚¹å¤±è´¥ï¼Œç»ˆæ­¢ç¨‹åºè¿è¡Œ
+    length = 0;                // åˆå§‹åŒ–å•é“¾è¡¨é•¿åº¦ä¸º0
 }
 
 template <class ElemType>
 LinkList<ElemType>::LinkList(ElemType v[], int n)
-// ²Ù×÷½á¹û£º¸ù¾İÊı×évÖĞµÄÔªËØ¹¹Ôìµ¥Á´±í
+// æ“ä½œç»“æœï¼šæ ¹æ®æ•°ç»„vä¸­çš„å…ƒç´ æ„é€ å•é“¾è¡¨
 {
-	Node<ElemType>* p;
-	p = head = new Node<ElemType>;	// ¹¹ÔìÍ·½áµã 
-	assert(head != 0);              // ¹¹ÔìÍ·½áµãÊ§°Ü£¬ÖÕÖ¹³ÌĞòÔËĞĞ 
-	for (int i = 0; i < n; i++) {
-		p->next = new Node<ElemType>(v[i], NULL);
-		assert(p->next != 0);       // ¹¹ÔìÔªËØ½áµãÊ§°Ü£¬ÖÕÖ¹³ÌĞòÔËĞĞ 
-		p = p->next;
-	}
-	length = n;						// ³õÊ¼»¯µ¥Á´±í³¤¶ÈÎªn
+    Node<ElemType> *p;
+    p = head = new Node<ElemType>; // æ„é€ å¤´ç»“ç‚¹
+    assert(head != 0);             // æ„é€ å¤´ç»“ç‚¹å¤±è´¥ï¼Œç»ˆæ­¢ç¨‹åºè¿è¡Œ
+    for (int i = 0; i < n; i++)
+    {
+        p->next = new Node<ElemType>(v[i], NULL);
+        assert(p->next != 0); // æ„é€ å…ƒç´ ç»“ç‚¹å¤±è´¥ï¼Œç»ˆæ­¢ç¨‹åºè¿è¡Œ
+        p = p->next;
+    }
+    length = n; // åˆå§‹åŒ–å•é“¾è¡¨é•¿åº¦ä¸ºn
 }
 
 template <class ElemType>
 LinkList<ElemType>::~LinkList()
-// ²Ù×÷½á¹û£ºÏú»Ùµ¥Á´±í
+// æ“ä½œç»“æœï¼šé”€æ¯å•é“¾è¡¨
 {
-	Clear();			// Çå¿Õµ¥Á´±í
-	delete head;		// ÊÍ·ÅÍ·½áµãËùÖ¸¿Õ¼ä
+    Clear();     // æ¸…ç©ºå•é“¾è¡¨
+    delete head; // é‡Šæ”¾å¤´ç»“ç‚¹æ‰€æŒ‡ç©ºé—´
 }
 
 template <class ElemType>
 int LinkList<ElemType>::GetLength() const
-// ²Ù×÷½á¹û£º·µ»Øµ¥Á´±íµÄ³¤¶È 
+// æ“ä½œç»“æœï¼šè¿”å›å•é“¾è¡¨çš„é•¿åº¦
 {
-	return length;
+    return length;
 }
 
 template <class ElemType>
 bool LinkList<ElemType>::IsEmpty() const
-// ²Ù×÷½á¹û£ºÈçµ¥Á´±íÎª¿Õ£¬Ôò·µ»Øtrue£¬·ñÔò·µ»Øfalse
+// æ“ä½œç»“æœï¼šå¦‚å•é“¾è¡¨ä¸ºç©ºï¼Œåˆ™è¿”å›trueï¼Œå¦åˆ™è¿”å›false
 {
-	return head->next == NULL;
+    return head->next == NULL;
 }
 
 template <class ElemType>
 void LinkList<ElemType>::Clear()
-// ²Ù×÷½á¹û£ºÇå¿Õµ¥Á´±í,É¾³ıµ¥Á´±íÖĞËùÓĞÔªËØ½áµã 
+// æ“ä½œç»“æœï¼šæ¸…ç©ºå•é“¾è¡¨,åˆ é™¤å•é“¾è¡¨ä¸­æ‰€æœ‰å…ƒç´ ç»“ç‚¹
 {
-	Node<ElemType>* p = head->next;
-	while (p != NULL) {
-		head->next = p->next;
-		delete p;
-		p = head->next;
-	}
-	length = 0;
+    Node<ElemType> *p = head->next;
+    while (p != NULL)
+    {
+        head->next = p->next;
+        delete p;
+        p = head->next;
+    }
+    length = 0;
 }
 
 template <class ElemType>
-void LinkList<ElemType>::Traverse(void (*Visit)(const ElemType&)) const
-// ²Ù×÷½á¹û£ºÒÀ´Î¶Ôµ¥Á´±íµÄÃ¿¸öÔªËØµ÷ÓÃº¯Êı(*visit)·ÃÎÊ
+void LinkList<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
+// æ“ä½œç»“æœï¼šä¾æ¬¡å¯¹å•é“¾è¡¨çš„æ¯ä¸ªå…ƒç´ è°ƒç”¨å‡½æ•°(*visit)è®¿é—®
 {
-	Node<ElemType>* p = head->next;
-	while (p != NULL) {
-		(*Visit)(p->data);	// ¶Ôµ¥Á´±íÖĞÃ¿¸öÔªËØµ÷ÓÃº¯Êı(*visit)·ÃÎÊ 
-		p = p->next;
-	}
+    Node<ElemType> *p = head->next;
+    while (p != NULL)
+    {
+        (*Visit)(p->data); // å¯¹å•é“¾è¡¨ä¸­æ¯ä¸ªå…ƒç´ è°ƒç”¨å‡½æ•°(*visit)è®¿é—®
+        p = p->next;
+    }
 }
 
 template <class ElemType>
-int LinkList<ElemType>::LocateElem(const ElemType& e) const
-// ÔªËØ¶¨Î» 
+int LinkList<ElemType>::LocateElem(const ElemType &e) const
+// å…ƒç´ å®šä½
 {
-	Node<ElemType>* p = head->next;
-	int count = 1;
-	while (p != NULL && p->data != e) {
-		count++;
-		p = p->next;
-	}
-	return  (p != NULL) ? count : 0;
+    Node<ElemType> *p = head->next;
+    int count = 1;
+    while (p != NULL && p->data != e)
+    {
+        count++;
+        p = p->next;
+    }
+    return (p != NULL) ? count : 0;
 }
 
 template <class ElemType>
-Status LinkList<ElemType>::GetElem(int i, ElemType& e) const
-// ²Ù×÷½á¹û£ºµ±µ¥Á´±í´æÔÚµÚi¸öÔªËØÊ±£¬ÓÃe·µ»ØÆäÖµ£¬º¯Êı·µ»ØENTRY_FOUND,
-//	·ñÔòº¯Êı·µ»ØNOT_PRESENT
+Status LinkList<ElemType>::GetElem(int i, ElemType &e) const
+// æ“ä½œç»“æœï¼šå½“å•é“¾è¡¨å­˜åœ¨ç¬¬iä¸ªå…ƒç´ æ—¶ï¼Œç”¨eè¿”å›å…¶å€¼ï¼Œå‡½æ•°è¿”å›ENTRY_FOUND,
+//	å¦åˆ™å‡½æ•°è¿”å›NOT_PRESENT
 {
-	if (i < 1 || i > length)
-		return RANGE_ERROR;
-	else {
-		Node<ElemType>* p = head->next;
-		int count;
-		for (count = 1; count < i; count++)
-			p = p->next;	            // pÖ¸ÏòµÚi¸ö½áµã
-		e = p->data;				// ÓÃe·µ»ØµÚi¸öÔªËØµÄÖµ
-		return ENTRY_FOUND;
-	}
+    if (i < 1 || i > length)
+        return RANGE_ERROR;
+    else
+    {
+        Node<ElemType> *p = head->next;
+        int count;
+        for (count = 1; count < i; count++)
+            p = p->next; // pæŒ‡å‘ç¬¬iä¸ªç»“ç‚¹
+        e = p->data;     // ç”¨eè¿”å›ç¬¬iä¸ªå…ƒç´ çš„å€¼
+        return ENTRY_FOUND;
+    }
 }
 
 template <class ElemType>
-Status LinkList<ElemType>::SetElem(int i, const ElemType& e)
-// ²Ù×÷½á¹û£º½«µ¥Á´±íµÄµÚi¸öÎ»ÖÃµÄÔªËØ¸³ÖµÎªe,
-//	iµÄÈ¡Öµ·¶Î§Îª1¡Üi¡Ülength,
-//	iºÏ·¨Ê±º¯Êı·µ»ØSUCCESS,·ñÔòº¯Êı·µ»ØRANGE_ERROR
+Status LinkList<ElemType>::SetElem(int i, const ElemType &e)
+// æ“ä½œç»“æœï¼šå°†å•é“¾è¡¨çš„ç¬¬iä¸ªä½ç½®çš„å…ƒç´ èµ‹å€¼ä¸ºe,
+//	içš„å–å€¼èŒƒå›´ä¸º1â‰¤iâ‰¤length,
+//	iåˆæ³•æ—¶å‡½æ•°è¿”å›SUCCESS,å¦åˆ™å‡½æ•°è¿”å›RANGE_ERROR
 {
-	if (i < 1 || i > length)
-		return RANGE_ERROR;
-	else {
-		Node<ElemType>* p = head->next;
-		int count;
-		for (count = 1; count < i; count++)
-			p = p->next;	           // È¡³öÖ¸ÏòµÚi¸ö½áµãµÄÖ¸Õë	
-		p->data = e;			   // ĞŞ¸ÄµÚi¸öÔªËØµÄÖµÎªe 
-		return SUCCESS;
-	}
+    if (i < 1 || i > length)
+        return RANGE_ERROR;
+    else
+    {
+        Node<ElemType> *p = head->next;
+        int count;
+        for (count = 1; count < i; count++)
+            p = p->next; // å–å‡ºæŒ‡å‘ç¬¬iä¸ªç»“ç‚¹çš„æŒ‡é’ˆ
+        p->data = e;     // ä¿®æ”¹ç¬¬iä¸ªå…ƒç´ çš„å€¼ä¸ºe
+        return SUCCESS;
+    }
 }
 
 template <class ElemType>
-Status LinkList<ElemType>::DeleteElem(int i, ElemType& e)
-// ²Ù×÷½á¹û£ºÉ¾³ıµ¥Á´±íµÄµÚi¸öÎ»ÖÃµÄÔªËØ, ²¢ÓÃe·µ»ØÆäÖµ,
-//	iµÄÈ¡Öµ·¶Î§Îª1¡Üi¡Ülength,
-//	iºÏ·¨Ê±º¯Êı·µ»ØSUCCESS,·ñÔòº¯Êı·µ»ØRANGE_ERROR
+Status LinkList<ElemType>::DeleteElem(int i, ElemType &e)
+// æ“ä½œç»“æœï¼šåˆ é™¤å•é“¾è¡¨çš„ç¬¬iä¸ªä½ç½®çš„å…ƒç´ , å¹¶ç”¨eè¿”å›å…¶å€¼,
+//	içš„å–å€¼èŒƒå›´ä¸º1â‰¤iâ‰¤length,
+//	iåˆæ³•æ—¶å‡½æ•°è¿”å›SUCCESS,å¦åˆ™å‡½æ•°è¿”å›RANGE_ERROR
 {
-	if (i < 1 || i > length)
-		return RANGE_ERROR;   // i·¶Î§´í		 
-	else {
-		Node<ElemType>* p = head, * q;
-		int count;
-		for (count = 1; count < i; count++)
-			p = p->next;	      // pÖ¸ÏòµÚi-1¸ö½áµã	
-		q = p->next;	      // qÖ¸ÏòµÚi¸ö½áµã
-		p->next = q->next;	  // É¾³ı½áµã
-		e = q->data;		  // ÓÃe·µ»Ø±»É¾½áµãÔªËØÖµ	
-		length--;			  // É¾³ı³É¹¦ºóÔªËØ¸öÊı¼õ1 
-		delete q;			  // ÊÍ·Å±»É¾½áµã
-		return SUCCESS;
-	}
+    if (i < 1 || i > length)
+        return RANGE_ERROR; // ièŒƒå›´é”™
+    else
+    {
+        Node<ElemType> *p = head, *q;
+        int count;
+        for (count = 1; count < i; count++)
+            p = p->next;   // pæŒ‡å‘ç¬¬i-1ä¸ªç»“ç‚¹
+        q = p->next;       // qæŒ‡å‘ç¬¬iä¸ªç»“ç‚¹
+        p->next = q->next; // åˆ é™¤ç»“ç‚¹
+        e = q->data;       // ç”¨eè¿”å›è¢«åˆ ç»“ç‚¹å…ƒç´ å€¼
+        length--;          // åˆ é™¤æˆåŠŸåå…ƒç´ ä¸ªæ•°å‡1
+        delete q;          // é‡Šæ”¾è¢«åˆ ç»“ç‚¹
+        return SUCCESS;
+    }
 }
 
 template <class ElemType>
-Status LinkList<ElemType>::InsertElem(int i, const ElemType& e)
-// ²Ù×÷½á¹û£ºÔÚµ¥Á´±íµÄµÚi¸öÎ»ÖÃÇ°²åÈëÔªËØe
-//	iµÄÈ¡Öµ·¶Î§Îª1¡Üi¡Ülength+1
-//	iºÏ·¨Ê±·µ»ØSUCCESS, ·ñÔòº¯Êı·µ»ØRANGE_ERROR
+Status LinkList<ElemType>::InsertElem(int i, const ElemType &e)
+// æ“ä½œç»“æœï¼šåœ¨å•é“¾è¡¨çš„ç¬¬iä¸ªä½ç½®å‰æ’å…¥å…ƒç´ e
+//	içš„å–å€¼èŒƒå›´ä¸º1â‰¤iâ‰¤length+1
+//	iåˆæ³•æ—¶è¿”å›SUCCESS, å¦åˆ™å‡½æ•°è¿”å›RANGE_ERROR
 {
-	if (i < 1 || i > length + 1)
-		return RANGE_ERROR;
-	else {
-		Node<ElemType>* p = head, * q;
-		int count;
-		for (count = 1; count < i; count++)
-			p = p->next;	                    // pÖ¸ÏòµÚi-1¸ö½áµã	
-		q = new Node<ElemType>(e, p->next); // Éú³ÉĞÂ½áµãq
-		assert(q != 0);                     // ÉêÇë½áµãÊ§°Ü£¬ÖÕÖ¹³ÌĞòÔËĞĞ 
-		p->next = q;				        // ½«q²åÈëµ½Á´±íÖĞ
-		length++;							// ²åÈë³É¹¦ºó£¬µ¥Á´±í³¤¶È¼Ó1 
-		return SUCCESS;
-	}
+    if (i < 1 || i > length + 1)
+        return RANGE_ERROR;
+    else
+    {
+        Node<ElemType> *p = head, *q;
+        int count;
+        for (count = 1; count < i; count++)
+            p = p->next;                    // pæŒ‡å‘ç¬¬i-1ä¸ªç»“ç‚¹
+        q = new Node<ElemType>(e, p->next); // ç”Ÿæˆæ–°ç»“ç‚¹q
+        assert(q != 0);                     // ç”³è¯·ç»“ç‚¹å¤±è´¥ï¼Œç»ˆæ­¢ç¨‹åºè¿è¡Œ
+        p->next = q;                        // å°†qæ’å…¥åˆ°é“¾è¡¨ä¸­
+        length++;                           // æ’å…¥æˆåŠŸåï¼Œå•é“¾è¡¨é•¿åº¦åŠ 1
+        return SUCCESS;
+    }
 }
 
 template <class ElemType>
-Status LinkList<ElemType>::InsertElem(const ElemType& e)
-// ²Ù×÷½á¹û£ºÔÚµ¥Á´±íµÄ±íÎ²Î»ÖÃ²åÈëÔªËØe
+Status LinkList<ElemType>::InsertElem(const ElemType &e)
+// æ“ä½œç»“æœï¼šåœ¨å•é“¾è¡¨çš„è¡¨å°¾ä½ç½®æ’å…¥å…ƒç´ e
 {
-	Node<ElemType>* p, * q;
-	q = new Node<ElemType>(e, NULL);    // Éú³ÉĞÂ½áµãq
-	assert(q != 0);                     // ÉêÇë½áµãÊ§°Ü£¬ÖÕÖ¹³ÌĞòÔËĞĞ 
-	for (p = head; p->next != NULL; p = p->next);	// pÖ¸Ïò±íÎ²½áµã	
-	p->next = q;                        // ÔÚµ¥Á´±íµÄ±íÎ²Î»ÖÃ²åÈëĞÂ½áµã 
-	length++;							// ²åÈë³É¹¦ºó£¬µ¥Á´±í³¤¶È¼Ó1 
-	return SUCCESS;
+    Node<ElemType> *p, *q;
+    q = new Node<ElemType>(e, NULL); // ç”Ÿæˆæ–°ç»“ç‚¹q
+    assert(q != 0);                  // ç”³è¯·ç»“ç‚¹å¤±è´¥ï¼Œç»ˆæ­¢ç¨‹åºè¿è¡Œ
+    for (p = head; p->next != NULL; p = p->next)
+        ;        // pæŒ‡å‘è¡¨å°¾ç»“ç‚¹
+    p->next = q; // åœ¨å•é“¾è¡¨çš„è¡¨å°¾ä½ç½®æ’å…¥æ–°ç»“ç‚¹
+    length++;    // æ’å…¥æˆåŠŸåï¼Œå•é“¾è¡¨é•¿åº¦åŠ 1
+    return SUCCESS;
 }
 
 template <class ElemType>
-LinkList<ElemType>::LinkList(const LinkList<ElemType>& copy)
-// ²Ù×÷½á¹û£º¸´ÖÆ¹¹Ôìº¯Êı£¬ÓÉµ¥Á´±ícopy¹¹ÔìĞÂµ¥Á´±í
+LinkList<ElemType>::LinkList(const LinkList<ElemType> &copy)
+// æ“ä½œç»“æœï¼šå¤åˆ¶æ„é€ å‡½æ•°ï¼Œç”±å•é“¾è¡¨copyæ„é€ æ–°å•é“¾è¡¨
 {
-	int copyLength = copy.GetLength();	// È¡±»¸´ÖÆµ¥Á´±íµÄ³¤¶È
-	ElemType e;
-	head = new Node<ElemType>;		   // ¹¹ÔìÍ·Ö¸Õë
-	assert(head != 0);                 // ¹¹ÔìÍ·Ö¸ÕëÊ§°Ü£¬ÖÕÖ¹³ÌĞòÔËĞĞ 
-	length = 0;						   // ³õÊ¼»¯ÔªËØ¸öÊı
+    int copyLength = copy.GetLength(); // å–è¢«å¤åˆ¶å•é“¾è¡¨çš„é•¿åº¦
+    ElemType e;
+    head = new Node<ElemType>; // æ„é€ å¤´æŒ‡é’ˆ
+    assert(head != 0);         // æ„é€ å¤´æŒ‡é’ˆå¤±è´¥ï¼Œç»ˆæ­¢ç¨‹åºè¿è¡Œ
+    length = 0;                // åˆå§‹åŒ–å…ƒç´ ä¸ªæ•°
 
-	for (int i = 1; i <= copyLength; i++) {	// ¸´ÖÆÊı¾İÔªËØ
-		copy.GetElem(i, e);	// È¡³öµÚi¸öÔªËØµÄÖµ·ÅÔÚeÖĞ 
-		InsertElem(e);		// ½«e²åÈëµ½µ±Ç°µ¥Á´±íµÄ±íÎ² 
-	}
+    for (int i = 1; i <= copyLength; i++)
+    {                       // å¤åˆ¶æ•°æ®å…ƒç´ 
+        copy.GetElem(i, e); // å–å‡ºç¬¬iä¸ªå…ƒç´ çš„å€¼æ”¾åœ¨eä¸­
+        InsertElem(e);      // å°†eæ’å…¥åˆ°å½“å‰å•é“¾è¡¨çš„è¡¨å°¾
+    }
 }
 
 template <class ElemType>
-LinkList<ElemType>& LinkList<ElemType>::operator =(const LinkList<ElemType>& other)
-// ²Ù×÷½á¹û£ºÖØÔØ¸³ÖµÔËËã·û£¬½«µ¥Á´±íother¸³Öµ¸øµ±Ç°µ¥Á´±í
+LinkList<ElemType> &LinkList<ElemType>::operator=(const LinkList<ElemType> &other)
+// æ“ä½œç»“æœï¼šé‡è½½èµ‹å€¼è¿ç®—ç¬¦ï¼Œå°†å•é“¾è¡¨otherèµ‹å€¼ç»™å½“å‰å•é“¾è¡¨
 {
-	if (&other != this) {
-		int otherLength = other.GetLength();// È¡±»¸³Öµµ¥Á´±íµÄ³¤¶È
-		ElemType e;
-		Clear();							// Çå¿Õµ±Ç°µ¥Á´±í
-		for (int i = 1; i <= otherLength; i++) {
-			other.GetElem(i, e);		    // È¡³öµÚi¸öÔªËØµÄÖµ·ÅÔÚeÖĞ
-			InsertElem(e);		            // ½«e²åÈëµ½µ±Ç°µ¥Á´±íµÄ±íÎ²
-		}
-	}
-	return *this;
+    if (&other != this)
+    {
+        int otherLength = other.GetLength(); // å–è¢«èµ‹å€¼å•é“¾è¡¨çš„é•¿åº¦
+        ElemType e;
+        Clear(); // æ¸…ç©ºå½“å‰å•é“¾è¡¨
+        for (int i = 1; i <= otherLength; i++)
+        {
+            other.GetElem(i, e); // å–å‡ºç¬¬iä¸ªå…ƒç´ çš„å€¼æ”¾åœ¨eä¸­
+            InsertElem(e);       // å°†eæ’å…¥åˆ°å½“å‰å•é“¾è¡¨çš„è¡¨å°¾
+        }
+    }
+    return *this;
 }
 
 #endif
-
