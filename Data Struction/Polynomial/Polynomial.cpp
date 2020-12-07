@@ -14,6 +14,8 @@ int main(void)
         cout << endl
              << "3. 多项式加法.";
         cout << endl
+             << "4. 多项式计算.";
+        cout << endl
              << "0. 退出";
         cout << endl
              << "选择功能(0~3):";
@@ -71,6 +73,13 @@ int main(void)
             fc.Display();
             cout << endl;
             break;
+        case '4':
+            cout << endl
+                 << "输入x的值:" << endl;
+            double x = 0;
+            cin >> x;
+            cout << "多项式的值为:" << endl
+                 << fa.Calc(x) << endl;
         }
     }
     system("PAUSE"); // 调用库函数system()

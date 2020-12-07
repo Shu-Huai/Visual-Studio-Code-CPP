@@ -27,6 +27,7 @@ public:
     // 由多项式组成的线性表构造多项式
     Polynomial &operator=(const Polynomial &copy);                 // 赋值语句重载
     Polynomial &operator=(const LinkList<PolyItem> &copyLinkList); // 赋值语句重载
+    double Calc(double x);
 };
 
 // 多项式类的实现部分
@@ -164,6 +165,17 @@ Polynomial &Polynomial::operator=(const LinkList<PolyItem> &copyLinkList)
 {
     polyList = copyLinkList;
     return *this;
+}
+double Polynomial::Calc(double x)
+{
+    double result = 0;
+    for (int i = 0; i < polyList.GetLength(); i++)
+    {
+        PolyItem t;
+        polyList.GetElem(i + 1, t);
+        result += t.coef * pow(x, t.expn);
+    }
+    return result;
 }
 
 #endif
