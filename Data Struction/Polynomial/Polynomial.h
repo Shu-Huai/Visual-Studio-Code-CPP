@@ -168,7 +168,7 @@ Polynomial &Polynomial::operator=(const LinkList<PolyItem> &copyLinkList)
 }
 double Polynomial::Calc(double x)
 {
-    double result;
+    double result = 0;
     for (int i = 0; i < polyList.GetLength(); i++)
     {
         PolyItem t;

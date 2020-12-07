@@ -78,7 +78,7 @@ int main(void)
                  << "输入x的值:" << endl;
             double x = 0;
             cin >> x;
-            cout << "多项式的值为 :" << endl
+            cout << "多项式的值为:" << endl
                  << fa.Calc(x) << endl;
         }
     }
