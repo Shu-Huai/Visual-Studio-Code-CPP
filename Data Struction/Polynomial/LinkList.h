@@ -29,6 +29,7 @@ public:
     Status InsertElem(const ElemType &e);                          // 在表尾插入元素
     LinkList(const LinkList<ElemType> &copy);                      // 复制构造函数
     LinkList<ElemType> &operator=(const LinkList<ElemType> &copy); // 重载赋值运算
+    void Reverse();
 };
 
 // 单链表类的实现部分
@@ -250,5 +251,17 @@ LinkList<ElemType> &LinkList<ElemType>::operator=(const LinkList<ElemType> &othe
     }
     return *this;
 }
-
+template <class ElemType>
+void LinkList<ElemType>::Reverse()
+{
+    Node<ElemType> *p = head->next, *q;
+    head->next = NULL;
+    while (p!=NULL)
+    {
+        q = p->next;
+        p->next = head->next;
+        head->next = p;
+        p = q;
+    }
+}
 #endif
