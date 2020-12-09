@@ -6,7 +6,8 @@ int main(void)
     SeqList<int> la(6);
     int e, i;
     Status sta;
-
+    double s = 0;
+    double t = 0;
     while (c != '0')
     {
         cout << endl
@@ -30,7 +31,7 @@ int main(void)
         cout << endl
              << "a. 原地逆置.";
         cout << endl
-             << "0. 退出";
+             << "b. 删除s<e<t的结点.";
         cout << endl
              << "选择功能(0~8):";
         cin >> c;
@@ -124,6 +125,21 @@ int main(void)
             cout << endl
                  << "已将线性表逆置。" << endl;
             break;
+            case 'b':
+                cout << endl
+                     << "输入s的值:";
+                cin >> s;
+                cout << "输入t的值:";
+                cin >> t;
+                if (la.DeleteBetween(s, t) == SUCCESS)
+                {
+                    cout << "已删除s<e<t的结点." << endl;
+                }
+                else
+                {
+                    cout << "错误." << endl;
+                }
+                break;
         }
     }
 

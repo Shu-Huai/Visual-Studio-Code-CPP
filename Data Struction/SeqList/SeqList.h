@@ -32,6 +32,7 @@ public:
     SeqList<ElemType> &operator=(const SeqList<ElemType> &sa); // 赋值语句重载
     void DeleteRepeat();
     void Reverse();
+    Status DeleteBetween(ElemType s, ElemType t);
 };
 
 // 顺序表函数成员的实现部分
@@ -247,5 +248,26 @@ void SeqList<ElemType>::Reverse()
         elems[length - 1 - i] = e;
     }
 }
-
+template <class ElemType>
+Status SeqList<ElemType>::DeleteBetween(ElemType s, ElemType t)
+{
+    if (s >= t or length == 0)
+        return RANGE_ERROR;
+    else
+    {
+        for (int i = 0; i < length; i++)
+        {
+            if (elems[i] > s and elems[i] < t)
+            {
+                for (int j = i + 1; j < length; j++)
+                {
+                    elems[j - 1] = elems[j];
+                }
+                length--;
+                i--;
+            }
+        }
+        return SUCCESS;
+    }
+}
 #endif
