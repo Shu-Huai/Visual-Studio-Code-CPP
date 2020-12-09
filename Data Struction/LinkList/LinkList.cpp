@@ -139,7 +139,7 @@ int main(void)
 				lb.InsertElem(e);
 				cin >> e;
 			}
-
+			la.Merge(lb);
 			break;
 		}
 	}

@@ -302,5 +302,21 @@ template <class ElemType>
 void LinkList<ElemType>::Merge(LinkList<ElemType> &lb)
 {
 	Node<ElemType> *p = head;
+	int i = 0;
+	while (p != NULL)
+	{
+		ElemType temp;
+		lb.GetElem(i + 1, temp);
+		if (p->data < temp and p->next->data >= temp)
+		{
+			Node<ElemType> *t = new Node<ElemType>;
+			t->data = temp;
+			t->next = p->next;
+			p->next = t;
+			i++;
+			length++;
+		}
+		p = p->next;
+	}
 }
 #endif
