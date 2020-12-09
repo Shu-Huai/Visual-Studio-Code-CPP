@@ -30,6 +30,7 @@ public:
     LinkList(const LinkList<ElemType> &copy);                      // 复制构造函数
     LinkList<ElemType> &operator=(const LinkList<ElemType> &copy); // 重载赋值运算
     void Reverse();
+    Status DeleteBetween(int low, int high);
 };
 
 // 单链表类的实现部分
@@ -256,12 +257,30 @@ void LinkList<ElemType>::Reverse()
 {
     Node<ElemType> *p = head->next, *q;
     head->next = NULL;
-    while (p!=NULL)
+    while (p != NULL)
     {
         q = p->next;
         p->next = head->next;
         head->next = p;
         p = q;
+    }
+}
+template <class ElemType>
+Status LinkList<ElemType>::DeleteBetween(int low, int high)
+{
+    if (low >= high or head->next == NULL)
+    {
+        return RANGE_ERROR;
+    }
+    Node<ElemType> *p = head->next;
+    int i = 0;
+    while (p != NULL)
+    {
+        if (p->data > low and p->data < high)
+        {
+            DeleteElem(i + 1, p);
+        }
+        i++;
     }
 }
 #endif

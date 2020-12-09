@@ -6,7 +6,8 @@ int main(void)
 	LinkList<double> la;
 	double e;
 	int i;
-
+	double s = 0;
+	double t = 0;
 	while (c != '0')
 	{
 		cout << endl
@@ -28,9 +29,11 @@ int main(void)
 		cout << endl
 			 << "9. 原地逆置.";
 		cout << endl
+			 << "a. 删除s<e<t的结点.";
+		cout << endl
 			 << "0. 退出";
 		cout << endl
-			 << "选择功能(0~8):";
+			 << "选择功能(0~a):";
 		cin >> c;
 		switch (c)
 		{
@@ -106,7 +109,24 @@ int main(void)
 			break;
 		case '9':
 			la.Reverse();
-			cout << endl << "已将单链表逆置." << endl;
+			cout << endl
+				 << "已将单链表逆置." << endl;
+		case 'a':
+
+			cout << endl
+				 << "输入s的值:";
+			cin >> s;
+			cout << "输入t的值:";
+			cin >> t;
+			if (la.DeleteBetween(s, t) == SUCCESS)
+			{
+				cout << "已删除s<e<t的结点." << endl;
+			}
+			else
+			{
+				cout << "错误." << endl;
+			}
+			break;
 		}
 	}
 	system("PAUSE"); // 调用库函数system()
