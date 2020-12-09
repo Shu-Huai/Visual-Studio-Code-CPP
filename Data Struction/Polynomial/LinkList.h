@@ -31,6 +31,7 @@ public:
     LinkList<ElemType> &operator=(const LinkList<ElemType> &copy); // 重载赋值运算
     void Reverse();
     Status DeleteBetween(int low, int high);
+    void Merge(LinkList<ElemType> &lb);
 };
 
 // 单链表类的实现部分
@@ -282,5 +283,46 @@ Status LinkList<ElemType>::DeleteBetween(int low, int high)
         }
         i++;
     }
+}
+template <class ElemType>
+void LinkList<ElemType>::Merge(LinkList<ElemType> &lb)
+{
+    Node<ElemType> *p = head;
+    int i = 0;
+    while (p != NULL)
+    {
+        if (i == lb.GetLength())
+        {
+            break;
+        }
+        ElemType temp;
+        lb.GetElem(i + 1, temp);
+        Node<ElemType> *t = new Node<ElemType>;
+        t->data = temp;
+        if (p->data >= temp and p == head->next)
+        {
+            t->next = p;
+            head->next = t;
+            p = head;
+            i++;
+            length++;
+        }
+        else if (p->data < temp and p->next == NULL)
+        {
+            t->next = NULL;
+            p->next = t;
+            i++;
+            length++;
+        }
+        else if (p->data < temp and p->next->data >= temp)
+        {
+            t->next = p->next;
+            p->next = t;
+            i++;
+            length++;
+        }
+        p = p->next;
+    }
+    Reverse();
 }
 #endif
