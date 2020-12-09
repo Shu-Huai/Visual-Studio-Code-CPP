@@ -42,19 +42,19 @@ LinkList<ElemType>::LinkList()
 	head = new Node<ElemType>; // 构造头结点
 	head->data = 0;
 	head->next = NULL;
-	assert(head);			   // 构造头结点失败，终止程序运行
-	length = 0;				   // 初始化单链表长度为0
+	assert(head); // 构造头结点失败，终止程序运行
+	length = 0;	  // 初始化单链表长度为0
 }
 template <class ElemType>
 LinkList<ElemType>::LinkList(ElemType v[], int n)
 // 操作结果：根据数组v中的元素构造单链表
 {
 	head = new Node<ElemType>;
-	assert(head != 0);			   // 构造头结点失败，终止程序运行
+	assert(head != 0); // 构造头结点失败，终止程序运行
 	Node<ElemType> *p = head;
 	for (int i = 0; i < n; i++)
 	{
-		Node<ElemType> *t = new Node<ElemType>(v[i],NULL);
+		Node<ElemType> *t = new Node<ElemType>(v[i], NULL);
 		assert(t); // 构造元素结点失败，终止程序运行
 		p->next = t;
 		p = t;
