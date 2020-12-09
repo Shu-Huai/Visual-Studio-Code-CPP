@@ -21,17 +21,18 @@ public:
 	int GetLength() const;										 // 求单链表长度
 	bool IsEmpty() const;										 // 判断单链表是否为空
 	void Clear();												 // 将单链表清空
-	void Show() const;											 // 遍历单链表
+	void Traverse(void (*Visit)(const ElemType &)) const;		 // 遍历单链表
+	int LocateElem(const ElemType &e) const;					 // 元素定位
 	Status GetElem(int position, ElemType &e) const;			 // 求指定位置的元素
 	Status SetElem(int position, const ElemType &e);			 // 设置指定位置的元素值
+	Status DeleteElem(int position, ElemType &e);				 // 删除元素
+	Status InsertElem(int position, const ElemType &e);			 // 在制定位置插入元素
 	Status InsertElem(const ElemType &e);						 // 在表尾插入元素
 	LinkList(const LinkList<ElemType> &la);						 // 复制构造函数
 	LinkList<ElemType> &operator=(const LinkList<ElemType> &la); // 重载赋值运算
-
-	Status InsertElemI(int i, const ElemType &e); // 在制定位置插入元素
-	Status DeleteElemI(int position);			  // 删除指定位置元素
-	void Inverse();								  //逆置
-	void Merge(LinkList<ElemType> &la);		  //合并为递减有序单链表
+	void Reverse();
+	Status DeleteBetween(ElemType s, ElemType t);
+	void Merge(LinkList<ElemType> &lb);
 };
 
 // 单链表类的实现部分
@@ -40,9 +41,9 @@ template <class ElemType>
 LinkList<ElemType>::LinkList()
 // 操作结果：构造一个空链表
 {
-	head = new Node<ElemType>(NULL, NULL); // 构造头结点
-	assert(head);						   // 构造头结点失败，终止程序运行
-	length = 0;							   // 初始化单链表长度为0
+	head = new Node<ElemType>; // 构造头结点
+	assert(head);			   // 构造头结点失败，终止程序运行
+	length = 0;				   // 初始化单链表长度为0
 }
 
 template <class ElemType>
@@ -50,10 +51,12 @@ LinkList<ElemType>::LinkList(ElemType v[], int n)
 // 操作结果：根据数组v中的元素构造单链表
 {
 	Node<ElemType> *p;
-	p = head = new Node<ElemType>(v[0], NULL); // 构造头结点
-	for (int i = 1; i < n; i++)
+	p = head = new Node<ElemType>; // 构造头结点
+	assert(head != 0);			   // 构造头结点失败，终止程序运行
+	for (int i = 0; i < n; i++)
 	{
 		p->next = new Node<ElemType>(v[i], NULL);
+		assert(p->next); // 构造元素结点失败，终止程序运行
 		p = p->next;
 	}
 	length = n; // 初始化单链表长度为n
@@ -85,30 +88,40 @@ template <class ElemType>
 void LinkList<ElemType>::Clear()
 // 操作结果：清空单链表,删除单链表中所有元素结点
 {
-	if (head != NULL)
+	Node<ElemType> *p = head->next;
+	while (p != NULL)
 	{
-		Node<ElemType> *p = head->next;
-		while (p != NULL)
-		{
-			head->next = p->next;
-			delete p;
-			p = head->next;
-		}
-		length = 0;
+		head->next = p->next;
+		delete p;
+		p = head->next;
+	}
+	length = 0;
+}
+
+template <class ElemType>
+void LinkList<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
+// 操作结果：依次对单链表的每个元素调用函数(*visit)访问
+{
+	Node<ElemType> *p = head->next;
+	while (p != NULL)
+	{
+		(*Visit)(p->data); // 对单链表中每个元素调用函数(*visit)访问
+		p = p->next;
 	}
 }
 
 template <class ElemType>
-void LinkList<ElemType>::Show() const
-
+int LinkList<ElemType>::LocateElem(const ElemType &e) const
+// 元素定位
 {
-	cout << "显示链表：" << endl;
-	Node<ElemType> *p = head;
-	while (p != NULL)
+	Node<ElemType> *p = head->next;
+	int count = 1;
+	while (p != NULL && p->data != e)
 	{
-		cout << p->data << endl;
+		count++;
 		p = p->next;
 	}
+	return (p != NULL) ? count : 0;
 }
 
 template <class ElemType>
@@ -149,19 +162,59 @@ Status LinkList<ElemType>::SetElem(int i, const ElemType &e)
 }
 
 template <class ElemType>
+Status LinkList<ElemType>::DeleteElem(int i, ElemType &e)
+// 操作结果：删除单链表的第i个位置的元素, 并用e返回其值,
+//	i的取值范围为1≤i≤length,
+//	i合法时函数返回SUCCESS,否则函数返回RANGE_ERROR
+{
+	if (i < 1 || i > length)
+		return RANGE_ERROR; // i范围错
+	else
+	{
+		Node<ElemType> *p = head, *q;
+		int count;
+		for (count = 1; count < i; count++)
+			p = p->next;   // p指向第i-1个结点
+		q = p->next;	   // q指向第i个结点
+		p->next = q->next; // 删除结点
+		e = q->data;	   // 用e返回被删结点元素值
+		length--;		   // 删除成功后元素个数减1
+		delete q;		   // 释放被删结点
+		return SUCCESS;
+	}
+}
+
+template <class ElemType>
+Status LinkList<ElemType>::InsertElem(int i, const ElemType &e)
+// 操作结果：在单链表的第i个位置前插入元素e
+//	i的取值范围为1≤i≤length+1
+//	i合法时返回SUCCESS, 否则函数返回RANGE_ERROR
+{
+	if (i < 1 || i > length + 1)
+		return RANGE_ERROR;
+	else
+	{
+		Node<ElemType> *p = head, *q;
+		int count;
+		for (count = 1; count < i; count++)
+			p = p->next;					// p指向第i-1个结点
+		q = new Node<ElemType>(e, p->next); // 生成新结点q
+		assert(q);							// 申请结点失败，终止程序运行
+		p->next = q;						// 将q插入到链表中
+		length++;							// 插入成功后，单链表长度加1
+		return SUCCESS;
+	}
+}
+
+template <class ElemType>
 Status LinkList<ElemType>::InsertElem(const ElemType &e)
 // 操作结果：在单链表的表尾位置插入元素e
 {
-	Node<ElemType> *p = head, *q;
+	Node<ElemType> *p, *q;
 	q = new Node<ElemType>(e, NULL); // 生成新结点q
-	if (length == 0)
-	{
-		head = q;
-	}
-	while (p->next != NULL)
-	{
-		p = p->next;
-	}
+	assert(q);						 // 申请结点失败，终止程序运行
+	for (p = head; p->next != NULL; p = p->next)
+		;		 // p指向表尾结点
 	p->next = q; // 在单链表的表尾位置插入新结点
 	length++;	 // 插入成功后，单链表长度加1
 	return SUCCESS;
@@ -201,122 +254,89 @@ LinkList<ElemType> &LinkList<ElemType>::operator=(const LinkList<ElemType> &la)
 	}
 	return *this;
 }
-
 template <class ElemType>
-Status LinkList<ElemType>::InsertElemI(int i, const ElemType &e)
-// 操作结果：在单链表的第i个位置插入元素e
-
+void LinkList<ElemType>::Reverse()
 {
-	if (i < 1 || i > length + 1)
-		return RANGE_ERROR;
-	else
+	Node<ElemType> *p = head->next, *q;
+	head->next = NULL;
+	while (p != NULL)
 	{
-		Node<ElemType> *p = head, *q;
-		int count;
-		if (i == 1)
-		{
-			q = new Node<ElemType>(e, head); // 生成新结点q
-			head = q;
-		}
-		else
-		{
-			for (count = 1; count < i - 1; count++)
-				p = p->next;					// p指向第i-1个结点
-			q = new Node<ElemType>(e, p->next); // 生成新结点q
-			p->next = q;						// 将q插入到链表中
-		}
-		length++; // 插入成功后，单链表长度加1
-		return SUCCESS;
-	}
-}
-
-template <class ElemType>
-Status LinkList<ElemType>::DeleteElemI(int i)
-// 操作结果：删除单链表的第i个位置的元素
-
-{
-	if (i < 1 || i > length)
-		return RANGE_ERROR; // i范围错
-	else
-	{
-		Node<ElemType> *p = head, *q;
-		int count;
-		if (i == 1)
-		{
-			q = head;
-			head = head->next;
-		}
-		else
-		{
-			for (count = 1; count < i - 1; count++)
-				p = p->next;   // p指向第i-1个结点
-			q = p->next;	   // q指向第i个结点
-			p->next = q->next; // 删除结点
-		}
-		length--; // 删除成功后元素个数减1
-		delete q; // 释放被删结点
-		return SUCCESS;
-	}
-}
-
-template <class ElemType>
-void LinkList<ElemType>::Inverse()
-{
-	Node<ElemType> *p, *q, *r;
-	p = head;
-	q = head->next;
-	r = q->next;
-	p->next = NULL;
-	while (r != NULL)
-	{
-		q->next = p;
+		q = p->next;
+		p->next = head->next;
+		head->next = p;
 		p = q;
-		q = r;
-		r = r->next;
 	}
-	q->next = p;
-	head = q;
 }
-
+template <class ElemType>
+Status LinkList<ElemType>::DeleteBetween(ElemType s, ElemType t)
+{
+	if (s >= t or head->next == NULL)
+	{
+		return RANGE_ERROR;
+	}
+	Node<ElemType> *p = head;
+	while (p != NULL)
+	{
+		if (p->next != NULL)
+		{
+			if (p->next->data > s and p->next->data < t)
+			{
+				Node<ElemType> *q = p->next;
+				p->next = q->next;
+				length--;
+				delete q;
+			}
+			else
+			{
+				p = p->next;
+			}
+		}
+		else
+		{
+			p = p->next;
+		}
+	}
+	return SUCCESS;
+}
 template <class ElemType>
 void LinkList<ElemType>::Merge(LinkList<ElemType> &lb)
 {
-	Node<ElemType> *p1, *p2, *q, *r;
-	p1 = head;
-	p2 = lb.head;
-	head = NULL;
-	lb.head = NULL;
-	while (p2 != NULL && p1 != NULL)
+	Node<ElemType> *p = head;
+	int i = 0;
+	while (p != NULL)
 	{
-		if (p1->data <= p2->data)
+		if (i == lb.GetLength())
 		{
-			q = p1;
-			p1 = p1->next;
+			break;
 		}
-		else
+		ElemType temp;
+		lb.GetElem(i + 1, temp);
+		Node<ElemType> *t = new Node<ElemType>;
+		t->data = temp;
+		if (p->data >= temp and p == head->next)
 		{
-			q = p2;
-			p2 = p2->next;
+			t->next = p;
+			head->next = t;
+			p = head;
+			i++;
+			length++;
 		}
-		q->next = head;
-		head = q;
+		else if (p->data < temp and p->next == NULL)
+		{
+			t->next = NULL;
+			p->next = t;
+			i++;
+			length++;
+		}
+		else if (p->data < temp and p->next->data >= temp)
+		{
+			t->next = p->next;
+			p->next = t;
+			i++;
+			length++;
+		}
+		p = p->next;
 	}
-	if (p1 == NULL)
-	{
-		r = p2;
-	}
-	else
-	{
-		r = p1;
-	}
-	while (r != NULL)
-	{
-		q = r;
-		r = r->next;
-		q->next = head;
-		head = q;
-	}
-	length += lb.length;
-	lb.length = 0;
+	Reverse();
 }
 #endif
