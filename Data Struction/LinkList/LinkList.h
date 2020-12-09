@@ -87,7 +87,7 @@ void LinkList<ElemType>::Clear()
 // 操作结果：清空单链表,删除单链表中所有元素结点
 {
 	Node<ElemType> *p;
-	while (p != NULL)
+	while (head != NULL)
 	{
 		p = head;
 		head = head->next;
@@ -134,11 +134,10 @@ Status LinkList<ElemType>::GetElem(int i, ElemType &e) const
 		{
 			p = p->next; // p指向第i个结点
 		}
-		e = p->data;	 // 用e返回第i个元素的值
+		e = p->data; // 用e返回第i个元素的值
 		return ENTRY_FOUND;
 	}
 }
-
 template <class ElemType>
 Status LinkList<ElemType>::SetElem(int i, const ElemType &e)
 // 操作结果：将单链表的第i个位置的元素赋值为e,
@@ -155,7 +154,7 @@ Status LinkList<ElemType>::SetElem(int i, const ElemType &e)
 		{
 			p = p->next; // 取出指向第i个结点的指针
 		}
-		p->data = e;	 // 修改第i个元素的值为e
+		p->data = e; // 修改第i个元素的值为e
 		return SUCCESS;
 	}
 }
@@ -170,18 +169,29 @@ Status LinkList<ElemType>::DeleteElem(int i, ElemType &e)
 	else
 	{
 		Node<ElemType> *p = head, *q;
-		int count;
-		for (count = 1; count < i; count++)
-			p = p->next;   // p指向第i-1个结点
-		q = p->next;	   // q指向第i个结点
-		p->next = q->next; // 删除结点
-		e = q->data;	   // 用e返回被删结点元素值
-		length--;		   // 删除成功后元素个数减1
-		delete q;		   // 释放被删结点
+		if (i == 1)
+		{
+			q = p->next;
+			head = q;
+			e = p->data;
+			delete p;
+		}
+		else
+		{
+			int count;
+			for (count = 1; count < i - 1; count++)
+			{
+				p = p->next; // p指向第i-1个结点
+			}
+			q = p->next;	   // q指向第i个结点
+			p->next = q->next; // 删除结点
+			e = q->data;	   // 用e返回被删结点元素值
+			delete q;		   // 释放被删结点
+		}
+		length--; // 删除成功后元素个数减1
 		return SUCCESS;
 	}
 }
-
 template <class ElemType>
 Status LinkList<ElemType>::InsertElem(int i, const ElemType &e)
 // 操作结果：在单链表的第i个位置前插入元素e
