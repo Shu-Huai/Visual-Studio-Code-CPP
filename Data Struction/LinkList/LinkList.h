@@ -34,9 +34,7 @@ public:
 	Status DeleteBetween(ElemType s, ElemType t);
 	void Merge(LinkList<ElemType> &lb);
 };
-
 // 单链表类的实现部分
-
 template <class ElemType>
 LinkList<ElemType>::LinkList()
 // 操作结果：构造一个空链表
@@ -47,7 +45,6 @@ LinkList<ElemType>::LinkList()
 	assert(head);			   // 构造头结点失败，终止程序运行
 	length = 0;				   // 初始化单链表长度为0
 }
-
 template <class ElemType>
 LinkList<ElemType>::LinkList(ElemType v[], int n)
 // 操作结果：根据数组v中的元素构造单链表
@@ -66,7 +63,6 @@ LinkList<ElemType>::LinkList(ElemType v[], int n)
 	p->next = NULL;
 	length = n; // 初始化单链表长度为n
 }
-
 template <class ElemType>
 LinkList<ElemType>::~LinkList()
 // 操作结果：销毁单链表
@@ -74,21 +70,18 @@ LinkList<ElemType>::~LinkList()
 	Clear();	 // 清空单链表
 	delete head; // 释放头结点所指空间
 }
-
 template <class ElemType>
 int LinkList<ElemType>::GetLength() const
 // 操作结果：返回单链表的长度
 {
 	return length;
 }
-
 template <class ElemType>
 bool LinkList<ElemType>::IsEmpty() const
 // 操作结果：如单链表为空，则返回true，否则返回false
 {
-	return head->next == NULL;
+	return head == NULL;
 }
-
 template <class ElemType>
 void LinkList<ElemType>::Clear()
 // 操作结果：清空单链表,删除单链表中所有元素结点
