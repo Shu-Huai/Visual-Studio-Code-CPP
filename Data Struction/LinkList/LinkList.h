@@ -31,7 +31,7 @@ public:
 	Status InsertElemI(int i, const ElemType &e); // 在制定位置插入元素
 	Status DeleteElemI(int position);			  // 删除指定位置元素
 	void Inverse();								  //逆置
-	void AddList(LinkList<ElemType> &l2);		  //合并为递减有序单链表
+	void Merge(LinkList<ElemType> &la);		  //合并为递减有序单链表
 };
 
 // 单链表类的实现部分
@@ -279,15 +279,13 @@ void LinkList<ElemType>::Inverse()
 }
 
 template <class ElemType>
-void LinkList<ElemType>::AddList(LinkList<ElemType> &l2)
+void LinkList<ElemType>::Merge(LinkList<ElemType> &lb)
 {
-	//Inverse();
-	//l2.Inverse();
 	Node<ElemType> *p1, *p2, *q, *r;
 	p1 = head;
-	p2 = l2.head;
+	p2 = lb.head;
 	head = NULL;
-	l2.head = NULL;
+	lb.head = NULL;
 	while (p2 != NULL && p1 != NULL)
 	{
 		if (p1->data <= p2->data)
@@ -318,7 +316,7 @@ void LinkList<ElemType>::AddList(LinkList<ElemType> &l2)
 		q->next = head;
 		head = q;
 	}
-	length += l2.length;
-	l2.length = 0;
+	length += lb.length;
+	lb.length = 0;
 }
 #endif
