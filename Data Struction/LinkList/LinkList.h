@@ -86,33 +86,31 @@ template <class ElemType>
 void LinkList<ElemType>::Clear()
 // 操作结果：清空单链表,删除单链表中所有元素结点
 {
-	Node<ElemType> *p = head->next;
+	Node<ElemType> *p;
 	while (p != NULL)
 	{
-		head->next = p->next;
+		p = head;
+		head = head->next;
 		delete p;
-		p = head->next;
 	}
 	length = 0;
 }
-
 template <class ElemType>
 void LinkList<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
 // 操作结果：依次对单链表的每个元素调用函数(*visit)访问
 {
-	Node<ElemType> *p = head->next;
+	Node<ElemType> *p = head;
 	while (p != NULL)
 	{
 		(*Visit)(p->data); // 对单链表中每个元素调用函数(*visit)访问
 		p = p->next;
 	}
 }
-
 template <class ElemType>
 int LinkList<ElemType>::LocateElem(const ElemType &e) const
 // 元素定位
 {
-	Node<ElemType> *p = head->next;
+	Node<ElemType> *p = head;
 	int count = 1;
 	while (p != NULL && p->data != e)
 	{
@@ -121,7 +119,6 @@ int LinkList<ElemType>::LocateElem(const ElemType &e) const
 	}
 	return (p != NULL) ? count : 0;
 }
-
 template <class ElemType>
 Status LinkList<ElemType>::GetElem(int i, ElemType &e) const
 // 操作结果：当单链表存在第i个元素时，用e返回其值，函数返回ENTRY_FOUND,
@@ -131,10 +128,12 @@ Status LinkList<ElemType>::GetElem(int i, ElemType &e) const
 		return RANGE_ERROR;
 	else
 	{
-		Node<ElemType> *p = head->next;
+		Node<ElemType> *p = head;
 		int count;
 		for (count = 1; count < i; count++)
+		{
 			p = p->next; // p指向第i个结点
+		}
 		e = p->data;	 // 用e返回第i个元素的值
 		return ENTRY_FOUND;
 	}
@@ -150,15 +149,16 @@ Status LinkList<ElemType>::SetElem(int i, const ElemType &e)
 		return RANGE_ERROR;
 	else
 	{
-		Node<ElemType> *p = head->next;
+		Node<ElemType> *p = head;
 		int count;
 		for (count = 1; count < i; count++)
+		{
 			p = p->next; // 取出指向第i个结点的指针
+		}
 		p->data = e;	 // 修改第i个元素的值为e
 		return SUCCESS;
 	}
 }
-
 template <class ElemType>
 Status LinkList<ElemType>::DeleteElem(int i, ElemType &e)
 // 操作结果：删除单链表的第i个位置的元素, 并用e返回其值,
