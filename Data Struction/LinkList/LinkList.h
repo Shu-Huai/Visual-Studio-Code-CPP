@@ -32,6 +32,7 @@ public:
 	LinkList<ElemType> &operator=(const LinkList<ElemType> &la); // 重载赋值运算
 	void Reverse();
 	Status DeleteBetween(double s, double t);
+	void Merge(LinkList<ElemType> &lb);
 };
 
 // 单链表类的实现部分
@@ -294,5 +295,10 @@ Status LinkList<ElemType>::DeleteBetween(double s, double t)
 		}
 	}
 	return SUCCESS;
+}
+void LinkList<ElemType> Merge(LinkList<ElemType> &lb)
+{
+	Node<ElemType> *p = head;
+	
 }
 #endif

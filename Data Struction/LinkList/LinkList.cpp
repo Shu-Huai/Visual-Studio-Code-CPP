@@ -8,6 +8,7 @@ int main(void)
 	int i;
 	double s = 0;
 	double t = 0;
+	LinkList<double> lb;
 	while (c != '0')
 	{
 		cout << endl
@@ -30,6 +31,8 @@ int main(void)
 			 << "9. 原地逆置.";
 		cout << endl
 			 << "a. 删除s<e<t的结点.";
+		cout << endl
+			 << "b. 将两个递增有序的单链表合并为一个递减有序的单链表.";
 		cout << endl
 			 << "0. 退出";
 		cout << endl
@@ -126,6 +129,18 @@ int main(void)
 			{
 				cout << "错误." << endl;
 			}
+			break;
+		case 'b':
+			lb.Clear();
+			cout << endl
+				 << "输入e(e = 0时退出):";
+			cin >> e;
+			while (e != 0)
+			{
+				lb.InsertElem(e);
+				cin >> e;
+			}
+
 			break;
 		}
 	}
