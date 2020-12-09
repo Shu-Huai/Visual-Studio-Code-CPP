@@ -305,12 +305,31 @@ void LinkList<ElemType>::Merge(LinkList<ElemType> &lb)
 	int i = 0;
 	while (p != NULL)
 	{
+		if (i == lb.GetLength())
+		{
+			break;
+		}
 		ElemType temp;
 		lb.GetElem(i + 1, temp);
-		if (p->data < temp and p->next->data >= temp)
+		Node<ElemType> *t = new Node<ElemType>;
+		t->data = temp;
+		if (p->data >= temp and p == head->next)
 		{
-			Node<ElemType> *t = new Node<ElemType>;
-			t->data = temp;
+			t->next = p;
+			head->next = t;
+			p = head;
+			i++;
+			length++;
+		}
+		else if (p->data < temp and p->next == NULL)
+		{
+			t->next = NULL;
+			p->next = t;
+			i++;
+			length++;
+		}
+		else if (p->data < temp and p->next->data >= temp)
+		{
 			t->next = p->next;
 			p->next = t;
 			i++;
@@ -318,5 +337,6 @@ void LinkList<ElemType>::Merge(LinkList<ElemType> &lb)
 		}
 		p = p->next;
 	}
+	Reverse();
 }
 #endif

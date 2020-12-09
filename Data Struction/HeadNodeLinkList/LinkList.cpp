@@ -36,7 +36,7 @@ int main(void)
 		cout << endl
 			 << "0. 退出";
 		cout << endl
-			 << "选择功能(0~a):";
+			 << "选择功能(0~b):";
 		cin >> c;
 		switch (c)
 		{
