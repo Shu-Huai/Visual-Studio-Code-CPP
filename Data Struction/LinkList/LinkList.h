@@ -31,7 +31,7 @@ public:
 	LinkList(const LinkList<ElemType> &la);						 // 复制构造函数
 	LinkList<ElemType> &operator=(const LinkList<ElemType> &la); // 重载赋值运算
 	void Reverse();
-	Status DeleteBetween(double s, double t);
+	Status DeleteBetween(ElemType s, ElemType t);
 	void Merge(LinkList<ElemType> &lb);
 };
 
@@ -268,7 +268,7 @@ void LinkList<ElemType>::Reverse()
 	}
 }
 template <class ElemType>
-Status LinkList<ElemType>::DeleteBetween(double s, double t)
+Status LinkList<ElemType>::DeleteBetween(ElemType s, ElemType t)
 {
 	if (s >= t or head->next == NULL)
 	{
@@ -286,8 +286,10 @@ Status LinkList<ElemType>::DeleteBetween(double s, double t)
 				length--;
 				delete q;
 			}
-			else{
-			p = p->next;}
+			else
+			{
+				p = p->next;
+			}
 		}
 		else
 		{
@@ -296,9 +298,9 @@ Status LinkList<ElemType>::DeleteBetween(double s, double t)
 	}
 	return SUCCESS;
 }
-void LinkList<ElemType> Merge(LinkList<ElemType> &lb)
+template <class ElemType>
+void LinkList<ElemType>::Merge(LinkList<ElemType> &lb)
 {
 	Node<ElemType> *p = head;
-	
 }
 #endif
