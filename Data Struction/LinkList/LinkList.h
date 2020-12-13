@@ -125,7 +125,9 @@ Status LinkList<ElemType>::GetElem(int i, ElemType &e) const
 //	否则函数返回NOT_PRESENT
 {
 	if (i < 1 || i > length)
+	{
 		return RANGE_ERROR;
+	}
 	else
 	{
 		Node<ElemType> *p = head;
@@ -145,7 +147,9 @@ Status LinkList<ElemType>::SetElem(int i, const ElemType &e)
 //	i合法时函数返回SUCCESS,否则函数返回RANGE_ERROR
 {
 	if (i < 1 || i > length)
+	{
 		return RANGE_ERROR;
+	}
 	else
 	{
 		Node<ElemType> *p = head;
@@ -165,7 +169,9 @@ Status LinkList<ElemType>::DeleteElem(int i, ElemType &e)
 //	i合法时函数返回SUCCESS,否则函数返回RANGE_ERROR
 {
 	if (i < 1 || i > length)
+	{
 		return RANGE_ERROR; // i范围错
+	}
 	else
 	{
 		Node<ElemType> *p = head, *q;
@@ -199,21 +205,33 @@ Status LinkList<ElemType>::InsertElem(int i, const ElemType &e)
 //	i合法时返回SUCCESS, 否则函数返回RANGE_ERROR
 {
 	if (i < 1 || i > length + 1)
+	{
 		return RANGE_ERROR;
+	}
 	else
 	{
 		Node<ElemType> *p = head, *q;
-		int count;
-		for (count = 1; count < i; count++)
-			p = p->next;					// p指向第i-1个结点
-		q = new Node<ElemType>(e, p->next); // 生成新结点q
-		assert(q);							// 申请结点失败，终止程序运行
-		p->next = q;						// 将q插入到链表中
-		length++;							// 插入成功后，单链表长度加1
+		if (i == 1)
+		{
+			q = new Node<ElemType>(e, head->next);
+			assert(q);
+			head = q;
+		}
+		else
+		{
+			int count;
+			for (count = 1; count < i - 1; count++)
+			{
+				p = p->next; // p指向第i-1个结点
+			}
+			q = new Node<ElemType>(e, p->next); // 生成新结点q
+			assert(q);							// 申请结点失败，终止程序运行
+			p->next = q;						// 将q插入到链表中
+		}
+		length++; // 插入成功后，单链表长度加1
 		return SUCCESS;
 	}
 }
-
 template <class ElemType>
 Status LinkList<ElemType>::InsertElem(const ElemType &e)
 // 操作结果：在单链表的表尾位置插入元素e
@@ -221,7 +239,7 @@ Status LinkList<ElemType>::InsertElem(const ElemType &e)
 	Node<ElemType> *p, *q;
 	q = new Node<ElemType>(e, NULL); // 生成新结点q
 	assert(q);						 // 申请结点失败，终止程序运行
-	for (p = head; p->next != NULL; p = p->next)
+	for (p = head; p != NULL; p = p->next)
 		;		 // p指向表尾结点
 	p->next = q; // 在单链表的表尾位置插入新结点
 	length++;	 // 插入成功后，单链表长度加1
