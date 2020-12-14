@@ -114,6 +114,7 @@ int main(void)
 			la.Reverse();
 			cout << endl
 				 << "已将单链表逆置." << endl;
+			break;
 		case 'a':
 			cout << endl
 				 << "输入s的值:";
