@@ -1,5 +1,4 @@
 #pragma once
-
 #include "Assistance.h"
 template <class ElemType>
 class SeqStack
