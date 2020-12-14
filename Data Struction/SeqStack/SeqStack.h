@@ -119,7 +119,9 @@ SeqStack<ElemType> &SeqStack<ElemType>::operator=(const SeqStack<ElemType> &s)
         ElemType e;
         maxSize = s.maxSize;
         if (elems)
-            delete[] elems; //相较于拷贝构造函数，多了释放被赋值对象原来的空间这个步骤
+        {
+            delete[] elems;
+        }
         elems = new ElemType[maxSize];
         top = s.top;
         for (int i = 0; i < s.GetLength(); i++)
