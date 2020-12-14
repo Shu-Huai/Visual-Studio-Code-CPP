@@ -255,7 +255,6 @@ Status LinkList<ElemType>::InsertElem(const ElemType &e)
 	length++; // 插入成功后，单链表长度加1
 	return SUCCESS;
 }
-
 template <class ElemType>
 LinkList<ElemType>::LinkList(const LinkList<ElemType> &la)
 // 操作结果：复制构造函数，由单链表la构造新单链表
@@ -293,15 +292,18 @@ LinkList<ElemType> &LinkList<ElemType>::operator=(const LinkList<ElemType> &la)
 template <class ElemType>
 void LinkList<ElemType>::Reverse()
 {
-	Node<ElemType> *p = head->next, *q;
-	head->next = NULL;
+	Node<ElemType> *temp=new Node<ElemType>;
+	temp->next = head;
+	Node<ElemType> *p = temp->next, *q;
+	temp->next = NULL;
 	while (p != NULL)
 	{
 		q = p->next;
-		p->next = head->next;
-		head->next = p;
+		p->next = temp->next;
+		temp->next = p;
 		p = q;
 	}
+	head = temp->next;
 }
 template <class ElemType>
 Status LinkList<ElemType>::DeleteBetween(ElemType s, ElemType t)
