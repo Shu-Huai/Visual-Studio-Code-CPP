@@ -131,4 +131,3 @@ SeqStack<ElemType> &SeqStack<ElemType>::operator=(const SeqStack<ElemType> &s)
     }
     return *this;
 }
-
