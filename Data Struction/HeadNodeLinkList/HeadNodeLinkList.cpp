@@ -1,4 +1,4 @@
-#include "LinkList.h" // 单链表类
+#include "HeadNodeLinkList.h" // 单链表类
 
 int main(void)
 {
