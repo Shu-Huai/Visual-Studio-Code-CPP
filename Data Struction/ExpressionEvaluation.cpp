@@ -1,9 +1,51 @@
+#include "SeqList.h"
 #include "SeqStack.h"
 #include <iostream>
 using namespace std;
-bool IsOperator(char ch)
+double StringToDouble(string num)
 {
-    if (ch == '#' || ch == '(' || ch == '^' || ch == '*' || ch == '/' || ch == '+' || ch == '-' || ch == ')')
+    bool minus = false;
+    string real = num;
+    if (num.at(0) == '-')
+    {
+        minus = true;
+        real = num.substr(1, num.size() - 1);
+    }
+    char c;
+    int i = 0;
+    double result = 0.0, dec = 10.0;
+    bool isDec = false;
+    unsigned long size = real.size();
+    while (i < size)
+    {
+        c = real.at(i);
+        if (c == '.')
+        {
+            isDec = true;
+            i++;
+            continue;
+        }
+        if (!isDec)
+        {
+            result = result * 10 + c - '0';
+        }
+        else
+        {
+            result = result + (c - '0') / dec;
+            dec *= 10;
+        }
+        i++;
+    }
+    if (minus == true)
+    {
+        result = -result;
+    }
+
+    return result;
+}
+bool IsOperator(string s)
+{
+    if (s == "#" || s == "(" || s == "^" || s == "*" || s == "/" || s == "+" || s == "-" || s == ")")
     {
         return true;
     }
@@ -13,64 +55,59 @@ bool IsOperator(char ch)
     }
 }
 template <class ElemType>
-ElemType Operate(ElemType first, char ch, ElemType second)
+ElemType Operate(ElemType first, string s, ElemType second)
 {
     ElemType result;
-    switch (ch)
-    {
-    case '+':
+    if (s == "+")
         return first + second;
-    case '-':
+    if (s == "-")
         return first - second;
-    case '*':
+    if (s == "*")
         return first * second;
-    case '/':
+    if (s == "/")
         return first / second;
-    case '^':
+    if (s == "6")
         return pow(first, second);
-    default:
-        return 0;
-    }
 }
-void Evaluation(string Express)
+void Evaluation(SeqList<string> &ExpressList)
 {
-    SeqStack<double> Expr;
+    SeqStack<double> ExpressStack;
+    int length = ExpressList.GetLength();
     char ch = 0;
-    while (ch != '#')
+    int i = 0;
+    string perm = "";
+    ExpressList.GetElem(i + 1, perm);
+    while (perm != "#")
     {
-        ch = GetChar();
-        if (ch == '#')
-        {
-            break;
-        }
-        else if (isdigit(ch) || ch == '.')
-        {
-            double operand = 0;
-            cin.putback(ch);
-            cin >> operand;
-            Expr.Push(operand);
-        }
-        else if (IsOperator(ch))
+        if (IsOperator(perm))
         {
             double first;
             double second;
-            Expr.Pop(second);
-            Expr.Pop(first);
-            Expr.Push(Operate(first, ch, second));
+            ExpressStack.Pop(second);
+            ExpressStack.Pop(first);
+            ExpressStack.Push(Operate(first, perm, second));
         }
         else
         {
-            throw Error("表达式中有非法符号!");
+            double operand = StringToDouble(perm);
+            ExpressStack.Push(operand);
         }
+        i++;
+        ExpressList.GetElem(i + 1, perm);
     }
     double result;
-    Expr.Pop(result);
+    ExpressStack.Pop(result);
     cout << "表达式结果为: " << result << endl;
 }
 int main()
 {
-    string input;
-    getline(cin, input);
+    SeqList<string> input(DEFAULT_SIZE);
+    string s = "\0";
+    while (s != "#")
+    {
+        cin >> s;
+        input.InsertElem(s);
+    }
     Evaluation(input);
     return 0;
 }
