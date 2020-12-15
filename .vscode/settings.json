@@ -52,6 +52,7 @@
         "exception": "cpp",
         "sstream": "cpp",
         "stdexcept": "cpp",
-        "iosfwd": "cpp"
+        "iosfwd": "cpp",
+        "xtr1common": "cpp"
     }, // 格式化时调整include的顺序（按字母排序）
 }
