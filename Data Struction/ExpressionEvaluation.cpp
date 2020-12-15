@@ -59,15 +59,26 @@ ElemType Operate(ElemType first, string s, ElemType second)
 {
     ElemType result;
     if (s == "+")
+    {
         return first + second;
+    }
     if (s == "-")
+    {
         return first - second;
+    }
     if (s == "*")
+    {
         return first * second;
+    }
     if (s == "/")
+    {
         return first / second;
+    }
     if (s == "6")
+    {
         return pow(first, second);
+    }
+    return 0;
 }
 void Evaluation(SeqList<string> &ExpressList)
 {
@@ -102,6 +113,7 @@ void Evaluation(SeqList<string> &ExpressList)
 int main()
 {
     SeqList<string> input(DEFAULT_SIZE);
+    cout << "输入后缀表达式，以'#'号结束:" << endl;
     string s = "\0";
     while (s != "#")
     {
