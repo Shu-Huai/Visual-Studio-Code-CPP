@@ -1,62 +1,51 @@
 #pragma once
 #ifndef __SQ_LIST_H__
 #define __SQ_LIST_H__
-#include "Assistance.h" // 辅助软件包
-
-// 顺序表模板类的申明
+#include "Assistance.h"
 template <class ElemType>
 class SeqList
 {
 protected:
-    // 顺序表的数据成员
-    int length;      // 顺序表的当前长度
-    int maxLength;   // 顺序表的最大容量
-    ElemType *elems; // 元素存储空间的首地址
+    int length;
+    int MaxLength;
+    ElemType *elems;
 
 public:
-    // 顺序表的函数成员
-    SeqList(int size = DEFAULT_SIZE);                          // 构造一个空表
-    SeqList(ElemType v[], int n, int size = DEFAULT_SIZE);     // 根据数组v的内容构造顺序表
-    virtual ~SeqList();                                        // 析构函数
-    int GetLength() const;                                     // 取顺序表长度
-    bool IsEmpty() const;                                      // 判断顺序表是否为空
-    void Clear();                                              // 将顺序表清空
-    void Traverse(void (*Visit)(const ElemType &)) const;      // 遍历顺序表
-    int LocateElem(const ElemType &e) const;                   // 元素定位，求指定元素在顺序表中的位置
-    Status GetElem(int i, ElemType &e) const;                  // 取顺序表中第i个元素的值
-    Status SetElem(int i, const ElemType &e);                  // 修改顺序表中第i个元素的值
-    Status DeleteElem(int i, ElemType &e);                     // 删除顺序表中第i个元素
-    Status InsertElem(int i, const ElemType &e);               // 在顺序表第i个位置插入元素
-    Status InsertElem(const ElemType &e);                      // 在顺序表表尾插入元素
-    SeqList(const SeqList<ElemType> &sa);                      // 复制构造函数
-    SeqList<ElemType> &operator=(const SeqList<ElemType> &sa); // 赋值语句重载
+    SeqList(int size = DEFAULT_SIZE);
+    SeqList(ElemType v[], int n, int size = DEFAULT_SIZE);
+    virtual ~SeqList();
+    int GetLength() const;
+    bool IsEmpty() const;
+    void Clear();
+    void Traverse(void (*Visit)(const ElemType &)) const;
+    int LocateElem(const ElemType &e) const;
+    Status GetElem(int i, ElemType &e) const;
+    Status SetElem(int i, const ElemType &e);
+    Status DeleteElem(int i, ElemType &e);
+    Status InsertElem(int i, const ElemType &e);
+    Status InsertElem(const ElemType &e);
+    SeqList(const SeqList<ElemType> &sa);
+    SeqList<ElemType> &operator=(const SeqList<ElemType> &sa);
     void DeleteRepeat();
     void Reverse();
     Status DeleteBetween(ElemType s, ElemType t);
 };
-
-// 顺序表函数成员的实现部分
-
 template <class ElemType>
-SeqList<ElemType>::SeqList(int size)
-// 操作结果：构造一个最大容量为size的空顺序表
+SeqList<ElemType>::SeqList(int size) : MaxLength(size), length(0)
 {
-    elems = new ElemType[size]; // 申请存储空间
-    assert(elems);              // 申请存储空间失败，程序终止
-    maxLength = size;           // 设置顺序表的最大容量
-    length = 0;                 // 空线性表的长度为0
+    elems = new ElemType[MaxLength];
+    assert(elems);
 }
-
 template <class ElemType>
-SeqList<ElemType>::SeqList(ElemType v[], int n, int size)
+SeqList<ElemType>::SeqList(ElemType v[], int n, int size) : MaxLength(size), length(n)
 // 操作结果：根据数组v中的内容构造顺序表
 {
-    elems = new ElemType[size];      // 申请存储空间
-    assert(elems);                   // 申请存储空间失败，程序终止
-    maxLength = size;                // 设置顺序表的最大容量
-    length = n;                      // 顺序表的当前长度为n
-    for (int i = 0; i < length; i++) // 将数组v中的元素依次存放到elems数组中
+    elems = new ElemType[MaxLength];
+    assert(elems);
+    for (int i = 0; i < length; i++)
+    {
         elems[i] = v[i];
+    }
 }
 
 template <class ElemType>
@@ -153,7 +142,7 @@ Status SeqList<ElemType>::InsertElem(int i, const ElemType &e)
 //	如顺序表已满,则返回OVER_FLOW,
 //	如i合法, 则返回SUCCESS, 否则函数返回RANGE_ERROR
 {
-    if (length == maxLength)
+    if (length == MaxLength)
         return OVER_FLOW;             // 顺序表已满,返回OVER_FLOW
     else if (i < 1 || i > length + 1) // i范围错,返回位置错
         return RANGE_ERROR;
@@ -171,7 +160,7 @@ template <class ElemType>
 Status SeqList<ElemType>::InsertElem(const ElemType &e)
 // 功能：在顺序表的表尾插入元素e,并则返回SUCCESS，如顺序表已满,则返回OVER_FLOW
 {
-    if (length == maxLength) // 顺序表已满返回OVER_FLOW
+    if (length == MaxLength) // 顺序表已满返回OVER_FLOW
         return OVER_FLOW;
     else
     {
@@ -188,8 +177,8 @@ SeqList<ElemType>::SeqList(const SeqList<ElemType> &sa)
     int saLength = sa.GetLength(); // 取顺序表sa的长度
     ElemType e;
 
-    maxLength = sa.maxLength;        // 取顺序表的最大容量
-    elems = new ElemType[maxLength]; // 分配存储空间
+    MaxLength = sa.MaxLength;        // 取顺序表的最大容量
+    elems = new ElemType[MaxLength]; // 分配存储空间
     assert(elems);                   // 分配存储空间失败
     length = 0;                      // 空顺序表元素个数为0
 
@@ -209,9 +198,9 @@ SeqList<ElemType> &SeqList<ElemType>::operator=(const SeqList<ElemType> &sa)
         int saLength = sa.GetLength(); // 取顺序表sa的长度
         ElemType e;
 
-        maxLength = sa.maxLength;        // 取顺序表的最大容量
+        MaxLength = sa.MaxLength;        // 取顺序表的最大容量
         delete[] elems;                  // 释放顺序表原来的存储空间
-        elems = new ElemType[maxLength]; // 分配存储空间
+        elems = new ElemType[MaxLength]; // 分配存储空间
         assert(elems);                   // 分配存储空间失败
         length = 0;                      // 空顺序表元素个数为0
         for (int i = 1; i <= saLength; i++)
