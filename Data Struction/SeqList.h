@@ -180,7 +180,7 @@ SeqList<ElemType>::SeqList(const SeqList<ElemType> &SL) : _maxlength(SL._maxleng
 template <class ElemType>
 SeqList<ElemType> &SeqList<ElemType>::operator=(const SeqList<ElemType> &SL)
 {
-    if (SL == *this)
+    if (&SL == this)
     {
         return *this;
     }
