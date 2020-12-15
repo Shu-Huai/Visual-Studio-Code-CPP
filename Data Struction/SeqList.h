@@ -24,11 +24,11 @@ public:
     Status DeleteElem(int i, ElemType &e);
     Status InsertElem(int i, const ElemType &e);
     Status InsertElem(const ElemType &e);
-    SeqList(const SeqList<ElemType> &sa);
-    SeqList<ElemType> &operator=(const SeqList<ElemType> &sa);
+    SeqList(const SeqList<ElemType> &SL);
+    SeqList<ElemType> &operator=(const SeqList<ElemType> &SL);
     void DeleteRepeat();
     void Reverse();
-    Status DeleteBetween(ElemType s, ElemType t);
+    Status DeleteBetween(ElemType low, ElemType high);
 };
 template <class ElemType>
 SeqList<ElemType>::SeqList(int size) : _maxlength(size), _length(0)
@@ -224,9 +224,9 @@ void SeqList<ElemType>::Reverse()
     }
 }
 template <class ElemType>
-Status SeqList<ElemType>::DeleteBetween(ElemType s, ElemType t)
+Status SeqList<ElemType>::DeleteBetween(ElemType low, ElemType high)
 {
-    if (s >= t)
+    if (low >= high)
     {
         return RANGE_ERROR;
     }
@@ -238,7 +238,7 @@ Status SeqList<ElemType>::DeleteBetween(ElemType s, ElemType t)
     {
         for (int i = 0; i < _length; i++)
         {
-            if (_elems[i] > s and _elems[i] < t)
+            if (_elems[i] > low and _elems[i] < high)
             {
                 DeleteElem(i + 1, _elems[i]);
                 i--;
