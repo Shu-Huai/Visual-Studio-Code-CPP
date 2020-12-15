@@ -1,4 +1,6 @@
 #pragma once
+#ifndef __SQ_STACK_H__
+#define __SQ_STACK_H__
 #include "Assistance.h"
 template <class ElemType>
 class SeqStack
@@ -126,3 +128,4 @@ SeqStack<ElemType> &SeqStack<ElemType>::operator=(const SeqStack<ElemType> &SS)
     }
     return *this;
 }
+#endif
