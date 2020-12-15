@@ -6,7 +6,7 @@ class SeqStack
 protected:
     int top;
     int maxSize;
-    ElemType *elems;
+    ElemType *_elems;
 
 public:
     SeqStack(int size = DEFAULT_SIZE);
@@ -25,13 +25,13 @@ template <class ElemType>
 SeqStack<ElemType>::SeqStack(int size)
 {
     maxSize = size;
-    elems = new ElemType[maxSize];
+    _elems = new ElemType[maxSize];
     top = -1;
 }
 template <class ElemType>
 SeqStack<ElemType>::~SeqStack()
 {
-    delete[] elems;
+    delete[] _elems;
 }
 template <class ElemType>
 int SeqStack<ElemType>::GetLength() const
@@ -53,7 +53,7 @@ void SeqStack<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
 {
     for (int i = top; i >= 0; i--)
     {
-        (*Visit)(elems[i]);
+        (*Visit)(_elems[i]);
     }
 }
 template <class ElemType>
@@ -65,7 +65,7 @@ Status SeqStack<ElemType>::Push(const ElemType e)
     }
     else
     {
-        elems[++top] = e;
+        _elems[++top] = e;
         return SUCCESS;
     }
 }
@@ -78,7 +78,7 @@ Status SeqStack<ElemType>::Top(ElemType &e) const
     }
     else
     {
-        e = elems[top];
+        e = _elems[top];
         return SUCCESS;
     }
 }
@@ -91,7 +91,7 @@ Status SeqStack<ElemType>::Pop(ElemType &e)
     }
     else
     {
-        e = elems[top--];
+        e = _elems[top--];
         return SUCCESS;
     }
 }
@@ -100,11 +100,11 @@ SeqStack<ElemType>::SeqStack(const SeqStack<ElemType> &s)
 {
     ElemType e;
     maxSize = s.maxSize;
-    elems = new ElemType[maxSize];
+    _elems = new ElemType[maxSize];
     top = s.top;
     for (int i = 0; i < s.GetLength(); i++)
     {
-        elems[i] = s.elems[i];
+        _elems[i] = s._elems[i];
     }
 }
 template <class ElemType>
@@ -114,15 +114,15 @@ SeqStack<ElemType> &SeqStack<ElemType>::operator=(const SeqStack<ElemType> &s)
     {
         ElemType e;
         maxSize = s.maxSize;
-        if (elems)
+        if (_elems)
         {
-            delete[] elems;
+            delete[] _elems;
         }
-        elems = new ElemType[maxSize];
+        _elems = new ElemType[maxSize];
         top = s.top;
         for (int i = 0; i < s.GetLength(); i++)
         {
-            elems[i] = s.elems[i];
+            _elems[i] = s._elems[i];
         }
     }
     return *this;
