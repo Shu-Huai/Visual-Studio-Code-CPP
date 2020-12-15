@@ -2,7 +2,7 @@
 int main()
 {
     char c = '*';
-    SeqStack<int> SS(6);
+    SeqStack<int> SS;
     int e, i;
     Status sta;
     while (c != '0')
