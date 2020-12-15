@@ -25,10 +25,6 @@ template <class ElemType>
 SeqStack<ElemType>::SeqStack(int size)
 {
     maxSize = size;
-    if (elems != NULL)
-    {
-        delete[] elems;
-    }
     elems = new ElemType[maxSize];
     top = -1;
 }
