@@ -4,8 +4,8 @@ template <class ElemType>
 class SeqStack
 {
 protected:
-    int top;
-    int maxSize;
+    int _top;
+    int _maxsize;
     ElemType *_elems;
 
 public:
@@ -24,9 +24,9 @@ public:
 template <class ElemType>
 SeqStack<ElemType>::SeqStack(int size)
 {
-    maxSize = size;
-    _elems = new ElemType[maxSize];
-    top = -1;
+    _maxsize = size;
+    _elems = new ElemType[_maxsize];
+    _top = -1;
 }
 template <class ElemType>
 SeqStack<ElemType>::~SeqStack()
@@ -36,22 +36,22 @@ SeqStack<ElemType>::~SeqStack()
 template <class ElemType>
 int SeqStack<ElemType>::GetLength() const
 {
-    return (top + 1);
+    return (_top + 1);
 }
 template <class ElemType>
 bool SeqStack<ElemType>::IsEmpty() const
 {
-    return (top == -1);
+    return (_top == -1);
 }
 template <class ElemType>
 void SeqStack<ElemType>::Clear()
 {
-    top = -1;
+    _top = -1;
 }
 template <class ElemType>
 void SeqStack<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
 {
-    for (int i = top; i >= 0; i--)
+    for (int i = _top; i >= 0; i--)
     {
         (*Visit)(_elems[i]);
     }
@@ -59,13 +59,13 @@ void SeqStack<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
 template <class ElemType>
 Status SeqStack<ElemType>::Push(const ElemType e)
 {
-    if (top == maxSize)
+    if (_top == _maxsize)
     {
         return OVER_FLOW;
     }
     else
     {
-        _elems[++top] = e;
+        _elems[++_top] = e;
         return SUCCESS;
     }
 }
@@ -78,7 +78,7 @@ Status SeqStack<ElemType>::Top(ElemType &e) const
     }
     else
     {
-        e = _elems[top];
+        e = _elems[_top];
         return SUCCESS;
     }
 }
@@ -91,7 +91,7 @@ Status SeqStack<ElemType>::Pop(ElemType &e)
     }
     else
     {
-        e = _elems[top--];
+        e = _elems[_top--];
         return SUCCESS;
     }
 }
@@ -99,9 +99,9 @@ template <class ElemType>
 SeqStack<ElemType>::SeqStack(const SeqStack<ElemType> &s)
 {
     ElemType e;
-    maxSize = s.maxSize;
-    _elems = new ElemType[maxSize];
-    top = s.top;
+    _maxsize = s._maxsize;
+    _elems = new ElemType[_maxsize];
+    _top = s._top;
     for (int i = 0; i < s.GetLength(); i++)
     {
         _elems[i] = s._elems[i];
@@ -113,13 +113,13 @@ SeqStack<ElemType> &SeqStack<ElemType>::operator=(const SeqStack<ElemType> &s)
     if (&s != this)
     {
         ElemType e;
-        maxSize = s.maxSize;
+        _maxsize = s._maxsize;
         if (_elems)
         {
             delete[] _elems;
         }
-        _elems = new ElemType[maxSize];
-        top = s.top;
+        _elems = new ElemType[_maxsize];
+        _top = s._top;
         for (int i = 0; i < s.GetLength(); i++)
         {
             _elems[i] = s._elems[i];
