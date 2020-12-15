@@ -22,11 +22,10 @@ public:
     SeqStack<ElemType> &operator=(const SeqStack<ElemType> &s);
 };
 template <class ElemType>
-SeqStack<ElemType>::SeqStack(int size)
+SeqStack<ElemType>::SeqStack(int size) : _maxsize(size), _top(-1)
 {
-    _maxsize = size;
     _elems = new ElemType[_maxsize];
-    _top = -1;
+    assert(_elems);
 }
 template <class ElemType>
 SeqStack<ElemType>::~SeqStack()
@@ -36,12 +35,12 @@ SeqStack<ElemType>::~SeqStack()
 template <class ElemType>
 int SeqStack<ElemType>::GetLength() const
 {
-    return (_top + 1);
+    return _top + 1;
 }
 template <class ElemType>
 bool SeqStack<ElemType>::IsEmpty() const
 {
-    return (_top == -1);
+    return _top == -1;
 }
 template <class ElemType>
 void SeqStack<ElemType>::Clear()
@@ -96,33 +95,33 @@ Status SeqStack<ElemType>::Pop(ElemType &e)
     }
 }
 template <class ElemType>
-SeqStack<ElemType>::SeqStack(const SeqStack<ElemType> &s)
+SeqStack<ElemType>::SeqStack(const SeqStack<ElemType> &SS) : _maxsize(SS._maxsize), _top(SS._top)
 {
-    ElemType e;
-    _maxsize = s._maxsize;
     _elems = new ElemType[_maxsize];
-    _top = s._top;
-    for (int i = 0; i < s.GetLength(); i++)
+    assert(_elems);
+    for (int i = 0; i < GetLength(); i++)
     {
-        _elems[i] = s._elems[i];
+        _elems[i] = SS._elems[i];
     }
 }
 template <class ElemType>
-SeqStack<ElemType> &SeqStack<ElemType>::operator=(const SeqStack<ElemType> &s)
+SeqStack<ElemType> &SeqStack<ElemType>::operator=(const SeqStack<ElemType> &SS)
 {
-    if (&s != this)
+    if (&SS == this)
+    {
+        return *this;
+    }
+    else
     {
         ElemType e;
-        _maxsize = s._maxsize;
-        if (_elems)
-        {
-            delete[] _elems;
-        }
+        delete[] _elems;
+        _maxsize = SS._maxsize;
+        _top = SS._top;
         _elems = new ElemType[_maxsize];
-        _top = s._top;
-        for (int i = 0; i < s.GetLength(); i++)
+        assert(_elems);
+        for (int i = 0; i < GetLength(); i++)
         {
-            _elems[i] = s._elems[i];
+            _elems[i] = SS._elems[i];
         }
     }
     return *this;
