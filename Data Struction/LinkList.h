@@ -290,7 +290,7 @@ LinkList<ElemType> &LinkList<ElemType>::operator=(const LinkList<ElemType> &la)
 template <class ElemType>
 void LinkList<ElemType>::Reverse()
 {
-	Node<ElemType> *temp=new Node<ElemType>;
+	Node<ElemType> *temp = new Node<ElemType>;
 	temp->next = head;
 	Node<ElemType> *p = temp->next, *q;
 	temp->next = NULL;
@@ -302,11 +302,15 @@ void LinkList<ElemType>::Reverse()
 		p = q;
 	}
 	head = temp->next;
+	delete temp;
 }
 template <class ElemType>
 void LinkList<ElemType>::Merge(LinkList<ElemType> &lb)
 {
-	Node<ElemType> *p = head;
+	Node<ElemType> *q = new Node<ElemType>;
+	q->next = head;
+	Node<ElemType> *p = new Node<ElemType>;
+	p->next = head;
 	int i = 0;
 	while (p != NULL)
 	{
@@ -318,11 +322,11 @@ void LinkList<ElemType>::Merge(LinkList<ElemType> &lb)
 		lb.GetElem(i + 1, temp);
 		Node<ElemType> *t = new Node<ElemType>;
 		t->data = temp;
-		if (p->data >= temp and p == head->next)
+		if (p->data >= temp and p == q->next)
 		{
 			t->next = p;
-			head->next = t;
-			p = head;
+			q->next = t;
+			p = q;
 			i++;
 			length++;
 		}
@@ -342,6 +346,8 @@ void LinkList<ElemType>::Merge(LinkList<ElemType> &lb)
 		}
 		p = p->next;
 	}
+	head = q->next;
 	Reverse();
+	delete q;
 }
 #endif
