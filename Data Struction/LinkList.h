@@ -31,7 +31,6 @@ public:
 	LinkList(const LinkList<ElemType> &la);						 // 复制构造函数
 	LinkList<ElemType> &operator=(const LinkList<ElemType> &la); // 重载赋值运算
 	void Reverse();
-	Status DeleteBetween(ElemType s, ElemType t);
 	void Merge(LinkList<ElemType> &lb);
 };
 // 单链表类的实现部分
@@ -213,7 +212,7 @@ Status LinkList<ElemType>::InsertElem(int i, const ElemType &e)
 		Node<ElemType> *p = head, *q;
 		if (i == 1)
 		{
-			q = new Node<ElemType>(e, head->next);
+			q = new Node<ElemType>(e, head);
 			assert(q);
 			head = q;
 		}
@@ -264,7 +263,6 @@ LinkList<ElemType>::LinkList(const LinkList<ElemType> &la)
 	head = new Node<ElemType>; // 构造头指针
 	assert(head);			   // 构造头指针失败，终止程序运行
 	length = 0;				   // 初始化元素个数
-
 	for (int i = 1; i <= laLength; i++)
 	{					  // 复制数据元素
 		la.GetElem(i, e); // 取出第i个元素的值放在e中
@@ -304,37 +302,6 @@ void LinkList<ElemType>::Reverse()
 		p = q;
 	}
 	head = temp->next;
-}
-template <class ElemType>
-Status LinkList<ElemType>::DeleteBetween(ElemType s, ElemType t)
-{
-	if (s >= t or head->next == NULL)
-	{
-		return RANGE_ERROR;
-	}
-	Node<ElemType> *p = head;
-	while (p != NULL)
-	{
-		if (p->next != NULL)
-		{
-			if (p->next->data > s and p->next->data < t)
-			{
-				Node<ElemType> *q = p->next;
-				p->next = q->next;
-				length--;
-				delete q;
-			}
-			else
-			{
-				p = p->next;
-			}
-		}
-		else
-		{
-			p = p->next;
-		}
-	}
-	return SUCCESS;
 }
 template <class ElemType>
 void LinkList<ElemType>::Merge(LinkList<ElemType> &lb)

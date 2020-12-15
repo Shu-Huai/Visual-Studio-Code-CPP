@@ -30,8 +30,6 @@ int main(void)
 		cout << endl
 			 << "9. 原地逆置.";
 		cout << endl
-			 << "a. 删除s<e<t的结点.";
-		cout << endl
 			 << "b. 将两个递增有序的单链表合并为一个递减有序的单链表.";
 		cout << endl
 			 << "0. 退出";
@@ -114,21 +112,6 @@ int main(void)
 			la.Reverse();
 			cout << endl
 				 << "已将单链表逆置." << endl;
-			break;
-		case 'a':
-			cout << endl
-				 << "输入s的值:";
-			cin >> s;
-			cout << "输入t的值:";
-			cin >> t;
-			if (la.DeleteBetween(s, t) == SUCCESS)
-			{
-				cout << "已删除s<e<t的结点." << endl;
-			}
-			else
-			{
-				cout << "错误." << endl;
-			}
 			break;
 		case 'b':
 			lb.Clear();
