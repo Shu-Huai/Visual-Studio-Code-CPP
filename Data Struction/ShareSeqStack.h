@@ -1,4 +1,6 @@
 #pragma once
+#ifndef __SHARE_SQ_STACK_H__
+#define __SHARE_SQ_STACK_H__
 #include "Assistance.h"
 template <class ElemType>
 class ShareSeqStack
@@ -177,3 +179,4 @@ ShareSeqStack<ElemType> &ShareSeqStack<ElemType>::operator=(const ShareSeqStack<
     }
     return *this;
 }
+#endif
