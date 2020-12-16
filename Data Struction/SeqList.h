@@ -89,47 +89,38 @@ int SeqList<ElemType>::LocateElem(const ElemType &e) const
 template <class ElemType>
 Status SeqList<ElemType>::GetElem(int i, ElemType &e) const
 {
-    if (i >= 1 and i <= _length)
-    {
-        e = _elems[i - 1];
-        return ENTRY_FOUND;
-    }
-    else
+    if (i < 1 or i > _length)
     {
         return NOT_PRESENT;
     }
+    e = _elems[i - 1];
+    return ENTRY_FOUND;
 }
 template <class ElemType>
 Status SeqList<ElemType>::SetElem(int i, const ElemType &e)
 {
-    if (i >= 1 and i <= _length)
-    {
-        _elems[i - 1] = e;
-        return SUCCESS;
-    }
-    else
+    if (i < 1 or i > _length)
     {
         return RANGE_ERROR;
     }
+    _elems[i - 1] = e;
+    return SUCCESS;
 }
 template <class ElemType>
 Status SeqList<ElemType>::DeleteElem(int i, ElemType &e)
 {
-    if (i >= 1 and i <= _length)
-    {
-        e = _elems[i - 1];
-        for (int j = i - 1; j < _length - 1; j++)
-        {
-            _elems[j] = _elems[j + 1];
-        }
-        _elems[_length - 1] = 0;
-        _length--;
-        return SUCCESS;
-    }
-    else
+    if (i < 1 or i > _length)
     {
         return RANGE_ERROR;
     }
+    e = _elems[i - 1];
+    for (int j = i - 1; j < _length - 1; j++)
+    {
+        _elems[j] = _elems[j + 1];
+    }
+    _elems[_length - 1] = 0;
+    _length--;
+    return SUCCESS;
 }
 template <class ElemType>
 Status SeqList<ElemType>::InsertElem(int i, const ElemType &e)
@@ -138,20 +129,17 @@ Status SeqList<ElemType>::InsertElem(int i, const ElemType &e)
     {
         return OVER_FLOW;
     }
-    if (i >= 1 and i <= _length + 1)
-    {
-        for (int j = _length; j > i - 1; j--)
-        {
-            _elems[j] = _elems[j - 1];
-        }
-        _elems[i - 1] = e;
-        _length++;
-        return SUCCESS;
-    }
-    else
+    if (i < 1 or i > _length + 1)
     {
         return RANGE_ERROR;
     }
+    for (int j = _length; j > i - 1; j--)
+    {
+        _elems[j] = _elems[j - 1];
+    }
+    _elems[i - 1] = e;
+    _length++;
+    return SUCCESS;
 }
 template <class ElemType>
 Status SeqList<ElemType>::InsertElem(const ElemType &e)
@@ -160,12 +148,9 @@ Status SeqList<ElemType>::InsertElem(const ElemType &e)
     {
         return OVER_FLOW;
     }
-    else
-    {
-        _elems[_length] = e;
-        _length++;
-        return SUCCESS;
-    }
+    _elems[_length] = e;
+    _length++;
+    return SUCCESS;
 }
 template <class ElemType>
 SeqList<ElemType>::SeqList(const SeqList<ElemType> &SL) : _maxlength(SL._maxlength), _length(SL._length)
@@ -230,21 +215,18 @@ Status SeqList<ElemType>::DeleteBetween(ElemType low, ElemType high)
     {
         return RANGE_ERROR;
     }
-    else if (_length == 0)
+    if (_length == 0)
     {
         return UNDER_FLOW;
     }
-    else
+    for (int i = 0; i < _length; i++)
     {
-        for (int i = 0; i < _length; i++)
+        if (_elems[i] > low and _elems[i] < high)
         {
-            if (_elems[i] > low and _elems[i] < high)
-            {
-                DeleteElem(i + 1, _elems[i]);
-                i--;
-            }
+            DeleteElem(i + 1, _elems[i]);
+            i--;
         }
-        return SUCCESS;
     }
+    return SUCCESS;
 }
 #endif
