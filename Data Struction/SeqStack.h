@@ -20,8 +20,8 @@ public:
     Status Push(const ElemType e);
     Status Top(ElemType &e) const;
     Status Pop(ElemType &e);
-    SeqStack(const SeqStack<ElemType> &s);
-    SeqStack<ElemType> &operator=(const SeqStack<ElemType> &s);
+    SeqStack(const SeqStack<ElemType> &SS);
+    SeqStack<ElemType> &operator=(const SeqStack<ElemType> &SS);
 };
 template <class ElemType>
 SeqStack<ElemType>::SeqStack(int size) : _maxsize(size), _top(-1)
@@ -64,11 +64,8 @@ Status SeqStack<ElemType>::Push(const ElemType e)
     {
         return OVER_FLOW;
     }
-    else
-    {
-        _elems[++_top] = e;
-        return SUCCESS;
-    }
+    _elems[++_top] = e;
+    return SUCCESS;
 }
 template <class ElemType>
 Status SeqStack<ElemType>::Top(ElemType &e) const
@@ -77,11 +74,8 @@ Status SeqStack<ElemType>::Top(ElemType &e) const
     {
         return UNDER_FLOW;
     }
-    else
-    {
-        e = _elems[_top];
-        return SUCCESS;
-    }
+    e = _elems[_top];
+    return SUCCESS;
 }
 template <class ElemType>
 Status SeqStack<ElemType>::Pop(ElemType &e)
@@ -90,18 +84,15 @@ Status SeqStack<ElemType>::Pop(ElemType &e)
     {
         return UNDER_FLOW;
     }
-    else
-    {
-        e = _elems[_top--];
-        return SUCCESS;
-    }
+    e = _elems[_top--];
+    return SUCCESS;
 }
 template <class ElemType>
 SeqStack<ElemType>::SeqStack(const SeqStack<ElemType> &SS) : _maxsize(SS._maxsize), _top(SS._top)
 {
     _elems = new ElemType[_maxsize];
     assert(_elems);
-    for (int i = 0; i < GetLength(); i++)
+    for (int i = 0; i < _top + 1; i++)
     {
         _elems[i] = SS._elems[i];
     }
@@ -113,18 +104,14 @@ SeqStack<ElemType> &SeqStack<ElemType>::operator=(const SeqStack<ElemType> &SS)
     {
         return *this;
     }
-    else
+    delete[] _elems;
+    _maxsize = SS._maxsize;
+    _top = SS._top;
+    _elems = new ElemType[_maxsize];
+    assert(_elems);
+    for (int i = 0; i < _top + 1; i++)
     {
-        ElemType e;
-        delete[] _elems;
-        _maxsize = SS._maxsize;
-        _top = SS._top;
-        _elems = new ElemType[_maxsize];
-        assert(_elems);
-        for (int i = 0; i < GetLength(); i++)
-        {
-            _elems[i] = SS._elems[i];
-        }
+        _elems[i] = SS._elems[i];
     }
     return *this;
 }
