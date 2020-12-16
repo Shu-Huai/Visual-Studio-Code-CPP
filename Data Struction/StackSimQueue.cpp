@@ -87,6 +87,8 @@ int main()
         cout << endl
              << "5. 求队列长度.";
         cout << endl
+             << "6. 判断列空.";
+        cout << endl
              << "0. 退出.";
         cout << endl
              << "选择功能(0~5):";
@@ -142,6 +144,18 @@ int main()
         case '5':
             cout << endl
                  << "顺序栈的长度为:" << SSQ.GetLength() << endl;
+            break;
+        case '6':
+            if (SSQ.IsEmpty())
+            {
+                cout << endl
+                     << "列空." << endl;
+            }
+            else
+            {
+                cout << endl
+                     << "列非空." << endl;
+            }
             break;
         }
     }
