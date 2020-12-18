@@ -1,5 +1,5 @@
 #include <stdio.h>
-#define M 10
+#define M 100
 int promin(int a[])
 {
     int min = a[0];
