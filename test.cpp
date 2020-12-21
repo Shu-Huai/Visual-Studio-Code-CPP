@@ -14,7 +14,7 @@ int Find(string &A, string &B)
         else
         {
             i = i - j + 1;
-            j = 0;
+            j = 3;
         }
     }
     if (j == B.length())
