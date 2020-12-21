@@ -1,29 +1,32 @@
-#include <stdio.h>
-#define M 100
-int promin(int a[])
+#include <iostream>
+using namespace std;
+int Find(string &A, string &B)
 {
-    int min = a[0];
-    for (int i = 1; i < M; i++)
+    int i = 0;
+    int j = 0;
+    while (i < A.length() and j < B.length())
     {
-        if (a[i] < min)
+        if (A[i] == B[j])
         {
-            min = a[i];
+            i++;
+            j++;
+        }
+        else
+        {
+            i = i - j + 1;
+            j = 0;
         }
     }
-    return min;
-}
-void input(int a[])
-{
-    printf("请输入%d个数组元素:\n", M);
-    for (int i = 0; i < M; i++)
+    if (j == B.length())
     {
-        scanf("%d", &a[i]);
+        return i - j;
     }
+    return -1;
 }
 int main()
 {
-    int a[M] = {0};
-    input(a);
-    printf("10个数组元素中的最小值为:%d\n", promin(a));
+    string A = "ZWWZWZ";
+    string B = "ZWZ";
+    cout << Find(A, B);
     return 0;
 }
