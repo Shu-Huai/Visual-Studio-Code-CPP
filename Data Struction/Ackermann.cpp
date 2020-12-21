@@ -22,7 +22,7 @@ int AKM(int m, int n)
     SS.Push(n);
     int tempm = 0;
     int tempn = 0;
-    while (SS.Pop(tempn) != UNDER_FLOW and SS.Pop(tempm) != UNDER_FLOW)
+    while (SS.Pop(tempn) != UNDER_FLOW && SS.Pop(tempm) != UNDER_FLOW)
     {
         if (!tempm)
         {
