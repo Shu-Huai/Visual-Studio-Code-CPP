@@ -1,7 +1,7 @@
 //Converting int Akm(int m, int n);which is recursive into int AKM(int m, int n);which is not recursive.
 //Author: Zhihe Lv
 //Belong: School of Computer Engineering & Science,Shanghai University
-//Version:1.0
+//Version: 1.0
 #include "SeqStack.h"
 int Akm(int m, int n)
 {
