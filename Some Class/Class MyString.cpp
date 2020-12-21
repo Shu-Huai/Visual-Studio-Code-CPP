@@ -2,59 +2,59 @@
 #include <cstring>
 #include <iostream>
 using namespace std;
-class CString
+class MyString
 {
 private:
     char *cstring;
     int strlength;
 
 public:
-    CString();
-    CString(const char *str);
-    CString(string str);
-    CString(const CString &str);
-    ~CString();
-    CString &operator=(const CString str);
+    MyString();
+    MyString(const char *str);
+    MyString(string str);
+    MyString(const MyString &str);
+    ~MyString();
+    MyString &operator=(const MyString str);
     int length();
     char *c_str();
-    friend ostream &operator<<(ostream &out, CString &str);
-    friend istream &operator>>(istream &in, CString &str);
-    CString &operator+(const CString &s);
-    CString &operator+=(const CString &s);
-    bool operator<(const CString &str) const;
-    bool operator<=(const CString &str) const;
-    bool operator>(const CString &str) const;
-    bool operator>=(const CString &str) const;
-    bool operator==(const CString &str) const;
-    bool operator!=(const CString &str) const;
+    friend ostream &operator<<(ostream &out, MyString &str);
+    friend istream &operator>>(istream &in, MyString &str);
+    MyString &operator+(const MyString &s);
+    MyString &operator+=(const MyString &s);
+    bool operator<(const MyString &str) const;
+    bool operator<=(const MyString &str) const;
+    bool operator>(const MyString &str) const;
+    bool operator>=(const MyString &str) const;
+    bool operator==(const MyString &str) const;
+    bool operator!=(const MyString &str) const;
     char &operator[](int number);
 };
-CString::CString()
+MyString::MyString()
 {
     strlength = 0;
     cstring = new char[strlength + 1];
     cstring[0] = '\0';
 }
-CString::CString(const char *str)
+MyString::MyString(const char *str)
 {
     strlength = strlen(str);
     cstring = new char[strlength + 1];
     strcpy(cstring, str);
 }
-CString::CString(string str)
+MyString::MyString(string str)
 {
     strlength = str.length();
     cstring = new char[strlength + 1];
     strcpy(cstring, str.c_str());
     cstring[strlength] = '\0';
 }
-CString::CString(const CString &str)
+MyString::MyString(const MyString &str)
 {
     strlength = str.strlength;
     cstring = new char[strlength + 1];
     strcpy(cstring, str.cstring);
 }
-CString::~CString()
+MyString::~MyString()
 {
     if (cstring != NULL)
     {
@@ -62,7 +62,7 @@ CString::~CString()
         cstring = NULL;
     }
 }
-CString &CString::operator=(const CString str)
+MyString &MyString::operator=(const MyString str)
 {
     if (this == &str)
     {
@@ -78,16 +78,16 @@ CString &CString::operator=(const CString str)
     strcpy(cstring, str.cstring);
     return *this;
 }
-int CString::length()
+int MyString::length()
 {
     strlength = strlen(cstring);
     return strlength;
 }
-char *CString::c_str()
+char *MyString::c_str()
 {
     return cstring;
 }
-ostream &operator<<(ostream &out, CString &str)
+ostream &operator<<(ostream &out, MyString &str)
 {
     out << "The cstring is: ";
     for (int i = 0; i < str.length(); i++)
@@ -98,14 +98,14 @@ ostream &operator<<(ostream &out, CString &str)
         << "The length of cstring is: " << str.strlength << endl;
     return out;
 }
-istream &operator>>(istream &in, CString &str)
+istream &operator>>(istream &in, MyString &str)
 {
     char temp[1000] = {'\0'};
     cin >> temp;
-    str = CString(temp);
+    str = MyString(temp);
     return in;
 }
-CString &CString::operator+(const CString &str)
+MyString &MyString::operator+(const MyString &str)
 {
     char *temp = cstring;
     strlength = strlen(cstring) + strlen(str.cstring);
@@ -115,12 +115,12 @@ CString &CString::operator+(const CString &str)
     delete[] temp;
     return *this;
 }
-CString &CString::operator+=(const CString &str)
+MyString &MyString::operator+=(const MyString &str)
 {
     *this = *this + str;
     return *this;
 }
-bool CString::operator<(const CString &str) const
+bool MyString::operator<(const MyString &str) const
 {
     if (strcmp(cstring, str.cstring) < 0)
     {
@@ -131,7 +131,7 @@ bool CString::operator<(const CString &str) const
         return 0;
     }
 }
-bool CString::operator<=(const CString &str) const
+bool MyString::operator<=(const MyString &str) const
 {
     if (*this < str or *this == str)
     {
@@ -142,7 +142,7 @@ bool CString::operator<=(const CString &str) const
         return 0;
     }
 }
-bool CString::operator>(const CString &str) const
+bool MyString::operator>(const MyString &str) const
 {
     if (*this <= str)
     {
@@ -153,7 +153,7 @@ bool CString::operator>(const CString &str) const
         return 1;
     }
 }
-bool CString::operator>=(const CString &str) const
+bool MyString::operator>=(const MyString &str) const
 {
     if (*this < str)
     {
@@ -164,7 +164,7 @@ bool CString::operator>=(const CString &str) const
         return 1;
     }
 }
-bool CString::operator==(const CString &str) const
+bool MyString::operator==(const MyString &str) const
 {
     if (strlength == str.strlength)
     {
@@ -183,7 +183,7 @@ bool CString::operator==(const CString &str) const
         return 0;
     }
 }
-bool CString::operator!=(const CString &str) const
+bool MyString::operator!=(const MyString &str) const
 {
     if (*this == str)
     {
@@ -194,7 +194,7 @@ bool CString::operator!=(const CString &str) const
         return 1;
     }
 }
-char &CString::operator[](int number)
+char &MyString::operator[](int number)
 {
     if (number > strlength)
     {
@@ -204,9 +204,9 @@ char &CString::operator[](int number)
 }
 int main()
 {
-    CString test0 = ("ABCD");
+    MyString test0 = ("ABCD");
     string temp = "1234567890";
-    CString test1(temp);
+    MyString test1(temp);
     cout << "test0: " << endl
          << test0 << "test1: " << endl
          << test1 << "Please input test0: ";
@@ -249,8 +249,8 @@ int main()
     {
         cout << "Index " << index << " dosen't exist. " << endl;
     }
-    test0.~CString();
-    test1.~CString();
+    test0.~MyString();
+    test1.~MyString();
     cout << "Deconstruct test0 and test1. " << endl;
     return 0;
 }
