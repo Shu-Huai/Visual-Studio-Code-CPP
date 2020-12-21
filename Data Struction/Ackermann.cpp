@@ -1,7 +1,3 @@
-//Converting a recursive function int Akm(int m, int n); into a none recursive function int AKM(int m, int n);.
-//Author: Zhihe Lv
-//Belong: School of Computer Engineering & Science, Shanghai University
-//Version: 1.0
 #include "SeqStack.h"
 int Akm(int m, int n)
 {
