@@ -70,6 +70,7 @@
         "limits": "cpp",
         "new": "cpp",
         "tuple": "cpp",
-        "xstddef": "cpp"
+        "xstddef": "cpp",
+        "thread": "cpp"
     }, // 格式化时调整include的顺序（按字母排序）
 }
