@@ -135,7 +135,7 @@ void QuadrupleThreads(int i, double &Time, bool &IsRight)
 template <class ElemType>
 void TestMultiThreads()
 {
-    for (int i = 1; i <= 131072; i *= 2)
+    for (int i = 1; i <= 65536; i *= 2)
     {
         double Time = 0;
         bool IsRight = 0;
@@ -157,10 +157,8 @@ void TestMultiThreads()
                 cout << "quadruple";
                 QuadrupleThreads<ElemType>(i, Time, IsRight);
             }
-            cout << " thread to handle four of " << i << " " << abi::__cxa_demangle(typeid(ElemType).name(), 0, 0, 0) << " data is " << Time << "s." << endl
-                 << "The result is " << (IsRight ? "true." : "false.") << endl;
+            cout << " thread to handle four " << i << " " << abi::__cxa_demangle(typeid(ElemType).name(), 0, 0, 0) << " data is " << Time << "s." << (IsRight ? "√" : "×") << endl;
         }
-        cout << endl;
     }
 }
 template <class ElemType>
@@ -224,7 +222,7 @@ void MultiSort(int i, double &Time, bool &IsRight)
 template <class ElemType>
 void TestMultiSort()
 {
-    for (int i = 1; i <= 131072; i *= 2)
+    for (int i = 1; i <= 65536; i *= 2)
     {
         double Time = 0;
         bool IsRight = 0;
@@ -241,10 +239,8 @@ void TestMultiSort()
                 cout << "double";
                 MultiSort<ElemType>(i, Time, IsRight);
             }
-            cout << " thread to handle " << i << " " << abi::__cxa_demangle(typeid(ElemType).name(), 0, 0, 0) << " data is " << Time << "s." << endl
-                 << "The result is " << (IsRight ? "true." : "false.") << endl;
+            cout << " thread to handle " << i << " " << abi::__cxa_demangle(typeid(ElemType).name(), 0, 0, 0) << " data is " << Time << "s." << (IsRight ? "√" : "×") << endl;
         }
-        cout << endl;
     }
 }
 int main()
