@@ -1,0 +1,91 @@
+The runtime when using single thread to handle four of 1 short data is 0s.
+The result is true.
+The runtime when using double thread to handle four of 1 short data is 0.001s.
+The result is true.
+The runtime when using quadruple thread to handle four of 1 short data is 0.001s.
+The result is true.
+
+The runtime when using single thread to handle four of 2 short data is 0s.
+The result is true.
+The runtime when using double thread to handle four of 2 short data is 0.001s.
+The result is true.
+The runtime when using quadruple thread to handle four of 2 short data is 0.001s.
+The result is true.
+
+The runtime when using single thread to handle four of 4 short data is 0s.
+The result is true.
+The runtime when using double thread to handle four of 4 short data is 0.001s.
+The result is true.
+The runtime when using quadruple thread to handle four of 4 short data is 0.001s.
+The result is true.
+
+The runtime when using single thread to handle four of 8 short data is 0s.
+The result is true.
+The runtime when using double thread to handle four of 8 short data is 0.001s.
+The result is true.
+The runtime when using quadruple thread to handle four of 8 short data is 0s.
+The result is true.
+
+The runtime when using single thread to handle four of 16 short data is 0s.
+The result is true.
+The runtime when using double thread to handle four of 16 short data is 0.001s.
+The result is true.
+The runtime when using quadruple thread to handle four of 16 short data is 0s.
+The result is true.
+
+The runtime when using single thread to handle four of 32 short data is 0s.
+The result is true.
+The runtime when using double thread to handle four of 32 short data is 0.001s.
+The result is true.
+The runtime when using quadruple thread to handle four of 32 short data is 0.001s.
+The result is true.
+
+The runtime when using single thread to handle four of 64 short data is 0s.
+The result is true.
+The runtime when using double thread to handle four of 64 short data is 0.002s.
+The result is true.
+The runtime when using quadruple thread to handle four of 64 short data is 0.001s.
+The result is true.
+
+The runtime when using single thread to handle four of 128 short data is 0s.
+The result is true.
+The runtime when using double thread to handle four of 128 short data is 0.001s.
+The result is true.
+The runtime when using quadruple thread to handle four of 128 short data is 0.001s.
+The result is true.
+
+The runtime when using single thread to handle four of 256 short data is 0.001s.
+The result is true.
+The runtime when using double thread to handle four of 256 short data is 0.001s.
+The result is true.
+The runtime when using quadruple thread to handle four of 256 short data is 0.001s.
+The result is true.
+
+The runtime when using single thread to handle four of 512 short data is 0.002s.
+The result is true.
+The runtime when using double thread to handle four of 512 short data is 0.002s.
+The result is true.
+The runtime when using quadruple thread to handle four of 512 short data is 0.001s.
+The result is true.
+
+The runtime when using single thread to handle four of 1024 short data is 0.007s.
+The result is true.
+The runtime when using double thread to handle four of 1024 short data is 0.004s.
+The result is true.
+The runtime when using quadruple thread to handle four of 1024 short data is 0.004s.
+The result is true.
+
+The runtime when using single thread to handle four of 2048 short data is 0.026s.
+The result is true.
+The runtime when using double thread to handle four of 2048 short data is 0.016s.
+The result is true.
+The runtime when using quadruple thread to handle four of 2048 short data is 0.012s.
+The result is true.
+
+The runtime when using single thread to handle four of 4096 short data is 0.116s.
+The result is true.
+The runtime when using double thread to handle four of 4096 short data is 0.059s.
+The result is true.
+The runtime when using quadruple thread to handle four of 4096 short data is 0.03s.
+The result is true.
+
