@@ -3,14 +3,7 @@ void GetFreq(String S, int times[])
 {
     for (int i = 0; i < S.GetLength(); i++)
     {
-        if (S[i] >= 'a' and S[i] <= 'z')
-        {
-            times[S[i] - 97]++;
-        }
-        else if (S[i] >= 'A' and S[i] <= 'Z')
-        {
-            times[S[i] - 65]++;
-        }
+        times[int(S[i])]++;
     }
 }
 int main()
@@ -19,19 +12,29 @@ int main()
     int i = 0;
     cin >> input;
     String S(input);
-    int times[26] = {0};
+    int times[128] = {0};
     GetFreq(S, times);
-    for (int i = 0; i < 26; i++)
+    bool judge = 0;
+    for (int i = 32, format = 0; i < 127; i++)
     {
-        cout << char(i + 65) << " / " << char(i + 97) << ": " << times[i];
-        if (!((i + 1) % 5))
+        if (times[i])
         {
-            cout << endl;
+            cout << char(i) << ": " << times[i];
+            if (!((format++ + 1) % 5) and i != 126)
+            {
+                cout << endl;
+                judge = 1;
+            }
+            else
+            {
+                cout << "\t";
+                judge = 0;
+            }
         }
-        else
-        {
-            cout << "\t";
-        }
+    }
+    if (!judge)
+    {
+        cout << endl;
     }
     return 0;
 }
