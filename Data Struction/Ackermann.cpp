@@ -1,4 +1,6 @@
 #include "SeqStack.h"
+#include <future>
+#include <thread>
 int Akm(int m, int n)
 {
     if (!m)
@@ -11,7 +13,7 @@ int Akm(int m, int n)
     }
     return Akm(m - 1, Akm(m, n - 1));
 }
-int AKM(int m, int n)
+int AKM(promise<int> &P, int m, int n)
 {
     SeqStack<int> SS;
     SS.Push(m);
@@ -36,6 +38,7 @@ int AKM(int m, int n)
             SS.Push(tempn - 1);
         }
     }
+    P.set_value(tempn);
     return tempn;
 }
 int main()
@@ -44,8 +47,12 @@ int main()
     int n = 0;
     while (cin >> m >> n)
     {
+        promise<int> P;
+        future<int> F = P.get_future();
+        thread T(AKM, ref(P), m, n);
         cout << Akm(m, n) << endl
-             << AKM(m, n) << endl;
+             << F.get() << endl;
+        T.join();
     }
     return 0;
 }
