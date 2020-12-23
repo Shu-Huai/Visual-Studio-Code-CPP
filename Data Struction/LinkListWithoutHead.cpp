@@ -1,8 +1,7 @@
-#include "LinkList.h" // 单链表类
-
-int main(void)
+#include "LinkList.h"
+int main()
 {
-	char c = '*';
+	char c = 0;
 	LinkList<double> la;
 	double e;
 	int i;

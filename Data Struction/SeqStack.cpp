@@ -1,16 +1,16 @@
 #include "SeqStack.h"
 int main()
 {
-    char c = '*';
+    char c = 0;
     SeqStack<int> SS;
     int e, i;
     Status sta;
     while (c != '0')
     {
         cout << endl
-             << "1. 生成顺序栈.";
+             << "1. 生成链式栈.";
         cout << endl
-             << "2. 显示顺序栈.";
+             << "2. 显示链式栈.";
         cout << endl
              << "3. 取栈顶元素.";
         cout << endl
@@ -18,7 +18,7 @@ int main()
         cout << endl
              << "5. 出栈.";
         cout << endl
-             << "6. 求顺序栈长度.";
+             << "6. 求链式栈长度.";
         cout << endl
              << "0. 退出.";
         cout << endl
@@ -37,7 +37,7 @@ int main()
                 sta = SS.Push(e);
                 if (sta == OVER_FLOW)
                 {
-                    cout << "顺序栈已满." << endl;
+                    cout << "链式栈已满." << endl;
                 }
                 else
                 {
@@ -51,7 +51,7 @@ int main()
         case '3':
             if (SS.Top(e) == UNDER_FLOW)
             {
-                cout << "顺序栈空." << endl;
+                cout << "链式栈空." << endl;
             }
             else
             {
@@ -64,7 +64,7 @@ int main()
             cin >> e;
             if (SS.Push(e) == UNDER_FLOW)
             {
-                cout << "顺序栈空." << endl;
+                cout << "链式栈空." << endl;
             }
             else
             {
@@ -74,7 +74,7 @@ int main()
         case '5':
             if (SS.Pop(e) == UNDER_FLOW)
             {
-                cout << "顺序栈空." << endl;
+                cout << "链式栈空." << endl;
             }
             else
             {
@@ -84,7 +84,7 @@ int main()
             break;
         case '6':
             cout << endl
-                 << "顺序栈的长度为:" << SS.GetLength() << endl;
+                 << "链式栈的长度为:" << SS.GetLength() << endl;
             break;
         }
     }

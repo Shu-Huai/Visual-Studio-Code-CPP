@@ -1,8 +1,8 @@
 #include "LinkStack.h"
 int main()
 {
-    char c = '1';
-    LinkStack<int> sa;
+    char c = 0;
+    LinkStack<int> LS;
     int x;
     while (c != '0')
     {
@@ -24,40 +24,48 @@ int main()
         switch (c)
         {
         case '1':
-            sa.Clear();
+            LS.Clear();
             cout << "输入e(e = 0时退出)" << endl;
             cin >> x;
             while (x != 0)
             {
-                sa.Push(x);
+                LS.Push(x);
                 cin >> x;
             }
             break;
         case '2':
             cout << endl;
-            sa.Traverse(Write<int>);
+            LS.Traverse(Write<int>);
             break;
         case '3':
             cout << endl
                  << "输入元素值:";
             cin >> x;
-            sa.Push(x);
+            LS.Push(x);
             break;
         case '4':
-            if (sa.Pop(x) == SUCCESS)
+            if (LS.Pop(x) == SUCCESS)
+            {
                 cout << endl
                      << "栈顶元素值为：" << x << "." << endl;
+            }
             else
+            {
                 cout << endl
                      << "栈为空." << endl;
+            }
             break;
         case '5':
-            if (sa.Top(x) == SUCCESS)
+            if (LS.Top(x) == SUCCESS)
+            {
                 cout << endl
                      << "栈顶元素值为：" << x << "." << endl;
+            }
             else
+            {
                 cout << endl
                      << "栈为空." << endl;
+            }
             break;
         }
     }

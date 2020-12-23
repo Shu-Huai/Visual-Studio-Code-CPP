@@ -1,7 +1,7 @@
 #include "SeqList.h"
 int main()
 {
-    char c = '*';
+    char c = 0;
     SeqList<int> SL;
     int e, i;
     Status sta;

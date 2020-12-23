@@ -1,7 +1,7 @@
 #include "LinkList.h"
 int main()
 {
-	char c = '*';
+	char c = 0;
 	LinkList<double> la;
 	double e;
 	int i;

@@ -1,7 +1,7 @@
 #include "ShareSeqStack.h"
 int main()
 {
-    char c = '*';
+    char c = 0;
     ShareSeqStack<int> SSS;
     int e, i;
     int No;

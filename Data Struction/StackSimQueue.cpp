@@ -70,7 +70,7 @@ Status StackSimQueue::DelQueue(int &e)
 }
 int main()
 {
-    char c = '*';
+    char c = 0;
     StackSimQueue SSQ;
     int e, i;
     Status sta;
