@@ -2,7 +2,7 @@
 #define __POLYNOMIAL_H__
 
 #include "Assistance.h" // 辅助软件包
-#include "HeadNodeLinkList.h"   // 链表类
+#include "LinkList.h"   // 链表类
 #include "PolyItem.h"   // 多项式项类
 
 // 多项式类
