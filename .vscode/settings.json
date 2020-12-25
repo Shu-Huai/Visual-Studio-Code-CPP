@@ -73,6 +73,7 @@
         "xstddef": "cpp",
         "thread": "cpp",
         "chrono": "cpp",
-        "ratio": "cpp"
+        "ratio": "cpp",
+        "list": "cpp"
     }, // 格式化时调整include的顺序（按字母排序）
 }
