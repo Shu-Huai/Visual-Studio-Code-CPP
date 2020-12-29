@@ -6,8 +6,8 @@
 class String
 {
 protected:
-    char *_s;
-    int _length;
+    char *s_;
+    int length_;
 
 public:
     String();
@@ -21,57 +21,57 @@ public:
     const char *CStr() const;
     char &operator[](int i) const;
 };
-String::String() : _s(NULL), _length(0)
+String::String() : s_(NULL), length_(0)
 {
 }
 String::~String()
 {
-    delete[] _s;
+    delete[] s_;
 }
-String::String(const String &S) : _length(S._length)
+String::String(const String &S) : length_(S.length_)
 {
-    _s = new char[_length + 1];
-    strcpy(_s, S._s);
+    s_ = new char[length_ + 1];
+    strcpy(s_, S.s_);
 }
-String::String(const char *c) : _length(strlen(c))
+String::String(const char *c) : length_(strlen(c))
 {
-    _s = new char[_length + 1];
-    strcpy(_s, c);
+    s_ = new char[length_ + 1];
+    strcpy(s_, c);
 }
-String::String(LinkList<char> &LL) : _length(LL.GetLength())
+String::String(LinkList<char> &LL) : length_(LL.GetLength())
 {
-    _s = new char[_length + 1];
-    for (int i = 0; i < _length; i++)
+    s_ = new char[length_ + 1];
+    for (int i = 0; i < length_; i++)
     {
-        LL.GetElem(i + 1, _s[i]);
+        LL.GetElem(i + 1, s_[i]);
     }
-    _s[_length] = '\0';
+    s_[length_] = '\0';
 }
 int String::GetLength() const
 {
-    return _length;
+    return length_;
 }
 bool String::IsEmpty() const
 {
-    return _length == 0;
+    return length_ == 0;
 }
 String &String::operator=(const String &S)
 {
     if (&S != this)
     {
-        delete[] _s;
-        _length = S._length;
-        _s = new char[_length + 1];
-        strcpy(_s, S._s);
+        delete[] s_;
+        length_ = S.length_;
+        s_ = new char[length_ + 1];
+        strcpy(s_, S.s_);
     }
     return *this;
 }
 const char *String::CStr() const
 {
-    return (const char *)_s;
+    return (const char *)s_;
 }
 char &String::operator[](int i) const
 {
-    return _s[i];
+    return s_[i];
 }
 #endif

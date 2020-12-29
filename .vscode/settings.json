@@ -74,6 +74,7 @@
         "thread": "cpp",
         "chrono": "cpp",
         "ratio": "cpp",
-        "list": "cpp"
+        "list": "cpp",
+        "xhash": "cpp"
     }, // 格式化时调整include的顺序（按字母排序）
 }
