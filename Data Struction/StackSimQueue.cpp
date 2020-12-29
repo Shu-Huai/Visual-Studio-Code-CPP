@@ -2,8 +2,8 @@
 class StackSimQueue
 {
 protected:
-    SeqStack<int> SS1;
-    SeqStack<int> SS2;
+    SeqStack<int> SS1_;
+    SeqStack<int> SS2_;
 
 public:
     StackSimQueue(int size = DEFAULT_SIZE);
@@ -14,57 +14,57 @@ public:
     Status EnQueue(const int e);
     Status DelQueue(int &e);
 };
-StackSimQueue::StackSimQueue(int size) : SS1(size), SS2(size)
+StackSimQueue::StackSimQueue(int size) : SS1_(size), SS2_(size)
 {
 }
 int StackSimQueue::GetLength() const
 {
-    return SS1.GetLength();
+    return SS1_.GetLength();
 }
 bool StackSimQueue::IsEmpty() const
 {
-    return SS1.IsEmpty();
+    return SS1_.IsEmpty();
 }
 void StackSimQueue::Clear()
 {
-    SS1.Clear();
+    SS1_.Clear();
 }
 void StackSimQueue::Traverse(void (*Visit)(const int &))
 {
-    int length = SS1.GetLength();
+    int length = SS1_.GetLength();
     for (int i = 0; i < length; i++)
     {
         int temp;
-        SS1.Pop(temp);
-        SS2.Push(temp);
+        SS1_.Pop(temp);
+        SS2_.Push(temp);
     }
-    SS2.Traverse(Write<int>);
+    SS2_.Traverse(Write<int>);
     for (int i = 0; i < length; i++)
     {
         int temp = 0;
-        SS2.Pop(temp);
-        SS1.Push(temp);
+        SS2_.Pop(temp);
+        SS1_.Push(temp);
     }
 }
 Status StackSimQueue::EnQueue(const int e)
 {
-    return SS1.Push(e);
+    return SS1_.Push(e);
 }
 Status StackSimQueue::DelQueue(int &e)
 {
-    int length = SS1.GetLength();
+    int length = SS1_.GetLength();
     for (int i = 0; i < length; i++)
     {
         int temp = 0;
-        SS1.Pop(temp);
-        SS2.Push(temp);
+        SS1_.Pop(temp);
+        SS2_.Push(temp);
     }
-    Status sta = SS2.Pop(e);
+    Status sta = SS2_.Pop(e);
     for (int i = 0; i < length - 1; i++)
     {
         int temp = 0;
-        SS2.Pop(temp);
-        SS1.Push(temp);
+        SS2_.Pop(temp);
+        SS1_.Push(temp);
     }
     return sta;
 }

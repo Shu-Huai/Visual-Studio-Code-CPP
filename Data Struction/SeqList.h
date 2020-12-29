@@ -8,7 +8,7 @@ class SeqList
 protected:
     int _length;
     int _maxlength;
-    ElemType *_elems;
+    ElemType *elems_;
 
 public:
     SeqList(int size = DEFAULT_SIZE);
@@ -33,23 +33,23 @@ public:
 template <class ElemType>
 SeqList<ElemType>::SeqList(int size) : _maxlength(size), _length(0)
 {
-    _elems = new ElemType[_maxlength];
-    assert(_elems);
+    elems_ = new ElemType[_maxlength];
+    assert(elems_);
 }
 template <class ElemType>
 SeqList<ElemType>::SeqList(ElemType &v, int n, int size) : _maxlength(size), _length(n)
 {
-    _elems = new ElemType[_maxlength];
-    assert(_elems);
+    elems_ = new ElemType[_maxlength];
+    assert(elems_);
     for (int i = 0; i < _length; i++)
     {
-        _elems[i] = v[i];
+        elems_[i] = v[i];
     }
 }
 template <class ElemType>
 SeqList<ElemType>::~SeqList()
 {
-    delete[] _elems;
+    delete[] elems_;
 }
 template <class ElemType>
 int SeqList<ElemType>::GetLength() const
@@ -71,7 +71,7 @@ void SeqList<ElemType>::Traverse(void (*visit)(const ElemType &)) const
 {
     for (int i = 0; i < _length; i++)
     {
-        (*visit)(_elems[i]);
+        (*visit)(elems_[i]);
     }
 }
 template <class ElemType>
@@ -79,7 +79,7 @@ int SeqList<ElemType>::LocateElem(const ElemType &e) const
 {
     for (int i = 0; i < _length; i++)
     {
-        if (_elems[i] == e)
+        if (elems_[i] == e)
         {
             return i + 1;
         }
@@ -93,7 +93,7 @@ Status SeqList<ElemType>::GetElem(int i, ElemType &e) const
     {
         return NOT_PRESENT;
     }
-    e = _elems[i - 1];
+    e = elems_[i - 1];
     return ENTRY_FOUND;
 }
 template <class ElemType>
@@ -103,7 +103,7 @@ Status SeqList<ElemType>::SetElem(int i, const ElemType &e)
     {
         return RANGE_ERROR;
     }
-    _elems[i - 1] = e;
+    elems_[i - 1] = e;
     return SUCCESS;
 }
 template <class ElemType>
@@ -113,12 +113,12 @@ Status SeqList<ElemType>::DeleteElem(int i, ElemType &e)
     {
         return RANGE_ERROR;
     }
-    e = _elems[i - 1];
+    e = elems_[i - 1];
     for (int j = i - 1; j < _length - 1; j++)
     {
-        _elems[j] = _elems[j + 1];
+        elems_[j] = elems_[j + 1];
     }
-    _elems[_length - 1] = 0;
+    elems_[_length - 1] = 0;
     _length--;
     return SUCCESS;
 }
@@ -135,9 +135,9 @@ Status SeqList<ElemType>::InsertElem(int i, const ElemType &e)
     }
     for (int j = _length; j > i - 1; j--)
     {
-        _elems[j] = _elems[j - 1];
+        elems_[j] = elems_[j - 1];
     }
-    _elems[i - 1] = e;
+    elems_[i - 1] = e;
     _length++;
     return SUCCESS;
 }
@@ -148,18 +148,18 @@ Status SeqList<ElemType>::InsertElem(const ElemType &e)
     {
         return OVER_FLOW;
     }
-    _elems[_length] = e;
+    elems_[_length] = e;
     _length++;
     return SUCCESS;
 }
 template <class ElemType>
 SeqList<ElemType>::SeqList(const SeqList<ElemType> &SL) : _maxlength(SL._maxlength), _length(SL._length)
 {
-    _elems = new ElemType[_maxlength];
-    assert(_elems);
+    elems_ = new ElemType[_maxlength];
+    assert(elems_);
     for (int i = 0; i < _length; i++)
     {
-        _elems[i] = SL._elems[i];
+        elems_[i] = SL.elems_[i];
     }
 }
 template <class ElemType>
@@ -169,16 +169,16 @@ SeqList<ElemType> &SeqList<ElemType>::operator=(const SeqList<ElemType> &SL)
     {
         return *this;
     }
-    delete[] _elems;
+    delete[] elems_;
     _maxlength = SL._maxlength;
     _length = SL._length;
-    _elems = new ElemType[_maxlength];
-    assert(_elems);
+    elems_ = new ElemType[_maxlength];
+    assert(elems_);
     for (int i = 0; i < _length; i++)
     {
         for (int i = 0; i < _length; i++)
         {
-            _elems[i] = SL._elems[i];
+            elems_[i] = SL.elems_[i];
         }
     }
     return *this;
@@ -190,9 +190,9 @@ void SeqList<ElemType>::DeleteRepeat()
     {
         for (int j = i + 1; j < _length; j++)
         {
-            if (_elems[i] == _elems[j])
+            if (elems_[i] == elems_[j])
             {
-                DeleteElem(j + 1, _elems[j]);
+                DeleteElem(j + 1, elems_[j]);
                 j--;
             }
         }
@@ -203,9 +203,9 @@ void SeqList<ElemType>::Reverse()
 {
     for (int i = 0; i < _length / 2; i++)
     {
-        ElemType temp = _elems[i];
-        _elems[i] = _elems[_length - 1 - i];
-        _elems[_length - 1 - i] = temp;
+        ElemType temp = elems_[i];
+        elems_[i] = elems_[_length - 1 - i];
+        elems_[_length - 1 - i] = temp;
     }
 }
 template <class ElemType>
@@ -221,9 +221,9 @@ Status SeqList<ElemType>::DeleteBetween(ElemType low, ElemType high)
     }
     for (int i = 0; i < _length; i++)
     {
-        if (_elems[i] > low and _elems[i] < high)
+        if (elems_[i] > low and elems_[i] < high)
         {
-            DeleteElem(i + 1, _elems[i]);
+            DeleteElem(i + 1, elems_[i]);
             i--;
         }
     }

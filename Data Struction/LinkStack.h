@@ -7,7 +7,7 @@ template <class ElemType>
 class LinkStack
 {
 protected:
-    Node<ElemType> *_top;
+    Node<ElemType> *top_;
 
 public:
     LinkStack();
@@ -25,16 +25,16 @@ public:
 template <class ElemType>
 LinkStack<ElemType>::LinkStack()
 {
-    _top = NULL;
+    top_ = NULL;
 }
 template <class ElemType>
 LinkStack<ElemType>::~LinkStack()
 {
     Node<ElemType> *p;
-    while (_top != NULL)
+    while (top_ != NULL)
     {
-        p = _top;
-        _top = _top->next;
+        p = top_;
+        top_ = top_->next;
         delete p;
     }
 }
@@ -42,7 +42,7 @@ template <class ElemType>
 int LinkStack<ElemType>::GetLength() const
 {
     int count = 0;
-    Node<ElemType> *p = _top;
+    Node<ElemType> *p = top_;
     while (p != NULL)
     {
         count++;
@@ -53,23 +53,23 @@ int LinkStack<ElemType>::GetLength() const
 template <class ElemType>
 bool LinkStack<ElemType>::IsEmpty() const
 {
-    return _top == NULL;
+    return top_ == NULL;
 }
 template <class ElemType>
 void LinkStack<ElemType>::Clear()
 {
     Node<ElemType> *p;
-    while (_top != NULL)
+    while (top_ != NULL)
     {
-        p = _top;
-        _top = _top->next;
+        p = top_;
+        top_ = top_->next;
         delete p;
     }
 }
 template <class ElemType>
 void LinkStack<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
 {
-    Node<ElemType> *p = _top;
+    Node<ElemType> *p = top_;
     while (p != NULL)
     {
         (*Visit)(p->data);
@@ -79,14 +79,14 @@ void LinkStack<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
 template <class ElemType>
 Status LinkStack<ElemType>::Push(const ElemType e)
 {
-    Node<ElemType> *p = new Node<ElemType>(e, _top);
+    Node<ElemType> *p = new Node<ElemType>(e, top_);
     if (p == NULL)
     {
         return OVER_FLOW;
     }
     else
     {
-        _top = p;
+        top_ = p;
         return SUCCESS;
     }
 }
@@ -99,7 +99,7 @@ Status LinkStack<ElemType>::Top(ElemType &e) const
     }
     else
     {
-        e = _top->data;
+        e = top_->data;
         return SUCCESS;
     }
 }
@@ -112,9 +112,9 @@ Status LinkStack<ElemType>::Pop(ElemType &e)
     }
     else
     {
-        Node<ElemType> *p = _top;
-        e = _top->data;
-        _top = _top->next;
+        Node<ElemType> *p = top_;
+        e = top_->data;
+        top_ = top_->next;
         delete p;
         return SUCCESS;
     }
