@@ -2,12 +2,12 @@
 #ifndef __TRI_SPARSE_MATRTIX_H__
 #define __TRI_SPARSE_MATRTIX_H__
 #include "Assistance.h"
-#include "Tripple.h"
+#include "Triple.h"
 template <class ElemType>
 class TriSparseMatrix
 {
 protected:
-    Tripple<ElemType> *elems_;
+    Triple<ElemType> *elems_;
     int maxsize_;
     int rows_, cols_;
     int num_;
@@ -31,7 +31,7 @@ public:
 template <class ElemType>
 TriSparseMatrix<ElemType>::TriSparseMatrix(int rows, int cols, int maxsize) : maxsize_(maxsize), rows_(rows), cols_(cols), num_(0)
 {
-    elems_ = new Tripple<ElemType>[maxsize_];
+    elems_ = new Triple<ElemType>[maxsize_];
     assert(elems_);
 }
 template <class ElemType>
@@ -123,7 +123,7 @@ Status TriSparseMatrix<ElemType>::GetElem(int r, int c, ElemType &e)
 template <class ElemType>
 TriSparseMatrix<ElemType>::TriSparseMatrix(const TriSparseMatrix<ElemType> &TSM) : maxsize_(TSM.maxsize_), rows_(TSM.rows_), cols_(TSM.cols_), num_(TSM.num_)
 {
-    elems_ = new Tripple<ElemType>[maxsize_];
+    elems_ = new Triple<ElemType>[maxsize_];
     assert(elems_);
     for (int i = 0; i < num_; i++)
     {
@@ -142,7 +142,7 @@ TriSparseMatrix<ElemType> &TriSparseMatrix<ElemType>::operator=(const TriSparseM
     rows_ = TSM.rows_;
     cols_ = TSM.cols_;
     num_ = TSM.num_;
-    elems_ = new Tripple<ElemType>[maxsize_];
+    elems_ = new Triple<ElemType>[maxsize_];
     assert(elems_);
     for (int i = 0; i < num_; i++)
     {
@@ -157,7 +157,7 @@ void TriSparseMatrix<ElemType>::SimpleTranspose(TriSparseMatrix<ElemType> &TSM)
     TSM.rows_ = cols_;
     TSM.cols_ = rows_;
     TSM.num_ = num_;
-    TSM.elems_ = new Tripple<ElemType>[TSM.maxsize_];
+    TSM.elems_ = new Triple<ElemType>[TSM.maxsize_];
     int count = 0;
     for (int i = 0; i < cols_; i++)
     {
@@ -165,7 +165,7 @@ void TriSparseMatrix<ElemType>::SimpleTranspose(TriSparseMatrix<ElemType> &TSM)
         {
             if (elems_[j].col_ == i)
             {
-                TSM.elems_[count] = Tripple<ElemType>(elems_[j].col_, elems_[j].row_, elems_[j].value_);
+                TSM.elems_[count] = Triple<ElemType>(elems_[j].col_, elems_[j].row_, elems_[j].value_);
                 count++;
             }
         }
@@ -198,7 +198,7 @@ TriSparseMatrix<ElemType> TriSparseMatrix<ElemType>::operator+(const TriSparseMa
                 {
                     elems_[k] = elems_[k - 1];
                 }
-                elems_[j] = Tripple<ElemType>(TSM.elems_[i].row_, TSM.elems_[i].col_, TSM.elems_[i].value_);
+                elems_[j] = Triple<ElemType>(TSM.elems_[i].row_, TSM.elems_[i].col_, TSM.elems_[i].value_);
                 num_++;
                 i++;
             }
@@ -208,7 +208,7 @@ TriSparseMatrix<ElemType> TriSparseMatrix<ElemType>::operator+(const TriSparseMa
                 {
                     elems_[k] = elems_[k - 1];
                 }
-                elems_[j] = Tripple<ElemType>(TSM.elems_[i].row_, TSM.elems_[i].col_, TSM.elems_[i].value_);
+                elems_[j] = Triple<ElemType>(TSM.elems_[i].row_, TSM.elems_[i].col_, TSM.elems_[i].value_);
                 num_++;
                 i++;
             }
