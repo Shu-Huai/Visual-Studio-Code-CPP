@@ -37,8 +37,8 @@ public:
     Status GetElem(int r, int c, ElemType &e);
     TriSparseMatrix(const TriSparseMatrix<ElemType> &TSM);
     TriSparseMatrix<ElemType> &operator=(const TriSparseMatrix<ElemType> &TSM);
-    void SimpleTranspose(const TriSparseMatrix<ElemType> &source, TriSparseMatrix<ElemType> &TSM);
-    void FastTranspose(const TriSparseMatrix<ElemType> &source, TriSparseMatrix<ElemType> &TSM);
+    void SimpleTranspose(const TriSparseMatrix<ElemType> &TSMO, TriSparseMatrix<ElemType> &TSMR);
+    void FastTranspose(const TriSparseMatrix<ElemType> &TSMO, TriSparseMatrix<ElemType> &TSMR);
 };
 template <class ElemType>
 TriSparseMatrix<ElemType>::TriSparseMatrix(int rows, int cols, int maxsize) : maxsize_(maxsize), rows_(rows), cols_(cols), num_(0)
@@ -129,11 +129,31 @@ TriSparseMatrix<ElemType> &TriSparseMatrix<ElemType>::operator=(const TriSparseM
     return *this;
 }
 template <class ElemType>
-void TriSparseMatrix<ElemType>::SimpleTranspose(const TriSparseMatrix<ElemType> &source, TriSparseMatrix<ElemType> &TSM)
+void TriSparseMatrix<ElemType>::SimpleTranspose(const TriSparseMatrix<ElemType> &TSMO, TriSparseMatrix<ElemType> &TSMR)
 {
+    TSMR.maxsize_ = TSMO.maxsize_;
+    TSMR.cols_ = TSMO.rows_;
+    TSMR.rows_ = TSMO.cols_;
+    TSMR.num_ = TSMO.num_;
+    delete[] TSMR.elems_;
+    TSMR.elems_ = new Tripple<ElemType>[TSMR.maxsize_];
+    int count = 0;
+    for (int i = 0; i < TSMO.cols_; i++)
+    {
+        for (int j = 0; j < TSMO.num_; j++)
+        {
+            if (TSMO.elems_[j].col_ == i)
+            {
+                TSMR.elems_[count].col_ = TSMO.elems_[j].row_;
+                TSMR.elems_[count].row_ = TSMO.elems_[j].col_;
+                TSMR.elems_[count].value_ = TSMO.elems_[j].value_;
+            }
+        }
+    }
 }
 template <class ElemType>
-void TriSparseMatrix<ElemType>::FastTranspose(const TriSparseMatrix<ElemType> &source, TriSparseMatrix<ElemType> &TSM)
+void TriSparseMatrix<ElemType>::FastTranspose(const TriSparseMatrix<ElemType> &TSMO, TriSparseMatrix<ElemType> &TSMR)
 {
 }
+
 #endif
