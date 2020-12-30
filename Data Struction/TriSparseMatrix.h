@@ -182,35 +182,47 @@ TriSparseMatrix<ElemType> TriSparseMatrix<ElemType>::operator+(const TriSparseMa
     {
         return *this;
     }
+    int flag = 0;
     for (int i = 0; i < TSM.num_; i++)
     {
-        int length = num_;
-        for (int j = 0; j < length; j++)
+        for (int j = flag; j < num_; j++)
         {
             if (elems_[j].row_ == TSM.elems_[i].row_ and elems_[j].col_ == TSM.elems_[i].col_)
             {
                 elems_[j].value_ += TSM.elems_[i].value_;
-                i++;
+                if (elems_[j].value_==0)
+                {
+                    for (int k = j; k < num_ - 1; k++)
+                    {
+                        elems_[k] = elems_[k + 1];
+                    }
+                    elems_[num_ - 1] = Triple<ElemType>(0, 0, 0);
+                    num_--;
+                }
+                flag = j;
+                break;
             }
-            else if (elems_[j].row_ == TSM.elems_[i].row_ and elems_[j].col_ < TSM.elems_[i].col_ and elems_[j + 1].col_ > TSM.elems_[i].col_)
+            else if (elems_[j].row_ == TSM.elems_[i].row_ and elems_[j].col_ < TSM.elems_[i].col_ and (elems_[j + 1].col_ > TSM.elems_[i].col_ or elems_[j + 1].row_ > TSM.elems_[i].row_))
             {
-                for (int k = num_; k > i - 1; k--)
+                for (int k = num_; k > j; k--)
                 {
                     elems_[k] = elems_[k - 1];
                 }
-                elems_[j] = Triple<ElemType>(TSM.elems_[i].row_, TSM.elems_[i].col_, TSM.elems_[i].value_);
+                elems_[j + 1] = Triple<ElemType>(TSM.elems_[i].row_, TSM.elems_[i].col_, TSM.elems_[i].value_);
                 num_++;
-                i++;
+                flag = j + 1;
+                break;
             }
-            else if (elems_[j].row_ < TSM.elems_[i].row_ and elems_[j + 1].row_ > TSM.elems_[i].row_ or j == num_ - 1)
+            else if (elems_[j].row_ < TSM.elems_[i].row_ and elems_[j + 1].col_ > TSM.elems_[i].col_)
             {
-                for (int k = num_; k > i - 1; k--)
+                for (int k = num_; k > j; k--)
                 {
                     elems_[k] = elems_[k - 1];
                 }
-                elems_[j] = Triple<ElemType>(TSM.elems_[i].row_, TSM.elems_[i].col_, TSM.elems_[i].value_);
+                elems_[j + 1] = Triple<ElemType>(TSM.elems_[i].row_, TSM.elems_[i].col_, TSM.elems_[i].value_);
                 num_++;
-                i++;
+                flag = j + 1;
+                break;
             }
         }
     }

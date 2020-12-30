@@ -108,13 +108,17 @@ int main()
             TSM0 = TSM1;
             cout << TSM0;
             break;
-
         case '7':
             cout << endl
                  << "输入rows: ";
             cin >> rows;
             cout << "输入cols: ";
             cin >> cols;
+            if (rows != TSM0.GetRows() or cols != TSM0.GetCols())
+            {
+                cout << "cols或rows不同." << endl;
+                break;
+            }
             TSM1 = TriSparseMatrix<int>(rows, cols, rows * cols);
             cout << "输入e:" << endl;
             for (int i = 0; i < rows; i++)
