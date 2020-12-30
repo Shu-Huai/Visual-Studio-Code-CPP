@@ -231,6 +231,10 @@ TriSparseMatrix<ElemType> TriSparseMatrix<ElemType>::operator+(const TriSparseMa
 template <class ElemType>
 ostream &operator<<(ostream &out, TriSparseMatrix<ElemType> &TSM)
 {
+    for (int i = 0; i < TSM.num_; i++)
+    {
+        cout << "(" << TSM.elems_[i].row_ << ", " << TSM.elems_[i].col_ << ", " << TSM.elems_[i].value_ << ")\n";
+    }
     int count = 0;
     for (int i = 0; i < TSM.rows_; i++)
     {

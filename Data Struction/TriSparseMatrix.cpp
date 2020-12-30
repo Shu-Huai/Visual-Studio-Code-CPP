@@ -57,8 +57,8 @@ int main()
             }
             break;
         case '2':
-            cout << endl
-                 << TSM0;
+            cout << endl;
+            cout << TSM0;
             break;
         case '3':
             cout << endl
