@@ -133,20 +133,19 @@ TriSparseMatrix<ElemType>::TriSparseMatrix(const TriSparseMatrix<ElemType> &TSM)
 template <class ElemType>
 TriSparseMatrix<ElemType> &TriSparseMatrix<ElemType>::operator=(const TriSparseMatrix<ElemType> &TSM)
 {
-    if (&TSM == this)
+    if (&TSM != this)
     {
-        return *this;
-    }
-    delete[] elems_;
-    maxsize_ = TSM.maxsize_;
-    rows_ = TSM.rows_;
-    cols_ = TSM.cols_;
-    num_ = TSM.num_;
-    elems_ = new Triple<ElemType>[maxsize_];
-    assert(elems_);
-    for (int i = 0; i < num_; i++)
-    {
-        elems_[i] = TSM.elems_[i];
+        delete[] elems_;
+        maxsize_ = TSM.maxsize_;
+        rows_ = TSM.rows_;
+        cols_ = TSM.cols_;
+        num_ = TSM.num_;
+        elems_ = new Triple<ElemType>[maxsize_];
+        assert(elems_);
+        for (int i = 0; i < num_; i++)
+        {
+            elems_[i] = TSM.elems_[i];
+        }
     }
     return *this;
 }
@@ -190,7 +189,7 @@ TriSparseMatrix<ElemType> TriSparseMatrix<ElemType>::operator+(const TriSparseMa
             if (elems_[j].row_ == TSM.elems_[i].row_ and elems_[j].col_ == TSM.elems_[i].col_)
             {
                 elems_[j].value_ += TSM.elems_[i].value_;
-                if (elems_[j].value_==0)
+                if (elems_[j].value_ == 0)
                 {
                     for (int k = j; k < num_ - 1; k++)
                     {

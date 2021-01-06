@@ -75,6 +75,11 @@
         "chrono": "cpp",
         "ratio": "cpp",
         "list": "cpp",
-        "xhash": "cpp"
+        "xhash": "cpp",
+        "coroutine": "cpp",
+        "functional": "cpp",
+        "future": "cpp",
+        "mutex": "cpp",
+        "unordered_map": "cpp"
     }, // 格式化时调整include的顺序（按字母排序）
 }

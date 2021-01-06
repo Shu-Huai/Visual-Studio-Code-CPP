@@ -5,8 +5,9 @@ int main()
     char c = 0;
     TriSparseMatrix<int> TSM0;
     TriSparseMatrix<int> TSM1;
-    int e, i;
-    int rows, cols;
+    int e = 0;
+    int rows = 0;
+    int cols = 0;
     Status sta;
     while (c != '0')
     {

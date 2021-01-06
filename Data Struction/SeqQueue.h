@@ -20,8 +20,8 @@ public:
     Status DelQueue(ElemType &e);
     Status GetHead(ElemType &e) const;
     Status EnQueue(const ElemType e);
-    SeqQueue(const SeqQueue<ElemType> &q);
-    SeqQueue<ElemType> &operator=(const SeqQueue<ElemType> &q);
+    SeqQueue(const SeqQueue<ElemType> &SQ);
+    SeqQueue<ElemType> &operator=(const SeqQueue<ElemType> &SQ);
 };
 template <class ElemType>
 SeqQueue<ElemType>::SeqQueue(int size) : maxsize_(size), front_(0), rear_(0)
@@ -101,18 +101,18 @@ SeqQueue<ElemType>::SeqQueue(const SeqQueue<ElemType> &SQ) : maxsize_(SQ.maxsize
     }
 }
 template <class ElemType>
-SeqQueue<ElemType> &SeqQueue<ElemType>::operator=(const SeqQueue<ElemType> &q)
+SeqQueue<ElemType> &SeqQueue<ElemType>::operator=(const SeqQueue<ElemType> &SQ)
 {
-    if (&q != this)
+    if (&SQ != this)
     {
-        maxsize_ = q.maxsize_;
+        maxsize_ = SQ.maxsize_;
         if (elems_ != NULL)
             delete[] elems_;
         elems_ = new ElemType[maxsize_];
-        front_ = q.front_;
-        rear_ = q.rear_;
+        front_ = SQ.front_;
+        rear_ = SQ.rear_;
         for (int i = front_; i != rear_; i = (i + 1) % maxsize_)
-            elems_[i] = q.elems_[i];
+            elems_[i] = SQ.elems_[i];
     }
     return *this;
 }

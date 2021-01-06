@@ -34,7 +34,7 @@ LinkStack<ElemType>::~LinkStack()
     while (top_ != NULL)
     {
         p = top_;
-        top_ = top_->next;
+        top_ = top_->next_;
         delete p;
     }
 }
@@ -46,7 +46,7 @@ int LinkStack<ElemType>::GetLength() const
     while (p != NULL)
     {
         count++;
-        p = p->next;
+        p = p->next_;
     }
     return count;
 }
@@ -62,7 +62,7 @@ void LinkStack<ElemType>::Clear()
     while (top_ != NULL)
     {
         p = top_;
-        top_ = top_->next;
+        top_ = top_->next_;
         delete p;
     }
 }
@@ -72,8 +72,8 @@ void LinkStack<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
     Node<ElemType> *p = top_;
     while (p != NULL)
     {
-        (*Visit)(p->data);
-        p = p->next;
+        (*Visit)(p->data_);
+        p = p->next_;
     }
 }
 template <class ElemType>
@@ -99,7 +99,7 @@ Status LinkStack<ElemType>::Top(ElemType &e) const
     }
     else
     {
-        e = top_->data;
+        e = top_->data_;
         return SUCCESS;
     }
 }
@@ -113,8 +113,8 @@ Status LinkStack<ElemType>::Pop(ElemType &e)
     else
     {
         Node<ElemType> *p = top_;
-        e = top_->data;
-        top_ = top_->next;
+        e = top_->data_;
+        top_ = top_->next_;
         delete p;
         return SUCCESS;
     }

@@ -3,7 +3,7 @@ int main()
 {
     char c = 0;
     SeqStack<int> SS;
-    int e, i;
+    int e = 0;
     Status sta;
     while (c != '0')
     {

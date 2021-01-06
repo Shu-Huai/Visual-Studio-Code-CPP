@@ -1,9 +1,9 @@
 #include "SeqQueue.h"
 int main()
 {
-     char c = '1';
-     SeqQueue<int> qa(10);
-     int x;
+     char c = 0;
+     SeqQueue<int> SQ(10);
+     int e = 0;
      while (c != '0')
      {
           cout << endl
@@ -24,25 +24,25 @@ int main()
           switch (c)
           {
           case '1':
-               qa.Clear();
+               SQ.Clear();
                cout << endl
                     << "输入e(e = 0时退出)";
-               cin >> x;
-               while (x != 0)
+               cin >> e;
+               while (e != 0)
                {
-                    qa.EnQueue(x);
-                    cin >> x;
+                    SQ.EnQueue(e);
+                    cin >> e;
                }
                break;
           case '2':
                cout << endl;
-               qa.Traverse(Write<int>);
+               SQ.Traverse(Write<int>);
                break;
           case '3':
                cout << endl
                     << "输入元素值:";
-               cin >> x;
-               if (qa.EnQueue(x) == OVER_FLOW)
+               cin >> e;
+               if (SQ.EnQueue(e) == OVER_FLOW)
                {
                     cout << endl
                          << "队列已满!";
@@ -54,14 +54,14 @@ int main()
                }
                break;
           case '4':
-               qa.DelQueue(x);
+               SQ.DelQueue(e);
                cout << endl
-                    << "队头元素值为 " << x << " ." << endl;
+                    << "队头元素值为 " << e << " ." << endl;
                break;
           case '5':
-               qa.GetHead(x);
+               SQ.GetHead(e);
                cout << endl
-                    << "队头元素值为 " << x << " ." << endl;
+                    << "队头元素值为 " << e << " ." << endl;
                break;
           }
      }

@@ -2,12 +2,12 @@
 int main()
 {
 	char c = 0;
-	LinkList<double> la;
-	double e;
-	int i;
-	double s = 0;
-	double t = 0;
-	LinkList<double> lb;
+	LinkList<double> LL0;
+	LinkList<double> LL1;
+	double e = 0;
+	int i = 0;
+	double low = 0;
+	double high = 0;
 	while (c != '0')
 	{
 		cout << endl
@@ -29,7 +29,7 @@ int main()
 		cout << endl
 			 << "9. 原地逆置.";
 		cout << endl
-			 << "a. 删除s<e<t的结点.";
+			 << "a. 删除low<e<high的结点.";
 		cout << endl
 			 << "b. 将两个递增有序的单链表合并为一个递减有序的单链表.";
 		cout << endl
@@ -40,24 +40,24 @@ int main()
 		switch (c)
 		{
 		case '1':
-			la.Clear();
+			LL0.Clear();
 			cout << endl
 				 << "输入e(e = 0时退出):";
 			cin >> e;
 			while (e != 0)
 			{
-				la.InsertElem(e);
+				LL0.InsertElem(e);
 				cin >> e;
 			}
 			break;
 		case '2':
-			la.Traverse(Write<double>);
+			LL0.Traverse(Write<double>);
 			break;
 		case '3':
 			cout << endl
 				 << "输入元素位置:";
 			cin >> i;
-			if (la.GetElem(i, e) == RANGE_ERROR)
+			if (LL0.GetElem(i, e) == RANGE_ERROR)
 				cout << "元素不存在." << endl;
 			else
 				cout << "元素:" << e << endl;
@@ -69,7 +69,7 @@ int main()
 			cout << endl
 				 << "输入元素值:";
 			cin >> e;
-			if (la.SetElem(i, e) == RANGE_ERROR)
+			if (LL0.SetElem(i, e) == RANGE_ERROR)
 				cout << "位置范围错." << endl;
 			else
 				cout << "设置成功." << endl;
@@ -78,7 +78,7 @@ int main()
 			cout << endl
 				 << "输入位置:";
 			cin >> i;
-			if (la.DeleteElem(i, e) == RANGE_ERROR)
+			if (LL0.DeleteElem(i, e) == RANGE_ERROR)
 				cout << "位置范围错." << endl;
 			else
 				cout << "被删除元素值:" << e << endl;
@@ -90,7 +90,7 @@ int main()
 			cout << endl
 				 << "输入元素值:";
 			cin >> e;
-			if (la.InsertElem(i, e) == RANGE_ERROR)
+			if (LL0.InsertElem(i, e) == RANGE_ERROR)
 				cout << "位置范围错." << endl;
 			else
 				cout << "成功:" << e << endl;
@@ -99,7 +99,7 @@ int main()
 			cout << endl
 				 << "输入元素的值:";
 			cin >> e;
-			i = la.LocateElem(e);
+			i = LL0.LocateElem(e);
 			if (i == 0)
 				cout << "元素不存在." << endl;
 			else
@@ -107,22 +107,22 @@ int main()
 			break;
 		case '8':
 			cout << endl
-				 << "单链表的长度为:" << la.GetLength() << endl;
+				 << "单链表的长度为:" << LL0.GetLength() << endl;
 			break;
 		case '9':
-			la.Reverse();
+			LL0.Reverse();
 			cout << endl
 				 << "已将单链表逆置." << endl;
 			break;
 		case 'a':
 			cout << endl
-				 << "输入s的值:";
-			cin >> s;
-			cout << "输入t的值:";
-			cin >> t;
-			if (la.DeleteBetween(s, t) == SUCCESS)
+				 << "输入low的值:";
+			cin >> low;
+			cout << "输入high的值:";
+			cin >> high;
+			if (LL0.DeleteBetween(low, high) == SUCCESS)
 			{
-				cout << "已删除s<e<t的结点." << endl;
+				cout << "已删除low<e<high的结点." << endl;
 			}
 			else
 			{
@@ -130,16 +130,16 @@ int main()
 			}
 			break;
 		case 'b':
-			lb.Clear();
+			LL1.Clear();
 			cout << endl
 				 << "输入e(e = 0时退出):";
 			cin >> e;
 			while (e != 0)
 			{
-				lb.InsertElem(e);
+				LL1.InsertElem(e);
 				cin >> e;
 			}
-			la.Merge(lb);
+			LL0.Merge(LL1);
 			break;
 		}
 	}

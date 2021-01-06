@@ -100,18 +100,17 @@ SeqStack<ElemType>::SeqStack(const SeqStack<ElemType> &SS) : maxsize_(SS.maxsize
 template <class ElemType>
 SeqStack<ElemType> &SeqStack<ElemType>::operator=(const SeqStack<ElemType> &SS)
 {
-    if (&SS == this)
+    if (&SS != this)
     {
-        return *this;
-    }
-    delete[] elems_;
-    maxsize_ = SS.maxsize_;
-    top_ = SS.top_;
-    elems_ = new ElemType[maxsize_];
-    assert(elems_);
-    for (int i = 0; i < top_ + 1; i++)
-    {
-        elems_[i] = SS.elems_[i];
+        delete[] elems_;
+        maxsize_ = SS.maxsize_;
+        top_ = SS.top_;
+        elems_ = new ElemType[maxsize_];
+        assert(elems_);
+        for (int i = 0; i < top_ + 1; i++)
+        {
+            elems_[i] = SS.elems_[i];
+        }
     }
     return *this;
 }

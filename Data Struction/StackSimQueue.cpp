@@ -72,7 +72,7 @@ int main()
 {
     char c = 0;
     StackSimQueue SSQ;
-    int e, i;
+    int e = 0;
     Status sta;
     while (c != '0')
     {

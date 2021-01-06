@@ -3,7 +3,8 @@ int main()
 {
     char c = 0;
     SeqList<int> SL;
-    int e, i;
+    int e = 0;
+    int i = 0;
     Status sta;
     double low = 0;
     double high = 0;

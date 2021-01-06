@@ -159,23 +159,22 @@ ShareSeqStack<ElemType>::ShareSeqStack(const ShareSeqStack<ElemType> &SSS) : max
 template <class ElemType>
 ShareSeqStack<ElemType> &ShareSeqStack<ElemType>::operator=(const ShareSeqStack<ElemType> &SSS)
 {
-    if (&SSS == this)
+    if (&SSS != this)
     {
-        return *this;
-    }
-    delete[] elems_;
-    maxsize_ = SSS.maxsize_;
-    top1_ = SSS.top1_;
-    top2_ = SSS.top2_;
-    elems_ = new ElemType[maxsize_];
-    assert(elems_);
-    for (int i = 0; i < top1_ + 1; i++)
-    {
-        elems_[i] = SSS.elems_[i];
-    }
-    for (int i = maxsize_ - 1; i > top2_ - 1; i--)
-    {
-        elems_[i] = SSS > elems_[i];
+        delete[] elems_;
+        maxsize_ = SSS.maxsize_;
+        top1_ = SSS.top1_;
+        top2_ = SSS.top2_;
+        elems_ = new ElemType[maxsize_];
+        assert(elems_);
+        for (int i = 0; i < top1_ + 1; i++)
+        {
+            elems_[i] = SSS.elems_[i];
+        }
+        for (int i = maxsize_ - 1; i > top2_ - 1; i--)
+        {
+            elems_[i] = SSS > elems_[i];
+        }
     }
     return *this;
 }

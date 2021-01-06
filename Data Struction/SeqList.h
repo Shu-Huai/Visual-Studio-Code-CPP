@@ -165,20 +165,19 @@ SeqList<ElemType>::SeqList(const SeqList<ElemType> &SL) : maxsize_(SL.maxsize_),
 template <class ElemType>
 SeqList<ElemType> &SeqList<ElemType>::operator=(const SeqList<ElemType> &SL)
 {
-    if (&SL == this)
+    if (&SL != this)
     {
-        return *this;
-    }
-    delete[] elems_;
-    maxsize_ = SL.maxsize_;
-    length_ = SL.length_;
-    elems_ = new ElemType[maxsize_];
-    assert(elems_);
-    for (int i = 0; i < length_; i++)
-    {
+        delete[] elems_;
+        maxsize_ = SL.maxsize_;
+        length_ = SL.length_;
+        elems_ = new ElemType[maxsize_];
+        assert(elems_);
         for (int i = 0; i < length_; i++)
         {
-            elems_[i] = SL.elems_[i];
+            for (int i = 0; i < length_; i++)
+            {
+                elems_[i] = SL.elems_[i];
+            }
         }
     }
     return *this;
