@@ -101,14 +101,14 @@ int LinkList<ElemType>::LocateElem(const ElemType &e) const
 }
 
 template <class ElemType>
-Status LinkList<ElemType>::GetElem(int postiton, ElemType &e) const
+Status LinkList<ElemType>::GetElem(int position, ElemType &e) const
 {
-	if (postiton < 1 or postiton > length_)
+	if (position < 1 or position > length_)
 	{
 		return RANGE_ERROR;
 	}
 	Node<ElemType> *p = head_;
-	for (int j = 0; j < postiton; j++)
+	for (int j = 0; j < position; j++)
 	{
 		p = p->next_;
 	}
@@ -116,14 +116,14 @@ Status LinkList<ElemType>::GetElem(int postiton, ElemType &e) const
 	return ENTRY_FOUND;
 }
 template <class ElemType>
-Status LinkList<ElemType>::SetElem(int postiton, const ElemType &e)
+Status LinkList<ElemType>::SetElem(int position, const ElemType &e)
 {
-	if (postiton < 1 or postiton > length_)
+	if (position < 1 or position > length_)
 	{
 		return RANGE_ERROR;
 	}
 	Node<ElemType> *p = head_;
-	for (int j = 0; j < postiton; j++)
+	for (int j = 0; j < position; j++)
 	{
 		p = p->next_;
 	}
@@ -131,14 +131,14 @@ Status LinkList<ElemType>::SetElem(int postiton, const ElemType &e)
 	return SUCCESS;
 }
 template <class ElemType>
-Status LinkList<ElemType>::DeleteElem(int postiton, ElemType &e)
+Status LinkList<ElemType>::DeleteElem(int position, ElemType &e)
 {
-	if (postiton < 1 or postiton > length_)
+	if (position < 1 or position > length_)
 	{
 		return RANGE_ERROR;
 	}
 	Node<ElemType> *p = head_;
-	for (int j = 0; j < postiton - 1; j++)
+	for (int j = 0; j < position - 1; j++)
 	{
 		p = p->next_;
 	}
@@ -150,15 +150,15 @@ Status LinkList<ElemType>::DeleteElem(int postiton, ElemType &e)
 	return SUCCESS;
 }
 template <class ElemType>
-Status LinkList<ElemType>::InsertElem(int postiton, const ElemType &e)
+Status LinkList<ElemType>::InsertElem(int position, const ElemType &e)
 {
-	if (postiton < 1 or postiton > length_ + 1)
+	if (position < 1 or position > length_ + 1)
 	{
 		return RANGE_ERROR;
 	}
 	Node<ElemType> *p = head_;
 	int count;
-	for (int j = 0; j < postiton - 1; j++)
+	for (int j = 0; j < position - 1; j++)
 	{
 		p = p->next_;
 	}
