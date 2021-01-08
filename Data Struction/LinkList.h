@@ -68,12 +68,12 @@ bool LinkList<ElemType>::IsEmpty() const
 template <class ElemType>
 void LinkList<ElemType>::Clear()
 {
-	Node<ElemType> *p;
-	while (head_->next_ != NULL)
+	Node<ElemType> *p = head_->next_;
+	while (p != NULL)
 	{
-		p = head_->next_;
-		head_->next_ = head_->next_->next_;
+		head_->next_ = p->next_;
 		delete p;
+		p = head_->next_;
 	}
 	length_ = 0;
 }
@@ -177,9 +177,7 @@ Status LinkList<ElemType>::InsertElem(const ElemType &e)
 	{
 		p = p->next_;
 	}
-	Node<ElemType> *q;
-	q->data_ = e;
-	q->next_ = NULL;
+	Node<ElemType> *q = new Node<ElemType>(e, NULL);
 	p->next_ = q;
 	length_++;
 	return SUCCESS;
