@@ -101,14 +101,14 @@ int LinkList<ElemType>::LocateElem(const ElemType &e) const
 }
 
 template <class ElemType>
-Status LinkList<ElemType>::GetElem(int i, ElemType &e) const
+Status LinkList<ElemType>::GetElem(int postiton, ElemType &e) const
 {
-	if (i < 1 or i > length_)
+	if (postiton < 1 or postiton > length_)
 	{
 		return RANGE_ERROR;
 	}
 	Node<ElemType> *p = head_;
-	for (int j = 0; j < i; j++)
+	for (int j = 0; j < postiton; j++)
 	{
 		p = p->next_;
 	}
@@ -116,14 +116,14 @@ Status LinkList<ElemType>::GetElem(int i, ElemType &e) const
 	return ENTRY_FOUND;
 }
 template <class ElemType>
-Status LinkList<ElemType>::SetElem(int i, const ElemType &e)
+Status LinkList<ElemType>::SetElem(int postiton, const ElemType &e)
 {
-	if (i < 1 or i > length_)
+	if (postiton < 1 or postiton > length_)
 	{
 		return RANGE_ERROR;
 	}
 	Node<ElemType> *p = head_;
-	for (int j = 0; j < i; j++)
+	for (int j = 0; j < postiton; j++)
 	{
 		p = p->next_;
 	}
@@ -131,14 +131,14 @@ Status LinkList<ElemType>::SetElem(int i, const ElemType &e)
 	return SUCCESS;
 }
 template <class ElemType>
-Status LinkList<ElemType>::DeleteElem(int i, ElemType &e)
+Status LinkList<ElemType>::DeleteElem(int postiton, ElemType &e)
 {
-	if (i < 1 or i > length_)
+	if (postiton < 1 or postiton > length_)
 	{
 		return RANGE_ERROR;
 	}
 	Node<ElemType> *p = head_;
-	for (int j = 0; j < i - 1; j++)
+	for (int j = 0; j < postiton - 1; j++)
 	{
 		p = p->next_;
 	}
@@ -150,15 +150,15 @@ Status LinkList<ElemType>::DeleteElem(int i, ElemType &e)
 	return SUCCESS;
 }
 template <class ElemType>
-Status LinkList<ElemType>::InsertElem(int i, const ElemType &e)
+Status LinkList<ElemType>::InsertElem(int postiton, const ElemType &e)
 {
-	if (i < 1 or i > length_ + 1)
+	if (postiton < 1 or postiton > length_ + 1)
 	{
 		return RANGE_ERROR;
 	}
 	Node<ElemType> *p = head_;
 	int count;
-	for (int j = 0; j < i - 1; j++)
+	for (int j = 0; j < postiton - 1; j++)
 	{
 		p = p->next_;
 	}
