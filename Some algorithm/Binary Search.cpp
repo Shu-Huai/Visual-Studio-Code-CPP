@@ -1,6 +1,6 @@
-#include <iostream>
-using namespace std;
-int BinarySearch(int (&a)[1000], int length, int key)
+#include "Assistant.h"
+template <class ElemType>
+int BinarySearch(ElemType *array, int length, ElemType x)
 {
     int low = 0;
     int high = length - 1;
@@ -8,11 +8,11 @@ int BinarySearch(int (&a)[1000], int length, int key)
     while (low <= high)
     {
         mid = (low + high) / 2;
-        if (a[mid] == key)
+        if (array[mid] == x)
         {
             return mid;
         }
-        if (a[mid] < key)
+        if (array[mid] < x)
         {
             low = mid + 1;
         }
@@ -25,17 +25,15 @@ int BinarySearch(int (&a)[1000], int length, int key)
 }
 int main()
 {
-    cout << "Please input an array: ";
-    int a[1000] = {0};
-    int i = 0;
-    while (getchar() != '\n')
-    {
-        cin >> a[i];
-        i++;
-    }
+    int array[N] = {0};
+    InitRand(array, N);
+    Sort(array, N);
+    cout << "The resource is: " << endl;
+    ShowData(array, N);
+    ShowVision(array, N);
     int x = 0;
     cout << "Please input the number: ";
     cin >> x;
-    cout << "The result is: " << BinarySearch(a, i, x) << endl;
+    cout << "The result is: " << BinarySearch(array, N, x) << endl;
     return 0;
 }

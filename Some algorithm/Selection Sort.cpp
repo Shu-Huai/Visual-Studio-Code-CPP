@@ -1,43 +1,28 @@
-#include <iostream>
-using namespace std;
-void SelectionSort(int (&a)[1000], int length)
+#include "Assistant.h"
+template <class ElemType>
+void SelectionSort(ElemType *array, int length)
 {
     for (int i = 0; i < length; i++)
     {
-        int min = a[i];
+        ElemType min = array[i];
         int index = i;
         for (int j = i + 1; j < length; j++)
         {
-            if (a[j] < min)
+            if (array[j] < min)
             {
-                min = a[j];
+                min = array[j];
                 index = j;
             }
         }
-        a[index] = a[i];
-        a[i] = min;
+        array[index] = array[i];
+        array[i] = min;
     }
 }
 int main()
 {
-    cout << "Please input an array:";
-    int a[1000] = {0};
-    int i = 0;
-    do
-    {
-        cin >> a[i];
-        i++;
-    } while (getchar() != '\n');
-    SelectionSort(a, i);
-    cout << "The result is: ";
-    for (int j = 0; j < i; j++)
-    {
-        cout << a[j];
-        if (j != i - 1)
-        {
-            cout << ", ";
-        }
-    }
-    cout << endl;
+    int array[N] = {0};
+    Begin(array, N);
+    SelectionSort(array, N);
+    End(array, N);
     return 0;
 }

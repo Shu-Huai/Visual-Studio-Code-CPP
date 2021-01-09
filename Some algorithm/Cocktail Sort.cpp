@@ -1,39 +1,39 @@
-#include <iostream>
-using namespace std;
-int &CocktailSort(int (&a)[1000], int length)
+#include "Assistant.h"
+template <class ElemType>
+void CocktailSort(ElemType *array, int length)
 {
     int left = 0;
     int right = length - 1;
-    int tempPostion = 0;
+    int temppostion = 0;
     for (int i = 0; i < length - 1; i++)
     {
         int flag = 1;
-        tempPostion = 0;
+        temppostion = 0;
         for (int j = left; j < right; j++)
         {
-            if (a[j] > a[j + 1])
+            if (array[j] > array[j + 1])
             {
-                int temp = a[j];
-                a[j] = a[j + 1];
-                a[j + 1] = temp;
+                ElemType temp = array[j];
+                array[j] = array[j + 1];
+                array[j + 1] = temp;
                 flag = 0;
-                tempPostion = j;
+                temppostion = j;
             }
         }
         if (flag == 1)
         {
             break;
         }
-        right = tempPostion;
+        right = temppostion;
         for (int j = right; j > left; j--)
         {
-            if (a[j] < a[j - 1])
+            if (array[j] < array[j - 1])
             {
-                int temp = a[j];
-                a[j] = a[j - 1];
-                a[j - 1] = temp;
+                ElemType temp = array[j];
+                array[j] = array[j - 1];
+                array[j - 1] = temp;
                 flag = 0;
-                tempPostion = j;
+                temppostion = j;
             }
         }
         left++;
@@ -42,28 +42,12 @@ int &CocktailSort(int (&a)[1000], int length)
             break;
         }
     }
-    return *a;
 }
 int main()
 {
-    cout << "Please input an array:";
-    int a[1000] = {0};
-    int i = 0;
-    do
-    {
-        cin >> a[i];
-        i++;
-    } while (getchar() != '\n');
-    CocktailSort(a, i);
-    cout << "The result is: ";
-    for (int j = 0; j < i; j++)
-    {
-        cout << a[j];
-        if (j != i - 1)
-        {
-            cout << ", ";
-        }
-    }
-    cout << endl;
+    int array[N] = {0};
+    Begin(array, N);
+    CocktailSort(array, N);
+    End(array, N);
     return 0;
 }
