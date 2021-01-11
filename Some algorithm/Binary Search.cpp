@@ -26,13 +26,12 @@ int BinarySearch(ElemType *array, int length, ElemType x)
 int main()
 {
     int array[N] = {0};
-    InitRand(array, N);
-    Sort(array, N);
+    InitSeq(array, N);
     cout << "The resource is: " << endl;
     ShowData(array, N);
     ShowVision(array, N);
-    int x = 0;
     cout << "Please input the number: ";
+    int x = 0;
     cin >> x;
     cout << "The result is: " << BinarySearch(array, N, x) << endl;
     return 0;

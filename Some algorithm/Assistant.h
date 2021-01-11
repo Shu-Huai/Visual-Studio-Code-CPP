@@ -8,55 +8,33 @@
 #define N 32
 #endif
 using namespace std;
-double UniformRand(double a, double b)
+template <class ElemType>
+void InitSeq(ElemType *array, int length)
 {
-    return a + rand() * (b - a) / RAND_MAX;
+    for (int i = 0; i < length; i++)
+    {
+        array[i] = i+1;
+    }
 }
 template <class ElemType>
 void InitRand(ElemType *array, int length)
 {
-    for (int i = 0; i < length; i++)
+    InitSeq(array, length);
+    ElemType *result = new ElemType[length]{0};
+    for (int i = length - 1; i > 0; i--)
     {
-        array[i] = (ElemType)UniformRand(32, 126);
+        int pos = rand() % i;
+        result[i] = array[pos];
+        for (int j = pos; j < length - 1; j++)
+        {
+            array[j] = array[j + 1];
+        }
     }
-}
-template <class ElemType>
-void Sort(ElemType *array, int length)
-{
-    static long long nComp = 0;
-    static long long nAssign = 0;
-    ElemType pivot, temp;
-    int left = 0, right = length - 1;
-    if (length <= 1)
+    for (int i = 1; i < length; i++)
     {
-        return;
+        array[i] = result[i];
     }
-    pivot = array[right];
-    do
-    {
-        while (left < right && array[left] <= pivot)
-        {
-            left++;
-            nComp++;
-        }
-        while (left < right && array[right] >= pivot)
-        {
-            right--;
-            nComp++;
-        }
-        if (left < right)
-        {
-            temp = array[left];
-            array[left] = array[right];
-            array[right] = temp;
-            nAssign += 3;
-        }
-    } while (left < right);
-    array[length - 1] = array[left];
-    array[left] = pivot;
-    nAssign += 2;
-    Sort(array, left);
-    Sort(array + left + 1, length - left - 1);
+    delete[] result;
 }
 template <class ElemType>
 void ShowData(ElemType *array, int length)
@@ -77,12 +55,18 @@ void ShowVision(ElemType *array, int length)
     for (int i = 0; i < length; i++)
     {
         cout << left << setw(4) << array[i];
-        for (int j = 0; j < array[i] / 2; j++)
+        for (int j = 0; j < array[i] * 2; j++)
         {
             cout << "=";
         }
         cout << endl;
     }
+}
+template <class ElemType>
+void Show(ElemType *array, int length) 
+{
+    ShowData(array,length);
+    ShowVision(array, length);
 }
 template <typename ElemType>
 bool Check(const ElemType *elems, int length)
@@ -101,14 +85,12 @@ void Begin(ElemType *array, int length)
 {
     InitRand(array, length);
     cout << "The resource is: " << endl;
-    ShowData(array, length);
-    ShowVision(array, length);
+    Show(array, length);
 }
 template <typename ElemType>
 void End(ElemType *array, int length)
 {
     cout << "The result is: " << endl;
-    ShowData(array, length);
-    ShowVision(array, length);
+    Show(array, length);
 }
 #endif
