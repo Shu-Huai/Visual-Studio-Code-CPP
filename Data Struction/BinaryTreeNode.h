@@ -4,7 +4,7 @@
 #include "Assistance.h"
 template <class ElemType>
 class BinaryTreeNode
-{
+{public:
     ElemType data_;
     BinaryTreeNode<ElemType> *leftchild_;
     BinaryTreeNode<ElemType> *rightchild_;
