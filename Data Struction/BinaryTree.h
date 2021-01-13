@@ -2,6 +2,7 @@
 #ifndef __BINaRY_TREE_H__
 #define __BINaRY_TREE_H__
 #include "BinaryTreeNode.h"
+#include "LinkQueue.h"
 template <class ElemType>
 class BinaryTree
 {
@@ -13,8 +14,8 @@ protected:
     void InOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
     void PostOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
     int Height(const BinaryTreeNode<ElemType> *r) const;
-    int NodeCount(const BinaryTreeNode<ElemType> *r) const;
-    BinaryTreeNode<ElemType> *Parent(BinaryTreeNode<ElemType> *r, const BinaryTreeNode<ElemType> *p) const;
+    int GetNLeafNumber(const BinaryTreeNode<ElemType> *r) const;
+    BinaryTreeNode<ElemType> *GetParent(BinaryTreeNode<ElemType> *r, const BinaryTreeNode<ElemType> *p) const;
 
 public:
     BinaryTree();
@@ -28,12 +29,12 @@ public:
     void PreOrder(void (*Visit)(const ElemType &)) const;
     void PostOrder(void (*Visit)(const ElemType &)) const;
     void LevelOrder(void (*Visit)(const ElemType &)) const;
-    int NodeCount() const;
+    int GetNLeafNumber() const;
     BinaryTreeNode<ElemType> *LeftChild(const BinaryTreeNode<ElemType> *p) const;
     BinaryTreeNode<ElemType> *RightChild(const BinaryTreeNode<ElemType> *p) const;
     BinaryTreeNode<ElemType> *LeftSibling(const BinaryTreeNode<ElemType> *p) const;
     BinaryTreeNode<ElemType> *RightSibling(const BinaryTreeNode<ElemType> *p) const;
-    BinaryTreeNode<ElemType> *Parent(const BinaryTreeNode<ElemType> *p) const;
+    BinaryTreeNode<ElemType> *GetParent(const BinaryTreeNode<ElemType> *p) const;
     void InsertLeftChild(BinaryTreeNode<ElemType> *p, const ElemType &e);
     void InsertRightChild(BinaryTreeNode<ElemType> *p, const ElemType &e);
     void DeleteLeftChild(BinaryTreeNode<ElemType> *p);
@@ -62,7 +63,7 @@ void BinaryTree<ElemType>::Destroy(BinaryTreeNode<ElemType> *&r)
     if (r != NULL)
     {
         Destroy(r->leftchild_);
-        Destroy(r->rightchil_);
+        Destroy(r->rightchild_);
         delete r;
         r = NULL;
     }
@@ -73,8 +74,8 @@ void BinaryTree<ElemType>::PreOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(c
     if (r != NULL)
     {
         (*Visit)(r->data_);
-        PreOrder(r->leftChild_, Visit);
-        PreOrder(r->rightChild_, Visit);
+        PreOrder(r->leftchild_, Visit);
+        PreOrder(r->rightchild_, Visit);
     }
 }
 template <class ElemType>
@@ -82,9 +83,9 @@ void BinaryTree<ElemType>::InOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(co
 {
     if (r != NULL)
     {
-        InOreder(r->leftChild_, Visit);
+        InOrder(r->leftchild_, Visit);
         (*Visit)(r->data_);
-        InOrder(r->rightChild_, Visit);
+        InOrder(r->rightchild_, Visit);
     }
 }
 template <class ElemType>
@@ -92,8 +93,8 @@ void BinaryTree<ElemType>::PostOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(
 {
     if (r != NULL)
     {
-        PostOder(r->leftChild_, Visit);
-        PostOder(r->rightChild_, Visit);
+        PostOrder(r->leftchild_, Visit);
+        PostOrder(r->rightchild_, Visit);
         (*Visit)(r->data_);
     }
 }
@@ -107,16 +108,16 @@ int BinaryTree<ElemType>::Height(const BinaryTreeNode<ElemType> *r) const
     return 1 + Height(r->leftchild_) > Height(r->leftchild_) ? Height(r->leftchild_) : Height(r->leftchild_);
 }
 template <class ElemType>
-int BinaryTree<ElemType>::NodeCount(const BinaryTreeNode<ElemType> *r) const
+int BinaryTree<ElemType>::GetNLeafNumber(const BinaryTreeNode<ElemType> *r) const
 {
     if (r == NULL)
     {
         return 0;
     }
-    return 1 + NodeCount(r->leftchild_) + NodeCount(r->leftchild_);
+    return 1 + GetNLeafNumber(r->leftchild_) + GetNLeafNumber(r->leftchild_);
 }
 template <class ElemType>
-BinaryTreeNode<ElemType> *BinaryTree<ElemType>::Parent(BinaryTreeNode<ElemType> *r, const BinaryTreeNode<ElemType> *p) const
+BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetParent(BinaryTreeNode<ElemType> *r, const BinaryTreeNode<ElemType> *p) const
 {
     if (r == NULL)
     {
@@ -127,12 +128,12 @@ BinaryTreeNode<ElemType> *BinaryTree<ElemType>::Parent(BinaryTreeNode<ElemType> 
         return r;
     }
     BinaryTreeNode<ElemType> *tmp;
-    tmp = Parent(r->leftchild_, p);
+    tmp = GetParent(r->leftchild_, p);
     if (tmp != NULL)
     {
         return tmp;
     }
-    tmp = Parent(r->rightchild_, p);
+    tmp = GetParent(r->rightchild_, p);
     if (tmp != NULL)
     {
         return tmp;
@@ -201,4 +202,111 @@ template <class ElemType>
 void BinaryTree<ElemType>::PostOrder(void (*Visit)(const ElemType &)) const
 {
     PostOrder(root_, Visit);
+}
+template <class ElemType>
+void BinaryTree<ElemType>::LevelOrder(void (*Visit)(const ElemType &)) const
+{
+    LinkQueue<BinaryTreeNode<ElemType> *> LQ;
+    BinaryTreeNode<ElemType> *p;
+    if (root_ != NULL)
+    {
+        LQ.EnQueue(root_);
+    }
+    while (!LQ.IsEmpty())
+    {
+        LQ.DelQueue(p);
+        (*Visit)(p->data_);
+        if (p->leftchild_ != NULL)
+        {
+            LQ.EnQueue(p->leftchild_);
+        }
+        if (p->rightchild_ != NULL)
+        {
+            LQ.EnQueue(p->rightchild_);
+        }
+    }
+}
+template <class ElemType>
+int BinaryTree<ElemType>::GetNLeafNumber() const
+{
+    return GetNLeafNumber(root_);
+}
+template <class ElemType>
+BinaryTreeNode<ElemType> *BinaryTree<ElemType>::LeftChild(const BinaryTreeNode<ElemType> *p) const
+{
+    if (p == NULL)
+    {
+        return NULL;
+    }
+    return p->leftchild_;
+}
+template <class ElemType>
+BinaryTreeNode<ElemType> *BinaryTree<ElemType>::RightChild(const BinaryTreeNode<ElemType> *p) const
+{
+    if (p == NULL)
+    {
+        return NULL;
+    }
+    return p->rightchild_;
+}
+template <class ElemType>
+BinaryTreeNode<ElemType> *BinaryTree<ElemType>::LeftSibling(const BinaryTreeNode<ElemType> *p) const
+{
+    BinaryTreeNode<ElemType> *r = GetParent(root_, p);
+    if (r == NULL)
+    {
+        return NULL;
+    }
+    if (r->rightchild_ == p)
+    {
+        return r->leftchild_;
+    }
+    return NULL;
+}
+template <class ElemType>
+BinaryTreeNode<ElemType> *BinaryTree<ElemType>::RightSibling(const BinaryTreeNode<ElemType> *p) const
+{
+    BinaryTreeNode<ElemType> *r = GetParent(root_, p);
+    if (r == NULL)
+    {
+        return NULL;
+    }
+    if (r->leftchild_ == p)
+    {
+        return r->rightchild_;
+    }
+    return NULL;
+}
+template <class ElemType>
+BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetParent(const BinaryTreeNode<ElemType> *p) const
+{
+    return GetParent(root_, *p);
+}
+template <class ElemType>
+void BinaryTree<ElemType>::InsertLeftChild(BinaryTreeNode<ElemType> *p, const ElemType &e)
+{
+    if (p == NULL)
+    {
+        return;
+    }
+    BinaryTreeNode<ElemType> *q = new BinaryTreeNode<ElemType>(e);
+    if (p->leftchild_ != NULL)
+    {
+        q->leftchild_ = p->leftchild_;
+    }
+    p->leftchild_ = q;
+}
+template <class ElemType>
+void BinaryTree<ElemType>::InsertRightChild(BinaryTreeNode<ElemType> *p, const ElemType &e)
+{
+    if (p == NULL)
+    {
+        return;
+    }
+    BinaryTreeNode<ElemType> *q = new BinaryTreeNode<ElemType>(e);
+    if (p->rightchild_ != NULL)
+    {
+        q->rightchild_ = p->rightchild_;
+    }
+    p->rightchild_ = q;
 }
