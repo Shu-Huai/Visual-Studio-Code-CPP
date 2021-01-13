@@ -40,7 +40,7 @@ template <class ElemType>
 LinkList<ElemType>::LinkList(ElemType v[], int n) : length_(n)
 {
 	head_ = new Node<ElemType>;
-	assert(head_ != 0);
+	assert(head_);
 	Node<ElemType> *p = head_;
 	for (int i = 0; i < n; i++)
 	{

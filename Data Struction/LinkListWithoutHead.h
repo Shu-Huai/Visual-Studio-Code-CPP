@@ -49,7 +49,7 @@ LinkList<ElemType>::LinkList(ElemType v[], int n)
 // 操作结果：根据数组v中的元素构造单链表
 {
 	head_ = new Node<ElemType>;
-	assert(head_ != 0); // 构造头结点失败，终止程序运行
+	assert(head_); // 构造头结点失败，终止程序运行
 	Node<ElemType> *p = head_;
 	for (int i = 0; i < n; i++)
 	{
