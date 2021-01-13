@@ -17,5 +17,24 @@ int main()
     cout << endl;
     test0.PostOrder(Write<int>);
     cout << endl;
+    test0.LevelOrder(Write<int>);
+    cout << endl
+         << endl;
+    test0.DeleteLeftChild(testnode0);
+    test0.PreOrder(Write<int>);
+    cout << endl;
+    cout << test0.GetHeight() << endl;
+    cout << test0.GetNLeafNumber() << endl;
+    BinaryTree<int> test1(test0);
+    BinaryTree<int> test2(testnode0);
+    BinaryTree<string> test3;
+    LinkQueue<string> LQ;
+    string S[15] = {"0", "2", "6", "#", "#", "8", "#", "#", "4", "10", "#", "#", "12", "#", "#"};
+    for (int i = 0; i < 15; i++)
+    {
+        LQ.EnQueue(S[i]);
+    }
+    test3.InitByPre(LQ);
+    test3.PreOrder(Write<string>);
     return 0;
 }

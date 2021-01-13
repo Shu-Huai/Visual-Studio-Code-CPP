@@ -13,7 +13,7 @@ protected:
     void PreOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
     void InOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
     void PostOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
-    int Height(const BinaryTreeNode<ElemType> *r) const;
+    int GetHeight(const BinaryTreeNode<ElemType> *r) const;
     int GetNLeafNumber(const BinaryTreeNode<ElemType> *r) const;
     BinaryTreeNode<ElemType> *GetParent(BinaryTreeNode<ElemType> *r, const BinaryTreeNode<ElemType> *p) const;
 
@@ -39,10 +39,11 @@ public:
     void InsertRightChild(BinaryTreeNode<ElemType> *p, const ElemType &e);
     void DeleteLeftChild(BinaryTreeNode<ElemType> *p);
     void DeleteRightChild(BinaryTreeNode<ElemType> *p);
-    int Height() const;
-    BinaryTree(const BinaryTree<ElemType> &t);
+    int GetHeight() const;
+    BinaryTree(const BinaryTree<ElemType> &BT);
     BinaryTree(BinaryTreeNode<ElemType> *r);
     BinaryTree<ElemType> &operator=(const BinaryTree<ElemType> &t);
+    BinaryTreeNode<ElemType> *InitByPre(LinkQueue<ElemType> &LQ);
 };
 #endif
 template <class ElemType>
@@ -52,7 +53,7 @@ BinaryTreeNode<ElemType> *BinaryTree<ElemType>::CopyTree(BinaryTreeNode<ElemType
     {
         return NULL;
     }
-    BinaryTreeNode<ElemType> *copy = BinaryTree(t->data_);
+    BinaryTreeNode<ElemType> *copy = new BinaryTreeNode<ElemType>(t->data_);
     copy->leftchild_ = CopyTree(t->leftchild_);
     copy->rightchild_ = CopyTree(t->rightchild_);
     return copy;
@@ -99,13 +100,15 @@ void BinaryTree<ElemType>::PostOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(
     }
 }
 template <class ElemType>
-int BinaryTree<ElemType>::Height(const BinaryTreeNode<ElemType> *r) const
+int BinaryTree<ElemType>::GetHeight(const BinaryTreeNode<ElemType> *r) const
 {
     if (r == NULL)
     {
         return 0;
     }
-    return 1 + Height(r->leftchild_) > Height(r->leftchild_) ? Height(r->leftchild_) : Height(r->leftchild_);
+    int leftheight = GetHeight(r->leftchild_);
+    int rightheight = GetHeight(r->rightchild_);
+    return 1 + (leftheight > rightheight ? leftheight : rightheight);
 }
 template <class ElemType>
 int BinaryTree<ElemType>::GetNLeafNumber(const BinaryTreeNode<ElemType> *r) const
@@ -114,7 +117,7 @@ int BinaryTree<ElemType>::GetNLeafNumber(const BinaryTreeNode<ElemType> *r) cons
     {
         return 0;
     }
-    return 1 + GetNLeafNumber(r->leftchild_) + GetNLeafNumber(r->leftchild_);
+    return 1 + GetNLeafNumber(r->leftchild_) + GetNLeafNumber(r->rightchild_);
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetParent(BinaryTreeNode<ElemType> *r, const BinaryTreeNode<ElemType> *p) const
@@ -143,8 +146,7 @@ BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetParent(BinaryTreeNode<ElemTyp
 template <class ElemType>
 BinaryTree<ElemType>::BinaryTree()
 {
-    root_ = new BinaryTreeNode<ElemType>;
-    assert(root_);
+    root_ = NULL;
 }
 template <class ElemType>
 BinaryTree<ElemType>::BinaryTree(const ElemType &e)
@@ -309,4 +311,62 @@ void BinaryTree<ElemType>::InsertRightChild(BinaryTreeNode<ElemType> *p, const E
         q->rightchild_ = p->rightchild_;
     }
     p->rightchild_ = q;
+}
+template <class ElemType>
+void BinaryTree<ElemType>::DeleteLeftChild(BinaryTreeNode<ElemType> *p)
+{
+    Destroy(p->leftchild_);
+}
+template <class ElemType>
+void BinaryTree<ElemType>::DeleteRightChild(BinaryTreeNode<ElemType> *p)
+{
+    Destroy(p->rightchild_);
+}
+template <class ElemType>
+int BinaryTree<ElemType>::GetHeight() const
+{
+    return GetHeight(root_);
+}
+template <class ElemType>
+BinaryTree<ElemType>::BinaryTree(const BinaryTree<ElemType> &BT)
+{
+    root_ = new BinaryTreeNode<ElemType>;
+    assert(root_);
+    *this = BT;
+}
+template <class ElemType>
+BinaryTree<ElemType>::BinaryTree(BinaryTreeNode<ElemType> *r)
+{
+    root_ = new BinaryTreeNode<ElemType>(r->data_, r->leftchild_, r->rightchild_);
+    assert(root_);
+}
+template <class ElemType>
+BinaryTree<ElemType> &BinaryTree<ElemType>::operator=(const BinaryTree<ElemType> &BT)
+{
+    if (&BT != this)
+    {
+        Destroy(root_);
+        root_ = CopyTree(BT.root_);
+    }
+    return *this;
+}
+template <class ElemType>
+BinaryTreeNode<ElemType> *BinaryTree<ElemType>::InitByPre(LinkQueue<ElemType> &LQ)
+{
+    BinaryTreeNode<ElemType> *BT;
+    char t;
+    ElemType e;
+    LQ.DelQueue(e);
+    if (e == "#")
+    {
+        return NULL;
+    }
+    BT = new BinaryTreeNode<ElemType>(e);
+    if (this->root_ == NULL)
+    {
+        this->root_ = BT;
+    }
+    BT->leftchild_ = InitByPre(LQ);
+    BT->rightchild_ = InitByPre(LQ);
+    return BT;
 }
