@@ -35,6 +35,16 @@ int main()
         LQ.EnQueue(S[i]);
     }
     test3.InitByPre(LQ);
-    test3.PreOrder(Write<string>);
+    BinaryTree<string> test4(test3);
+    test4.PreOrder(Write<string>);
+    test4.~BinaryTree();
+    LinkQueue<string> LQ0;
+    S[0] = "1001";
+    for (int i = 0; i < 15; i++)
+    {
+        LQ0.EnQueue(S[i]);
+    }
+    test4.InitByPre(LQ0);
+    test4.PreOrder(Write<string>);
     return 0;
 }

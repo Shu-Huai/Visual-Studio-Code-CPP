@@ -362,9 +362,10 @@ BinaryTreeNode<ElemType> *BinaryTree<ElemType>::InitByPre(LinkQueue<ElemType> &L
         return NULL;
     }
     BT = new BinaryTreeNode<ElemType>(e);
-    if (this->root_ == NULL)
+    assert(BT);
+    if (root_ == NULL)
     {
-        this->root_ = BT;
+        root_ = BT;
     }
     BT->leftchild_ = InitByPre(LQ);
     BT->rightchild_ = InitByPre(LQ);
