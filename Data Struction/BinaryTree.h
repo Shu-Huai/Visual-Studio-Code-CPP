@@ -14,7 +14,7 @@ protected:
     void InOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
     void PostOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
     int GetHeight(const BinaryTreeNode<ElemType> *r) const;
-    int GetNLeafNumber(const BinaryTreeNode<ElemType> *r) const;
+    int GetLeafNumber(const BinaryTreeNode<ElemType> *r) const;
     BinaryTreeNode<ElemType> *GetParent(BinaryTreeNode<ElemType> *r, const BinaryTreeNode<ElemType> *p) const;
 
 public:
@@ -29,7 +29,7 @@ public:
     void PreOrder(void (*Visit)(const ElemType &)) const;
     void PostOrder(void (*Visit)(const ElemType &)) const;
     void LevelOrder(void (*Visit)(const ElemType &)) const;
-    int GetNLeafNumber() const;
+    int GetLeafNumber() const;
     BinaryTreeNode<ElemType> *LeftChild(const BinaryTreeNode<ElemType> *p) const;
     BinaryTreeNode<ElemType> *RightChild(const BinaryTreeNode<ElemType> *p) const;
     BinaryTreeNode<ElemType> *LeftSibling(const BinaryTreeNode<ElemType> *p) const;
@@ -41,9 +41,10 @@ public:
     void DeleteRightChild(BinaryTreeNode<ElemType> *p);
     int GetHeight() const;
     BinaryTree(const BinaryTree<ElemType> &BT);
-    BinaryTree(BinaryTreeNode<ElemType> *r);
-    BinaryTree<ElemType> &operator=(const BinaryTree<ElemType> &t);
+    BinaryTree(BinaryTreeNode<ElemType> *BTN);
+    BinaryTree<ElemType> &operator=(const BinaryTree<ElemType> &BT);
     BinaryTreeNode<ElemType> *InitByPre(LinkQueue<ElemType> &LQ);
+    int GetWidth() const;
 };
 #endif
 template <class ElemType>
@@ -111,13 +112,13 @@ int BinaryTree<ElemType>::GetHeight(const BinaryTreeNode<ElemType> *r) const
     return 1 + (leftheight > rightheight ? leftheight : rightheight);
 }
 template <class ElemType>
-int BinaryTree<ElemType>::GetNLeafNumber(const BinaryTreeNode<ElemType> *r) const
+int BinaryTree<ElemType>::GetLeafNumber(const BinaryTreeNode<ElemType> *r) const
 {
     if (r == NULL)
     {
         return 0;
     }
-    return 1 + GetNLeafNumber(r->leftchild_) + GetNLeafNumber(r->rightchild_);
+    return 1 + GetLeafNumber(r->leftchild_) + GetLeafNumber(r->rightchild_);
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetParent(BinaryTreeNode<ElemType> *r, const BinaryTreeNode<ElemType> *p) const
@@ -229,9 +230,9 @@ void BinaryTree<ElemType>::LevelOrder(void (*Visit)(const ElemType &)) const
     }
 }
 template <class ElemType>
-int BinaryTree<ElemType>::GetNLeafNumber() const
+int BinaryTree<ElemType>::GetLeafNumber() const
 {
-    return GetNLeafNumber(root_);
+    return GetLeafNumber(root_);
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinaryTree<ElemType>::LeftChild(const BinaryTreeNode<ElemType> *p) const
@@ -335,9 +336,9 @@ BinaryTree<ElemType>::BinaryTree(const BinaryTree<ElemType> &BT)
     *this = BT;
 }
 template <class ElemType>
-BinaryTree<ElemType>::BinaryTree(BinaryTreeNode<ElemType> *r)
+BinaryTree<ElemType>::BinaryTree(BinaryTreeNode<ElemType> *BTN)
 {
-    root_ = new BinaryTreeNode<ElemType>(r->data_, r->leftchild_, r->rightchild_);
+    root_ = CopyTree(BTN);
     assert(root_);
 }
 template <class ElemType>
@@ -370,4 +371,43 @@ BinaryTreeNode<ElemType> *BinaryTree<ElemType>::InitByPre(LinkQueue<ElemType> &L
     BT->leftchild_ = InitByPre(LQ);
     BT->rightchild_ = InitByPre(LQ);
     return BT;
+}
+template <class ElemType>
+int BinaryTree<ElemType>::GetWidth() const
+{
+    LinkQueue<BinaryTreeNode<ElemType> *> LQ;
+    BinaryTreeNode<ElemType> *BTN;
+    int max = 0;
+    int number = 0;
+    int nextnumber = 0;
+    if (root_ != NULL)
+    {
+        LQ.EnQueue(root_);
+        max = 1;
+        number = 1;
+    }
+    while (!LQ.IsEmpty())
+    {
+        nextnumber = 0;
+        for (int i = 0; i < number; i++)
+        {
+            LQ.DelQueue(BTN);
+            if (BTN->leftchild_ != NULL)
+            {
+                LQ.EnQueue(BTN->leftchild_);
+                nextnumber++;
+            }
+            if (BTN->rightchild_ != NULL)
+            {
+                LQ.EnQueue(BTN->rightchild_);
+                nextnumber++;
+            }
+        }
+        number = nextnumber;
+        if (nextnumber > max)
+        {
+            max = nextnumber;
+        }
+    }
+    return max;
 }

@@ -11,40 +11,31 @@ int main()
     testnode0 = testnode0->rightchild_;
     test0.InsertLeftChild(testnode0, 5);
     test0.InsertRightChild(testnode0, 6);
+    cout << "PreOrder: ";
     test0.PreOrder(Write<int>);
     cout << endl;
+    cout << "InOrder: ";
     test0.InOrder(Write<int>);
     cout << endl;
+    cout << "PostOrder: ";
     test0.PostOrder(Write<int>);
     cout << endl;
+    cout << "LevelOrder: ";
     test0.LevelOrder(Write<int>);
-    cout << endl
-         << endl;
+    cout << endl;
+    cout << "Width: ";
+    cout << test0.GetWidth() << endl;
+    cout << "Delete 5." << endl;
     test0.DeleteLeftChild(testnode0);
+    cout << "PreOrder: ";
     test0.PreOrder(Write<int>);
     cout << endl;
-    cout << test0.GetHeight() << endl;
-    cout << test0.GetNLeafNumber() << endl;
+    cout << "Width: " << test0.GetWidth() << endl;
+    cout << "Height: " << test0.GetHeight() << endl;
+    cout << "LeafNumber: " << test0.GetLeafNumber() << endl;
+    cout << "Clone." << endl;
     BinaryTree<int> test1(test0);
-    BinaryTree<int> test2(testnode0);
-    BinaryTree<string> test3;
-    LinkQueue<string> LQ;
-    string S[15] = {"0", "2", "6", "#", "#", "8", "#", "#", "4", "10", "#", "#", "12", "#", "#"};
-    for (int i = 0; i < 15; i++)
-    {
-        LQ.EnQueue(S[i]);
-    }
-    test3.InitByPre(LQ);
-    BinaryTree<string> test4(test3);
-    test4.PreOrder(Write<string>);
-    test4.~BinaryTree();
-    LinkQueue<string> LQ0;
-    S[0] = "1001";
-    for (int i = 0; i < 15; i++)
-    {
-        LQ0.EnQueue(S[i]);
-    }
-    test4.InitByPre(LQ0);
-    test4.PreOrder(Write<string>);
+    test1.PreOrder(Write<int>);
+    cout << endl;
     return 0;
 }
