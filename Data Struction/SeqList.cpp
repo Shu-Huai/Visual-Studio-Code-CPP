@@ -33,9 +33,11 @@ int main()
         cout << endl
              << "b. 删除处在指定范围内的元素.";
         cout << endl
+             << "c. 排序.";
+        cout << endl
              << "0. 退出.";
         cout << endl
-             << "选择功能(0~b):";
+             << "选择功能(0~c):";
         cin >> c;
         switch (c)
         {
@@ -171,6 +173,11 @@ int main()
             {
                 cout << "范围错." << endl;
             }
+            break;
+        case 'c':
+            cout << endl;
+            SL.Sort();
+            cout << "已将顺序表排序。" << endl;
             break;
         }
     }

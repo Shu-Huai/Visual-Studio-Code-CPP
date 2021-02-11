@@ -29,6 +29,7 @@ public:
     void DeleteRepeat();
     void Reverse();
     Status DeleteBetween(ElemType low, ElemType high);
+    void Sort();
 };
 template <class ElemType>
 SeqList<ElemType>::SeqList(int size) : maxsize_(size), length_(0)
@@ -227,5 +228,21 @@ Status SeqList<ElemType>::DeleteBetween(ElemType low, ElemType high)
         }
     }
     return SUCCESS;
+}
+template<class ElemType>
+void SeqList<ElemType>::Sort()
+{
+    for (int i = 0; i < length_;i++)
+    {
+        for (int j = 0; j < length_ - i - 1; j++)
+        {
+            if (elems_[j] > elems_[j + 1])
+            {
+                ElemType temp = elems_[j];
+                elems_[j] = elems_[j + 1];
+                elems_[j + 1] = temp;
+            }
+        }
+    }
 }
 #endif
