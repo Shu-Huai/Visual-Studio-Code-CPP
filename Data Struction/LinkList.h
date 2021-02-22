@@ -156,7 +156,6 @@ Status LinkList<ElemType>::InsertElem(int position, const ElemType &e)
 		return RANGE_ERROR;
 	}
 	Node<ElemType> *p = head_;
-	int count;
 	for (int i = 0; i < position - 1; i++)
 	{
 		p = p->next_;
@@ -169,7 +168,7 @@ Status LinkList<ElemType>::InsertElem(int position, const ElemType &e)
 template <class ElemType>
 Status LinkList<ElemType>::InsertElem(const ElemType &e)
 {
-	Node<ElemType> *p = head_->next_;
+	Node<ElemType> *p = head_;
 	while (p->next_ != NULL)
 	{
 		p = p->next_;
