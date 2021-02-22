@@ -99,7 +99,6 @@ int LinkList<ElemType>::LocateElem(const ElemType &e) const
 	}
 	return (p != NULL) ? count : 0;
 }
-
 template <class ElemType>
 Status LinkList<ElemType>::GetElem(int position, ElemType &e) const
 {
@@ -162,9 +161,7 @@ Status LinkList<ElemType>::InsertElem(int position, const ElemType &e)
 	{
 		p = p->next_;
 	}
-	Node<ElemType> *q;
-	q->data_ = e;
-	q->next_ = p->next_;
+	Node<ElemType> *q = new Node<ElemType>(e, p->next_);
 	p->next_ = q;
 	length_++;
 	return SUCCESS;
@@ -177,13 +174,12 @@ Status LinkList<ElemType>::InsertElem(const ElemType &e)
 	{
 		p = p->next_;
 	}
-	Node<ElemType> *q = new Node<ElemType>(e, NULL);
-	p->next_ = q;
+	p->next_ = new Node<ElemType>(e, NULL);
 	length_++;
 	return SUCCESS;
 }
 template <class ElemType>
-LinkList<ElemType>::LinkList(const LinkList<ElemType> &LL) : length_(0)
+LinkList<ElemType>::LinkList(const LinkList<ElemType> &LL) : length_(LL.length_)
 {
 	head_ = new Node<ElemType>;
 	assert(head_);
