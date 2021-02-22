@@ -106,8 +106,8 @@ Status LinkList<ElemType>::GetElem(int position, ElemType &e) const
 	{
 		return RANGE_ERROR;
 	}
-	Node<ElemType> *p = head_->next_;
-	for (int j = 0; j < position; j++)
+	Node<ElemType> *p = head_;
+	for (int i = 0; i < position; i++)
 	{
 		p = p->next_;
 	}
@@ -122,7 +122,7 @@ Status LinkList<ElemType>::SetElem(int position, const ElemType &e)
 		return RANGE_ERROR;
 	}
 	Node<ElemType> *p = head_;
-	for (int j = 0; j < position; j++)
+	for (int i = 0; i < position; i++)
 	{
 		p = p->next_;
 	}
@@ -137,7 +137,7 @@ Status LinkList<ElemType>::DeleteElem(int position, ElemType &e)
 		return RANGE_ERROR;
 	}
 	Node<ElemType> *p = head_;
-	for (int j = 0; j < position - 1; j++)
+	for (int i = 0; i < position - 1; i++)
 	{
 		p = p->next_;
 	}
@@ -157,7 +157,7 @@ Status LinkList<ElemType>::InsertElem(int position, const ElemType &e)
 	}
 	Node<ElemType> *p = head_;
 	int count;
-	for (int j = 0; j < position - 1; j++)
+	for (int i = 0; i < position - 1; i++)
 	{
 		p = p->next_;
 	}
@@ -169,7 +169,7 @@ Status LinkList<ElemType>::InsertElem(int position, const ElemType &e)
 template <class ElemType>
 Status LinkList<ElemType>::InsertElem(const ElemType &e)
 {
-	Node<ElemType> *p = head_;
+	Node<ElemType> *p = head_->next_;
 	while (p->next_ != NULL)
 	{
 		p = p->next_;
