@@ -23,7 +23,7 @@ public:
     Status SetElem(int i, const ElemType &e);
     Status DeleteElem(int i, ElemType &e);
     Status InsertElem(int i, const ElemType &e);
-    Status InsertElem(const ElemType &e);
+    Status AppendElem(const ElemType &e);
     SeqList(const SeqList<ElemType> &SL);
     SeqList<ElemType> &operator=(const SeqList<ElemType> &SL);
     void DeleteRepeat();
@@ -143,7 +143,7 @@ Status SeqList<ElemType>::InsertElem(int i, const ElemType &e)
     return SUCCESS;
 }
 template <class ElemType>
-Status SeqList<ElemType>::InsertElem(const ElemType &e)
+Status SeqList<ElemType>::AppendElem(const ElemType &e)
 {
     if (length_ == maxsize_)
     {

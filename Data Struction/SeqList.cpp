@@ -49,7 +49,7 @@ int main()
             cin >> e;
             while (e != 0 && sta != OVER_FLOW)
             {
-                sta = SL.InsertElem(e);
+                sta = SL.AppendElem(e);
                 if (sta == OVER_FLOW)
                 {
                     cout << "顺序表已满." << endl;
