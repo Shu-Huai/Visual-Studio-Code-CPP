@@ -143,6 +143,5 @@ int main()
 			break;
 		}
 	}
-	system("PAUSE"); // 调用库函数system()
-	return 0;		 // 返回值0, 返回操作系统
+	return 0;
 }
