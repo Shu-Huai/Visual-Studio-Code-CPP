@@ -106,7 +106,7 @@ Status LinkList<ElemType>::GetElem(int position, ElemType &e) const
 	{
 		return RANGE_ERROR;
 	}
-	Node<ElemType> *p = head_;
+	Node<ElemType> *p = head_->next_;
 	for (int j = 0; j < position; j++)
 	{
 		p = p->next_;
