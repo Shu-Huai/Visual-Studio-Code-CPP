@@ -1,9 +1,11 @@
-#include "SeqQueue.h"
-int main()
+#include "LinkQueue.h" // 链队列类
+
+int main(void)
 {
-     char c = 0;
-     SeqQueue<int> SQ(10);
-     int e = 0;
+     char c = '1';
+     LinkQueue<int> qa;
+     int x;
+
      while (c != '0')
      {
           cout << endl
@@ -24,44 +26,35 @@ int main()
           switch (c)
           {
           case '1':
-               SQ.Clear();
+               qa.Clear();
                cout << endl
                     << "输入e(e = 0时退出)";
-               cin >> e;
-               while (e != 0)
+               cin >> x;
+               while (x != 0)
                {
-                    SQ.EnQueue(e);
-                    cin >> e;
+                    qa.EnQueue(x);
+                    cin >> x;
                }
                break;
           case '2':
                cout << endl;
-               SQ.Traverse(Write<int>);
+               qa.Traverse(Write<int>);
                break;
           case '3':
                cout << endl
                     << "输入元素值:";
-               cin >> e;
-               if (SQ.EnQueue(e) == OVER_FLOW)
-               {
-                    cout << endl
-                         << "队列已满!";
-               }
-               else
-               {
-                    cout << endl
-                         << "入队成功.";
-               }
+               cin >> x;
+               qa.EnQueue(x);
                break;
           case '4':
-               SQ.DelQueue(e);
+               qa.DelQueue(x);
                cout << endl
-                    << "队头元素值为 " << e << " ." << endl;
+                    << "队头元素值为 " << x << " ." << endl;
                break;
           case '5':
-               SQ.GetHead(e);
+               qa.GetHead(x);
                cout << endl
-                    << "队头元素值为 " << e << " ." << endl;
+                    << "队头元素值为 " << x << " ." << endl;
                break;
           }
      }

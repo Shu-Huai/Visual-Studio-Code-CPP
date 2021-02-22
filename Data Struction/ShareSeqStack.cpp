@@ -107,6 +107,5 @@ int main()
                break;
           }
      }
-     system("PAUSE");
      return 0;
 }
