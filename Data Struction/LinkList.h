@@ -190,7 +190,7 @@ LinkList<ElemType> &LinkList<ElemType>::operator=(const LinkList<ElemType> &LL)
 {
 	if (&LL != this)
 	{
-		int length = LL.GetLength();
+		int length = LL.length_;
 		ElemType e;
 		Clear();
 		for (int i = 0; i < length; i++)
