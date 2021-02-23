@@ -1,7 +1,6 @@
 #pragma once
 #ifndef __LK_STACK_H__
 #define __LK_STACK_H__
-#include "Assistance.h"
 #include "Node.h"
 template <class ElemType>
 class LinkStack

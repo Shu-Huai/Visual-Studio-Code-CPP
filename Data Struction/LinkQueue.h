@@ -1,8 +1,6 @@
 #ifndef __LK_QUEUE_H__
 #define __LK_QUEUE_H__
-
-#include "Assistance.h" // 辅助软件包
-#include "Node.h"       // 结点类
+#include "Node.h"
 
 // 链队列类
 
