@@ -1,6 +1,6 @@
 #pragma once
-#ifndef __DOUBLE_LINK_LIST_H__
-#define __DOUBLE_LINK_LIST_H__
+#ifndef __DBL_LK_LIST_H__
+#define __DBL_LK_LIST_H__
 #include "DoubleLinkListNode.h"
 template <class ElemType>
 class DoubleLinkList

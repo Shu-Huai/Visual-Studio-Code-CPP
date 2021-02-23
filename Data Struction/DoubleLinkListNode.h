@@ -1,6 +1,6 @@
 #pragma once
-#ifndef __DOUBLE_LINK_LIST_NODE_H__
-#define __DOUBLE_LINK_LIST_NODE_H__
+#ifndef __DBL_LK_LIST_NODE_H__
+#define __DBL_LK_LIST_NODE_H__
 #include "Assistance.h"
 template <class ElemType>
 struct DoubleLinkListNode
