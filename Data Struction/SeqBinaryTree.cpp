@@ -13,9 +13,7 @@ int main(void)
 	cout << "由先序：A,B,D,E,G,H,C,F,I和中序：D,B,G,E,H,A,C,F,I构造的二叉树:" << endl;
 	DisplayBTWithTreeShape<char>(bt);
 	cout << endl;
-
 	system("PAUSE");
-
 	while (c != '0')
 	{
 		cout << endl
@@ -57,7 +55,7 @@ int main(void)
 				cout << endl
 					 << "输入插入元素的值:";
 				cin >> e;
-				bt.InsertLeftChild(p, e); // 插入左孩子
+				bt.InsertLeftChild(p, e);
 			}
 			break;
 		case '2':
