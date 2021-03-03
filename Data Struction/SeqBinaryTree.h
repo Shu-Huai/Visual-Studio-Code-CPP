@@ -523,18 +523,16 @@ void CreateBinaryTree(ElemType es[], int ta[], int r, ElemType pre[], ElemType i
 
 template <class ElemType>
 SeqBinaryTree<ElemType> &CreateBinaryTree(ElemType pre[], ElemType in[], int n, int size)
-// 操作结果：已知先序和中序序列构造二叉树
 {
-	ElemType *es = new ElemType[size]; // 分配元素数组的临时空间
-	int *ta = new int[size];		   // 分配标记数组的临时空间
-	int r = 0;						   // 二叉树的根
+	ElemType *es = new ElemType[size];
+	int *ta = new int[size];
+	int r = 0;
 	for (int i = 0; i < size; i++)
 		ta[i] = 0;
 	CreateBinaryTree<ElemType>(es, ta, r, pre, in, 0, n - 1, 0, n - 1);
-	// 由先序和中序序列构造以r为根的二叉树
-	SeqBinaryTree<ElemType> *bt = new SeqBinaryTree<ElemType>(es, ta, size); // 生成二叉树
+	SeqBinaryTree<ElemType> *bt = new SeqBinaryTree<ElemType>(es, ta, size);
 	delete[] es;
-	delete[] ta; // 释放临时空间
+	delete[] ta;
 	return *bt;
 }
 template <class ElemType>
