@@ -13,13 +13,13 @@ public:
     MinHeap(int maxsize = DEFAULT_SIZE);
     MinHeap(ElemType e[], int n, int maxsize = DEFAULT_SIZE);
     ~MinHeap();
-    Status Insert(const ElemType &e);
+    Status InsertElem(const ElemType &e);
     Status DeleteTop(ElemType &e);
     Status GetTop(ElemType &e) const;
     bool IsEmpty() const;
     bool IsFull() const;
     int GetSize() const;
-    void SetEmpty();
+    void Clear();
     void Traverse(void (*Visit)(const ElemType &)) const;
 };
 template <class ElemType>
@@ -96,7 +96,7 @@ MinHeap<ElemType>::~MinHeap()
     delete[] elems_;
 }
 template <class ElemType>
-Status MinHeap<ElemType>::Insert(const ElemType &e)
+Status MinHeap<ElemType>::InsertElem(const ElemType &e)
 {
     if (IsFull())
     {
@@ -105,6 +105,28 @@ Status MinHeap<ElemType>::Insert(const ElemType &e)
     elems_[size_] = e;
     FilterUp(size_);
     size_++;
+    return SUCCESS;
+}
+template <class ElemType>
+Status MinHeap<ElemType>::DeleteTop(ElemType &e)
+{
+    if (IsEmpty())
+    {
+        return UNDER_FLOW;
+    }
+    e = elems_[0];
+    elems_[0] = elems_[--size_];
+    FilterDown(0);
+    return SUCCESS;
+}
+template <class ElemType>
+Status MinHeap<ElemType>::GetTop(ElemType &e) const
+{
+    if (IsEmpty())
+    {
+        return UNDER_FLOW;
+    }
+    e = elems_[0];
     return SUCCESS;
 }
 template <class ElemType>
@@ -123,7 +145,7 @@ int MinHeap<ElemType>::GetSize() const
     return size_;
 }
 template <class ElemType>
-void MinHeap<ElemType>::SetEmpty()
+void MinHeap<ElemType>::Clear()
 {
     size_ = 0;
 }
