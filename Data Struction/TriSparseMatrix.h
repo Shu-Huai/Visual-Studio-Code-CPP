@@ -23,7 +23,7 @@ public:
     TriSparseMatrix(const TriSparseMatrix<ElemType> &TSM);
     TriSparseMatrix<ElemType> &operator=(const TriSparseMatrix<ElemType> &TSM);
     void SimpleTranspose(TriSparseMatrix<ElemType> &TSM);
-    void FastTranspose(const TriSparseMatrix<ElemType> &TSMO, TriSparseMatrix<ElemType> &TSMR);
+    void FastTranspose(TriSparseMatrix<ElemType> &TSM);
     TriSparseMatrix<ElemType> operator+(const TriSparseMatrix<ElemType> &TSM);
     template <class E>
     friend ostream &operator<<(ostream &out, TriSparseMatrix<E> &TSM);
@@ -152,27 +152,51 @@ TriSparseMatrix<ElemType> &TriSparseMatrix<ElemType>::operator=(const TriSparseM
 template <class ElemType>
 void TriSparseMatrix<ElemType>::SimpleTranspose(TriSparseMatrix<ElemType> &TSM)
 {
-    TSM.maxsize_ = maxsize_;
-    TSM.rows_ = cols_;
     TSM.cols_ = rows_;
+    TSM.rows_ = cols_;
+    TSM.maxsize_ = maxsize_;
     TSM.num_ = num_;
-    TSM.elems_ = new Triple<ElemType>[TSM.maxsize_];
-    int count = 0;
+    delete[] TSM.elems_;
+    TSM.elems_ = new Triple<ElemType>[maxsize_];
+    int n = 0;
     for (int i = 0; i < cols_; i++)
     {
         for (int j = 0; j < num_; j++)
         {
             if (elems_[j].col_ == i)
             {
-                TSM.elems_[count] = Triple<ElemType>(elems_[j].col_, elems_[j].row_, elems_[j].value_);
-                count++;
+                TSM.elems_[n] = Triple<ElemType>(elems_[j].col_, elems_[j].row_, elems_[j].value_);
+                n++;
             }
         }
     }
 }
 template <class ElemType>
-void TriSparseMatrix<ElemType>::FastTranspose(const TriSparseMatrix<ElemType> &TSMO, TriSparseMatrix<ElemType> &TSMR)
+void TriSparseMatrix<ElemType>::FastTranspose(TriSparseMatrix<ElemType> &TSM)
 {
+    TSM.cols_ = rows_;
+    TSM.rows_ = cols_;
+    TSM.maxsize_ = maxsize_;
+    TSM.num_ = num_;
+    delete[] TSM.elems_;
+    TSM.elems_ = new Triple<ElemType>[maxsize_];
+    int *colnum = new int[cols_]{0};
+    int *colpos = new int[cols_]{0};
+    for (int i = 0; i < num_; i++)
+    {
+        colnum[elems_[i].col_]++;
+    }
+    for (int i = 1; i < cols_;i++)
+    {
+        colpos[i] = colpos[i - 1] + colnum[i - 1];
+    }
+    for (int i = 0; i < num_;i++)
+    {
+        TSM.elems_[colpos[elems_[i].col_]] = Triple<ElemType>(elems_[i].col_, elems_[i].row_, elems_[i].value_);
+        colpos[elems_[i].col_]++;
+    }
+    delete[] colnum;
+    delete[] colpos;
 }
 template <class ElemType>
 TriSparseMatrix<ElemType> TriSparseMatrix<ElemType>::operator+(const TriSparseMatrix<ElemType> &TSM)

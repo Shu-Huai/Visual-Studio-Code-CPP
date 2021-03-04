@@ -105,7 +105,7 @@ int main()
         case '6':
             cout << endl
                  << "矩阵的转置为: " << endl;
-            TSM0.SimpleTranspose(TSM1);
+            TSM0.FastTranspose(TSM1);
             TSM0 = TSM1;
             cout << TSM0;
             break;
