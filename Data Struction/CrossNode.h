@@ -5,19 +5,20 @@
 template <class ElemType>
 class CrossNode
 {
-    Triple<ElemType> *elems_;
+public:
+    Triple<ElemType> *elem_;
     CrossNode<ElemType> *right_;
     CrossNode<ElemType> *down_;
     CrossNode();
-    CrossNode(const Triple<ElemType> &e, CrossNode<ElemType> *right = NULL, CrossNode<ElemType> *down=NULL);
+    CrossNode(const Triple<ElemType> &e, CrossNode<ElemType> *right = NULL, CrossNode<ElemType> *down = NULL);
 };
 template <class ElemType>
-CrossNode<ElemType>::CrossNode():right_(NULL),down_(NULL)
+CrossNode<ElemType>::CrossNode() : right_(NULL), down_(NULL)
 {
 }
 template <class ElemType>
-CrossNode<ElemType>::CrossNode(const Triple<ElemType> &e, CrossNode<ElemType> *right, CrossNode<ElemType> *down) : right_(right), down_(right)
+CrossNode<ElemType>::CrossNode(const Triple<ElemType> &e, CrossNode<ElemType> *right, CrossNode<ElemType> *down) : right_(right), down_(down)
 {
-    elems_ = new Triple<ElemType>(e.row_, e.col_, e.data_);
+    elem_ = new Triple<ElemType>(e.row_, e.col_, e.value_);
 }
 #endif

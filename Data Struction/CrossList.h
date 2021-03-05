@@ -5,8 +5,8 @@ template <class ElemType>
 class CrossList
 {
 protected:
-    CrossNode<ElemType> **rowHead_;
-    CrossNode<ElemType> **colHead_;
+    CrossNode<ElemType> **rowhead_;
+    CrossNode<ElemType> **colhead_;
     int rows_;
     int cols_;
     int num_;
@@ -20,24 +20,24 @@ public:
     int GetNum() const;
     Status SetElem(int r, int c, const ElemType &v);
     Status GetElem(int r, int c, ElemType &v);
-    CrossList(const CrossList<ElemType> &b);
-    CrossList<ElemType> &operator=(const CrossList<ElemType> &b);
-    CrossList<ElemType> operator+(const CrossList<ElemType> &b);
+    CrossList(const CrossList<ElemType> &CL);
+    CrossList<ElemType> &operator=(const CrossList<ElemType> &CL);
+    CrossList<ElemType> operator+(const CrossList<ElemType> &CL);
 };
 template <class ElemType>
-CrossList<ElemType>::CrossList(int rows, int cols) : rows_(rows), cols_(cols_), num(0)
+CrossList<ElemType>::CrossList(int rows, int cols) : rows_(rows), cols_(cols_), num_(0)
 {
     if (rows > 0 and cols > 0)
     {
-        rowHead_ = new CrossNode<ElemType> *[rows_];
-        colHead_ = new CrossNode<ElemType> *[cols_];
+        rowhead_ = new CrossNode<ElemType> *[rows_];
+        colhead_ = new CrossNode<ElemType> *[cols_];
         for (int i = 0; i < rows_; i++)
         {
-            rowHead_[i] = NULL;
+            rowhead_[i] = NULL;
         }
         for (int i = 0; i < cols_; i++)
         {
-            colHead_[i] = NULL;
+            colhead_[i] = NULL;
         }
     }
 }
@@ -45,26 +45,30 @@ template <class ElemType>
 CrossList<ElemType>::~CrossList()
 {
     Clear();
-    delete[] rowHead_;
+    delete[] rowhead_;
     delete[] colhead_;
 }
 template <class ElemType>
 void CrossList<ElemType>::Clear()
 {
     CrossNode<ElemType> *p;
-    for (int i = 0; i < rows; i++)
-        while (rowHead[i] != NULL)
+    for (int i = 0; i < rows_; i++)
+    {
+        while (rowhead_[i] != NULL)
         {
-            p = rowHead[i];
-            rowHead[i] = p->right;
+            p = rowhead_[i];
+            rowhead_[i] = p->right_;
             delete p;
         }
-    for (int j = 0; j < cols; j++)
-        colHead[j] = NULL;
-    num = 0;
+    }
+    for (int j = 0; j < cols_; j++)
+    {
+        colhead_[j] = NULL;
+    }
+    num_ = 0;
 }
 template <class ElemType>
-int CrossNode<ElemType>::GetRows_() const
+int CrossList<ElemType>::GetRows() const
 {
     return rows_;
 }
@@ -80,186 +84,185 @@ int CrossList<ElemType>::GetNum() const
 }
 template <class ElemType>
 Status CrossList<ElemType>::SetElem(int r, int c, const ElemType &v)
-// 操作结果：如果下标范围错,则返回RANGE_ERROR,否则返回SUCCESS
 {
-    if (r >= rows || c >= cols || r < 0 || c < 0)
-        return RANGE_ERROR; // 下标范围错
-
-    CrossNode<ElemType> *pre, *p;
+    if (r >= rows_ or r < 0 or c >= cols_ or c < 0)
+    {
+        return RANGE_ERROR;
+    }
+    CrossNode<ElemType> *pre = NULL;
+    CrossNode<ElemType> *p = rowhead_[r];
+    while (p != NULL and p->elem_->col_ < c)
+    {
+        pre = p;
+        p = p->right_;
+    }
     if (v == 0)
-    { // 把第r行、第c列的值修改为零
-        pre = NULL;
-        p = rowHead[r]; // p指向相应结点，pre为p的前驱结点
-        while (p != NULL && p->triElem.col < c)
+    {
+        if (p != NULL and p->elem_->col_ == c)
         {
-            pre = p;
-            p = p->right;
-        }
-
-        if (p != NULL && p->triElem.col == c)
-        { // 原元素为非零元素，则删除p结点
-            //  修改相应行中结点的指针
-            if (rowHead[r] == p)
-                rowHead[r] = p->right;
-            else
-                pre->right = p->right;
-
-            //  修改相应列中结点的指针
-            if (colHead[c] == p)
-                colHead[c] = p->down;
+            if (rowhead_[r] == p)
+            {
+                rowhead_[r] = p->right_;
+            }
             else
             {
-                pre = colHead[c];
-                while (pre->down != p)
-                    pre = pre->down;
-                pre->down = p->down;
+                pre->right_ = p->right_;
+            }
+            if (colhead_[c] == p)
+            {
+                colhead_[c] = p->right_;
+            }
+            else
+            {
+                pre = colhead_[c];
+                while (pre->down_ != p)
+                {
+                    pre = pre->down_;
+                }
+                pre->down_ = p->down_;
             }
             delete p;
-            num--; // 删除结点,非零元素个数减1
+            num_--;
         }
     }
     else
-    { // 把第r行、第c列的值修改为非零元素
-        pre = NULL;
-        p = rowHead[r]; // p指向相应结点，pre为p的前驱结点
-        while (p != NULL && p->triElem.col < c)
+    {
+        if (p != NULL and p->elem_->col_ == c)
         {
-            pre = p;
-            p = p->right;
+            p->elem_->value_ = v;
         }
-
-        if (p != NULL && p->triElem.col == c) // 原结点为非零元素，则直接修改其值
-            p->triElem.value == v;
         else
-        {                                                           // 原结点为0元素，则需要插入结点
-            Triple<ElemType> e(r, c, v);                            // 三元组
-            CrossNode<ElemType> *ePtr = new CrossNode<ElemType>(e); //生成结点
-                                                                    // 把结点插入到相应行中
-            if (rowHead[r] == p)
-                rowHead[r] = ePtr;
+        {
+            Triple<ElemType> e(r, c, v);
+            CrossNode<ElemType> *q = new CrossNode<ElemType>(e);
+            if (rowhead_[r] == p)
+            {
+                rowhead_[r] = q;
+            }
             else
-                pre->right = ePtr;
-            ePtr->right = p;
-            // 把结点插入到相应列中
+            {
+                pre->right_ = q;
+            }
+            q->right_ = p;
             pre = NULL;
-            p = colHead[c];
-            while (p != NULL && p->triElem.row < r)
+            p = colhead_[c];
+            while (p != NULL and p->elem_->row_ < r)
             {
                 pre = p;
-                p = p->down;
+                p = p->down_;
             }
-            if (colHead[c] == p)
-                colHead[c] = ePtr;
+            if (colhead_[c] == p)
+            {
+                colhead_[c] = q;
+            }
             else
-                pre->down = ePtr;
-            ePtr->down = p;
-            num++; // 完成插入结点后非零元素个数加一
+            {
+                pre->down_ = q;
+            }
+            q->down_ = p;
+            num_++;
         }
     }
-    return SUCCESS; // 返回修改成功
+    return SUCCESS;
 }
-
 template <class ElemType>
 Status CrossList<ElemType>::GetElem(int r, int c, ElemType &v)
-// 操作结果：如果下标范围错,则返回RANGE_ERROR,否则返回SUCCESS,并用v返回指定位置元素值
 {
-    if (r >= rows || c >= cols || r < 0 || c < 0)
-        return RANGE_ERROR; // 下标范围错
-
-    CrossNode<ElemType> *p;
-    for (p = rowHead[r]; p != NULL && p->triElem.col < c; p = p->right)
-        ;
-    // 寻找在第r行链表中的三元组位置
-    if (p != NULL && p->triElem.col == c) // 找到三元组
-        v = p->triElem.value;
-    else       // 未找到三元组
-        v = 0; // 不存在指定位置(r, c)的三元组,表示0元素
-
-    return SUCCESS; // 成功
+    if (r < 0 or r >= rows_ or c < 0 or c >= cols_)
+    {
+        return RANGE_ERROR;
+    }
+    CrossNode<ElemType> *p = rowhead_[r];
+    while (p != NULL and p->elem_->col_ < c)
+    {
+        p = p->right_;
+    }
+    if (p != NULL and p->elem_->col_ == c)
+    {
+        v = p->elem_->value_;
+    }
+    else
+    {
+        v = 0;
+    }
+    return SUCCESS;
 }
-
 template <class ElemType>
-CrossList<ElemType>::CrossList(const CrossList<ElemType> &b)
-// 操作结果：由稀疏矩阵b构造新稀疏矩阵——复制构造函数
+CrossList<ElemType>::CrossList(const CrossList<ElemType> &CL) : rows_(CL.rows_), cols_(CL.cols_), num_(CL.num_)
 {
-    CrossNode<ElemType> *p;
-    rows = b.rows;                             // 复制行数
-    cols = b.cols;                             // 复制列数
-    num = 0;                                   // 初始化非零元个数
-    rowHead = new CrossNode<ElemType> *[rows]; // 分配行链表表头数组存储空间
-    colHead = new CrossNode<ElemType> *[cols]; // 分配行链表表头数组存储空间
-    for (int i = 0; i < rows; i++)
-        rowHead[i] = NULL; // 初始化行链表表头数组
-    for (int i = 0; i < cols; i++)
-        colHead[i] = NULL; // 初始化行链表表头数组
-
-    for (int i = 0; i < rows; i++)
-        for (p = b.rowHead[i]; p != NULL; p = p->right)
-            SetElem(p->triElem.row, p->triElem.col, p->triElem.value);
+    *this = CL;
 }
-
 template <class ElemType>
-CrossList<ElemType> &CrossList<ElemType>::operator=(const CrossList<ElemType> &b)
-// 操作结果：将稀疏矩阵b赋值给当前稀疏矩阵——赋值语句重载
+CrossList<ElemType> &CrossList<ElemType>::operator=(const CrossList<ElemType> &CL)
 {
-    if (rows != b.rows || cols != b.cols)
-        throw Error("行数或列数不相等!"); // 抛出异常
-
-    if (&b != this)
+    if (&CL != this)
     {
         CrossNode<ElemType> *p;
-        Clear();     // 清空稀疏矩阵
-        num = b.num; // 初始化非零元个数
-        for (int i = 0; i < rows; i++)
-            for (p = b.rowHead[i]; p != NULL; p = p->right)
-                SetElem(p->triElem.row, p->triElem.col, p->triElem.value);
+        rowhead_ = new CrossNode<ElemType> *[rows_];
+        rowhead_ = new CrossNode<ElemType> *[cols_];
+        for (int i = 0; i < rows_; i++)
+        {
+            rowhead_[i] = NULL;
+        }
+        for (int i = 0; i < cols_; i++)
+        {
+            colhead_[i] = NULL;
+        }
+        rows_ = CL.rows_;
+        cols_ = CL.cols_;
+        num_ = CL.num_;
+        for (int i = 0; i < rows_; i++)
+        {
+            for (p = CL.rowhead_[i]; p != NULL; p = p->right_)
+            {
+                SetElem(p->elem_->row_, p->elem_->col_, p->elem_->value_);
+            }
+        }
     }
     return *this;
 }
-
 template <class ElemType>
-CrossList<ElemType> CrossList<ElemType>::operator+(const CrossList<ElemType> &b)
-// 操作结果：将稀疏矩阵b赋值加到当前稀疏矩阵中——加法运算符重载
+CrossList<ElemType> CrossList<ElemType>::operator+(const CrossList<ElemType> &CL)
 {
-    if (rows != b.rows || cols != b.cols)
-        throw Error("行数或列数不相等!"); // 抛出异常
+    if (rows_ != CL.rows_ || cols_ != CL.cols_)
+        throw Error("行数或列数不相等!");
 
-    CrossList<ElemType> temp(b.rows, b.cols);
+    CrossList<ElemType> temp(CL.rows_, CL.cols_);
     ElemType v;
     CrossNode<ElemType> *p, *q;
 
-    for (int i = 0; i < rows; i++)
+    for (int i = 0; i < rows_; i++)
     {
-        p = rowHead[i];
-        q = b.rowHead[i];
+        p = rowhead_[i];
+        q = CL.rowhead_[i];
         while (p != NULL && q != NULL)
-            if (p->triElem.col < q->triElem.col)
+            if (p->elem_->col_ < q->elem_->col_)
             {
-                temp.SetElem(p->triElem.row, p->triElem.col, p->triElem.value);
-                p = p->right;
+                temp.SetElem(p->elem_->row_, p->elem_->col_, p->elem_->value_);
+                p = p->right_;
             }
-            else if (p->triElem.col > q->triElem.col)
+            else if (p->elem_->col_ > q->elem_->col_)
             {
-                temp.SetElem(q->triElem.row, q->triElem.col, q->triElem.value);
-                q = q->right;
+                temp.SetElem(q->elem_->row_, q->elem_->col_, q->elem_->value_);
+                q = q->right_;
             }
             else
             {
-                v = p->triElem.value + q->triElem.value;
+                v = p->elem_->value_ + q->elem_->value_;
                 if (v != 0)
-                    temp.SetElem(q->triElem.row, q->triElem.col, v);
-                p = p->right;
-                q = q->right;
+                    temp.SetElem(q->elem_->row_, q->elem_->col_, v);
+                p = p->right_;
+                q = q->right_;
             }
         while (p != NULL)
         {
-            temp.SetElem(p->triElem.row, p->triElem.col, p->triElem.value);
-            p = p->right;
+            temp.SetElem(p->elem_->row_, p->elem_->col_, p->elem_->value_);
+            p = p->right_;
         }
         while (q != NULL)
         {
-            temp.SetElem(q->triElem.row, q->triElem.col, q->triElem.value);
-            q = q->right;
+            temp.SetElem(q->elem_->row_, q->elem_->col_, q->elem_->value_);
+            q = q->right_;
         }
     }
     return temp;
