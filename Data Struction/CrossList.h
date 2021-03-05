@@ -25,7 +25,7 @@ public:
     CrossList<ElemType> operator+(const CrossList<ElemType> &CL);
 };
 template <class ElemType>
-CrossList<ElemType>::CrossList(int rows, int cols) : rows_(rows), cols_(cols_), num_(0)
+CrossList<ElemType>::CrossList(int rows, int cols) : rows_(rows), cols_(cols), num_(0)
 {
     if (rows > 0 and cols > 0)
     {
@@ -188,9 +188,26 @@ Status CrossList<ElemType>::GetElem(int r, int c, ElemType &v)
     return SUCCESS;
 }
 template <class ElemType>
-CrossList<ElemType>::CrossList(const CrossList<ElemType> &CL) : rows_(CL.rows_), cols_(CL.cols_), num_(CL.num_)
+CrossList<ElemType>::CrossList(const CrossList<ElemType> &CL) : rows_(CL.rows_), cols_(CL.cols_), num_(0)
 {
-    *this = CL;
+    CrossNode<ElemType> *p;
+    rowhead_ = new CrossNode<ElemType> *[rows_];
+    colhead_ = new CrossNode<ElemType> *[cols_];
+    for (int i = 0; i < rows_; i++)
+    {
+        rowhead_[i] = NULL;
+    }
+    for (int i = 0; i < cols_; i++)
+    {
+        colhead_[i] = NULL;
+    }
+    for (int i = 0; i < rows_; i++)
+    {
+        for (p = CL.rowhead_[i]; p != NULL; p = p->right_)
+        {
+            SetElem(p->elem_->row_, p->elem_->col_, p->elem_->value_);
+        }
+    }
 }
 template <class ElemType>
 CrossList<ElemType> &CrossList<ElemType>::operator=(const CrossList<ElemType> &CL)
@@ -198,18 +215,7 @@ CrossList<ElemType> &CrossList<ElemType>::operator=(const CrossList<ElemType> &C
     if (&CL != this)
     {
         CrossNode<ElemType> *p;
-        rowhead_ = new CrossNode<ElemType> *[rows_];
-        rowhead_ = new CrossNode<ElemType> *[cols_];
-        for (int i = 0; i < rows_; i++)
-        {
-            rowhead_[i] = NULL;
-        }
-        for (int i = 0; i < cols_; i++)
-        {
-            colhead_[i] = NULL;
-        }
-        rows_ = CL.rows_;
-        cols_ = CL.cols_;
+        Clear();
         num_ = CL.num_;
         for (int i = 0; i < rows_; i++)
         {
