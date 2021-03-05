@@ -3,7 +3,7 @@
 #define __NODE_H__
 #include "Assistance.h"
 template <class ElemType>
-struct Node
+class Node
 {
 	ElemType data_;
 	Node<ElemType> *next_;
