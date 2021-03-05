@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __SQ_BINNARY_TREE_H__
 #define __SQ_BINNARY_TREE_H__
 #include "Assistance.h" // 辅助软件包
