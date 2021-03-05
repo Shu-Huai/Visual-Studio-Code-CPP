@@ -5,13 +5,14 @@
 template <class ElemType>
 class Node
 {
+public:
 	ElemType data_;
 	Node<ElemType> *next_;
 	Node();
 	Node(ElemType e, Node<ElemType> *next = NULL);
 };
 template <class ElemType>
-Node<ElemType>::Node() :  next_(NULL)
+Node<ElemType>::Node() : next_(NULL)
 {
 }
 template <class ElemType>
