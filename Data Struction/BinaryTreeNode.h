@@ -20,5 +20,4 @@ template <class ElemType>
 BinaryTreeNode<ElemType>::BinaryTreeNode(const ElemType &data, BinaryTreeNode<ElemType> *leftchild, BinaryTreeNode<ElemType> *rightchild) : data_(data), leftchild_(leftchild), rightchild_(rightchild)
 {
 }
-
 #endif

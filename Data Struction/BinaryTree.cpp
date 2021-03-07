@@ -30,6 +30,9 @@ int main()
     cout << "PreOrder: ";
     test0.PreOrder(Write<int>);
     cout << endl;
+    test0.GetMirror(test0.GetRoot());
+    test0.PreOrder(Write<int>);
+    cout << endl;
     cout << "Width: " << test0.GetWidth() << endl;
     cout << "Height: " << test0.GetHeight() << endl;
     cout << "LeafNumber: " << test0.GetLeafNumber() << endl;

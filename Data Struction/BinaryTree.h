@@ -45,6 +45,7 @@ public:
     BinaryTree<ElemType> &operator=(const BinaryTree<ElemType> &BT);
     BinaryTreeNode<ElemType> *InitByPre(LinkQueue<ElemType> &LQ);
     int GetWidth() const;
+    void GetMirror(BinaryTreeNode<ElemType> *r);
 };
 #endif
 template <class ElemType>
@@ -410,4 +411,23 @@ int BinaryTree<ElemType>::GetWidth() const
         }
     }
     return max;
+}
+template <class ElemType>
+void BinaryTree<ElemType>::GetMirror(BinaryTreeNode<ElemType> *r)
+{
+    if (r == NULL or r->leftchild_ == NULL and r->rightchild_ == NULL)
+    {
+        return;
+    }
+    BinaryTreeNode<ElemType> *temp = r->leftchild_;
+    r->leftchild_ = r->rightchild_;
+    r->rightchild_ = temp;
+    if (r->leftchild_)
+    {
+        GetMirror(r->leftchild_);
+    }
+    if (r->rightchild_)
+    {
+        GetMirror(r->rightchild_);
+    }
 }
