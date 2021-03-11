@@ -6,12 +6,12 @@ template <class CharType, class WeightType>
 class HuffmanTree
 {
 protected:
-        HuffmanTreeNode<WeightType> *nodes_;
-        CharType *leafchars_;
-        string *leafcharcodes_;
-        int num_;
-        void Select(int n, int &rl, int &r2);
-        void CreatHuffmanTree(CharType ch[], WeightType w[], int n);
+    HuffmanTreeNode<WeightType> *nodes_;
+    CharType *leafchars_;
+    string *leafcharcodes_;
+    int num_;
+    void Select(int n, int &rl, int &r2);
+    void CreatHuffmanTree(CharType ch[], WeightType w[], int n);
 
 public:
     HuffmanTree(CharType ch[], WeightType w[J, int n);
