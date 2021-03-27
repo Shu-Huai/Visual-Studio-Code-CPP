@@ -12,7 +12,7 @@ protected:
 
 public:
     SeqList(int size = DEFAULT_SIZE);
-    SeqList(ElemType &v, int n, int size = DEFAULT_SIZE);
+    SeqList(ElemType *v, int n, int size = DEFAULT_SIZE);
     virtual ~SeqList();
     int GetLength() const;
     bool IsEmpty() const;
@@ -38,7 +38,7 @@ SeqList<ElemType>::SeqList(int size) : maxsize_(size), length_(0)
     assert(elems_);
 }
 template <class ElemType>
-SeqList<ElemType>::SeqList(ElemType &v, int n, int size) : maxsize_(size), length_(n)
+SeqList<ElemType>::SeqList(ElemType *v, int n, int size) : maxsize_(size), length_(n)
 {
     elems_ = new ElemType[maxsize_];
     assert(elems_);
@@ -119,7 +119,6 @@ Status SeqList<ElemType>::DeleteElem(int i, ElemType &e)
     {
         elems_[j] = elems_[j + 1];
     }
-    elems_[length_ - 1] = 0;
     length_--;
     return SUCCESS;
 }
@@ -149,8 +148,7 @@ Status SeqList<ElemType>::AppendElem(const ElemType &e)
     {
         return OVER_FLOW;
     }
-    elems_[length_] = e;
-    length_++;
+    elems_[length_++] = e;
     return SUCCESS;
 }
 template <class ElemType>
@@ -215,7 +213,7 @@ Status SeqList<ElemType>::DeleteBetween(ElemType low, ElemType high)
     {
         return RANGE_ERROR;
     }
-    if (length_ == 0)
+    if (!length_)
     {
         return UNDER_FLOW;
     }
@@ -229,10 +227,10 @@ Status SeqList<ElemType>::DeleteBetween(ElemType low, ElemType high)
     }
     return SUCCESS;
 }
-template<class ElemType>
+template <class ElemType>
 void SeqList<ElemType>::Sort()
 {
-    for (int i = 0; i < length_;i++)
+    for (int i = 0; i < length_; i++)
     {
         for (int j = 0; j < length_ - i - 1; j++)
         {
