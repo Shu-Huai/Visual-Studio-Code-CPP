@@ -11,7 +11,7 @@ protected:
 
 public:
 	LinkList();
-	LinkList(ElemType v[], int n);
+	LinkList(ElemType *v, int n);
 	virtual ~LinkList();
 	int GetLength() const;
 	bool IsEmpty() const;
@@ -22,7 +22,7 @@ public:
 	Status SetElem(int position, const ElemType &e);
 	Status DeleteElem(int position, ElemType &e);
 	Status InsertElem(int position, const ElemType &e);
-	Status InsertElem(const ElemType &e);
+	Status AppendElem(const ElemType &e);
 	LinkList(const LinkList<ElemType> &LL);
 	LinkList<ElemType> &operator=(const LinkList<ElemType> &LL);
 	void Reverse();
@@ -36,7 +36,7 @@ LinkList<ElemType>::LinkList() : length_(0)
 	assert(head_);
 }
 template <class ElemType>
-LinkList<ElemType>::LinkList(ElemType v[], int n) : length_(n)
+LinkList<ElemType>::LinkList(ElemType *v, int n) : length_(n)
 {
 	head_ = new Node<ElemType>;
 	assert(head_);
@@ -68,7 +68,7 @@ template <class ElemType>
 void LinkList<ElemType>::Clear()
 {
 	Node<ElemType> *p = head_->next_;
-	while (p != NULL)
+	while (p)
 	{
 		head_->next_ = p->next_;
 		delete p;
@@ -80,7 +80,7 @@ template <class ElemType>
 void LinkList<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
 {
 	Node<ElemType> *p = head_->next_;
-	while (p != NULL)
+	while (p)
 	{
 		(*Visit)(p->data_);
 		p = p->next_;
@@ -91,12 +91,12 @@ int LinkList<ElemType>::LocateElem(const ElemType &e) const
 {
 	Node<ElemType> *p = head_->next_;
 	int count = 1;
-	while (p != NULL and p->data_ != e)
+	while (p and p->data_ != e)
 	{
 		count++;
 		p = p->next_;
 	}
-	return (p != NULL) ? count : 0;
+	return (p) ? count : 0;
 }
 template <class ElemType>
 Status LinkList<ElemType>::GetElem(int position, ElemType &e) const
@@ -165,7 +165,7 @@ Status LinkList<ElemType>::InsertElem(int position, const ElemType &e)
 	return SUCCESS;
 }
 template <class ElemType>
-Status LinkList<ElemType>::InsertElem(const ElemType &e)
+Status LinkList<ElemType>::AppendElem(const ElemType &e)
 {
 	Node<ElemType> *p = head_;
 	while (p->next_ != NULL)
@@ -177,24 +177,28 @@ Status LinkList<ElemType>::InsertElem(const ElemType &e)
 	return SUCCESS;
 }
 template <class ElemType>
-LinkList<ElemType>::LinkList(const LinkList<ElemType> &LL) : length_(LL.length_)
+LinkList<ElemType>::LinkList(const LinkList<ElemType> &LL) : length_(0)
 {
 	head_ = new Node<ElemType>;
 	assert(head_);
-	*this = LL;
+	ElemType e;
+	for (int i = 0; i < LL.length_; i++)
+	{
+		LL.GetElem(i + 1, e);
+		AppendElem(e);
+	}
 }
 template <class ElemType>
 LinkList<ElemType> &LinkList<ElemType>::operator=(const LinkList<ElemType> &LL)
 {
 	if (&LL != this)
 	{
-		int length = LL.length_;
-		ElemType e;
 		Clear();
-		for (int i = 0; i < length; i++)
+		ElemType e;
+		for (int i = 0; i < LL.length_; i++)
 		{
 			LL.GetElem(i + 1, e);
-			InsertElem(e);
+			AppendElem(e);
 		}
 	}
 	return *this;
