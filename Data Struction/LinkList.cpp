@@ -46,7 +46,7 @@ int main()
 			cin >> e;
 			while (e != 0)
 			{
-				LL0.InsertElem(e);
+				LL0.AppendElem(e);
 				cin >> e;
 			}
 			break;
@@ -136,7 +136,7 @@ int main()
 			cin >> e;
 			while (e != 0)
 			{
-				LL1.InsertElem(e);
+				LL1.AppendElem(e);
 				cin >> e;
 			}
 			LL0.Merge(LL1);
