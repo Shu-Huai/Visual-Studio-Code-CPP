@@ -224,21 +224,14 @@ Status LinkList<ElemType>::DeleteBetween(ElemType low, ElemType high)
 		return RANGE_ERROR;
 	}
 	Node<ElemType> *p = head_;
-	while (p != NULL)
+	while (p and p->next_)
 	{
-		if (p->next_ != NULL)
+		if (p->next_->data_ > low and p->next_->data_ < high)
 		{
-			if (p->next_->data_ > low and p->next_->data_ < high)
-			{
-				Node<ElemType> *q = p->next_;
-				p->next_ = q->next_;
-				length_--;
-				delete q;
-			}
-			else
-			{
-				p = p->next_;
-			}
+			Node<ElemType> *q = p->next_;
+			p->next_ = q->next_;
+			length_--;
+			delete q;
 		}
 		else
 		{

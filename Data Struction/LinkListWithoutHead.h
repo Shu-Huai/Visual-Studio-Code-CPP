@@ -10,7 +10,7 @@ protected:
 
 public:
 	LinkList();
-	LinkList(ElemType v[], int n);
+	LinkList(ElemType *v, int n);
 	virtual ~LinkList();
 	int GetLength() const;
 	bool IsEmpty() const;
@@ -28,32 +28,31 @@ public:
 	void Merge(LinkList<ElemType> &LL);
 };
 template <class ElemType>
-LinkList<ElemType>::LinkList() : length_(0)
+LinkList<ElemType>::LinkList() : head_(NULL), length_(0)
 {
-	head_ = new Node<ElemType>;
-	assert(head_);
 }
 template <class ElemType>
-LinkList<ElemType>::LinkList(ElemType v[], int n) : length_(n)
+LinkList<ElemType>::LinkList(ElemType *v, int n) : length_(n)
 {
-	head_ = new Node<ElemType>;
-	assert(head_);
-	Node<ElemType> *p = head_;
-	for (int i = 0; i < n; i++)
+	if (n)
 	{
-		Node<ElemType> *q = new Node<ElemType>(v[i], NULL);
-		assert(q);
-		p->next_ = q;
-		p = p->next_;
+		head_ = new Node<ElemType>(v[0], NULL);
+		assert(head_);
+		Node<ElemType> *p = head_;
+		for (int i = 1; i < n; i++)
+		{
+			Node<ElemType> *q = new Node<ElemType>(v[i], NULL);
+			assert(q);
+			p->next_ = q;
+			p = p->next_;
+		}
 	}
-	head_ = head_->next_;
 }
 template <class ElemType>
 LinkList<ElemType>::~LinkList()
 {
 	Clear();
-	delete head_;
-}
+ 	}
 template <class ElemType>
 int LinkList<ElemType>::GetLength() const
 {
@@ -80,7 +79,7 @@ template <class ElemType>
 void LinkList<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
 {
 	Node<ElemType> *p = head_;
-	while (p != NULL)
+	while (p)
 	{
 		(*Visit)(p->data_);
 		p = p->next_;
@@ -91,12 +90,12 @@ int LinkList<ElemType>::LocateElem(const ElemType &e) const
 {
 	Node<ElemType> *p = head_;
 	int count = 1;
-	while (p != NULL and p->data_ != e)
+	while (p and p->data_ != e)
 	{
 		count++;
 		p = p->next_;
 	}
-	return (p != NULL) ? count : 0;
+	return (p) ? count : 0;
 }
 template <class ElemType>
 Status LinkList<ElemType>::GetElem(int position, ElemType &e) const
@@ -150,7 +149,7 @@ Status LinkList<ElemType>::DeleteElem(int position, ElemType &e)
 			p = p->next_;
 		}
 		Node<ElemType> *q = p->next_;
-		p->next_ = q->next_;
+		p->next_ = p->next_->next_;
 		e = q->data_;
 		delete q;
 	}
@@ -178,7 +177,7 @@ Status LinkList<ElemType>::InsertElem(int position, const ElemType &e)
 		{
 			p = p->next_;
 		}
-		q->next = p->next_;
+		q->next_ = p->next_;
 		p->next_ = q;
 	}
 	length_++;

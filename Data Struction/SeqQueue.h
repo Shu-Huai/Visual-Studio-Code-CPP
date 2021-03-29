@@ -33,7 +33,6 @@ SeqQueue<ElemType>::~SeqQueue()
 {
     delete[] elems_;
 }
-
 template <class ElemType>
 int SeqQueue<ElemType>::GetLength() const
 {
