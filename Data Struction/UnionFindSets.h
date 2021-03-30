@@ -1,6 +1,6 @@
 #pragma once
-#ifndef __UNION_FIND_SETS__
-#define __UNION_FIND_SETS__
+#ifndef __UNION_FIND_SETS_H__
+#define __UNION_FIND_SETS_H__
 #include "UnionFindSetsElem.h"
 template <class ElemType>
 class UnionFindSets
