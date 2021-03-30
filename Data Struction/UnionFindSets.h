@@ -12,12 +12,16 @@ protected:
     int OptimizedFind(ElemType e) const;
 
 public:
+    UnionFindSets(int n);
     UnionFindSets(ElemType *v, int n);
     virtual ~UnionFindSets();
+    void Clear();
     ElemType GetElem(int p) const;
+    int GetParent(int p) const;
     int GetOrder(ElemType e) const;
     void SimpleUnion(ElemType a, ElemType b);
-    void OptimizedUnion(ElemType a, ElemType b);
+    void UnionByHeight(ElemType a, ElemType b);
+    void UnionByNodeNumber(ElemType a, ElemType b);
     bool Differ(ElemType a, ElemType b);
     UnionFindSets(const UnionFindSets &UFS);
     UnionFindSets &operator=(const UnionFindSets &UFS);
@@ -58,6 +62,12 @@ int UnionFindSets<ElemType>::OptimizedFind(ElemType e) const
     return r;
 }
 template <class ElemType>
+UnionFindSets<ElemType>::UnionFindSets(int n) : size_(n)
+{
+    sets_ = new UnionFindSetsElem<ElemType>[size_];
+    assert(sets_);
+}
+template <class ElemType>
 UnionFindSets<ElemType>::UnionFindSets(ElemType *v, int n) : size_(n)
 {
     sets_ = new UnionFindSetsElem<ElemType>[size_];
@@ -74,9 +84,19 @@ UnionFindSets<ElemType>::~UnionFindSets()
     delete[] sets_;
 }
 template <class ElemType>
+void UnionFindSets<ElemType>::Clear()
+{
+    delete[] sets_;
+}
+template <class ElemType>
 ElemType UnionFindSets<ElemType>::GetElem(int p) const
 {
     return sets_[p].data_;
+}
+template <class ElemType>
+int UnionFindSets<ElemType>::GetParent(int p) const
+{
+    return sets_[p].parent_;
 }
 template <class ElemType>
 int UnionFindSets<ElemType>::GetOrder(ElemType e) const
@@ -107,7 +127,28 @@ void UnionFindSets<ElemType>::SimpleUnion(ElemType a, ElemType b)
     }
 }
 template <class ElemType>
-void UnionFindSets<ElemType>::OptimizedUnion(ElemType a, ElemType b)
+void UnionFindSets<ElemType>::UnionByHeight(ElemType a, ElemType b)
+{
+    int r1 = SimpleFind(a);
+    int r2 = SimpleFind(b);
+    if (r1 != r2 and r1 != -1 and r2 != -1)
+    {
+        if (sets_[r2].parent_ < sets_[r1].parent_)
+        {
+            sets_[r1].parent_ = r2;
+        }
+        else
+        {
+            if (sets_[r1].parent_ == sets_[r2].parent_)
+            {
+                sets_[r1].parent_--;
+            }
+            sets_[r2].parent_ = r1;
+        }
+    }
+}
+template <class ElemType>
+void UnionFindSets<ElemType>::UnionByNodeNumber(ElemType a, ElemType b)
 {
     int r1 = SimpleFind(a);
     int r2 = SimpleFind(b);
@@ -134,6 +175,7 @@ template <class ElemType>
 UnionFindSets<ElemType>::UnionFindSets(const UnionFindSets &UFS) : size_(UFS.size_)
 {
     sets_ = new UnionFindSetsElem<ElemType>[size_];
+    assert(sets_);
     for (int i = 0; i < size_; i++)
     {
         sets_[i] = UFS.sets_[i];
@@ -147,6 +189,7 @@ UnionFindSets<ElemType> &UnionFindSets<ElemType>::operator=(const UnionFindSets<
         size_ = UFS.size_;
         delete[] sets_;
         sets_ = new UnionFindSetsElem<ElemType>[size_];
+        assert(sets_);
         for (int i = 0; i < size_; i++)
         {
             sets_[i] = UFS.sets_[i];
