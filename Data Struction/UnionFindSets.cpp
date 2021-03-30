@@ -12,19 +12,19 @@ int main()
         UFS.SimpleUnion(a[i], b[i]);
     }
     cout << "Using SimpleUnion: " << endl
-         << "Address: ";
+         << "Index:  ";
     for (int i = 0; i < n; i++)
     {
         cout << setw(3) << i;
     }
     cout << endl
-         << "Parent:  ";
+         << "Parent: ";
     for (int i = 0; i < n; i++)
     {
         cout << setw(3) << UFS.GetParent(i);
     }
     cout << endl
-         << "Data:    ";
+         << "Data:   ";
     for (int i = 0; i < n; i++)
     {
         cout << setw(3) << UFS.GetElem(i);
@@ -36,19 +36,19 @@ int main()
         UFS.UnionByHeight(a[i], b[i]);
     }
     cout << "Using UnionByHeight: " << endl
-         << "Address: ";
+         << "Index:  ";
     for (int i = 0; i < n; i++)
     {
         cout << setw(3) << i;
     }
     cout << endl
-         << "Parent:  ";
+         << "Parent: ";
     for (int i = 0; i < n; i++)
     {
         cout << setw(3) << UFS.GetParent(i);
     }
     cout << endl
-         << "Data:    ";
+         << "Data:   ";
     for (int i = 0; i < n; i++)
     {
         cout << setw(3) << UFS.GetElem(i);
@@ -60,19 +60,19 @@ int main()
         UFS.UnionByNodeNumber(a[i], b[i]);
     }
     cout << "Using UnionByNodeNumber: " << endl
-         << "Address: ";
+         << "Index:  ";
     for (int i = 0; i < n; i++)
     {
         cout << setw(3) << i;
     }
     cout << endl
-         << "Parent:  ";
+         << "Parent: ";
     for (int i = 0; i < n; i++)
     {
         cout << setw(3) << UFS.GetParent(i);
     }
     cout << endl
-         << "Data:    ";
+         << "Data:   ";
     for (int i = 0; i < n; i++)
     {
         cout << setw(3) << UFS.GetElem(i);
