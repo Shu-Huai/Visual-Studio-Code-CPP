@@ -1,6 +1,7 @@
 #pragma once
 #ifndef __CHILD_SIBLING_TREE_NODE_H__
 #define __CHILD_SIBLING_TREE_NODE_H__
+#include "Assistance.h"
 template <class ElemType>
 class ChildSiblingTreeNode
 {
