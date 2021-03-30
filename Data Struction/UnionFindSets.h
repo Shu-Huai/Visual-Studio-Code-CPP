@@ -8,20 +8,22 @@ class UnionFindSets
 protected:
     UnionFindSetsElem<ElemType> *sets_;
     int size_;
-    int Find(ElemType e) const;
+    int SimpleFind(ElemType e) const;
+    int OptimizedFind(ElemType e) const;
 
 public:
     UnionFindSets(ElemType *v, int n);
     virtual ~UnionFindSets();
     ElemType GetElem(int p) const;
     int GetOrder(ElemType e) const;
-    void Union(ElemType a, ElemType b);
+    void SimpleUnion(ElemType a, ElemType b);
+    void OptimizedUnion(ElemType a, ElemType b);
     bool Differ(ElemType a, ElemType b);
     UnionFindSets(const UnionFindSets &UFS);
     UnionFindSets &operator=(const UnionFindSets &UFS);
 };
 template <class ElemType>
-int UnionFindSets<ElemType>::Find(ElemType e) const
+int UnionFindSets<ElemType>::SimpleFind(ElemType e) const
 {
     int p = GetOrder(e);
     if (p == -1)
@@ -33,6 +35,27 @@ int UnionFindSets<ElemType>::Find(ElemType e) const
         p = sets_[p].parent_;
     }
     return p;
+}
+template <class ElemType>
+int UnionFindSets<ElemType>::OptimizedFind(ElemType e) const
+{
+    int p = GetOrder(e);
+    if (p == -1)
+    {
+        return -1;
+    }
+    int r = p;
+    while (sets_[r].parent_ > -1)
+    {
+        r = sets_[r].parent_;
+    }
+    while (r != sets_[p].parent_)
+    {
+        int temp = sets_[p].parent_;
+        sets_[p].parent_ = r;
+        p = temp;
+    }
+    return r;
 }
 template <class ElemType>
 UnionFindSets<ElemType>::UnionFindSets(ElemType *v, int n) : size_(n)
@@ -73,10 +96,21 @@ int UnionFindSets<ElemType>::GetOrder(ElemType e) const
     return -1;
 }
 template <class ElemType>
-void UnionFindSets<ElemType>::Union(ElemType a, ElemType b)
+void UnionFindSets<ElemType>::SimpleUnion(ElemType a, ElemType b)
 {
-    int r1 = Find(a);
-    int r2 = Find(b);
+    int r1 = SimpleFind(a);
+    int r2 = SimpleFind(b);
+    if (r1 != r2 and r1 != -1 and r2 != -1)
+    {
+        sets_[r1].parent_ += sets_[r2].parent_;
+        sets_[r2].parent_ = r1;
+    }
+}
+template <class ElemType>
+void UnionFindSets<ElemType>::OptimizedUnion(ElemType a, ElemType b)
+{
+    int r1 = SimpleFind(a);
+    int r2 = SimpleFind(b);
     if (r1 != r2 and r1 != -1 and r2 != -1)
     {
         if (sets_[r1].parent_ <= sets_[r2].parent_)
@@ -94,7 +128,7 @@ void UnionFindSets<ElemType>::Union(ElemType a, ElemType b)
 template <class ElemType>
 bool UnionFindSets<ElemType>::Differ(ElemType a, ElemType b)
 {
-    return Find(a) != Find(b);
+    return SimpleFind(a) != SimpleFind(b);
 }
 template <class ElemType>
 UnionFindSets<ElemType>::UnionFindSets(const UnionFindSets &UFS) : size_(UFS.size_)
