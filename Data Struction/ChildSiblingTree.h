@@ -70,40 +70,48 @@ int ChildSiblingTree<ElemType>::GetHeight(ChildSiblingTreeNode<ElemType> *r) con
     {
         return 0;
     }
-    ChildSiblingTreeNode<ElemType> *p = GetFirstChild(r);
-    int subMaxHeight = 0;
+    ChildSiblingTreeNode<ElemType> *p = r->firstchild_;
+    int maxheight = 0;
     while (p)
     {
-        int subHeight = GetHeight(p);
-        subMaxHeight = subMaxHeight > subHeight ? subMaxHeight : subHeight;
-        p = GetNextSibling(p);
+        int height = GetHeight(p);
+        maxheight = maxheight > height ? maxheight : height;
+        p = p->nextsibling_;
     }
-    return subMaxHeight + 1;
+    return maxheight + 1;
 }
 template <class ElemType>
 int ChildSiblingTree<ElemType>::GetNodeDegree(ChildSiblingTreeNode<ElemType> *r) const
 {
-    ChildSiblingTreeNode<ElemType> *p = GetFirstChild(r);
+    if (!r)
+    {
+        return 0;
+    }
+    ChildSiblingTreeNode<ElemType> *p = r->firstchild_;
     int count = 0;
     while (p)
     {
         count++;
-        p = GetNextSibling(p);
+        p = p->nextsibling_;
     }
     return count;
 }
 template <class ElemType>
 int ChildSiblingTree<ElemType>::GetDegree(ChildSiblingTreeNode<ElemType> *r) const
 {
-    ChildSiblingTreeNode<ElemType> *p = GetFirstChild(r);
-    int maxDegree = GetNodeDegree(r);
+    if (!r)
+    {
+        return 0;
+    }
+    ChildSiblingTreeNode<ElemType> *p = r->firstchild_;
+    int maxdegree = GetNodeDegree(r);
     while (p)
     {
-        int subMaxDegree = GetDegree(p);
-        maxDegree = maxDegree > subMaxDegree ? maxDegree : subMaxDegree;
-        p = GetNextSibling(p);
+        int degree = GetDegree(p);
+        maxdegree = maxdegree > degree ? maxdegree : degree;
+        p = p->nextsibling_;
     }
-    return maxDegree;
+    return maxdegree;
 }
 template <class ElemType>
 ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::GetFirstChild(ChildSiblingTreeNode<ElemType> *r) const
