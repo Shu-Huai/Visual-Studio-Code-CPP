@@ -7,5 +7,6 @@ int main()
     ChildSiblingTree<char> CST(c, parents, n);
     cout << "Degree: " << CST.GetDegree() << endl;
     cout << "Height: " << CST.GetHeight() << endl;
+    cout << "Number: " << CST.GetNodeNumber() << endl;
     return 0;
 }

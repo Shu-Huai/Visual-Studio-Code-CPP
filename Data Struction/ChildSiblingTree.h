@@ -10,11 +10,12 @@ protected:
     ChildSiblingTreeNode<ElemType> *root_;
     ChildSiblingTreeNode<ElemType> *CreateTree(ElemType *v, int *parents, int n, int rootindex);
     void Destroy(ChildSiblingTreeNode<ElemType> *&r);
-    int GetHeight(ChildSiblingTreeNode<ElemType> *r) const;
-    int GetNodeDegree(ChildSiblingTreeNode<ElemType> *r) const;
     int GetDegree(ChildSiblingTreeNode<ElemType> *r) const;
+    int GetHeight(ChildSiblingTreeNode<ElemType> *r) const;
     ChildSiblingTreeNode<ElemType> *GetFirstChild(ChildSiblingTreeNode<ElemType> *r) const;
     ChildSiblingTreeNode<ElemType> *GetNextSibling(ChildSiblingTreeNode<ElemType> *r) const;
+    int GetNodeDegree(ChildSiblingTreeNode<ElemType> *r) const;
+    int GetNodeNumber(ChildSiblingTreeNode<ElemType> *r) const;
 
 public:
     ChildSiblingTree();
@@ -22,8 +23,9 @@ public:
     virtual ~ChildSiblingTree();
     ChildSiblingTreeNode<ElemType> *GetRoot() const;
     bool IsEmpty() const;
-    int GetHeight() const;
     int GetDegree() const;
+    int GetHeight() const;
+    int GetNodeNumber() const;
 };
 template <class ElemType>
 ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::CreateTree(ElemType *v, int *parents, int n, int rootindex)
@@ -64,6 +66,23 @@ void ChildSiblingTree<ElemType>::Destroy(ChildSiblingTreeNode<ElemType> *&r)
     }
 }
 template <class ElemType>
+int ChildSiblingTree<ElemType>::GetDegree(ChildSiblingTreeNode<ElemType> *r) const
+{
+    if (!r)
+    {
+        return 0;
+    }
+    ChildSiblingTreeNode<ElemType> *p = r->firstchild_;
+    int maxdegree = GetNodeDegree(r);
+    while (p)
+    {
+        int degree = GetDegree(p);
+        maxdegree = maxdegree > degree ? maxdegree : degree;
+        p = p->nextsibling_;
+    }
+    return maxdegree;
+}
+template <class ElemType>
 int ChildSiblingTree<ElemType>::GetHeight(ChildSiblingTreeNode<ElemType> *r) const
 {
     if (!r)
@@ -79,6 +98,16 @@ int ChildSiblingTree<ElemType>::GetHeight(ChildSiblingTreeNode<ElemType> *r) con
         p = p->nextsibling_;
     }
     return maxheight + 1;
+}
+template <class ElemType>
+ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::GetFirstChild(ChildSiblingTreeNode<ElemType> *r) const
+{
+    return r ? r->firstchild_ : NULL;
+}
+template <class ElemType>
+ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::GetNextSibling(ChildSiblingTreeNode<ElemType> *r) const
+{
+    return r ? r->nextsibling_ : NULL;
 }
 template <class ElemType>
 int ChildSiblingTree<ElemType>::GetNodeDegree(ChildSiblingTreeNode<ElemType> *r) const
@@ -97,31 +126,13 @@ int ChildSiblingTree<ElemType>::GetNodeDegree(ChildSiblingTreeNode<ElemType> *r)
     return count;
 }
 template <class ElemType>
-int ChildSiblingTree<ElemType>::GetDegree(ChildSiblingTreeNode<ElemType> *r) const
+int ChildSiblingTree<ElemType>::GetNodeNumber(ChildSiblingTreeNode<ElemType> *r) const
 {
     if (!r)
     {
         return 0;
     }
-    ChildSiblingTreeNode<ElemType> *p = r->firstchild_;
-    int maxdegree = GetNodeDegree(r);
-    while (p)
-    {
-        int degree = GetDegree(p);
-        maxdegree = maxdegree > degree ? maxdegree : degree;
-        p = p->nextsibling_;
-    }
-    return maxdegree;
-}
-template <class ElemType>
-ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::GetFirstChild(ChildSiblingTreeNode<ElemType> *r) const
-{
-    return r ? r->firstchild_ : NULL;
-}
-template <class ElemType>
-ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::GetNextSibling(ChildSiblingTreeNode<ElemType> *r) const
-{
-    return r ? r->nextsibling_ : NULL;
+    return GetNodeNumber(r->firstchild_) + GetNodeNumber(r->nextsibling_) + 1;
 }
 template <class ElemType>
 ChildSiblingTree<ElemType>::ChildSiblingTree() : root_(NULL)
@@ -148,13 +159,18 @@ bool ChildSiblingTree<ElemType>::IsEmpty() const
     return root_ == NULL;
 }
 template <class ElemType>
+int ChildSiblingTree<ElemType>::GetDegree() const
+{
+    return GetDegree(root_);
+}
+template <class ElemType>
 int ChildSiblingTree<ElemType>::GetHeight() const
 {
     return GetHeight(root_);
 }
-template <class ElemType>
-int ChildSiblingTree<ElemType>::GetDegree() const
+template<class ElemType>
+int ChildSiblingTree<ElemType>::GetNodeNumber() const
 {
-    return GetDegree(root_);
+    return GetNodeNumber(root_);
 }
 #endif
