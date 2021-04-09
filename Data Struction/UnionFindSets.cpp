@@ -98,7 +98,7 @@ int main()
             }
         }
         cout << "}" << endl;
-        while (p < n and out[p])
+        while (p < n && out[p])
         {
             p++;
         }
