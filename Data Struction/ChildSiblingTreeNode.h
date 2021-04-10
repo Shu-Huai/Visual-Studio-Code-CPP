@@ -7,18 +7,18 @@ class ChildSiblingTreeNode
 {
 public:
     ElemType data_;
-    ChildSiblingTreeNode<ElemType> *firstchild_;
-    ChildSiblingTreeNode<ElemType> *nextsibling_;
+    ChildSiblingTreeNode<ElemType> *firstChild_;
+    ChildSiblingTreeNode<ElemType> *nextSibling_;
     ChildSiblingTreeNode();
-    ChildSiblingTreeNode(ElemType data, ChildSiblingTreeNode<ElemType> *firstchild = NULL, ChildSiblingTreeNode<ElemType> *nextsibling = NULL);
+    ChildSiblingTreeNode(ElemType data, ChildSiblingTreeNode<ElemType> *firstChild = NULL, ChildSiblingTreeNode<ElemType> *nextSibling = NULL);
 };
 template <class ElemType>
-ChildSiblingTreeNode<ElemType>::ChildSiblingTreeNode() : firstchild_(NULL), nextsibling_(NULL)
+ChildSiblingTreeNode<ElemType>::ChildSiblingTreeNode() : firstChild_(NULL), nextSibling_(NULL)
 {
 }
 template <class ElemType>
-ChildSiblingTreeNode<ElemType>::ChildSiblingTreeNode(ElemType data, ChildSiblingTreeNode<ElemType> *firstchild, ChildSiblingTreeNode<ElemType> *nextsibling)
-    : data_(data), firstchild_(firstchild), nextsibling_(nextsibling)
+ChildSiblingTreeNode<ElemType>::ChildSiblingTreeNode(ElemType data, ChildSiblingTreeNode<ElemType> *firstChild, ChildSiblingTreeNode<ElemType> *nextSibling)
+    : data_(data), firstChild_(firstChild), nextSibling_(nextSibling)
 {
 }
 #endif

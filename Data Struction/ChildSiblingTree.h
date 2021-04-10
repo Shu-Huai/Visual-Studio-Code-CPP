@@ -8,19 +8,21 @@ class ChildSiblingTree
 {
 protected:
     ChildSiblingTreeNode<ElemType> *root_;
-    ChildSiblingTreeNode<ElemType> *CopyTree(ChildSiblingTreeNode<ElemType> *r);
+    ChildSiblingTreeNode<ElemType> *CopyTree(ChildSiblingTreeNode<ElemType> *root);
     ChildSiblingTreeNode<ElemType> *CreateTree(ElemType *datas, int *parents, int n, int rootindex);
-    ChildSiblingTreeNode<ElemType> *GetParent(ChildSiblingTreeNode<ElemType> *r, ChildSiblingTreeNode<ElemType> *CSTN) const;
-    int GetDegree(ChildSiblingTreeNode<ElemType> *r) const;
-    int GetHeight(ChildSiblingTreeNode<ElemType> *r) const;
-    int GetNodeDegree(ChildSiblingTreeNode<ElemType> *r) const;
-    int GetNodeNumber(ChildSiblingTreeNode<ElemType> *r) const;
-    void Destroy(ChildSiblingTreeNode<ElemType> *&r);
+    ChildSiblingTreeNode<ElemType> *GetParent(ChildSiblingTreeNode<ElemType> *root, ChildSiblingTreeNode<ElemType> *CSTN) const;
+    int GetDegree(ChildSiblingTreeNode<ElemType> *root) const;
+    int GetHeight(ChildSiblingTreeNode<ElemType> *root) const;
+    int GetNodeDegree(ChildSiblingTreeNode<ElemType> *root) const;
+    int GetNodeNumber(ChildSiblingTreeNode<ElemType> *root) const;
+    void Destroy(ChildSiblingTreeNode<ElemType> *&root);
 
 public:
     ChildSiblingTree();
-    ChildSiblingTree(ElemType nodes[], int parents[], int n);
+    ChildSiblingTree(ChildSiblingTreeNode<ElemType> *root);
     ChildSiblingTree(const ChildSiblingTree<ElemType> &CST);
+    ChildSiblingTree(const ElemType &e);
+    ChildSiblingTree(ElemType *datas, int *parents, int n);
     virtual ~ChildSiblingTree();
     bool IsEmpty() const;
     ChildSiblingTree<ElemType> &operator=(const ChildSiblingTree<ElemType> &CST);
@@ -31,7 +33,9 @@ public:
     int GetDegree() const;
     int GetHeight() const;
     int GetNodeNumber() const;
+    Status DeleteChild(ChildSiblingTreeNode<ElemType> *CSTN, int position, ElemType &e);
     Status GetElem(ChildSiblingTreeNode<ElemType> *CSTN, ElemType &e) const;
+    Status InsertChild(ChildSiblingTreeNode<ElemType> *CSTN, int position, const ElemType &e);
     Status SetElem(ChildSiblingTreeNode<ElemType> *CSTN, const ElemType &e);
 };
 template <class ElemType>
@@ -41,24 +45,24 @@ ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::CopyTree(ChildSiblin
     {
         return NULL;
     }
-    ChildSiblingTreeNode<ElemType> *r = new ChildSiblingTreeNode<ElemType>(CSTN->data);
+    ChildSiblingTreeNode<ElemType> *root = new ChildSiblingTreeNode<ElemType>(CSTN->data);
     ChildSiblingTreeNode<ElemType> *cur;
-    ChildSiblingTreeNode<ElemType> *p = CSTN->firstchild_;
+    ChildSiblingTreeNode<ElemType> *p = CSTN->firstChild_;
     while (p)
     {
         ChildSiblingTreeNode<ElemType> *subTreeRoot = CopyTree(p);
-        if (!r->firstchild_)
+        if (!root->firstChild_)
         {
-            r->firstchild_ = subTreeRoot;
+            root->firstChild_ = subTreeRoot;
         }
         else
         {
-            cur->nextsibling_ = subTreeRoot;
+            cur->nextSibling_ = subTreeRoot;
         }
         cur = subTreeRoot;
-        p = p->nextsibling_;
+        p = p->nextSibling_;
     }
-    return r;
+    return root;
 }
 template <class ElemType>
 ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::CreateTree(ElemType *datas, int *parents, int n, int rootindex)
@@ -72,13 +76,13 @@ ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::CreateTree(ElemType 
             if (parents[i] == rootindex)
             {
                 subRoot = CreateTree(datas, parents, n, i);
-                if (!root->firstchild_)
+                if (!root->firstChild_)
                 {
-                    root->firstchild_ = subRoot;
+                    root->firstChild_ = subRoot;
                 }
                 else
                 {
-                    cur->nextsibling_ = subRoot;
+                    cur->nextSibling_ = subRoot;
                 }
                 cur = subRoot;
             }
@@ -88,22 +92,22 @@ ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::CreateTree(ElemType 
     return NULL;
 }
 template <class ElemType>
-ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::GetParent(ChildSiblingTreeNode<ElemType> *r, ChildSiblingTreeNode<ElemType> *CSTN) const
+ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::GetParent(ChildSiblingTreeNode<ElemType> *root, ChildSiblingTreeNode<ElemType> *CSTN) const
 {
-    if (!r)
+    if (!root)
     {
         return NULL;
     }
-    ChildSiblingTreeNode<ElemType> *p = r->firstchild_;
+    ChildSiblingTreeNode<ElemType> *p = root->firstChild_;
     while (p)
     {
         if (p == CSTN)
         {
-            return r;
+            return root;
         }
-        p = p->nextsibling_;
+        p = p->nextSibling_;
     }
-    p = r->firstchild_;
+    p = root->firstChild_;
     while (p)
     {
         ChildSiblingTreeNode<ElemType> *q = GetParent(p, CSTN);
@@ -111,78 +115,78 @@ ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::GetParent(ChildSibli
         {
             return q;
         }
-        p = p->nextsibling_;
+        p = p->nextSibling_;
     }
     return NULL;
 }
 template <class ElemType>
-int ChildSiblingTree<ElemType>::GetDegree(ChildSiblingTreeNode<ElemType> *r) const
+int ChildSiblingTree<ElemType>::GetDegree(ChildSiblingTreeNode<ElemType> *root) const
 {
-    if (!r)
+    if (!root)
     {
         return 0;
     }
-    ChildSiblingTreeNode<ElemType> *p = r->firstchild_;
-    int maxdegree = GetNodeDegree(r);
+    ChildSiblingTreeNode<ElemType> *p = root->firstChild_;
+    int maxDegree = GetNodeDegree(root);
     while (p)
     {
         int degree = GetDegree(p);
-        maxdegree = maxdegree > degree ? maxdegree : degree;
-        p = p->nextsibling_;
+        maxDegree = maxDegree > degree ? maxDegree : degree;
+        p = p->nextSibling_;
     }
-    return maxdegree;
+    return maxDegree;
 }
 template <class ElemType>
-int ChildSiblingTree<ElemType>::GetHeight(ChildSiblingTreeNode<ElemType> *r) const
+int ChildSiblingTree<ElemType>::GetHeight(ChildSiblingTreeNode<ElemType> *root) const
 {
-    if (!r)
+    if (!root)
     {
         return 0;
     }
-    ChildSiblingTreeNode<ElemType> *p = r->firstchild_;
-    int maxheight = 0;
+    ChildSiblingTreeNode<ElemType> *p = root->firstChild_;
+    int maxHeight = 0;
     while (p)
     {
         int height = GetHeight(p);
-        maxheight = maxheight > height ? maxheight : height;
-        p = p->nextsibling_;
+        maxHeight = maxHeight > height ? maxHeight : height;
+        p = p->nextSibling_;
     }
-    return maxheight + 1;
+    return maxHeight + 1;
 }
 template <class ElemType>
-int ChildSiblingTree<ElemType>::GetNodeDegree(ChildSiblingTreeNode<ElemType> *r) const
+int ChildSiblingTree<ElemType>::GetNodeDegree(ChildSiblingTreeNode<ElemType> *root) const
 {
-    if (!r)
+    if (!root)
     {
         return 0;
     }
-    ChildSiblingTreeNode<ElemType> *p = r->firstchild_;
+    ChildSiblingTreeNode<ElemType> *p = root->firstChild_;
     int count = 0;
     while (p)
     {
         count++;
-        p = p->nextsibling_;
+        p = p->nextSibling_;
     }
     return count;
 }
 template <class ElemType>
-int ChildSiblingTree<ElemType>::GetNodeNumber(ChildSiblingTreeNode<ElemType> *r) const
+int ChildSiblingTree<ElemType>::GetNodeNumber(ChildSiblingTreeNode<ElemType> *root) const
 {
-    if (!r)
+    if (!root)
     {
         return 0;
     }
-    return GetNodeNumber(r->firstchild_) + GetNodeNumber(r->nextsibling_) + 1;
+    return GetNodeNumber(root->firstChild_) + GetNodeNumber(root->nextSibling_) + 1;
 }
 template <class ElemType>
-void ChildSiblingTree<ElemType>::Destroy(ChildSiblingTreeNode<ElemType> *&r)
+void ChildSiblingTree<ElemType>::Destroy(ChildSiblingTreeNode<ElemType> *&root)
 {
-    if (r)
+    if (root)
     {
-        Destroy(r->firstchild_);
-        Destroy(r->nextsibling_);
-        delete r;
-        r = NULL;
+        Destroy(root->firstChild_);
+        Destroy(root->nextSibling_);
+        delete root;
+        root = NULL;
     }
 }
 template <class ElemType>
@@ -190,14 +194,23 @@ ChildSiblingTree<ElemType>::ChildSiblingTree() : root_(NULL)
 {
 }
 template <class ElemType>
-ChildSiblingTree<ElemType>::ChildSiblingTree(ElemType *datas, int *parents, int n)
+ChildSiblingTree<ElemType>::ChildSiblingTree(ChildSiblingTreeNode<ElemType> *root) : root_(root)
 {
-    root_ = CreateTree(datas, parents, n, 0);
 }
-template<class ElemType>
+template <class ElemType>
 ChildSiblingTree<ElemType>::ChildSiblingTree(const ChildSiblingTree<ElemType> &CST)
 {
     root_ = CopyTree(CST.GetRoot());
+}
+template <class ElemType>
+ChildSiblingTree<ElemType>::ChildSiblingTree(const ElemType &e)
+{
+    root_ = new ChildSiblingTreeNode<ElemType>(e);
+}
+template <class ElemType>
+ChildSiblingTree<ElemType>::ChildSiblingTree(ElemType *datas, int *parents, int n)
+{
+    root_ = CreateTree(datas, parents, n, 0);
 }
 template <class ElemType>
 ChildSiblingTree<ElemType>::~ChildSiblingTree()
@@ -214,7 +227,7 @@ ChildSiblingTree<ElemType> &ChildSiblingTree<ElemType>::operator=(const ChildSib
 {
     if (&CST != this)
     {
-        Destroy(root_); 
+        Destroy(root_);
         root_ = CopyTree(CST.GetRoot());
     }
     return *this;
@@ -222,12 +235,12 @@ ChildSiblingTree<ElemType> &ChildSiblingTree<ElemType>::operator=(const ChildSib
 template <class ElemType>
 ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::GetFirstChild(ChildSiblingTreeNode<ElemType> *CSTN) const
 {
-    return CSTN ? CSTN->firstchild_ : NULL;
+    return CSTN ? CSTN->firstChild_ : NULL;
 }
 template <class ElemType>
 ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::GetNextSibling(ChildSiblingTreeNode<ElemType> *CSTN) const
 {
-    return CSTN ? CSTN->nextsibling_ : NULL;
+    return CSTN ? CSTN->nextSibling_ : NULL;
 }
 template <class ElemType>
 ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::GetParent(ChildSiblingTreeNode<ElemType> *CSTN) const
@@ -255,6 +268,37 @@ int ChildSiblingTree<ElemType>::GetNodeNumber() const
     return GetNodeNumber(root_);
 }
 template <class ElemType>
+Status ChildSiblingTree<ElemType>::DeleteChild(ChildSiblingTreeNode<ElemType> *CSTN, int position, ElemType &e)
+{
+    if (!CSTN)
+    {
+        return UNDER_FLOW;
+    }
+    ChildSiblingTreeNode<ElemType> *p, *q;
+    if (position < 0 or position > GetNodeDegree(CSTN))
+    {
+        return UNDER_FLOW;
+    }
+    if (position == 1)
+    {
+        q = CSTN->firstChild_;
+        CSTN->firstChild_ = q->nextSibling_;
+    }
+    else
+    {
+        p = CSTN->firstChild_;
+        for (int i = 1; i < i - 1; i++)
+        {
+            p = p->nextSibling_;
+        }
+        q = p->nextSibling_;
+        p->nextSibling_ = q->nextSibling_;
+    }
+    e = q->data_;
+    Destroy(q);
+    return SUCCESS;
+}
+template <class ElemType>
 Status ChildSiblingTree<ElemType>::GetElem(ChildSiblingTreeNode<ElemType> *CSTN, ElemType &e) const
 {
     if (!CSTN)
@@ -262,6 +306,35 @@ Status ChildSiblingTree<ElemType>::GetElem(ChildSiblingTreeNode<ElemType> *CSTN,
         return UNDER_FLOW;
     }
     e = CSTN->data_;
+    return SUCCESS;
+}
+template <class ElemType>
+Status ChildSiblingTree<ElemType>::InsertChild(ChildSiblingTreeNode<ElemType> *CSTN, int position, const ElemType &e)
+{
+    if (!CSTN)
+    {
+        return UNDER_FLOW;
+    }
+    if (position < 1 or position > GetNodeDegree(CSTN) + 1)
+    {
+        return RANGE_ERROR;
+    }
+    ChildSiblingTreeNode<ElemType> *q = new ChildSiblingTreeNode<ElemType>(e);
+    if (position == 1)
+    {
+        q->nextSibling_ = CSTN->firstChild_;
+        CSTN->firstChild_ = q;
+    }
+    else
+    {
+        ChildSiblingTreeNode<ElemType> *p = CSTN->firstChild_;
+        for (int i = 1; i < position - 1; i++)
+        {
+            p = p->nextSibling_;
+        }
+        q->nextSibling_ = p->nextSibling_;
+        p->nextSibling_ = q;
+    }
     return SUCCESS;
 }
 template <class ElemType>

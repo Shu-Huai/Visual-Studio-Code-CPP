@@ -20,7 +20,7 @@ int main()
         if (times[i])
         {
             cout << char(i) << ": " << times[i];
-            if (!((format++ + 1) % 5) and i != 126)
+            if (!((format++ + 1) % 5) && i != 126)
             {
                 cout << endl;
                 judge = 1;
