@@ -7,7 +7,7 @@ class SeqStack
 {
 protected:
     int top_;
-    int maxsize_;
+    int maxSize_;
     ElemType *elems_;
 
 public:
@@ -24,9 +24,9 @@ public:
     SeqStack<ElemType> &operator=(const SeqStack<ElemType> &SS);
 };
 template <class ElemType>
-SeqStack<ElemType>::SeqStack(int size) : maxsize_(size), top_(-1)
+SeqStack<ElemType>::SeqStack(int size) : maxSize_(size), top_(-1)
 {
-    elems_ = new ElemType[maxsize_];
+    elems_ = new ElemType[maxSize_];
     assert(elems_);
 }
 template <class ElemType>
@@ -60,7 +60,7 @@ void SeqStack<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
 template <class ElemType>
 Status SeqStack<ElemType>::Push(const ElemType e)
 {
-    if (top_ == maxsize_)
+    if (top_ == maxSize_)
     {
         return OVER_FLOW;
     }
@@ -88,9 +88,9 @@ Status SeqStack<ElemType>::Pop(ElemType &e)
     return SUCCESS;
 }
 template <class ElemType>
-SeqStack<ElemType>::SeqStack(const SeqStack<ElemType> &SS) : maxsize_(SS.maxsize_), top_(SS.top_)
+SeqStack<ElemType>::SeqStack(const SeqStack<ElemType> &SS) : maxSize_(SS.maxSize_), top_(SS.top_)
 {
-    elems_ = new ElemType[maxsize_];
+    elems_ = new ElemType[maxSize_];
     assert(elems_);
     for (int i = 0; i < top_ + 1; i++)
     {
@@ -103,9 +103,9 @@ SeqStack<ElemType> &SeqStack<ElemType>::operator=(const SeqStack<ElemType> &SS)
     if (&SS != this)
     {
         delete[] elems_;
-        maxsize_ = SS.maxsize_;
+        maxSize_ = SS.maxSize_;
         top_ = SS.top_;
-        elems_ = new ElemType[maxsize_];
+        elems_ = new ElemType[maxSize_];
         assert(elems_);
         for (int i = 0; i < top_ + 1; i++)
         {

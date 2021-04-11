@@ -7,7 +7,7 @@ class SeqQueue
 {
 protected:
     int front_, rear_;
-    int maxsize_;
+    int maxSize_;
     ElemType *elems_;
 
 public:
@@ -24,9 +24,9 @@ public:
     SeqQueue<ElemType> &operator=(const SeqQueue<ElemType> &SQ);
 };
 template <class ElemType>
-SeqQueue<ElemType>::SeqQueue(int size) : maxsize_(size), front_(0), rear_(0)
+SeqQueue<ElemType>::SeqQueue(int size) : maxSize_(size), front_(0), rear_(0)
 {
-    elems_ = new ElemType[maxsize_];
+    elems_ = new ElemType[maxSize_];
 }
 template <class ElemType>
 SeqQueue<ElemType>::~SeqQueue()
@@ -36,7 +36,7 @@ SeqQueue<ElemType>::~SeqQueue()
 template <class ElemType>
 int SeqQueue<ElemType>::GetLength() const
 {
-    return (rear_ - front_ + maxsize_) % maxsize_;
+    return (rear_ - front_ + maxSize_) % maxSize_;
 }
 template <class ElemType>
 bool SeqQueue<ElemType>::IsEmpty() const
@@ -52,7 +52,7 @@ void SeqQueue<ElemType>::Clear()
 template <class ElemType>
 void SeqQueue<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
 {
-    for (int i = front_; i != rear_; i = (i + 1) % maxsize_)
+    for (int i = front_; i != rear_; i = (i + 1) % maxSize_)
     {
         (*Visit)(elems_[i]);
     }
@@ -65,7 +65,7 @@ Status SeqQueue<ElemType>::DelQueue(ElemType &e)
         return UNDER_FLOW;
     }
     e = elems_[front_];
-    front_ = (front_ + 1) % maxsize_;
+    front_ = (front_ + 1) % maxSize_;
     return SUCCESS;
 }
 template <class ElemType>
@@ -82,19 +82,19 @@ Status SeqQueue<ElemType>::GetHead(ElemType &e) const
 template <class ElemType>
 Status SeqQueue<ElemType>::EnQueue(const ElemType e)
 {
-    if ((rear_ + 1) % maxsize_ == front_)
+    if ((rear_ + 1) % maxSize_ == front_)
     {
         return OVER_FLOW;
     }
     elems_[rear_] = e;
-    rear_ = (rear_ + 1) % maxsize_;
+    rear_ = (rear_ + 1) % maxSize_;
     return SUCCESS;
 }
 template <class ElemType>
-SeqQueue<ElemType>::SeqQueue(const SeqQueue<ElemType> &SQ) : maxsize_(SQ.maxsize_), front_(SQ.front_), rear_(SQ.rear_)
+SeqQueue<ElemType>::SeqQueue(const SeqQueue<ElemType> &SQ) : maxSize_(SQ.maxSize_), front_(SQ.front_), rear_(SQ.rear_)
 {
-    elems_ = new ElemType[maxsize_];
-    for (int i = front_; i <= rear_; i = (i + 1) % maxsize_)
+    elems_ = new ElemType[maxSize_];
+    for (int i = front_; i <= rear_; i = (i + 1) % maxSize_)
     {
         elems_[i] = SQ.elems_[i];
     }
@@ -104,13 +104,13 @@ SeqQueue<ElemType> &SeqQueue<ElemType>::operator=(const SeqQueue<ElemType> &SQ)
 {
     if (&SQ != this)
     {
-        maxsize_ = SQ.maxsize_;
+        maxSize_ = SQ.maxSize_;
         if (elems_ != NULL)
             delete[] elems_;
-        elems_ = new ElemType[maxsize_];
+        elems_ = new ElemType[maxSize_];
         front_ = SQ.front_;
         rear_ = SQ.rear_;
-        for (int i = front_; i != rear_; i = (i + 1) % maxsize_)
+        for (int i = front_; i != rear_; i = (i + 1) % maxSize_)
             elems_[i] = SQ.elems_[i];
     }
     return *this;

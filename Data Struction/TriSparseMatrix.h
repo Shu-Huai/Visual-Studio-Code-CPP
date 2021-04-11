@@ -8,7 +8,7 @@ class TriSparseMatrix
 {
 protected:
     Triple<ElemType> *elems_;
-    int maxsize_;
+    int maxSize_;
     int rows_, cols_;
     int num_;
 
@@ -29,9 +29,9 @@ public:
     friend ostream &operator<<(ostream &out, TriSparseMatrix<E> &TSM);
 };
 template <class ElemType>
-TriSparseMatrix<ElemType>::TriSparseMatrix(int rows, int cols, int maxsize) : maxsize_(maxsize), rows_(rows), cols_(cols), num_(0)
+TriSparseMatrix<ElemType>::TriSparseMatrix(int rows, int cols, int maxsize) : maxSize_(maxsize), rows_(rows), cols_(cols), num_(0)
 {
-    elems_ = new Triple<ElemType>[maxsize_];
+    elems_ = new Triple<ElemType>[maxSize_];
     assert(elems_);
 }
 template <class ElemType>
@@ -57,7 +57,7 @@ int TriSparseMatrix<ElemType>::GetNum() const
 template <class ElemType>
 Status TriSparseMatrix<ElemType>::SetElem(int r, int c, const ElemType &e)
 {
-    if (num_ >= maxsize_)
+    if (num_ >= maxSize_)
     {
         return OVER_FLOW;
     }
@@ -121,9 +121,9 @@ Status TriSparseMatrix<ElemType>::GetElem(int r, int c, ElemType &e)
     return RANGE_ERROR;
 }
 template <class ElemType>
-TriSparseMatrix<ElemType>::TriSparseMatrix(const TriSparseMatrix<ElemType> &TSM) : maxsize_(TSM.maxsize_), rows_(TSM.rows_), cols_(TSM.cols_), num_(TSM.num_)
+TriSparseMatrix<ElemType>::TriSparseMatrix(const TriSparseMatrix<ElemType> &TSM) : maxSize_(TSM.maxSize_), rows_(TSM.rows_), cols_(TSM.cols_), num_(TSM.num_)
 {
-    elems_ = new Triple<ElemType>[maxsize_];
+    elems_ = new Triple<ElemType>[maxSize_];
     assert(elems_);
     for (int i = 0; i < num_; i++)
     {
@@ -136,11 +136,11 @@ TriSparseMatrix<ElemType> &TriSparseMatrix<ElemType>::operator=(const TriSparseM
     if (&TSM != this)
     {
         delete[] elems_;
-        maxsize_ = TSM.maxsize_;
+        maxSize_ = TSM.maxSize_;
         rows_ = TSM.rows_;
         cols_ = TSM.cols_;
         num_ = TSM.num_;
-        elems_ = new Triple<ElemType>[maxsize_];
+        elems_ = new Triple<ElemType>[maxSize_];
         assert(elems_);
         for (int i = 0; i < num_; i++)
         {
@@ -154,10 +154,10 @@ void TriSparseMatrix<ElemType>::SimpleTranspose(TriSparseMatrix<ElemType> &TSM)
 {
     TSM.cols_ = rows_;
     TSM.rows_ = cols_;
-    TSM.maxsize_ = maxsize_;
+    TSM.maxSize_ = maxSize_;
     TSM.num_ = num_;
     delete[] TSM.elems_;
-    TSM.elems_ = new Triple<ElemType>[maxsize_];
+    TSM.elems_ = new Triple<ElemType>[maxSize_];
     int n = 0;
     for (int i = 0; i < cols_; i++)
     {
@@ -176,10 +176,10 @@ void TriSparseMatrix<ElemType>::FastTranspose(TriSparseMatrix<ElemType> &TSM)
 {
     TSM.cols_ = rows_;
     TSM.rows_ = cols_;
-    TSM.maxsize_ = maxsize_;
+    TSM.maxSize_ = maxSize_;
     TSM.num_ = num_;
     delete[] TSM.elems_;
-    TSM.elems_ = new Triple<ElemType>[maxsize_];
+    TSM.elems_ = new Triple<ElemType>[maxSize_];
     int *colnum = new int[cols_]{0};
     int *colpos = new int[cols_]{0};
     for (int i = 0; i < num_; i++)

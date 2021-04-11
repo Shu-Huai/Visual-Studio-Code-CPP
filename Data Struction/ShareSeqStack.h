@@ -8,7 +8,7 @@ class ShareSeqStack
 protected:
     int top1_;
     int top2_;
-    int maxsize_;
+    int maxSize_;
     ElemType *elems_;
 
 public:
@@ -25,9 +25,9 @@ public:
     ShareSeqStack<ElemType> &operator=(const ShareSeqStack<ElemType> &s);
 };
 template <class ElemType>
-ShareSeqStack<ElemType>::ShareSeqStack(int size) : maxsize_(size), top1_(-1), top2_(size)
+ShareSeqStack<ElemType>::ShareSeqStack(int size) : maxSize_(size), top1_(-1), top2_(size)
 {
-    elems_ = new ElemType[maxsize_];
+    elems_ = new ElemType[maxSize_];
     assert(elems_);
 }
 template <class ElemType>
@@ -42,7 +42,7 @@ int ShareSeqStack<ElemType>::GetLength(int No) const
     {
         return top1_ + 1;
     }
-    return maxsize_ - top2_;
+    return maxSize_ - top2_;
 }
 template <class ElemType>
 bool ShareSeqStack<ElemType>::IsEmpty(int No) const
@@ -51,7 +51,7 @@ bool ShareSeqStack<ElemType>::IsEmpty(int No) const
     {
         return top1_ == -1;
     }
-    return top2_ == maxsize_;
+    return top2_ == maxSize_;
 }
 template <class ElemType>
 void ShareSeqStack<ElemType>::Clear(int No)
@@ -62,7 +62,7 @@ void ShareSeqStack<ElemType>::Clear(int No)
     }
     else
     {
-        top2_ = maxsize_;
+        top2_ = maxSize_;
     }
 }
 template <class ElemType>
@@ -77,7 +77,7 @@ void ShareSeqStack<ElemType>::Traverse(void (*Visit)(const ElemType &), int No) 
     }
     else
     {
-        for (int i = top2_; i < maxsize_; i++)
+        for (int i = top2_; i < maxSize_; i++)
         {
             (*Visit)(elems_[i]);
         }
@@ -143,15 +143,15 @@ Status ShareSeqStack<ElemType>::Pop(ElemType &e, int No)
     return SUCCESS;
 }
 template <class ElemType>
-ShareSeqStack<ElemType>::ShareSeqStack(const ShareSeqStack<ElemType> &SSS) : maxsize_(SSS.maxsize_), top1_(SSS.top1_), top2_(SSS, top2_)
+ShareSeqStack<ElemType>::ShareSeqStack(const ShareSeqStack<ElemType> &SSS) : maxSize_(SSS.maxSize_), top1_(SSS.top1_), top2_(SSS, top2_)
 {
-    elems_ = new ElemType[maxsize_];
+    elems_ = new ElemType[maxSize_];
     assert(elems_);
     for (int i = 0; i < top1_ + 1; i++)
     {
         elems_[i] = SSS > elems_[i];
     }
-    for (int i = maxsize_ - 1; i > top2_ - 1; i--)
+    for (int i = maxSize_ - 1; i > top2_ - 1; i--)
     {
         elems_[i] = SSS > elems_[i];
     }
@@ -162,16 +162,16 @@ ShareSeqStack<ElemType> &ShareSeqStack<ElemType>::operator=(const ShareSeqStack<
     if (&SSS != this)
     {
         delete[] elems_;
-        maxsize_ = SSS.maxsize_;
+        maxSize_ = SSS.maxSize_;
         top1_ = SSS.top1_;
         top2_ = SSS.top2_;
-        elems_ = new ElemType[maxsize_];
+        elems_ = new ElemType[maxSize_];
         assert(elems_);
         for (int i = 0; i < top1_ + 1; i++)
         {
             elems_[i] = SSS.elems_[i];
         }
-        for (int i = maxsize_ - 1; i > top2_ - 1; i--)
+        for (int i = maxSize_ - 1; i > top2_ - 1; i--)
         {
             elems_[i] = SSS > elems_[i];
         }

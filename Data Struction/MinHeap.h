@@ -5,7 +5,7 @@ class MinHeap
 private:
     ElemType *elems_;
     int size_;
-    int maxsize_;
+    int maxSize_;
     void FilterDown(int start);
     void FilterUp(int end);
 
@@ -69,13 +69,13 @@ void MinHeap<ElemType>::FilterUp(int end)
     }
 }
 template <class ElemType>
-MinHeap<ElemType>::MinHeap(int maxsize) : size_(0), maxsize_(maxsize)
+MinHeap<ElemType>::MinHeap(int maxsize) : size_(0), maxSize_(maxsize)
 {
     elems_ = new ElemType[maxsize];
     assert(elems_);
 }
 template <class ElemType>
-MinHeap<ElemType>::MinHeap(ElemType e[], int n, int maxsize) : size_(n), maxsize_(maxsize)
+MinHeap<ElemType>::MinHeap(ElemType e[], int n, int maxsize) : size_(n), maxSize_(maxsize)
 {
     elems_ = new ElemType[maxsize];
     assert(elems_);
@@ -137,7 +137,7 @@ bool MinHeap<ElemType>::IsEmpty() const
 template <class ElemType>
 bool MinHeap<ElemType>::IsFull() const
 {
-    return size_ == maxsize_;
+    return size_ == maxSize_;
 }
 template <class ElemType>
 int MinHeap<ElemType>::GetSize() const

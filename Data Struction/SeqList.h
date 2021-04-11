@@ -7,7 +7,7 @@ class SeqList
 {
 protected:
     int length_;
-    int maxsize_;
+    int maxSize_;
     ElemType *elems_;
 
 public:
@@ -32,15 +32,15 @@ public:
     void Sort();
 };
 template <class ElemType>
-SeqList<ElemType>::SeqList(int size) : maxsize_(size), length_(0)
+SeqList<ElemType>::SeqList(int size) : maxSize_(size), length_(0)
 {
-    elems_ = new ElemType[maxsize_];
+    elems_ = new ElemType[maxSize_];
     assert(elems_);
 }
 template <class ElemType>
-SeqList<ElemType>::SeqList(ElemType *v, int n, int size) : maxsize_(size), length_(n)
+SeqList<ElemType>::SeqList(ElemType *v, int n, int size) : maxSize_(size), length_(n)
 {
-    elems_ = new ElemType[maxsize_];
+    elems_ = new ElemType[maxSize_];
     assert(elems_);
     for (int i = 0; i < length_; i++)
     {
@@ -125,7 +125,7 @@ Status SeqList<ElemType>::DeleteElem(int i, ElemType &e)
 template <class ElemType>
 Status SeqList<ElemType>::InsertElem(int i, const ElemType &e)
 {
-    if (length_ == maxsize_)
+    if (length_ == maxSize_)
     {
         return OVER_FLOW;
     }
@@ -144,7 +144,7 @@ Status SeqList<ElemType>::InsertElem(int i, const ElemType &e)
 template <class ElemType>
 Status SeqList<ElemType>::AppendElem(const ElemType &e)
 {
-    if (length_ == maxsize_)
+    if (length_ == maxSize_)
     {
         return OVER_FLOW;
     }
@@ -152,9 +152,9 @@ Status SeqList<ElemType>::AppendElem(const ElemType &e)
     return SUCCESS;
 }
 template <class ElemType>
-SeqList<ElemType>::SeqList(const SeqList<ElemType> &SL) : maxsize_(SL.maxsize_), length_(SL.length_)
+SeqList<ElemType>::SeqList(const SeqList<ElemType> &SL) : maxSize_(SL.maxSize_), length_(SL.length_)
 {
-    elems_ = new ElemType[maxsize_];
+    elems_ = new ElemType[maxSize_];
     assert(elems_);
     for (int i = 0; i < length_; i++)
     {
@@ -167,9 +167,9 @@ SeqList<ElemType> &SeqList<ElemType>::operator=(const SeqList<ElemType> &SL)
     if (&SL != this)
     {
         delete[] elems_;
-        maxsize_ = SL.maxsize_;
+        maxSize_ = SL.maxSize_;
         length_ = SL.length_;
-        elems_ = new ElemType[maxsize_];
+        elems_ = new ElemType[maxSize_];
         assert(elems_);
         for (int i = 0; i < length_; i++)
         {
