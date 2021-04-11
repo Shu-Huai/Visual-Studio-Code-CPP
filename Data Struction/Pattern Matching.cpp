@@ -1,11 +1,11 @@
 #include <cstring>
 #include <iostream>
 using namespace std;
-int BF(string &ob, string &pat)
+int BFPatternMatching(string &ob, string &pat)
 {
     int i = 0;
     int j = 0;
-    while (j < pat.length() and i < ob.length() and pat.length() - j <= ob.length() - i)
+    while (j < int(pat.length()) && i < int(ob.length()) && int(pat.length()) - j <= int(ob.length()) - i)
     {
         if (ob[i] == pat[j])
         {
@@ -18,7 +18,7 @@ int BF(string &ob, string &pat)
             j = 0;
         }
     }
-    if (j >= pat.length())
+    if (j >= int(pat.length()))
     {
         return i - j;
     }
@@ -32,9 +32,9 @@ void GetFailure(string &pat, int f[])
     int j = 0;
     int k = -1;
     f[0] = -1;
-    while (j < pat.length() - 1)
+    while (j < int(pat.length()) - 1)
     {
-        if (k == -1 or pat[j] == pat[k])
+        if (k == -1 || pat[j] == pat[k])
         {
             j++;
             k++;
@@ -46,15 +46,15 @@ void GetFailure(string &pat, int f[])
         }
     }
 }
-int KMP(string &ob, string &pat)
+int KMPPatternMatching(string &ob, string &pat)
 {
     int *f = new int[pat.length()];
     GetFailure(pat, f);
     int i = 0;
     int j = 0;
-    while (j < pat.length() and i < ob.length() and pat.length() - j <= ob.length() - i)
+    while (j < int(pat.length()) && i < int(ob.length()) && int(pat.length()) - j <= int(ob.length()) - i)
     {
-        if (j == -1 or ob[i] == pat[j])
+        if (j == -1 || ob[i] == pat[j])
         {
             i++;
             j++;
@@ -64,7 +64,7 @@ int KMP(string &ob, string &pat)
             j = f[j];
         }
     }
-    if (j >= pat.length())
+    if (j >= int(pat.length()))
     {
         return i - j;
     }
@@ -76,8 +76,8 @@ int KMP(string &ob, string &pat)
 int main()
 {
     string ob = "ZWWZWZ";
-    string pat = "ABCABCAAA";
-    cout << BF(ob, pat) << endl;
-    cout << KMP(ob, pat) << endl;
+    string pat = "ZWZ";
+    cout << BFPatternMatching(ob, pat) << endl;
+    cout << KMPPatternMatching(ob, pat) << endl;
     return 0;
 }

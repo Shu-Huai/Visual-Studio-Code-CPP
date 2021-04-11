@@ -118,7 +118,7 @@ int main()
     while (s != "#")
     {
         cin >> s;
-        input.InsertElem(s);
+        input.AppendElem(s);
     }
     Evaluation(input);
     return 0;
