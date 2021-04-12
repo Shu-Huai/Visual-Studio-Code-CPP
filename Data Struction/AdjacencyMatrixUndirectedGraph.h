@@ -171,31 +171,35 @@ Status AdjacencyMatrixUndirectedGraph<ElemType>::InsertSide(int v1, int v2)
 template <class ElemType>
 Status AdjacencyMatrixUndirectedGraph<ElemType>::DeleteVertex(const ElemType &e)
 {
-    int v;
-    for (v = 0; v < vertexNum_; v++)
-        if (vertexes_[v] == e)
-            break;
-    if (v == vertexNum_)
-        throw Error("图中不存在要删除的顶点!"); // 抛出异常
-
-    for (int u = 0; u < vertexNum_; u++) // 删除与顶点e相关联的边
-        if (adjacencyMatrix_[v][u] == 1)
+    int v = GetIndex(e);
+    if (v == -1)
+    {
+        return UNDER_FLOW;
+    }
+    for (int i = 0; i < vertexNum_; i++)
+    {
+        if (adjacencyMatrix_[v][i] == 1)
         {
+            adjacencyMatrix_[v][i] = 0;
+            adjacencyMatrix_[i][v] = 0;
             sideNum_--;
-            adjacencyMatrix_[v][u] = 0;
-            adjacencyMatrix_[u][v] = 0;
         }
-
+    }
     vertexNum_--;
     if (v < vertexNum_)
     {
         vertexes_[v] = vertexes_[vertexNum_];
         tags_[v] = tags_[vertexNum_];
-        for (int u = 0; u <= vertexNum_; u++)
-            adjacencyMatrix_[v][u] = adjacencyMatrix_[vertexNum_][u];
-        for (int u = 0; u <= vertexNum_; u++)
-            adjacencyMatrix_[u][v] = adjacencyMatrix_[u][vertexNum_];
+        for (int i = 0; i <= vertexNum_; i++)
+        {
+            adjacencyMatrix_[v][i] = adjacencyMatrix_[vertexNum_][i];
+        }
+        for (int i = 0; i <= vertexNum_; i++)
+        {
+            adjacencyMatrix_[i][v] = adjacencyMatrix_[i][vertexNum_];
+        }
     }
+    return SUCCESS;
 }
 template <class ElemType>
 Status AdjacencyMatrixUndirectedGraph<ElemType>::DeleteSide(int v1, int v2)
