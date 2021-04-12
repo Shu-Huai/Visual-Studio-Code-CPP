@@ -23,7 +23,7 @@ public:
     void Display();
     Status AppendVertex(const ElemType &e);
     Status InsertSide(int v1, int v2);
-    Status DeleteVertex(const ElemType &e);
+    Status DeleteVertex( ElemType &e);
     Status DeleteSide(int v1, int v2);
     Status SetElem(int v, const ElemType &e);
     void SetTag(int v, Status val);
@@ -120,8 +120,7 @@ bool AdjacencyMatrixUndirectedGraph<ElemType>::IsEmpty()
 template <class ElemType>
 void AdjacencyMatrixUndirectedGraph<ElemType>::Display()
 {
-
-    for (int i = 0; i < vertexes_; i++)
+    for (int i = 0; i < vertexNum_; i++)
     {
         cout << "\t" << vertexes_[i];
     }
@@ -169,7 +168,7 @@ Status AdjacencyMatrixUndirectedGraph<ElemType>::InsertSide(int v1, int v2)
     return SUCCESS;
 }
 template <class ElemType>
-Status AdjacencyMatrixUndirectedGraph<ElemType>::DeleteVertex(const ElemType &e)
+Status AdjacencyMatrixUndirectedGraph<ElemType>::DeleteVertex(ElemType &e)
 {
     int v = GetIndex(e);
     if (v == -1)
