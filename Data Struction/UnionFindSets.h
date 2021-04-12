@@ -18,7 +18,7 @@ public:
     void Clear();
     ElemType GetElem(int p) const;
     int GetParent(int p) const;
-    int GetOrder(ElemType e) const;
+    int GetIndex(ElemType e) const;
     void SimpleUnion(ElemType a, ElemType b);
     void UnionByHeight(ElemType a, ElemType b);
     void UnionByNodeNumber(ElemType a, ElemType b);
@@ -29,7 +29,7 @@ public:
 template <class ElemType>
 int UnionFindSets<ElemType>::SimpleFind(ElemType e) const
 {
-    int p = GetOrder(e);
+    int p = GetIndex(e);
     if (p == -1)
     {
         return -1;
@@ -43,7 +43,7 @@ int UnionFindSets<ElemType>::SimpleFind(ElemType e) const
 template <class ElemType>
 int UnionFindSets<ElemType>::OptimizedFind(ElemType e) const
 {
-    int p = GetOrder(e);
+    int p = GetIndex(e);
     if (p == -1)
     {
         return -1;
@@ -99,7 +99,7 @@ int UnionFindSets<ElemType>::GetParent(int p) const
     return sets_[p].parent_;
 }
 template <class ElemType>
-int UnionFindSets<ElemType>::GetOrder(ElemType e) const
+int UnionFindSets<ElemType>::GetIndex(ElemType e) const
 {
     int p = 0;
     while (p < size_)
