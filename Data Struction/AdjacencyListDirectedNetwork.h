@@ -1,3 +1,4 @@
+#pragma once
 #ifndef __ADJACENCY_LIST_DIRECTED_NETWORK_H__
 #define __ADJACENCY_LIST_DIRECTED_NETWORK_H__
 #include "AdjacencyListNetworkSide.h"
