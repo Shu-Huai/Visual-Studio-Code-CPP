@@ -10,7 +10,7 @@ protected:
     int maxVertexNum_;
     int sideNum_;
     ElemType *vertexes_;
-    Status *tags_;
+    bool *tags_;
     int **adjacencyMatrix_;
 
 public:
@@ -26,12 +26,12 @@ public:
     Status DeleteVertex( ElemType &e);
     Status DeleteSide(int v1, int v2);
     Status SetElem(int v, const ElemType &e);
-    void SetTag(int v, Status val);
+    Status SetTag(int v, bool val);
     int GetVertexNum() const;
     int GetSideNum() const;
     int GetIndex(ElemType &e) const;
     int GetElem(int v) const;
-    int GetTag(int v) const;
+    bool GetTag(int v) const;
     int GetFirstAdjacencyVertex(int v) const;
     int GetNextAdjacencyVertex(int v1, int v2) const;
     AdjacencyMatrixUndirectedGraph<ElemType> &operator=(const AdjacencyMatrixUndirectedGraph<ElemType> &AMUG);
@@ -40,7 +40,7 @@ template <class ElemType>
 AdjacencyMatrixUndirectedGraph<ElemType>::AdjacencyMatrixUndirectedGraph(int maxVertexNum) : vertexNum_(0), maxVertexNum_(maxVertexNum), sideNum_(0)
 {
     vertexes_ = new ElemType[maxVertexNum_];
-    tags_ = new Status[maxVertexNum_];
+    tags_ = new bool[maxVertexNum_];
     adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
     for (int i = 0; i < maxVertexNum_; i++)
     {
@@ -52,11 +52,11 @@ AdjacencyMatrixUndirectedGraph<ElemType>::AdjacencyMatrixUndirectedGraph(ElemTyp
     : vertexNum_(vertexNum), maxVertexNum_(maxVertexNum), sideNum_(0)
 {
     vertexes_ = new ElemType[maxVertexNum_];
-    tags_ = new Status[maxVertexNum_];
+    tags_ = new bool[maxVertexNum_];
     for (int i = 0; i < vertexNum_; i++)
     {
         vertexes_[i] = v[i];
-        tags_[i] = UNVISITED;
+        tags_[i] = 0;
     }
     adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
     for (int i = 0; i < maxVertexNum_; i++)
@@ -76,7 +76,7 @@ AdjacencyMatrixUndirectedGraph<ElemType>::AdjacencyMatrixUndirectedGraph(const A
     : vertexNum_(AMUG.vertexNum_), maxVertexNum_(AMUG.maxVertexNum_), sideNum_(AMUG.sideNum_)
 {
     vertexes_ = new ElemType[maxVertexNum_];
-    tags_ = new Status[maxVertexNum_];
+    tags_ = new bool[maxVertexNum_];
     for (int i = 0; i < vertexNum_; i++)
     {
         vertexes_[i] = AMUG.vertexes_[i];
@@ -143,7 +143,7 @@ Status AdjacencyMatrixUndirectedGraph<ElemType>::AppendVertex(const ElemType &e)
         return OVER_FLOW;
     }
     vertexes_[vertexNum_] = e;
-    tags_[vertexNum_] = UNVISITED;
+    tags_[vertexNum_] = 0;
     for (int i = 0; i <= vertexNum_; i++)
     {
         adjacencyMatrix_[vertexNum_][i] = 0;
@@ -226,9 +226,14 @@ Status AdjacencyMatrixUndirectedGraph<ElemType>::SetElem(int v, const ElemType &
     return SUCCESS;
 }
 template <class ElemType>
-void AdjacencyMatrixUndirectedGraph<ElemType>::SetTag(int v, Status val)
+Status AdjacencyMatrixUndirectedGraph<ElemType>::SetTag(int v, bool val)
 {
+    if (v < 0 || v >= vertexNum_)
+    {
+        return RANGE_ERROR;
+    }
     tags_[v] = val;
+    return SUCCESS;
 }
 template <class ElemType>
 int AdjacencyMatrixUndirectedGraph<ElemType>::GetVertexNum() const
@@ -258,7 +263,7 @@ int AdjacencyMatrixUndirectedGraph<ElemType>::GetElem(int v) const
     return vertexes_[v];
 }
 template <class ElemType>
-int AdjacencyMatrixUndirectedGraph<ElemType>::GetTag(int v) const
+bool AdjacencyMatrixUndirectedGraph<ElemType>::GetTag(int v) const
 {
     return tags_[v];
 }
@@ -302,7 +307,7 @@ AdjacencyMatrixUndirectedGraph<ElemType> &AdjacencyMatrixUndirectedGraph<ElemTyp
         maxVertexNum_ = AMUG.maxVertexNum_;
         sideNum_ = AMUG.sideNum_;
         vertexes_ = new ElemType[maxVertexNum_];
-        tags_ = new Status[maxVertexNum_];
+        tags_ = new bool[maxVertexNum_];
         for (int i = 0; i < vertexNum_; i++)
         {
             vertexes_[i] = AMUG.vertexes_[i];
