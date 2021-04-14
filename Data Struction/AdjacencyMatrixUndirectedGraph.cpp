@@ -59,35 +59,35 @@ int main()
             break;
         case '3':
             cout << endl
-                 << "输入顶点序号（图的顶点序号从0开始）:";
+                 << "输入顶点序号（图的顶点序号从0开始）：";
             cin >> v;
             e = g.GetElem(v);
             cout << "序号为" << v << "的顶点为" << e;
             break;
         case '4':
             cout << endl
-                 << "输入顶点序号（图的顶点序号从0开始）:";
+                 << "输入顶点序号（图的顶点序号从0开始）：";
             cin >> v;
             cout << endl
-                 << "输入" << v << "号顶点的值:";
+                 << "输入" << v << "号顶点的值：";
             cin >> e;
             g.SetElem(v, e);
             break;
         case '5':
             cout << endl
-                 << "输入被删除顶点的值:";
+                 << "输入被删除顶点的值：";
             cin >> e;
             g.DeleteVertex(e);
             break;
         case '6':
             cout << endl
-                 << "输入插入顶点的值:";
+                 << "输入插入顶点的值：";
             cin >> e;
             g.AppendVertex(e);
             break;
         case '7':
             cout << endl
-                 << "输入与被删除边关联的两个顶点值:";
+                 << "输入与被删除边关联的两个顶点值：";
             cin >> e1 >> e2;
             v1 = g.GetIndex(e1);
             v2 = g.GetIndex(e2);
@@ -95,7 +95,7 @@ int main()
             break;
         case '8':
             cout << endl
-                 << "输入与插入边关联的两个顶点值:";
+                 << "输入与插入边关联的两个顶点值：";
             cin >> e1 >> e2;
             v1 = g.GetIndex(e1);
             v2 = g.GetIndex(e2);
