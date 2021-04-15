@@ -8,10 +8,12 @@ class AdjacencyMatrixUndirectedGraph
 protected:
     int vertexNum_;
     int maxVertexNum_;
-    int sideNum_;
+    int edgeNum_;
     ElemType *vertexes_;
     bool *tags_;
     int **adjacencyMatrix_;
+    void DepthFirstSearch(int v, void (*Visit)(const ElemType &));
+    void BreadthFirstSearch(int v, void (*Visit)(const ElemType &));
 
 public:
     AdjacencyMatrixUndirectedGraph(int maxVertexNum = DEFAULT_SIZE);
@@ -21,14 +23,16 @@ public:
     void Clear();
     bool IsEmpty();
     void Display();
+    void DepthFirstTraverse(void (*Visit)(const ElemType &));
+    void BreadthFirstTraverse(void (*Visit)(const ElemType &));
     Status AppendVertex(const ElemType &e);
-    Status InsertSide(int v1, int v2);
-    Status DeleteVertex( ElemType &e);
-    Status DeleteSide(int v1, int v2);
+    Status InsertEdge(int v1, int v2);
+    Status DeleteVertex(ElemType &e);
+    Status DeleteEdge(int v1, int v2);
     Status SetElem(int v, const ElemType &e);
     Status SetTag(int v, bool val);
     int GetVertexNum() const;
-    int GetSideNum() const;
+    int GetEdgeNum() const;
     int GetIndex(ElemType &e) const;
     int GetElem(int v) const;
     bool GetTag(int v) const;
@@ -37,7 +41,43 @@ public:
     AdjacencyMatrixUndirectedGraph<ElemType> &operator=(const AdjacencyMatrixUndirectedGraph<ElemType> &AMUG);
 };
 template <class ElemType>
-AdjacencyMatrixUndirectedGraph<ElemType>::AdjacencyMatrixUndirectedGraph(int maxVertexNum) : vertexNum_(0), maxVertexNum_(maxVertexNum), sideNum_(0)
+void AdjacencyMatrixUndirectedGraph<ElemType>::DepthFirstSearch(int v, void (*Visit)(const ElemType &))
+{
+    ElemType e;
+    tags_[v] = 1;
+    Visit(vertexes_[v]);
+    for (int i = GetFirstAdjacencyVertex(v); i != -1; i = GetNextAdjacencyVertex(v, i))
+    {
+        if (!tags_[i])
+        {
+            DepthFirstSearch(i, Visit);
+        }
+    }
+}
+template <class ElemType>
+void AdjacencyMatrixUndirectedGraph<ElemType>::BreadthFirstSearch(int v, void (*Visit)(const ElemType &))
+{
+    tags_[v] = 1;
+    Visit(vertexes_[v]);
+    queue<int> Q;
+    Q.push(v);
+    while (!Q.empty())
+    {
+        int e = Q.front();
+        Q.pop();
+        for (int i = GetFirstAdjacencyVertex(e); i != -1; i = GetNextAdjacencyVertex(e, i))
+        {
+            if (!tags_[i])
+            {
+                tags_[i] = 1;
+                Visit(vertexes_[i]);
+                Q.push(i);
+            }
+        }
+    }
+}
+template <class ElemType>
+AdjacencyMatrixUndirectedGraph<ElemType>::AdjacencyMatrixUndirectedGraph(int maxVertexNum) : vertexNum_(0), maxVertexNum_(maxVertexNum), edgeNum_(0)
 {
     vertexes_ = new ElemType[maxVertexNum_];
     tags_ = new bool[maxVertexNum_];
@@ -49,7 +89,7 @@ AdjacencyMatrixUndirectedGraph<ElemType>::AdjacencyMatrixUndirectedGraph(int max
 }
 template <class ElemType>
 AdjacencyMatrixUndirectedGraph<ElemType>::AdjacencyMatrixUndirectedGraph(ElemType *v, int vertexNum, int maxVertexNum)
-    : vertexNum_(vertexNum), maxVertexNum_(maxVertexNum), sideNum_(0)
+    : vertexNum_(vertexNum), maxVertexNum_(maxVertexNum), edgeNum_(0)
 {
     vertexes_ = new ElemType[maxVertexNum_];
     tags_ = new bool[maxVertexNum_];
@@ -73,7 +113,7 @@ AdjacencyMatrixUndirectedGraph<ElemType>::AdjacencyMatrixUndirectedGraph(ElemTyp
 }
 template <class ElemType>
 AdjacencyMatrixUndirectedGraph<ElemType>::AdjacencyMatrixUndirectedGraph(const AdjacencyMatrixUndirectedGraph<ElemType> &AMUG)
-    : vertexNum_(AMUG.vertexNum_), maxVertexNum_(AMUG.maxVertexNum_), sideNum_(AMUG.sideNum_)
+    : vertexNum_(AMUG.vertexNum_), maxVertexNum_(AMUG.maxVertexNum_), edgeNum_(AMUG.edgeNum_)
 {
     vertexes_ = new ElemType[maxVertexNum_];
     tags_ = new bool[maxVertexNum_];
@@ -110,7 +150,7 @@ template <class ElemType>
 void AdjacencyMatrixUndirectedGraph<ElemType>::Clear()
 {
     vertexNum_ = 0;
-    sideNum_ = 0;
+    edgeNum_ = 0;
 }
 template <class ElemType>
 bool AdjacencyMatrixUndirectedGraph<ElemType>::IsEmpty()
@@ -136,6 +176,36 @@ void AdjacencyMatrixUndirectedGraph<ElemType>::Display()
     }
 }
 template <class ElemType>
+void AdjacencyMatrixUndirectedGraph<ElemType>::DepthFirstTraverse(void (*Visit)(const ElemType &))
+{
+    for (int i = 0; i < vertexNum_; i++)
+    {
+        tags_[i] = 0;
+    }
+    for (int i = 0; i < vertexNum_; i++)
+    {
+        if (!tags_[i])
+        {
+            DepthFirstSearch(i, Visit);
+        }
+    }
+}
+template <class ElemType>
+void AdjacencyMatrixUndirectedGraph<ElemType>::BreadthFirstTraverse(void (*Visit)(const ElemType &))
+{
+    for (int i = 0; i < vertexNum_; i++)
+    {
+        tags_[i] = 0;
+    }
+    for (int i = 0; i < vertexNum_; i++)
+    {
+        if (!tags_[i])
+        {
+            BreadthFirstSearch(i, Visit);
+        }
+    }
+}
+template <class ElemType>
 Status AdjacencyMatrixUndirectedGraph<ElemType>::AppendVertex(const ElemType &e)
 {
     if (vertexNum_ == maxVertexNum_)
@@ -153,7 +223,7 @@ Status AdjacencyMatrixUndirectedGraph<ElemType>::AppendVertex(const ElemType &e)
     return SUCCESS;
 }
 template <class ElemType>
-Status AdjacencyMatrixUndirectedGraph<ElemType>::InsertSide(int v1, int v2)
+Status AdjacencyMatrixUndirectedGraph<ElemType>::InsertEdge(int v1, int v2)
 {
     if (v1 < 0 || v1 >= vertexNum_ || v2 < 0 || v2 >= vertexNum_ || v1 == v2)
     {
@@ -163,7 +233,7 @@ Status AdjacencyMatrixUndirectedGraph<ElemType>::InsertSide(int v1, int v2)
     {
         adjacencyMatrix_[v1][v2] = 1;
         adjacencyMatrix_[v2][v1] = 1;
-        sideNum_++;
+        edgeNum_++;
     }
     return SUCCESS;
 }
@@ -181,7 +251,7 @@ Status AdjacencyMatrixUndirectedGraph<ElemType>::DeleteVertex(ElemType &e)
         {
             adjacencyMatrix_[v][i] = 0;
             adjacencyMatrix_[i][v] = 0;
-            sideNum_--;
+            edgeNum_--;
         }
     }
     vertexNum_--;
@@ -201,7 +271,7 @@ Status AdjacencyMatrixUndirectedGraph<ElemType>::DeleteVertex(ElemType &e)
     return SUCCESS;
 }
 template <class ElemType>
-Status AdjacencyMatrixUndirectedGraph<ElemType>::DeleteSide(int v1, int v2)
+Status AdjacencyMatrixUndirectedGraph<ElemType>::DeleteEdge(int v1, int v2)
 {
     if (v1 < 0 || v1 >= vertexNum_ || v2 < 0 || v2 >= vertexNum_ || v1 == v2)
     {
@@ -211,7 +281,7 @@ Status AdjacencyMatrixUndirectedGraph<ElemType>::DeleteSide(int v1, int v2)
     {
         adjacencyMatrix_[v1][v2] = 0;
         adjacencyMatrix_[v2][v1] = 0;
-        sideNum_--;
+        edgeNum_--;
     }
     return SUCCESS;
 }
@@ -241,9 +311,9 @@ int AdjacencyMatrixUndirectedGraph<ElemType>::GetVertexNum() const
     return vertexNum_;
 }
 template <class ElemType>
-int AdjacencyMatrixUndirectedGraph<ElemType>::GetSideNum() const
+int AdjacencyMatrixUndirectedGraph<ElemType>::GetEdgeNum() const
 {
-    return sideNum_;
+    return edgeNum_;
 }
 template <class ElemType>
 int AdjacencyMatrixUndirectedGraph<ElemType>::GetIndex(ElemType &e) const
@@ -305,7 +375,7 @@ AdjacencyMatrixUndirectedGraph<ElemType> &AdjacencyMatrixUndirectedGraph<ElemTyp
         delete[] adjacencyMatrix_;
         vertexNum_ = AMUG.vertexNum_;
         maxVertexNum_ = AMUG.maxVertexNum_;
-        sideNum_ = AMUG.sideNum_;
+        edgeNum_ = AMUG.edgeNum_;
         vertexes_ = new ElemType[maxVertexNum_];
         tags_ = new bool[maxVertexNum_];
         for (int i = 0; i < vertexNum_; i++)

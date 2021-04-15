@@ -8,17 +8,17 @@ class AdjacencyListNetWorkVertex
 {
 public:
     ElemType data_;
-    AdjacencyListNetworkSide<WeightType> *firstSide_;
+    AdjacencyListNetworkEdge<WeightType> *firstEdge_;
     AdjacencyListNetWorkVertex();
-    AdjacencyListNetWorkVertex(ElemType e, AdjacencyListNetworkSide<WeightType> *sides = NULL);
+    AdjacencyListNetWorkVertex(ElemType e, AdjacencyListNetworkEdge<WeightType> *sides = NULL);
 };
 template <class ElemType, class WeightType>
-AdjacencyListNetWorkVertex<ElemType, WeightType>::AdjacencyListNetWorkVertex() : firstSide_(NULL)
+AdjacencyListNetWorkVertex<ElemType, WeightType>::AdjacencyListNetWorkVertex() : firstEdge_(NULL)
 {
 }
 template <class ElemType, class WeightType>
-AdjacencyListNetWorkVertex<ElemType, WeightType>::AdjacencyListNetWorkVertex(ElemType e, AdjacencyListNetworkSide<WeightType> *sides)
-    : data_(e), firstSide_(sides)
+AdjacencyListNetWorkVertex<ElemType, WeightType>::AdjacencyListNetWorkVertex(ElemType e, AdjacencyListNetworkEdge<WeightType> *sides)
+    : data_(e), firstEdge_(sides)
 {
 }
 #endif

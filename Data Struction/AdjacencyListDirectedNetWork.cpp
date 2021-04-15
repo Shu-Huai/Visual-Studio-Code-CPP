@@ -18,7 +18,7 @@ int main()
           {
                if (m[v][u] != infity)
                {
-                    ALDN.InsertSide(v, u, m[v][u]);
+                    ALDN.InsertEdge(v, u, m[v][u]);
                }
           }
      }
@@ -92,7 +92,7 @@ int main()
                cin >> e1 >> e2;
                v1 = ALDN.GetIndex(e1);
                v2 = ALDN.GetIndex(e2);
-               ALDN.DeleteSide(v1, v2);
+               ALDN.DeleteEdge(v1, v2);
                break;
           case '8':
                cout << endl
@@ -100,7 +100,7 @@ int main()
                cin >> e1 >> e2 >> w;
                v1 = ALDN.GetIndex(e1);
                v2 = ALDN.GetIndex(e2);
-               ALDN.InsertSide(v1, v2, w);
+               ALDN.InsertEdge(v1, v2, w);
                break;
           case '9':
                cout << endl

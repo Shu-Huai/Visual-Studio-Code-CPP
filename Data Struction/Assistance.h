@@ -19,6 +19,11 @@
 #include <limits>    // 极限
 using namespace std; // 标准库包含在命名空间std中
 
+// STL头文件
+#include <queue> // 队列
+#include <stack> //栈
+#include <algorithm>
+
 // 自定义类型
 enum Status
 {
