@@ -2,7 +2,7 @@
 #pragma once
 #ifndef __ADJACENCY_LIST_NETWORK_VERTEX_H__
 #define __ADJACENCY_LIST_NETWORK_VERTEX_H__
-#include "AdjacencyListNetworkSide.h"
+#include "AdjacencyListNetworkEdge.h"
 template <class ElemType, class WeightType>
 class AdjacencyListNetWorkVertex
 {

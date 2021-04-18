@@ -1,7 +1,7 @@
 #pragma once
 #ifndef __ADJACENCY_LIST_DIRECTED_NETWORK_H__
 #define __ADJACENCY_LIST_DIRECTED_NETWORK_H__
-#include "AdjacencyListNetworkSide.h"
+#include "AdjacencyListNetworkEdge.h"
 #include "AdjacencyListNetworkVertex.h"
 template <class ElemType, class WeightType>
 class AdjacencyListDirectedNetwork
