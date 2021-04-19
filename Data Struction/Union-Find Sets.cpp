@@ -1,4 +1,4 @@
-#include "UnionFindSets.h"
+#include "Union-Find Sets.h"
 int main()
 {
     const int n = 16;

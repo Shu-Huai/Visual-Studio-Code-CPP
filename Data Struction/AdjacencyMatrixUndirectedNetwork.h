@@ -2,9 +2,9 @@
 #ifndef __ADJACENCY_MATRIX_UNDIRECRED_NETWORK_H__
 #define __ADJACENCY_MATRIX_UNDIRECRED_NETWORK_H__
 #include "Assistance.h"
-#include "KruskalEdge.h"
-#include "MinimumHeap.h"
-#include "UnionFindSets.h"
+#include "Kruskal Edge.h"
+#include "Minimum Heap.h"
+#include "Union-Find Sets.h"
 template <class ElemType, class WeightType>
 class AdjacencyMatrixUndirectedNetwork
 {

@@ -80,7 +80,7 @@ ElemType Operate(ElemType first, string s, ElemType second)
     }
     return 0;
 }
-void Evaluation(SeqList<string> &ExpressList)
+void Evaluation(SequenceList<string> &ExpressList)
 {
     SeqStack<double> ExpressStack;
     int length = ExpressList.GetLength();
@@ -112,7 +112,7 @@ void Evaluation(SeqList<string> &ExpressList)
 }
 int main()
 {
-    SeqList<string> input(DEFAULT_SIZE);
+    SequenceList<string> input(DEFAULT_SIZE);
     cout << "输入后缀表达式，以'#'号结束:" << endl;
     string s = "\0";
     while (s != "#")

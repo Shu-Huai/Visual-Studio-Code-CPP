@@ -13,6 +13,7 @@ public:
     Status SetParent(int parent);
     ElemType GetData() const;
     int GetParent() const;
+    UnionFindSetsElem &operator=(const UnionFindSetsElem &UFSE);
 };
 template <class ElemType>
 UnionFindSetsElem<ElemType>::UnionFindSetsElem()
@@ -39,5 +40,15 @@ template <class ElemType>
 int UnionFindSetsElem<ElemType>::GetParent() const
 {
     return parent_;
+}
+template <class ElemType>
+UnionFindSetsElem<ElemType> &UnionFindSetsElem<ElemType>::operator=(const UnionFindSetsElem &UFSE)
+{
+    if (&UFSE != this)
+    {
+        data_ = UFSE.data_;
+        parent_ = UFSE.parent_;
+    }
+    return *this;
 }
 #endif

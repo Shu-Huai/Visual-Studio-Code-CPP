@@ -1,8 +1,8 @@
-#include "SeqList.h"
+#include "Sequence List.h"
 int main()
 {
     char c = 0;
-    SeqList<int> SL;
+    SequenceList<int> SL;
     int e = 0;
     int i = 0;
     Status S=SUCCESS;
