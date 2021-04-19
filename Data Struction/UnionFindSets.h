@@ -16,6 +16,7 @@ public:
     UnionFindSets(ElemType *v, int n);
     virtual ~UnionFindSets();
     void Clear();
+    void Display() const;
     ElemType GetElem(int p) const;
     int GetParent(int p) const;
     int GetIndex(ElemType e) const;
@@ -87,6 +88,28 @@ template <class ElemType>
 void UnionFindSets<ElemType>::Clear()
 {
     delete[] sets_;
+}
+template <class ElemType>
+void UnionFindSets<ElemType>::Display() const
+{
+    cout << "Index:  ";
+    for (int i = 0; i < size_; i++)
+    {
+        cout << setw(3) << i;
+    }
+    cout << endl
+         << "Parent: ";
+    for (int i = 0; i < size_; i++)
+    {
+        cout << setw(3) << sets_[i].parent_;
+    }
+    cout << endl
+         << "Data:   ";
+    for (int i = 0; i < size_; i++)
+    {
+        cout << setw(3) << sets_[i].data_;
+    }
+    cout << endl;
 }
 template <class ElemType>
 ElemType UnionFindSets<ElemType>::GetElem(int p) const

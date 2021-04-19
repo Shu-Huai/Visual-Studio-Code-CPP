@@ -5,18 +5,43 @@
 template <class ElemType, class WeightType>
 class KruskalEdge
 {
-public:
+protected:
     ElemType vertexA_;
     ElemType vertexB_;
     WeightType weight_;
+
+public:
+    KruskalEdge();
     KruskalEdge(ElemType v1, ElemType v2, WeightType weight);
+    ElemType GetVertexA() const;
+    ElemType GetVertexB() const;
+    WeightType GetWeight() const;
     KruskalEdge<ElemType, WeightType> &operator=(const KruskalEdge<ElemType, WeightType> &KE);
     bool operator<=(const KruskalEdge<ElemType, WeightType> &KE);
     bool operator>(const KruskalEdge<ElemType, WeightType> &KE);
 };
 template <class ElemType, class WeightType>
+KruskalEdge<ElemType, WeightType>::KruskalEdge()
+{
+}
+template <class ElemType, class WeightType>
 KruskalEdge<ElemType, WeightType>::KruskalEdge(ElemType v1, ElemType v2, WeightType weight) : vertexA_(v1), vertexB_(v2), weight_(weight)
 {
+}
+template <class ElemType, class WeightType>
+ElemType KruskalEdge<ElemType, WeightType>::GetVertexA() const
+{
+    return vertexA_;
+}
+template <class ElemType, class WeightType>
+ElemType KruskalEdge<ElemType, WeightType>::GetVertexB() const
+{
+    return vertexB_;
+}
+template <class ElemType, class WeightType>
+WeightType KruskalEdge<ElemType, WeightType>::GetWeight() const
+{
+    return weight_;
 }
 template <class ElemType, class WeightType>
 KruskalEdge<ElemType, WeightType> &KruskalEdge<ElemType, WeightType>::operator=(const KruskalEdge<ElemType, WeightType> &KE)

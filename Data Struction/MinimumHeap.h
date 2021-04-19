@@ -1,6 +1,9 @@
+#pragma once
+#ifndef __MINIMUM_HEAP_H__
+#define __MINIMUM_HEAP_H__
 #include "Assistance.h"
 template <class ElemType>
-class MinHeap
+class MinimumHeap
 {
 private:
     ElemType *elems_;
@@ -10,9 +13,9 @@ private:
     void FilterUp(int end);
 
 public:
-    MinHeap(int maxsize = DEFAULT_SIZE);
-    MinHeap(ElemType e[], int n, int maxsize = DEFAULT_SIZE);
-    ~MinHeap();
+    MinimumHeap(int maxsize = DEFAULT_SIZE);
+    MinimumHeap(ElemType e[], int n, int maxsize = DEFAULT_SIZE);
+    ~MinimumHeap();
     Status InsertElem(const ElemType &e);
     Status DeleteTop(ElemType &e);
     Status GetTop(ElemType &e) const;
@@ -23,7 +26,7 @@ public:
     void Traverse(void (*Visit)(const ElemType &)) const;
 };
 template <class ElemType>
-void MinHeap<ElemType>::FilterDown(int start)
+void MinimumHeap<ElemType>::FilterDown(int start)
 {
     int i = start;
     ElemType temp = elems_[i];
@@ -48,7 +51,7 @@ void MinHeap<ElemType>::FilterDown(int start)
     elems_[i] = temp;
 }
 template <class ElemType>
-void MinHeap<ElemType>::FilterUp(int end)
+void MinimumHeap<ElemType>::FilterUp(int end)
 {
     int j = end;
     ElemType temp = elems_[j];
@@ -69,13 +72,13 @@ void MinHeap<ElemType>::FilterUp(int end)
     }
 }
 template <class ElemType>
-MinHeap<ElemType>::MinHeap(int maxsize) : size_(0), maxSize_(maxsize)
+MinimumHeap<ElemType>::MinimumHeap(int maxsize) : size_(0), maxSize_(maxsize)
 {
     elems_ = new ElemType[maxsize];
     assert(elems_);
 }
 template <class ElemType>
-MinHeap<ElemType>::MinHeap(ElemType e[], int n, int maxsize) : size_(n), maxSize_(maxsize)
+MinimumHeap<ElemType>::MinimumHeap(ElemType e[], int n, int maxsize) : size_(n), maxSize_(maxsize)
 {
     elems_ = new ElemType[maxsize];
     assert(elems_);
@@ -91,12 +94,12 @@ MinHeap<ElemType>::MinHeap(ElemType e[], int n, int maxsize) : size_(n), maxSize
     }
 }
 template <class ElemType>
-MinHeap<ElemType>::~MinHeap()
+MinimumHeap<ElemType>::~MinimumHeap()
 {
     delete[] elems_;
 }
 template <class ElemType>
-Status MinHeap<ElemType>::InsertElem(const ElemType &e)
+Status MinimumHeap<ElemType>::InsertElem(const ElemType &e)
 {
     if (IsFull())
     {
@@ -108,7 +111,7 @@ Status MinHeap<ElemType>::InsertElem(const ElemType &e)
     return SUCCESS;
 }
 template <class ElemType>
-Status MinHeap<ElemType>::DeleteTop(ElemType &e)
+Status MinimumHeap<ElemType>::DeleteTop(ElemType &e)
 {
     if (IsEmpty())
     {
@@ -120,7 +123,7 @@ Status MinHeap<ElemType>::DeleteTop(ElemType &e)
     return SUCCESS;
 }
 template <class ElemType>
-Status MinHeap<ElemType>::GetTop(ElemType &e) const
+Status MinimumHeap<ElemType>::GetTop(ElemType &e) const
 {
     if (IsEmpty())
     {
@@ -130,27 +133,27 @@ Status MinHeap<ElemType>::GetTop(ElemType &e) const
     return SUCCESS;
 }
 template <class ElemType>
-bool MinHeap<ElemType>::IsEmpty() const
+bool MinimumHeap<ElemType>::IsEmpty() const
 {
     return size_ == 0;
 }
 template <class ElemType>
-bool MinHeap<ElemType>::IsFull() const
+bool MinimumHeap<ElemType>::IsFull() const
 {
     return size_ == maxSize_;
 }
 template <class ElemType>
-int MinHeap<ElemType>::GetSize() const
+int MinimumHeap<ElemType>::GetSize() const
 {
     return size_;
 }
 template <class ElemType>
-void MinHeap<ElemType>::Clear()
+void MinimumHeap<ElemType>::Clear()
 {
     size_ = 0;
 }
 template <class ElemType>
-void MinHeap<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
+void MinimumHeap<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
 {
     for (int i = 0; i < size_; i++)
     {
@@ -158,3 +161,4 @@ void MinHeap<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
     }
     cout << endl;
 }
+#endif

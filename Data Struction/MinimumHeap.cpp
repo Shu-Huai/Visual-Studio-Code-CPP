@@ -1,9 +1,9 @@
-#include "MinHeap.h"
+#include "MinimumHeap.h"
 int main()
 {
     char c = 0;
     int e = 0;
-    MinHeap<int> MH;
+    MinimumHeap<int> MH;
     Status sta;
     while (c != '0')
     {

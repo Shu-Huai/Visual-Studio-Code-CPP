@@ -3,7 +3,8 @@
 #define __ADJACENCY_MATRIX_UNDIRECRED_NETWORK_H__
 #include "Assistance.h"
 #include "KruskalEdge.h"
-#include "MinHeap.h"
+#include "MinimumHeap.h"
+#include "UnionFindSets.h"
 template <class ElemType, class WeightType>
 class AdjacencyMatrixUndirectedNetwork
 {
@@ -44,7 +45,7 @@ public:
     int GetFirstAdjacencyVertex(int v) const;
     int GetNextAdjacencyVertex(int v1, int v2) const;
     AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &operator=(const AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &AMUN);
-    void MiniSpanTreeKruskal();
+    void KruskalMinimumSpanningTree();
 };
 template <class ElemType, class WeightType>
 void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::DepthFirstSearch(int v, void (*Visit)(const ElemType &))
@@ -83,7 +84,7 @@ void AdjacencyMatrixUndirectedNetwork<ElemType, WeigthType>::BreadthFirstSearch(
     }
 }
 template <class ElemType, class WeightType>
-AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::AdjacencyMatrixUndirectedNetwork(int maxVertexNum, WeightType infinity = WeightType(DEFAULT_INFINITY))
+AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::AdjacencyMatrixUndirectedNetwork(int maxVertexNum, WeightType infinity)
     : vertexNum_(0), maxVertexNum_(maxVertexNum), edgeNum_(0), infinity_(infinity)
 {
     vertexes_ = new ElemType[maxVertexNum_];
@@ -95,8 +96,7 @@ AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::AdjacencyMatrixUndirecte
     }
 }
 template <class ElemType, class WeightType>
-AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::AdjacencyMatrixUndirectedNetwork(ElemType *v, int vertexNum, int maxVertexNum,
-                                                                                         WeightType infinity = WeightType(DEFAULT_INFINITY))
+AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::AdjacencyMatrixUndirectedNetwork(ElemType *v, int vertexNum, int maxVertexNum, WeightType infinity)
     : vertexNum_(vertexNum), maxVertexNum_(maxVertexNum), edgeNum_(0), infinity_(infinity)
 {
     vertexes_ = new ElemType[maxVertexNum_];
@@ -115,7 +115,7 @@ AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::AdjacencyMatrixUndirecte
     {
         for (int j = 0; j < vertexNum_; j++)
         {
-            adjacencyMatrix_[i][j] = 0;
+            adjacencyMatrix_[i][j] = infinity_;
         }
     }
 }
@@ -349,7 +349,7 @@ bool AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::GetTag(int v) const
 template <class ElemType, class WeightType>
 WeightType AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::GetWeight(int v1, int v2) const
 {
-    return vertexes_[v1][v2];
+    return adjacencyMatrix_[v1][v2];
 }
 template <class ElemType, class WeightType>
 WeightType AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::GetInfinity() const
@@ -361,6 +361,7 @@ int AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::GetFirstAdjacencyVer
 {
     for (int i = 0; i < vertexNum_; i++)
     {
+        int test = adjacencyMatrix_[v][i];
         if (adjacencyMatrix_[v][i] && adjacencyMatrix_[v][i] != infinity_)
         {
             return i;
@@ -419,40 +420,35 @@ AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &AdjacencyMatrixUndirecte
     return *this;
 }
 template <class ElemType, class WeightType>
-void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::MiniSpanTreeKruskal()
+void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::KruskalMinimumSpanningTree()
 {
-    int count, VexNum = g.GetVexNum();
-    KruskalEdge<ElemType, WeightType> KE;
-    MinHeap<KruskalEdge<ElemType, WeightType>> MH(edgeNum_);
-    ElemType *kVex, v1, v2;
-    kVex = new ElemType[VexNum]; // 定义顶点数组,存储顶点信息
-    for (int i = 0; i < VexNum; i++)
-        g.GetElem(i, kVex[i]);
-    UFSets<ElemType, WeightType> f(kVex, VexNum); // 根据顶点数组构造并查集
-    for (int v = 0; v < g.GetVexNum(); v++)
-        for (int u = g.FirstAdjVex(v); u >= 0; u = g.NextAdjVex(v, u))
-            if (v < u)
-            { // 将v < u的边插入到最小堆
-                g.GetElem(v, v1);
-                g.GetElem(u, v2);
-                KE.vertexA_ = v1;
-                KE.vertexB_ = v2;
-                KE.weight_ = g.GetWeight(v, u);
-                MH.Insert(KE);
-            }
-    count = 0; // 表示已经挑选的边数
-
-    while (count < VexNum - 1)
+    MinimumHeap<KruskalEdge<ElemType, WeightType>> MH(edgeNum_);
+    for (int i = 0; i < vertexNum_; i++)
     {
-        MH.DeleteTop(KE); // 从堆顶取一条边
-        v1 = KE.vertexA_;
-        v2 = KE.vertexB_;
-        if (f.Differ(v1, v2))
-        {                                                                             // 边所依附的两顶点不在同一棵树上
-            cout << "边:( " << v1 << ", " << v2 << " ) 权:" << KE.weight_ << endl; // 输出边及权值
-            f.Union(v1, v2);                                                          // 将两个顶点所在的树合并成一棵树
+        for (int j = GetFirstAdjacencyVertex(i); j >= 0; j = GetNextAdjacencyVertex(i, j))
+        {
+            if (i < j)
+            {
+                KruskalEdge<ElemType, WeightType> KE(vertexes_[i], vertexes_[j], adjacencyMatrix_[i][j]);
+                MH.InsertElem(KE);
+            }
+        }
+    }
+    int count = 0;
+    UnionFindSets<ElemType> UFS(vertexes_, vertexNum_);
+    while (count < vertexNum_ - 1)
+    {
+        KruskalEdge<ElemType, WeightType> KE;
+        MH.DeleteTop(KE);
+        ElemType v1 = KE.GetVertexA();
+        ElemType v2 = KE.GetVertexB();
+        if (UFS.Differ(v1, v2))
+        {
+            cout << "Edge: ( " << v1 << ", " << v2 << " ) Weight: " << KE.GetWeight() << "." << endl;
+            UFS.UnionByNodeNumber(v1, v2);
             count++;
         }
     }
+    UFS.Display();
 }
 #endif
