@@ -1,7 +1,6 @@
 #pragma once
 #ifndef __KRUSKAL_EDGE_H__
 #define __KRUSKAL_EDGE_H__
-#include "AdjacencyMatrixUndirectedGraph.h"
 template <class ElemType, class WeightType>
 class KruskalEdge
 {
