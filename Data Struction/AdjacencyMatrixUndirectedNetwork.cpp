@@ -18,5 +18,8 @@ int main()
     cout << "The Kruskal Minimum Spanning Tree is:" << endl;
     ALDN.KruskalMinimumSpanningTree();
     cout << endl;
+    cout << "The Prim Minimum Spanning Tree is:" << endl;
+    ALDN.PrimMinimumSpanningTree();
+    cout << endl;
     return 0;
 }

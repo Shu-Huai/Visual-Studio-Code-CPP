@@ -4,6 +4,7 @@
 #include "Assistance.h"
 #include "Kruskal Edge.h"
 #include "Minimum Heap.h"
+#include "Prim.h"
 #include "Union-Find Sets.h"
 template <class ElemType, class WeightType>
 class AdjacencyMatrixUndirectedNetwork
@@ -46,6 +47,7 @@ public:
     int GetNextAdjacencyVertex(int v1, int v2) const;
     AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &operator=(const AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &AMUN);
     void KruskalMinimumSpanningTree();
+    void PrimMinimumSpanningTree(int firstVertex = 0);
 };
 template <class ElemType, class WeightType>
 void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::DepthFirstSearch(int v, void (*Visit)(const ElemType &))
@@ -88,11 +90,15 @@ AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::AdjacencyMatrixUndirecte
     : vertexNum_(0), maxVertexNum_(maxVertexNum), edgeNum_(0), infinity_(infinity)
 {
     vertexes_ = new ElemType[maxVertexNum_];
+    assert(vertexes_);
     tags_ = new bool[maxVertexNum_];
+    assert(tags_);
     adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
+    assert(adjacencyMatrix_);
     for (int i = 0; i < maxVertexNum_; i++)
     {
         adjacencyMatrix_[i] = new int[maxVertexNum_];
+        assert(adjacencyMatrix_[i]);
     }
 }
 template <class ElemType, class WeightType>
@@ -100,16 +106,20 @@ AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::AdjacencyMatrixUndirecte
     : vertexNum_(vertexNum), maxVertexNum_(maxVertexNum), edgeNum_(0), infinity_(infinity)
 {
     vertexes_ = new ElemType[maxVertexNum_];
+    assert(vertexes_);
     tags_ = new bool[maxVertexNum_];
+    assert(tags_);
     for (int i = 0; i < vertexNum_; i++)
     {
         vertexes_[i] = v[i];
         tags_[i] = 0;
     }
     adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
+    assert(adjacencyMatrix_);
     for (int i = 0; i < maxVertexNum_; i++)
     {
         adjacencyMatrix_[i] = new int[maxVertexNum_];
+        assert(adjacencyMatrix_[i]);
     }
     for (int i = 0; i < vertexNum_; i++)
     {
@@ -124,16 +134,20 @@ AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::AdjacencyMatrixUndirecte
     : vertexNum_(AMUN.vertexNum_), maxVertexNum_(AMUN.maxVertexNum_), edgeNum_(AMUN.edgeNum_), infinity_(AMUN.infinity_)
 {
     vertexes_ = new ElemType[maxVertexNum_];
+    assert(vertexes_);
     tags_ = new bool[maxVertexNum_];
+    assert(tags_);
     for (int i = 0; i < vertexNum_; i++)
     {
         vertexes_[i] = AMUN.vertexes_[i];
         tags_[i] = AMUN.tags_[i];
     }
     adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
+    assert(adjacencyMatrix_);
     for (int i = 0; i < maxVertexNum_; i++)
     {
         adjacencyMatrix_[i] = new int[maxVertexNum_];
+        assert(adjacencyMatrix_[i]);
     }
     for (int i = 0; i < vertexNum_; i++)
     {
@@ -398,16 +412,20 @@ AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &AdjacencyMatrixUndirecte
         edgeNum_ = AMUN.edgeNum_;
         infinity_ = AMUN.infinity_;
         vertexes_ = new ElemType[maxVertexNum_];
+        assert(vertexes_);
         tags_ = new bool[maxVertexNum_];
+        assert(tags_);
         for (int i = 0; i < vertexNum_; i++)
         {
             vertexes_[i] = AMUN.vertexes_[i];
             tags_[i] = AMUN.tags_[i];
         }
         adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
+        assert(adjacencyMatrix_);
         for (int i = 0; i < maxVertexNum_; i++)
         {
             adjacencyMatrix_[i] = new int[maxVertexNum_];
+            assert(adjacencyMatrix_[i]);
         }
         for (int i = 0; i < vertexNum_; i++)
         {
@@ -444,11 +462,58 @@ void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::KruskalMinimumSpann
         ElemType v2 = KE.GetVertexB();
         if (UFS.Differ(v1, v2))
         {
-            cout << "Edge: ( " << v1 << ", " << v2 << " ) Weight: " << KE.GetWeight() << "." << endl;
+            cout << "Edge: (" << v1 << ", " << v2 << ") Weight: " << KE.GetWeight() << "." << endl;
             UFS.UnionByNodeNumber(v1, v2);
             count++;
         }
     }
     UFS.Display();
+}
+template <class ElemType, class WeightType>
+void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::PrimMinimumSpanningTree(int firstVertex)
+{
+    Prim<ElemType, WeightType> *minimunWeightEdge;
+    minimunWeightEdge = new Prim<ElemType, WeightType>[vertexNum_];
+    assert(minimunWeightEdge);
+    for (int i = 0; i < vertexNum_; i++)
+    {
+        if (i == firstVertex)
+        {
+            minimunWeightEdge[i].minimunWeight_ = 0;
+            minimunWeightEdge[i].adjacencyVertex_ = -1;
+        }
+        else
+        {
+            minimunWeightEdge[i].minimunWeight_ = adjacencyMatrix_[firstVertex][i];
+            minimunWeightEdge[i].adjacencyVertex_ = firstVertex;
+        }
+    }
+    for (int i = 1; i < vertexNum_; i++)
+    {
+        WeightType minimunWeight = infinity_;
+        int vertex = firstVertex;
+        for (int j = 0; j < vertexNum_; j++)
+        {
+            if (minimunWeightEdge[j].minimunWeight_ != 0 && minimunWeightEdge[j].minimunWeight_ < minimunWeight)
+            {
+                vertex = j;
+                minimunWeight = minimunWeightEdge[j].minimunWeight_;
+            }
+        }
+        if (vertex != firstVertex)
+        {
+            cout << "Edge: (" << vertexes_[minimunWeightEdge[vertex].adjacencyVertex_] << ", " << vertexes_[vertex] << ") Weight: " << minimunWeight << endl;
+            minimunWeightEdge[vertex].minimunWeight_ = 0;
+            for (int j = GetFirstAdjacencyVertex(vertex); j != -1; j = GetNextAdjacencyVertex(vertex, j))
+            {
+                if (minimunWeightEdge[j].minimunWeight_ != 0 && adjacencyMatrix_[vertex][j] < minimunWeightEdge[j].minimunWeight_)
+                { // <v, w>为新的最小边
+                    minimunWeightEdge[j].adjacencyVertex_ = vertex;
+                    minimunWeightEdge[j].minimunWeight_ = adjacencyMatrix_[vertex][j];
+                }
+            }
+        }
+    }
+    delete[] minimunWeightEdge;
 }
 #endif
