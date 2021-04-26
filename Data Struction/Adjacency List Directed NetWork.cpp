@@ -49,9 +49,11 @@ int main()
           cout << endl
                << "a. 迪杰斯特拉法求最短路径。";
           cout << endl
+               << "b. 求顶点入度。";
+          cout << endl
                << "0. 退出。";
           cout << endl
-               << "选择功能(0~a)：";
+               << "选择功能(0~b)：";
           cin >> functionSelect;
           switch (functionSelect)
           {
@@ -117,10 +119,19 @@ int main()
                ALDN.SetWeight(v1, v2, w);
                break;
           case 'a':
-               cout << endl;
-               ALDN.DijkstraShortestPash(0, path, distance);
+               cout << endl
+                    << "使用迪杰斯特拉算法求最短路径。" << endl;
+               ALDN.DijkstraShortestPath(0, path, distance);
+               cout << "前驱顶点：";
                Display(path, 6);
+               cout << "Distance: ";
                Display(distance, 6);
+               break;
+          case 'b':
+               cout << endl
+                    << "输入顶点：";
+               cin >> e;
+               cout << "顶点入度：" << ALDN.GetInDegree(ALDN.GetIndex(e)) << endl;
                break;
           }
      }
