@@ -1,4 +1,4 @@
-#include "LinkQueue.h" // 链队列类
+#include "Link Queue.h" // 链队列类
 
 int main(void)
 {

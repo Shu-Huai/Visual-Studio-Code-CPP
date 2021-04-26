@@ -2,7 +2,7 @@
 #ifndef __BINaRY_TREE_H__
 #define __BINaRY_TREE_H__
 #include "BinaryTreeNode.h"
-#include "LinkQueue.h"
+#include "Link Queue.h"
 template <class ElemType>
 class BinaryTree
 {

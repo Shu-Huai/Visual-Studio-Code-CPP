@@ -1,4 +1,4 @@
-#include "SeqList.h"
+#include "Sequence List.h"
 #include "SeqStack.h"
 #include <iostream>
 using namespace std;

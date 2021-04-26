@@ -1,8 +1,8 @@
 #pragma once
 #ifndef __CHILD_SIBLING_TREE_H__
 #define __CHILD_SIBLING_TREE_H__
-#include "ChildSiblingTreeNode.h"
-#include "LinkQueue.h"
+#include "Child Sibling Tree Node.h"
+#include "Link Queue.h"
 template <class ElemType>
 class ChildSiblingTree
 {
