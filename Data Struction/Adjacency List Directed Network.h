@@ -39,8 +39,9 @@ public:
     int GetNextAdjacencyVertex(int v1, int v2) const;
     WeightType GetInfinity() const;
     WeightType GetWeight(int v1, int v2) const;
-    int GetInDegree(int vertex) const;
     void DijkstraShortestPath(int sourceVertex, int *path, WeightType *distance);
+    int GetInDegree(int vertex) const;
+    void TopologicalSort() const;
     AdjacencyListDirectedNetwork<ElemType, WeightType> &operator=(const AdjacencyListDirectedNetwork<ElemType, WeightType> &ALDN);
 };
 template <class ElemType, class WeightType>
@@ -357,24 +358,6 @@ WeightType AdjacencyListDirectedNetwork<ElemType, WeightType>::GetWeight(int v1,
     return infinity_;
 }
 template <class ElemType, class WeightType>
-int AdjacencyListDirectedNetwork<ElemType, WeightType>::GetInDegree(int vertex) const
-{
-    int inDegree = 0;
-    for (int i = 0; i < vertexNum_; i++)
-    {
-        AdjacencyListNetworkEdge<WeightType> *p = vertexs_[i].firstEdge_;
-        while (p)
-        {
-            if (p->vertex_ == vertex)
-            {
-                inDegree++;
-            }
-            p = p->nextEdge_;
-        }
-    }
-    return inDegree;
-}
-template <class ElemType, class WeightType>
 void AdjacencyListDirectedNetwork<ElemType, WeightType>::DijkstraShortestPath(int sourceVertex, int *path, WeightType *distance)
 {
     for (int i = 0; i < vertexNum_; i++)
@@ -412,6 +395,61 @@ void AdjacencyListDirectedNetwork<ElemType, WeightType>::DijkstraShortestPath(in
                 path[j] = vertex;
             }
         }
+    }
+}
+template <class ElemType, class WeightType>
+int AdjacencyListDirectedNetwork<ElemType, WeightType>::GetInDegree(int vertex) const
+{
+    int inDegree = 0;
+    for (int i = 0; i < vertexNum_; i++)
+    {
+        AdjacencyListNetworkEdge<WeightType> *p = vertexs_[i].firstEdge_;
+        while (p)
+        {
+            if (p->vertex_ == vertex)
+            {
+                inDegree++;
+            }
+            p = p->nextEdge_;
+        }
+    }
+    return inDegree;
+}
+template <class ElemType, class WeightType>
+void AdjacencyListDirectedNetwork<ElemType, WeightType>::TopologicalSort() const
+{
+    int *inDegrees = new int[vertexNum_];
+    stack<int> S;
+    for (int i = 0; i < vertexNum_; i++)
+    // for (int i = vertexNum_ - 1; i > -1; i--)
+    {
+        inDegrees[i] = GetInDegree(i);
+        if (!inDegrees[i])
+        {
+            S.push(i);
+        }
+    }
+    int count = 0;
+    while (!S.empty())
+    {
+        int vertex = S.top();
+        S.pop();
+        cout << vertexs_[vertex].data_ << " ";
+        count++;
+        for (int i = GetFirstAdjacencyVertex(vertex); i != -1; i = GetNextAdjacencyVertex(vertex, i))
+        {
+            inDegrees[i]--;
+            if (!inDegrees[i])
+            {
+                S.push(i);
+            }
+        }
+    }
+    cout << endl;
+    delete[] inDegrees;
+    if (count < vertexNum_)
+    {
+        cout << "图有回路,无法进行拓扑排序!" << endl;
     }
 }
 template <class ElemType, class WeightType>

@@ -1,15 +1,40 @@
 #include "Adjacency List Directed Network.h"
 int main()
 {
-     int infity = DEFAULT_INFINITY;
+     // int infinity = DEFAULT_INFINITY;
+     // int vexs[] = {0, 1, 2, 3, 4, 5};
+     // int m[6][6] = {
+     //     {infinity, 45, 50, 15, infinity, infinity},
+     //     {infinity, infinity, 5, infinity, 20, 15},
+     //     {infinity, infinity, infinity, infinity, infinity, infinity},
+     //     {10, 10, infinity, infinity, 79, infinity},
+     //     {infinity, 30, infinity, infinity, infinity, infinity},
+     //     {infinity, infinity, infinity, infinity, 20, infinity}};
+     // char functionSelect = 0;
+     // int e, e1, e2;
+     // int n = 6, v, v1, v2, w;
+     // int distance[6];
+     // int path[6];
+     // AdjacencyListDirectedNetwork<int, int> ALDN(vexs, n);
+     // for (int v = 0; v < n; v++)
+     // {
+     //      for (int u = 0; u < n; u++)
+     //      {
+     //           if (m[v][u] != infinity)
+     //           {
+     //                ALDN.InsertEdge(v, u, m[v][u]);
+     //           }
+     //      }
+     // }
+     int infinity = DEFAULT_INFINITY;
      int vexs[] = {0, 1, 2, 3, 4, 5};
      int m[6][6] = {
-         {infity, 45, 50, 15, infity, infity},
-         {infity, infity, 5, infity, 20, 15},
-         {infity, infity, infity, infity, infity, infity},
-         {10, 10, infity, infity, 79, infity},
-         {infity, 30, infity, infity, infity, infity},
-         {infity, infity, infity, infity, 20, infity}};
+         {infinity, infinity, 1, 1, infinity, infinity},
+         {1, infinity, infinity, infinity, 1, infinity},
+         {infinity, infinity, infinity, 1, infinity, infinity},
+         {infinity, infinity, infinity, infinity, infinity, infinity},
+         {1, infinity, infinity, infinity, infinity, infinity},
+         {infinity, infinity, 1, 1, 1, infinity}};
      char functionSelect = 0;
      int e, e1, e2;
      int n = 6, v, v1, v2, w;
@@ -20,7 +45,7 @@ int main()
      {
           for (int u = 0; u < n; u++)
           {
-               if (m[v][u] != infity)
+               if (m[v][u] != infinity)
                {
                     ALDN.InsertEdge(v, u, m[v][u]);
                }
@@ -50,6 +75,8 @@ int main()
                << "a. 迪杰斯特拉法求最短路径。";
           cout << endl
                << "b. 求顶点入度。";
+          cout << endl
+               << "c. 拓扑排序。";
           cout << endl
                << "0. 退出。";
           cout << endl
@@ -133,6 +160,11 @@ int main()
                cin >> e;
                cout << "顶点入度：" << ALDN.GetInDegree(ALDN.GetIndex(e)) << endl;
                break;
+          case 'c':
+               cout << endl
+                    << "拓扑排序：" << endl;
+               ALDN.TopologicalSort();
+               cout << endl;
           }
      }
      return 0;
