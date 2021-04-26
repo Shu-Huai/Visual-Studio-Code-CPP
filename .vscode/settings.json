@@ -80,6 +80,7 @@
         "functional": "cpp",
         "future": "cpp",
         "mutex": "cpp",
-        "unordered_map": "cpp"
+        "unordered_map": "cpp",
+        "stack": "cpp"
     }, // 格式化时调整include的顺序（按字母排序）
 }

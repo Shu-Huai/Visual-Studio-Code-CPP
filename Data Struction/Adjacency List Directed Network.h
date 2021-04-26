@@ -14,6 +14,7 @@ protected:
     AdjacencyListNetWorkVertex<ElemType, WeightType> *vertexs_;
     bool *tags_;
     WeightType infinity_;
+    void DepthFirstSearch(int vertex, void (*Visit)(const ElemType &));
 
 public:
     AdjacencyListDirectedNetwork(int maxVertexNum = DEFAULT_SIZE, WeightType infinity = (WeightType)DEFAULT_INFINITY);
@@ -39,11 +40,25 @@ public:
     int GetNextAdjacencyVertex(int v1, int v2) const;
     WeightType GetInfinity() const;
     WeightType GetWeight(int v1, int v2) const;
-    void DijkstraShortestPath(int sourceVertex, int *path, WeightType *distance);
+    void DijkstraShortestPath(int sourceVertex, int *path, WeightType *distance) const;
     int GetInDegree(int vertex) const;
-    void TopologicalSort() const;
+    Status TopologicalSort() const;
+    Status CriticalPath() const;
     AdjacencyListDirectedNetwork<ElemType, WeightType> &operator=(const AdjacencyListDirectedNetwork<ElemType, WeightType> &ALDN);
 };
+template <class ElemType, class WeightType>
+void AdjacencyListDirectedNetwork<ElemType, WeightType>::DepthFirstSearch(int vertex, void (*Visit)(const ElemType &))
+{
+    tags_[vertex] = 1;
+    Visit(vertexs_[vertex]);
+    for (int i = GetFirstAdjacencyVertex(vertex); i != -1; i = GetNextAdjacencyVertex(vertex, i))
+    {
+        if (!tags_[i])
+        {
+            DepthFirstSearch(i, Visit);
+        }
+    }
+}
 template <class ElemType, class WeightType>
 AdjacencyListDirectedNetwork<ElemType, WeightType>::AdjacencyListDirectedNetwork(int maxVertexNum, WeightType infinity)
     : vertexNum_(0), maxVertexNum_(maxVertexNum), edgeNum_(0), infinity_(infinity)
@@ -358,7 +373,7 @@ WeightType AdjacencyListDirectedNetwork<ElemType, WeightType>::GetWeight(int v1,
     return infinity_;
 }
 template <class ElemType, class WeightType>
-void AdjacencyListDirectedNetwork<ElemType, WeightType>::DijkstraShortestPath(int sourceVertex, int *path, WeightType *distance)
+void AdjacencyListDirectedNetwork<ElemType, WeightType>::DijkstraShortestPath(int sourceVertex, int *path, WeightType *distance) const
 {
     for (int i = 0; i < vertexNum_; i++)
     {
@@ -416,7 +431,7 @@ int AdjacencyListDirectedNetwork<ElemType, WeightType>::GetInDegree(int vertex) 
     return inDegree;
 }
 template <class ElemType, class WeightType>
-void AdjacencyListDirectedNetwork<ElemType, WeightType>::TopologicalSort() const
+Status AdjacencyListDirectedNetwork<ElemType, WeightType>::TopologicalSort() const
 {
     int *inDegrees = new int[vertexNum_];
     stack<int> S;
@@ -449,8 +464,88 @@ void AdjacencyListDirectedNetwork<ElemType, WeightType>::TopologicalSort() const
     delete[] inDegrees;
     if (count < vertexNum_)
     {
-        cout << "图有回路,无法进行拓扑排序!" << endl;
+        return FAIL;
     }
+    return SUCCESS;
+}
+template <class ElemType, class WeightType>
+Status AdjacencyListDirectedNetwork<ElemType, WeightType>::CriticalPath() const
+{
+    int *inDegrees = new int[vertexNum_];
+    stack<int> S;
+    queue<int> Q;
+    WeightType *vertexEarly = new WeightType[vertexNum_];
+    for (int i = 0; i < vertexNum_; i++)
+    {
+        inDegrees[i] = GetInDegree(i);
+        if (!inDegrees[i])
+        {
+            Q.push(i);
+        }
+        vertexEarly[i] = 0;
+    }
+    int count = 0;
+    int vertex = 0;
+    while (!Q.empty())
+    {
+        vertex = Q.front();
+        Q.pop();
+        S.push(vertex);
+        count++;
+        for (int i = GetFirstAdjacencyVertex(vertex); i != -1; i = GetNextAdjacencyVertex(vertex, i))
+        {
+            inDegrees[i]--;
+            if (!inDegrees[i])
+            {
+                Q.push(i);
+            }
+            if (vertexEarly[vertex] + GetWeight(vertex, i) > vertexEarly[i])
+            {
+                vertexEarly[i] = vertexEarly[vertex] + GetWeight(vertex, i);
+            }
+        }
+    }
+    delete[] inDegrees;
+    if (count < vertexNum_)
+    {
+        delete[] vertexEarly;
+        return FAIL;
+    }
+    vertex = S.top();
+    S.pop();
+    WeightType *vertexLate = new WeightType[vertexNum_];
+    for (int i = 0; i < vertexNum_; i++)
+    {
+        vertexLate[i] = vertexEarly[vertex];
+    }
+    while (!S.empty())
+    {
+        vertex = S.top();
+        S.pop();
+        for (int i = GetFirstAdjacencyVertex(vertex); i != -1; i = GetNextAdjacencyVertex(vertex, i))
+        {
+            if (vertexLate[i] - GetWeight(vertex, i) < vertexLate[vertex])
+            {
+                vertexLate[vertex] = vertexLate[i] - GetWeight(vertex, i);
+            }
+        }
+    }
+    for (vertex = 0; vertex < vertexNum_; vertex++)
+    {
+        for (int i = GetFirstAdjacencyVertex(vertex); i != -1; i = GetNextAdjacencyVertex(vertex, i))
+        {
+            int ee = vertexEarly[vertex];
+            int el = vertexLate[i] - GetWeight(vertex, i);
+            if (ee == el)
+            {
+                cout << "<" << vertexs_[vertex].data_ << ", " << vertexs_[i].data_ << "> ";
+            }
+        }
+    }
+    cout << endl;
+    delete[] vertexEarly;
+    delete[] vertexLate;
+    return SUCCESS;
 }
 template <class ElemType, class WeightType>
 AdjacencyListDirectedNetwork<ElemType, WeightType> &AdjacencyListDirectedNetwork<ElemType, WeightType>::operator=(const AdjacencyListDirectedNetwork<ElemType, WeightType> &ALDN)

@@ -1,9 +1,8 @@
-#pragma once
-#ifndef __MINIMUM_HEAP_H__
-#define __MINIMUM_HEAP_H__
+#ifndef __MAXIMUM_HEAP_H__
+#define __MAXIMUM_HEAP_H__
 #include "Assistance.h"
 template <class ElemType>
-class MinimumHeap
+class MaximumHeap
 {
 protected:
     ElemType *elems_;
@@ -13,9 +12,9 @@ protected:
     void FilterUp(int end);
 
 public:
-    MinimumHeap(int maxsize = DEFAULT_SIZE);
-    MinimumHeap(ElemType e[], int n, int maxsize = DEFAULT_SIZE);
-    ~MinimumHeap();
+    MaximumHeap(int maxSize = DEFAULT_SIZE);
+    MaximumHeap(ElemType *elems, int n, int maxSize = DEFAULT_SIZE);
+    ~MaximumHeap();
     void Clear();
     bool IsEmpty() const;
     bool IsFull() const;
@@ -26,7 +25,7 @@ public:
     Status GetTop(ElemType &e) const;
 };
 template <class ElemType>
-void MinimumHeap<ElemType>::FilterDown(int start)
+void MaximumHeap<ElemType>::FilterDown(int start)
 {
     int i = start;
     ElemType temp = elems_[i];
@@ -37,7 +36,7 @@ void MinimumHeap<ElemType>::FilterDown(int start)
         {
             j++;
         }
-        if (temp <= elems_[j])
+        if (temp >= elems_[j])
         {
             break;
         }
@@ -51,14 +50,14 @@ void MinimumHeap<ElemType>::FilterDown(int start)
     elems_[i] = temp;
 }
 template <class ElemType>
-void MinimumHeap<ElemType>::FilterUp(int end)
+void MaximumHeap<ElemType>::FilterUp(int end)
 {
     int j = end;
     ElemType temp = elems_[j];
     int i = (j - 1) / 2;
     while (j > 0)
     {
-        if (elems_[i] <= temp)
+        if (elems_[i] >= temp)
         {
             break;
         }
@@ -72,19 +71,19 @@ void MinimumHeap<ElemType>::FilterUp(int end)
     }
 }
 template <class ElemType>
-MinimumHeap<ElemType>::MinimumHeap(int maxsize) : size_(0), maxSize_(maxsize)
+MaximumHeap<ElemType>::MaximumHeap(int maxSize) : size_(0), maxSize_(maxSize)
 {
-    elems_ = new ElemType[maxsize];
+    elems_ = new ElemType[maxSize];
     assert(elems_);
 }
 template <class ElemType>
-MinimumHeap<ElemType>::MinimumHeap(ElemType e[], int n, int maxsize) : size_(n), maxSize_(maxsize)
+MaximumHeap<ElemType>::MaximumHeap(ElemType *elems, int n, int maxSize) : size_(n), maxSize_(maxSize)
 {
-    elems_ = new ElemType[maxsize];
+    elems_ = new ElemType[maxSize];
     assert(elems_);
     for (int i = 0; i < n; i++)
     {
-        elems_[i] = e[i];
+        elems_[i] = elems[i];
     }
     int i = (size_ - 2) / 2;
     while (i >= 0)
@@ -94,27 +93,27 @@ MinimumHeap<ElemType>::MinimumHeap(ElemType e[], int n, int maxsize) : size_(n),
     }
 }
 template <class ElemType>
-MinimumHeap<ElemType>::~MinimumHeap()
+MaximumHeap<ElemType>::~MaximumHeap()
 {
     delete[] elems_;
 }
 template <class ElemType>
-void MinimumHeap<ElemType>::Clear()
+void MaximumHeap<ElemType>::Clear()
 {
     size_ = 0;
 }
 template <class ElemType>
-bool MinimumHeap<ElemType>::IsEmpty() const
+bool MaximumHeap<ElemType>::IsEmpty() const
 {
     return size_ == 0;
 }
 template <class ElemType>
-bool MinimumHeap<ElemType>::IsFull() const
+bool MaximumHeap<ElemType>::IsFull() const
 {
     return size_ == maxSize_;
 }
 template <class ElemType>
-void MinimumHeap<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
+void MaximumHeap<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
 {
     for (int i = 0; i < size_; i++)
     {
@@ -123,7 +122,7 @@ void MinimumHeap<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
     cout << endl;
 }
 template <class ElemType>
-Status MinimumHeap<ElemType>::InsertElem(const ElemType &e)
+Status MaximumHeap<ElemType>::InsertElem(const ElemType &e)
 {
     if (IsFull())
     {
@@ -135,7 +134,7 @@ Status MinimumHeap<ElemType>::InsertElem(const ElemType &e)
     return SUCCESS;
 }
 template <class ElemType>
-Status MinimumHeap<ElemType>::DeleteTop(ElemType &e)
+Status MaximumHeap<ElemType>::DeleteTop(ElemType &e)
 {
     if (IsEmpty())
     {
@@ -147,12 +146,12 @@ Status MinimumHeap<ElemType>::DeleteTop(ElemType &e)
     return SUCCESS;
 }
 template <class ElemType>
-int MinimumHeap<ElemType>::GetSize() const
+int MaximumHeap<ElemType>::GetSize() const
 {
     return size_;
 }
 template <class ElemType>
-Status MinimumHeap<ElemType>::GetTop(ElemType &e) const
+Status MaximumHeap<ElemType>::GetTop(ElemType &e) const
 {
     if (IsEmpty())
     {

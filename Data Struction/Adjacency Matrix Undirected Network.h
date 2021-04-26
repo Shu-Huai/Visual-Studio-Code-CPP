@@ -1,8 +1,10 @@
 #pragma once
 #ifndef __ADJACENCY_MATRIX_UNDIRECRED_NETWORK_H__
 #define __ADJACENCY_MATRIX_UNDIRECRED_NETWORK_H__
+#include "Adjacency Matrix Network Edge.h"
 #include "Assistance.h"
 #include "Kruskal Edge.h"
+#include "Maximum Heap.h"
 #include "Minimum Heap.h"
 #include "Prim.h"
 #include "Union-Find Sets.h"
@@ -45,9 +47,11 @@ public:
     WeightType GetInfinity() const;
     int GetFirstAdjacencyVertex(int v) const;
     int GetNextAdjacencyVertex(int v1, int v2) const;
-    AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &operator=(const AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &AMUN);
     void KruskalMinimumSpanningTree();
     void PrimMinimumSpanningTree(int firstVertex = 0);
+    bool IsConnected();
+    void TearCycleMinimumSpanTree();
+    AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &operator=(const AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &AMUN);
 };
 template <class ElemType, class WeightType>
 void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::DepthFirstSearch(int v, void (*Visit)(const ElemType &))
@@ -396,48 +400,6 @@ int AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::GetNextAdjacencyVert
     return -1;
 }
 template <class ElemType, class WeightType>
-AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::operator=(const AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &AMUN)
-{
-    if (&AMUN != this)
-    {
-        delete[] vertexes_;
-        delete[] tags_;
-        for (int i = 0; i < maxVertexNum_; i++)
-        {
-            delete[] adjacencyMatrix_[i];
-        }
-        delete[] adjacencyMatrix_;
-        vertexNum_ = AMUN.vertexNum_;
-        maxVertexNum_ = AMUN.maxVertexNum_;
-        edgeNum_ = AMUN.edgeNum_;
-        infinity_ = AMUN.infinity_;
-        vertexes_ = new ElemType[maxVertexNum_];
-        assert(vertexes_);
-        tags_ = new bool[maxVertexNum_];
-        assert(tags_);
-        for (int i = 0; i < vertexNum_; i++)
-        {
-            vertexes_[i] = AMUN.vertexes_[i];
-            tags_[i] = AMUN.tags_[i];
-        }
-        adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
-        assert(adjacencyMatrix_);
-        for (int i = 0; i < maxVertexNum_; i++)
-        {
-            adjacencyMatrix_[i] = new int[maxVertexNum_];
-            assert(adjacencyMatrix_[i]);
-        }
-        for (int i = 0; i < vertexNum_; i++)
-        {
-            for (int j = 0; j < vertexNum_; j++)
-            {
-                adjacencyMatrix_[i][j] = AMUN.adjacencyMatrix_[i][j];
-            }
-        }
-    }
-    return *this;
-}
-template <class ElemType, class WeightType>
 void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::KruskalMinimumSpanningTree()
 {
     MinimumHeap<KruskalEdge<ElemType, WeightType>> MH(edgeNum_);
@@ -515,5 +477,96 @@ void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::PrimMinimumSpanning
         }
     }
     delete[] minimunWeightEdge;
+}
+template <class ElemType, class WeightType>
+bool AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::IsConnected()
+{
+
+    for (int i = 0; i < vertexNum_; i++)
+    {
+        tags_[i] = 0;
+    }
+    DepthFirstSearch(0, Write<ElemType>);
+    for (int i = 0; i < vertexNum_; i++)
+    {
+        if (!tags_[i])
+        {
+            return 0;
+        }
+    }
+    return 1;
+}
+template <class ElemType, class WeightType>
+void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::TearCycleMinimumSpanTree()
+{
+    MaximumHeap<AdjacencyMatrixNetworkEdge<ElemType, WeightType>> MH(edgeNum_);
+    AdjacencyMatrixNetworkEdge<ElemType, WeightType> AMNE;
+    ElemType v1, v2;
+    for (int row = 0; row < GetVexNum(); row++)
+        for (int col = 0; col < GetVexNum(); col++)
+            if (row > col && _arcs[row][col] != _infinity)
+            {
+                v1 = GetElem(row);
+                v2 = GetElem(col);
+                AMNE.SetElem(v1, v2, _arcs[row][col]);
+                MH.InsertElem(AMNE);
+            }
+
+    // 依次删最大边
+    int count = 0; // 记录删边数
+
+    while (GetArcNum() > GetVexNum() - 1) // n个顶点, n-1条边
+    {
+        AMNE = MH.GetTop();
+        MH.DeleteTop();
+        DeleteArc(GetOrder(AMNE.vertexA_), GetOrder(AMNE.vertexB_));
+        if (IsConnected())
+            cout << "删除了边 <" << AMNE.vertexA_ << ", " << AMNE.vertexB_ << "> ,权值为 " << AMNE.weight_ << endl;
+        else
+            InsertArc(GetOrder(AMNE.vertexA_), GetOrder(AMNE.vertexB_), AMNE.weight_);
+    }
+}
+template <class ElemType, class WeightType>
+AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::operator=(
+    const AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &AMUN)
+{
+    if (&AMUN != this)
+    {
+        delete[] vertexes_;
+        delete[] tags_;
+        for (int i = 0; i < maxVertexNum_; i++)
+        {
+            delete[] adjacencyMatrix_[i];
+        }
+        delete[] adjacencyMatrix_;
+        vertexNum_ = AMUN.vertexNum_;
+        maxVertexNum_ = AMUN.maxVertexNum_;
+        edgeNum_ = AMUN.edgeNum_;
+        infinity_ = AMUN.infinity_;
+        vertexes_ = new ElemType[maxVertexNum_];
+        assert(vertexes_);
+        tags_ = new bool[maxVertexNum_];
+        assert(tags_);
+        for (int i = 0; i < vertexNum_; i++)
+        {
+            vertexes_[i] = AMUN.vertexes_[i];
+            tags_[i] = AMUN.tags_[i];
+        }
+        adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
+        assert(adjacencyMatrix_);
+        for (int i = 0; i < maxVertexNum_; i++)
+        {
+            adjacencyMatrix_[i] = new int[maxVertexNum_];
+            assert(adjacencyMatrix_[i]);
+        }
+        for (int i = 0; i < vertexNum_; i++)
+        {
+            for (int j = 0; j < vertexNum_; j++)
+            {
+                adjacencyMatrix_[i][j] = AMUN.adjacencyMatrix_[i][j];
+            }
+        }
+    }
+    return *this;
 }
 #endif

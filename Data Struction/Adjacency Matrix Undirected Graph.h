@@ -43,7 +43,6 @@ public:
 template <class ElemType>
 void AdjacencyMatrixUndirectedGraph<ElemType>::DepthFirstSearch(int v, void (*Visit)(const ElemType &))
 {
-    ElemType e;
     tags_[v] = 1;
     Visit(vertexes_[v]);
     for (int i = GetFirstAdjacencyVertex(v); i != -1; i = GetNextAdjacencyVertex(v, i))
