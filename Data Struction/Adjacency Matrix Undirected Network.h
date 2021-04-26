@@ -507,7 +507,7 @@ void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::PrimMinimumSpanning
             for (int j = GetFirstAdjacencyVertex(vertex); j != -1; j = GetNextAdjacencyVertex(vertex, j))
             {
                 if (minimunWeightEdge[j].minimunWeight_ != 0 && adjacencyMatrix_[vertex][j] < minimunWeightEdge[j].minimunWeight_)
-                { // <v, w>为新的最小边
+                {
                     minimunWeightEdge[j].adjacencyVertex_ = vertex;
                     minimunWeightEdge[j].minimunWeight_ = adjacencyMatrix_[vertex][j];
                 }
