@@ -38,6 +38,7 @@ public:
     int GetNextAdjacencyVertex(int v1, int v2) const;
     WeightType GetInfinity() const;
     WeightType GetWeight(int v1, int v2) const;
+    void DijkstraShortestPash(int sourceVertex, int *path, WeightType *distance);
     AdjacencyListDirectedNetwork<ElemType, WeightType> &operator=(const AdjacencyListDirectedNetwork<ElemType, WeightType> &ALDN);
 };
 template <class ElemType, class WeightType>
@@ -247,13 +248,13 @@ Status AdjacencyListDirectedNetwork<ElemType, WeightType>::SetElem(int v, const 
     return SUCCESS;
 }
 template <class ElemType, class WeightType>
-Status AdjacencyListDirectedNetwork<ElemType, WeightType>::SetTag(int v, bool val) const
+Status AdjacencyListDirectedNetwork<ElemType, WeightType>::SetTag(int v, bool tag) const
 {
     if (v < 0 || v >= vertexNum_)
     {
         return RANGE_ERROR;
     }
-    tags_[v] = val;
+    tags_[v] = tag;
     return SUCCESS;
 }
 template <class ElemType, class WeightType>
@@ -352,6 +353,53 @@ WeightType AdjacencyListDirectedNetwork<ElemType, WeightType>::GetWeight(int v1,
         return p->weight_;
     }
     return infinity_;
+}
+template <class ElemType, class WeightType>
+void AdjacencyListDirectedNetwork<ElemType, WeightType>::DijkstraShortestPash(int sourceVertex, int *path, WeightType *distance)
+{
+    WeightType minVal;
+    int v, u;
+    for (v = 0; v < vertexNum_; v++)
+    {
+        distance[v] = GetWeight(sourceVertex, v);
+        if (distance[v] == infinity_)
+        {
+            path[v] = -1;
+        }
+        else
+        {
+            path[v] = sourceVertex;
+        }
+        tags_[v] = 0;
+    }
+    for (int i = 0; i < 6; i++)
+    {
+        cout << distance[i] << " ";
+    }
+    cout << endl;
+    sourceVertex = 1;
+    for (int i = 1; i < vertexNum_; i++)
+    {
+        minVal = infinity_;
+        u = sourceVertex;
+        for (v = 0; v < vertexNum_; v++)
+        {
+            if (!tags_[v] && distance[v] < minVal)
+            {
+                u = v;
+                minVal = distance[v];
+            }
+        }
+        tags_[u] = 1;
+        for (v = GetFirstAdjacencyVertex(u); v != -1; v = GetNextAdjacencyVertex(u, v))
+        {
+            if (!tags_[v] && minVal + GetWeight(u, v) < distance[v])
+            {
+                distance[v] = minVal + GetWeight(u, v);
+                path[v] = u;
+            }
+        }
+    }
 }
 template <class ElemType, class WeightType>
 AdjacencyListDirectedNetwork<ElemType, WeightType> &AdjacencyListDirectedNetwork<ElemType, WeightType>::operator=(const AdjacencyListDirectedNetwork<ElemType, WeightType> &ALDN)
