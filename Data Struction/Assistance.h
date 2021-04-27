@@ -52,12 +52,8 @@ char GetChar(istream &inStream = cin); // 从输入流inStream中跳过空格及
 
 template <class ElemType>
 void Swap(ElemType &e1, ElemType &e2); // 交换e1, e2之值
-namespace Assistance
-{
-    template <class ElemType>
-    void Display(ElemType elem[], int n); // 显示数组elem的各数据元素值
-
-} // namespace Assistance
+template <class ElemType>
+void Display(ElemType elem[], int n); // 显示数组elem的各数据元素值
 
 template <class ElemType>
 void Write(const ElemType &e); // 显示数据元素
