@@ -502,28 +502,32 @@ void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::TearCycleMinimumSpa
     MaximumHeap<AdjacencyMatrixNetworkEdge<ElemType, WeightType>> MH(edgeNum_);
     AdjacencyMatrixNetworkEdge<ElemType, WeightType> AMNE;
     ElemType v1, v2;
-    for (int row = 0; row < GetVexNum(); row++)
-        for (int col = 0; col < GetVexNum(); col++)
-            if (row > col && _arcs[row][col] != _infinity)
+    for (int row = 0; row < vertexNum_; row++)
+    {
+        for (int col = 0; col < vertexNum_; col++)
+        {
+            if (row > col && adjacencyMatrix_[row][col] != infinity_)
             {
                 v1 = GetElem(row);
                 v2 = GetElem(col);
-                AMNE.SetElem(v1, v2, _arcs[row][col]);
+                AMNE.SetElem(v1, v2, adjacencyMatrix_[row][col]);
                 MH.InsertElem(AMNE);
             }
-
-    // 依次删最大边
-    int count = 0; // 记录删边数
-
-    while (GetArcNum() > GetVexNum() - 1) // n个顶点, n-1条边
+        }
+    }
+    int count = 0;
+    while (edgeNum_ > vertexNum_ - 1)
     {
-        AMNE = MH.GetTop();
-        MH.DeleteTop();
-        DeleteArc(GetOrder(AMNE.vertexA_), GetOrder(AMNE.vertexB_));
+        MH.DeleteTop(AMNE);
+        DeleteEdge(GetIndex(AMNE.vertexA_), GetIndex(AMNE.vertexB_));
         if (IsConnected())
+        {
             cout << "删除了边 <" << AMNE.vertexA_ << ", " << AMNE.vertexB_ << "> ,权值为 " << AMNE.weight_ << endl;
+        }
         else
-            InsertArc(GetOrder(AMNE.vertexA_), GetOrder(AMNE.vertexB_), AMNE.weight_);
+        {
+            InsertEdge(GetIndex(AMNE.vertexA_), GetIndex(AMNE.vertexB_), AMNE.weight_);
+        }
     }
 }
 template <class ElemType, class WeightType>

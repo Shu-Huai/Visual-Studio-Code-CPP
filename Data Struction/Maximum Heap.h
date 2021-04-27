@@ -32,7 +32,7 @@ void MaximumHeap<ElemType>::FilterDown(int start)
     int j = 2 * i + 1;
     while (j <= size_ - 1)
     {
-        if (j < size_ - 1 && elems_[j] > elems_[j + 1])
+        if (j < size_ - 1 && elems_[j] < elems_[j + 1])
         {
             j++;
         }
