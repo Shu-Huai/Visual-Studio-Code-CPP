@@ -1,31 +1,31 @@
 #include "Adjacency List Directed Network.h"
 int main()
 {
-     // int infinity = DEFAULT_INFINITY;
-     // int vexs[] = {0, 1, 2, 3, 4, 5};
-     // int m[6][6] = {
-     //     {infinity, 45, 50, 15, infinity, infinity},
-     //     {infinity, infinity, 5, infinity, 20, 15},
-     //     {infinity, infinity, infinity, infinity, infinity, infinity},
-     //     {10, 10, infinity, infinity, 79, infinity},
-     //     {infinity, 30, infinity, infinity, infinity, infinity},
-     //     {infinity, infinity, infinity, infinity, 20, infinity}};
-     // char functionSelect = 0;
-     // int e, e1, e2;
-     // int n = 6, v, v1, v2, w;
-     // int distance[6];
-     // int path[6];
-     // AdjacencyListDirectedNetwork<int, int> ALDN(vexs, n);
-     // for (int v = 0; v < n; v++)
-     // {
-     //      for (int u = 0; u < n; u++)
-     //      {
-     //           if (m[v][u] != infinity)
-     //           {
-     //                ALDN.InsertEdge(v, u, m[v][u]);
-     //           }
-     //      }
-     // }
+     int infinity = DEFAULT_INFINITY;
+     int vexs[] = {0, 1, 2, 3, 4, 5};
+     int m[6][6] = {
+         {infinity, 45, 50, 15, infinity, infinity},
+         {infinity, infinity, 5, infinity, 20, 15},
+         {infinity, infinity, infinity, infinity, infinity, infinity},
+         {10, 10, infinity, infinity, 79, infinity},
+         {infinity, 30, infinity, infinity, infinity, infinity},
+         {infinity, infinity, infinity, infinity, 20, infinity}};
+     char functionSelect = 0;
+     int e, e1, e2;
+     int n = 6, v, v1, v2, w;
+     AdjacencyListDirectedNetwork<int, int> ALDN(vexs, n);
+     for (int v = 0; v < n; v++)
+     {
+          for (int u = 0; u < n; u++)
+          {
+               if (m[v][u] != infinity)
+               {
+                    ALDN.InsertEdge(v, u, m[v][u]);
+               }
+          }
+     }
+     //
+     //
      // int infinity = DEFAULT_INFINITY;
      // int vexs[] = {0, 1, 2, 3, 4, 5};
      // int m[6][6] = {
@@ -38,8 +38,6 @@ int main()
      // char functionSelect = 0;
      // int e, e1, e2;
      // int n = 6, v, v1, v2, w;
-     // int distance[6];
-     // int path[6];
      // AdjacencyListDirectedNetwork<int, int> ALDN(vexs, n);
      // for (int v = 0; v < n; v++)
      // {
@@ -51,32 +49,32 @@ int main()
      //           }
      //      }
      // }
-     int infinity = DEFAULT_INFINITY;
-     int vexs[] = {0, 1, 2, 3, 4, 5, 6};
-     int m[7][7] = {
-         {infinity, 8, infinity, 4, 5, infinity, infinity},
-         {infinity, infinity, 3, infinity, infinity, infinity, infinity},
-         {infinity, infinity, infinity, infinity, infinity, infinity, 6},
-         {infinity, infinity, infinity, infinity, 1, infinity, infinity},
-         {infinity, 2, 7, infinity, infinity, 2, infinity},
-         {infinity, infinity, 3, infinity, infinity, infinity, 9},
-         {infinity, infinity, infinity, infinity, infinity, infinity, infinity}};
-     char functionSelect = 0;
-     int e, e1, e2;
-     int n = 7, v, v1, v2, w;
-     int distance[7];
-     int path[7];
-     AdjacencyListDirectedNetwork<int, int> ALDN(vexs, n);
-     for (int v = 0; v < n; v++)
-     {
-          for (int u = 0; u < n; u++)
-          {
-               if (m[v][u] != infinity)
-               {
-                    ALDN.InsertEdge(v, u, m[v][u]);
-               }
-          }
-     }
+     //
+     //
+     // int infinity = DEFAULT_INFINITY;
+     // int vexs[] = {0, 1, 2, 3, 4, 5, 6};
+     // int m[7][7] = {
+     //     {infinity, 8, infinity, 4, 5, infinity, infinity},
+     //     {infinity, infinity, 3, infinity, infinity, infinity, infinity},
+     //     {infinity, infinity, infinity, infinity, infinity, infinity, 6},
+     //     {infinity, infinity, infinity, infinity, 1, infinity, infinity},
+     //     {infinity, 2, 7, infinity, infinity, 2, infinity},
+     //     {infinity, infinity, 3, infinity, infinity, infinity, 9},
+     //     {infinity, infinity, infinity, infinity, infinity, infinity, infinity}};
+     // char functionSelect = 0;
+     // int e, e1, e2;
+     // int n = 7, v, v1, v2, w;
+     // AdjacencyListDirectedNetwork<int, int> ALDN(vexs, n);
+     // for (int v = 0; v < n; v++)
+     // {
+     //      for (int u = 0; u < n; u++)
+     //      {
+     //           if (m[v][u] != infinity)
+     //           {
+     //                ALDN.InsertEdge(v, u, m[v][u]);
+     //           }
+     //      }
+     // }
      while (functionSelect != '0')
      {
           cout << endl
@@ -176,11 +174,7 @@ int main()
           case 'a':
                cout << endl
                     << "使用迪杰斯特拉算法求最短路径。" << endl;
-               ALDN.DijkstraShortestPath(0, path, distance);
-               cout << "前驱顶点：";
-               Display(path, n);
-               cout << "Distance: ";
-               Display(distance, n);
+               ALDN.DijkstraShortestPath(0);
                break;
           case 'b':
                cout << endl

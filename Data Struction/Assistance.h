@@ -20,9 +20,11 @@
 using namespace std; // 标准库包含在命名空间std中
 
 // STL头文件
-#include <queue> // 队列
-#include <stack> //栈
 #include <algorithm>
+#include <array>  // 数组
+#include <queue>  // 队列
+#include <stack>  // 栈
+#include <vector> // 向量
 
 // 自定义类型
 enum Status
@@ -50,9 +52,12 @@ char GetChar(istream &inStream = cin); // 从输入流inStream中跳过空格及
 
 template <class ElemType>
 void Swap(ElemType &e1, ElemType &e2); // 交换e1, e2之值
+namespace Assistance
+{
+    template <class ElemType>
+    void Display(ElemType elem[], int n); // 显示数组elem的各数据元素值
 
-template <class ElemType>
-void Display(ElemType elem[], int n); // 显示数组elem的各数据元素值
+} // namespace Assistance
 
 template <class ElemType>
 void Write(const ElemType &e); // 显示数据元素

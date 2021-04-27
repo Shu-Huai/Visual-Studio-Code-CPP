@@ -50,7 +50,7 @@ public:
     void KruskalMinimumSpanningTree();
     void PrimMinimumSpanningTree(int firstVertex = 0);
     bool IsConnected();
-    void TearCycleMinimumSpanTree();
+    void TearCycleMinimumSpanningTree();
     AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &operator=(const AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &AMUN);
 };
 template <class ElemType, class WeightType>
@@ -497,7 +497,7 @@ bool AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::IsConnected()
     return 1;
 }
 template <class ElemType, class WeightType>
-void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::TearCycleMinimumSpanTree()
+void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::TearCycleMinimumSpanningTree()
 {
     MaximumHeap<AdjacencyMatrixNetworkEdge<ElemType, WeightType>> MH(edgeNum_);
     AdjacencyMatrixNetworkEdge<ElemType, WeightType> AMNE;
@@ -522,7 +522,7 @@ void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::TearCycleMinimumSpa
         DeleteEdge(GetIndex(AMNE.vertexA_), GetIndex(AMNE.vertexB_));
         if (IsConnected())
         {
-            cout << "删除了边 <" << AMNE.vertexA_ << ", " << AMNE.vertexB_ << "> ,权值为 " << AMNE.weight_ << endl;
+            cout << "Deleted <" << AMNE.vertexA_ << ", " << AMNE.vertexB_ << "> , Weight: " << AMNE.weight_ << endl;
         }
         else
         {

@@ -40,7 +40,7 @@ public:
     int GetNextAdjacencyVertex(int v1, int v2) const;
     WeightType GetInfinity() const;
     WeightType GetWeight(int v1, int v2) const;
-    void DijkstraShortestPath(int sourceVertex, int *path, WeightType *distance) const;
+    void DijkstraShortestPath(int sourceVertex) const;
     int GetInDegree(int vertex) const;
     Status TopologicalSort() const;
     Status CriticalPath() const;
@@ -373,8 +373,10 @@ WeightType AdjacencyListDirectedNetwork<ElemType, WeightType>::GetWeight(int v1,
     return infinity_;
 }
 template <class ElemType, class WeightType>
-void AdjacencyListDirectedNetwork<ElemType, WeightType>::DijkstraShortestPath(int sourceVertex, int *path, WeightType *distance) const
+void AdjacencyListDirectedNetwork<ElemType, WeightType>::DijkstraShortestPath(int sourceVertex) const
 {
+    int *path = new int[vertexNum_];
+    WeightType *distance = new WeightType[vertexNum_];
     for (int i = 0; i < vertexNum_; i++)
     {
         distance[i] = GetWeight(sourceVertex, i);
@@ -410,7 +412,21 @@ void AdjacencyListDirectedNetwork<ElemType, WeightType>::DijkstraShortestPath(in
                 path[j] = vertex;
             }
         }
+        cout << endl
+             << "path: ";
+        for (int i = 0; i < vertexNum_; i++)
+        {
+            cout << path[i] << " ";
+        }
+        cout << endl
+             << "distance: ";
+        for (int i = 0; i < vertexNum_; i++)
+        {
+            cout << distance[i] << " ";
+        }
     }
+    delete[] path;
+    delete[] distance;
 }
 template <class ElemType, class WeightType>
 int AdjacencyListDirectedNetwork<ElemType, WeightType>::GetInDegree(int vertex) const
@@ -530,19 +546,46 @@ Status AdjacencyListDirectedNetwork<ElemType, WeightType>::CriticalPath() const
             }
         }
     }
+    vector<WeightType> early;
+    vector<WeightType> late;
     for (vertex = 0; vertex < vertexNum_; vertex++)
     {
         for (int i = GetFirstAdjacencyVertex(vertex); i != -1; i = GetNextAdjacencyVertex(vertex, i))
         {
-            int ee = vertexEarly[vertex];
-            int el = vertexLate[i] - GetWeight(vertex, i);
+            WeightType ee = vertexEarly[vertex];
+            WeightType el = vertexLate[i] - GetWeight(vertex, i);
+            early.push_back(ee);
+            late.push_back(el);
             if (ee == el)
             {
                 cout << "<" << vertexs_[vertex].data_ << ", " << vertexs_[i].data_ << "> ";
             }
         }
     }
-    cout << endl;
+    cout << endl
+         << "ve: ";
+    for (int i = 0; i < vertexNum_; i++)
+    {
+        cout << vertexEarly[i] << " ";
+    }
+    cout << endl
+         << "vl: ";
+    for (int i = 0; i < vertexNum_; i++)
+    {
+        cout << vertexLate[i] << " ";
+    }
+    cout << endl
+         << "e: ";
+    for (int i = 0; i < edgeNum_; i++)
+    {
+        cout << early[i] << " ";
+    }
+    cout << endl
+         << "l: ";
+    for (int i = 0; i < edgeNum_; i++)
+    {
+        cout << late[i] << " ";
+    }
     delete[] vertexEarly;
     delete[] vertexLate;
     return SUCCESS;
