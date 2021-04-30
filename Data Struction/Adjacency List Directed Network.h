@@ -452,7 +452,6 @@ Status AdjacencyListDirectedNetwork<ElemType, WeightType>::TopologicalSort() con
     int *inDegrees = new int[vertexNum_];
     stack<int> S;
     for (int i = 0; i < vertexNum_; i++)
-    // for (int i = vertexNum_ - 1; i > -1; i--)
     {
         inDegrees[i] = GetInDegree(i);
         if (!inDegrees[i])
