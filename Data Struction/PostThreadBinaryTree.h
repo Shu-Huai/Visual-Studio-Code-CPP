@@ -1,8 +1,8 @@
 #pragma once
 #ifndef __POST_THREAD_BINARY_TREE__
 #define __POST_THREAD_BINARY_TREE__
-#include "BinaryTree.h"
-#include "ThreadBinaryTreeNode.h"
+#include "Binary Tree.h"
+#include "Thread Binary Tree Node.h"
 template <class ElemType>
 class PostThreadBinaryTree
 {
