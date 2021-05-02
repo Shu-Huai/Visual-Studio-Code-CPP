@@ -37,19 +37,19 @@ void InThreadBinaryTree<ElemType>::InThreadHelp(ThreadBinaryTreeNode<ElemType> *
 {
     if (p != NULL)
     {
-        InThreadHelp(p->leftchild_, pre);
-        if (p->leftchild_ == NULL)
+        InThreadHelp(p->leftChild_, pre);
+        if (p->leftChild_ == NULL)
         {
-            p->leftchild_ = pre;
+            p->leftChild_ = pre;
             p->lefttag_ = 1;
         }
         else
         {
             p->lefttag_ = 0;
         }
-        if (pre != NULL and pre->rightchild_ == NULL)
+        if (pre != NULL and pre->rightChild_ == NULL)
         {
-            pre->rightchild_ = p;
+            pre->rightChild_ = p;
             pre->righttag_ = 1;
         }
         else if (pre != NULL)
@@ -57,7 +57,7 @@ void InThreadBinaryTree<ElemType>::InThreadHelp(ThreadBinaryTreeNode<ElemType> *
             pre->righttag_ = 0;
         }
         pre = p;
-        InThreadHelp(p->rightchild_, pre);
+        InThreadHelp(p->rightChild_, pre);
     }
 }
 template <class ElemType>
@@ -67,8 +67,8 @@ ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::TransformHelp(Bina
     {
         return NULL;
     }
-    ThreadBinaryTreeNode<ElemType> *leftchild = TransformHelp(r->leftchild_);
-    ThreadBinaryTreeNode<ElemType> *rightchild = TransformHelp(r->rightchild_);
+    ThreadBinaryTreeNode<ElemType> *leftchild = TransformHelp(r->leftChild_);
+    ThreadBinaryTreeNode<ElemType> *rightchild = TransformHelp(r->rightChild_);
     ThreadBinaryTreeNode<ElemType> *root = new ThreadBinaryTreeNode<ElemType>(r->data_, leftchild, rightchild);
     return root;
 }
@@ -83,7 +83,7 @@ ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::CopyTreeHelp(Threa
     ThreadBinaryTreeNode<ElemType> *rightchild;
     if (!t->lefttag_)
     {
-        leftchild = CopyTreeHelp(t->leftchild_);
+        leftchild = CopyTreeHelp(t->leftChild_);
     }
     else
     {
@@ -91,7 +91,7 @@ ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::CopyTreeHelp(Threa
     }
     if (!t->righttag_)
     {
-        rightchild = CopyTreeHelp(t->rightchild_);
+        rightchild = CopyTreeHelp(t->rightChild_);
     }
     else
     {
@@ -107,11 +107,11 @@ void InThreadBinaryTree<ElemType>::DestroyHelp(ThreadBinaryTreeNode<ElemType> *&
     {
         if (!r->lefttag_)
         {
-            DestroyHelp(r->leftchild_);
+            DestroyHelp(r->leftChild_);
         }
         if (!r->righttag_)
         {
-            DestroyHelp(r->rightchild_);
+            DestroyHelp(r->rightChild_);
         }
         delete r;
         r = NULL;
@@ -150,7 +150,7 @@ ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::GetFirst() const
     ThreadBinaryTreeNode<ElemType> *p = root_;
     while (!p->lefttag_)
     {
-        p = p->leftchild_;
+        p = p->leftChild_;
     }
     return p;
 }
@@ -164,7 +164,7 @@ ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::GetLast() const
     ThreadBinaryTreeNode<ElemType> *p = root_;
     while (!p->righttag_)
     {
-        p = p->rightchild_;
+        p = p->rightChild_;
     }
     return p;
 }
@@ -173,14 +173,14 @@ ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::GetNext(ThreadBina
 {
     if (p->righttag_)
     {
-        p = p->rightchild_;
+        p = p->rightChild_;
     }
     else
     {
-        p = p->rightchild_;
+        p = p->rightChild_;
         while (!p->lefttag_)
         {
-            p = p->leftchild_;
+            p = p->leftChild_;
         }
     }
     return p;
@@ -203,17 +203,17 @@ void InThreadBinaryTree<ElemType>::InsertRightChild(ThreadBinaryTreeNode<ElemTyp
         return;
     }
     ThreadBinaryTreeNode<ElemType> *x, *q;
-    x = new ThreadBinaryTreeNode<ElemType>(e, p, p->rightchild_, 1, p->righttag_);
+    x = new ThreadBinaryTreeNode<ElemType>(e, p, p->rightChild_, 1, p->righttag_);
     if (!p->righttag_)
     {
-        q = p->rightchild_;
+        q = p->rightChild_;
         while (!q->lefttag_)
         {
-            q = q->leftchild_;
+            q = q->leftChild_;
         }
-        q->leftchild_ = x;
+        q->leftChild_ = x;
     }
-    p->rightchild_ = x;
+    p->rightChild_ = x;
     p->righttag_ = 0;
 }
 template <class ElemType>
@@ -224,13 +224,13 @@ void InThreadBinaryTree<ElemType>::DeleteLeftChild(ThreadBinaryTreeNode<ElemType
         return;
     }
     ThreadBinaryTreeNode<ElemType> *q;
-    q = p->leftchild_;
+    q = p->leftChild_;
     while (!q->lefttag_)
     {
-        q = q->leftchild_;
+        q = q->leftChild_;
     }
-    DestroyHelp(p->leftchild_);
-    p->leftchild_ = q->leftchild_;
+    DestroyHelp(p->leftChild_);
+    p->leftChild_ = q->leftChild_;
     p->lefttag_ = 1;
 }
 template <class ElemType>
@@ -248,9 +248,9 @@ void InThreadBinaryTree<ElemType>::InOrder(void (*Visit)(const ElemType &)) cons
         {
             cout << "其左指针为孩子指针，指向";
         }
-        if (p->leftchild_ != NULL)
+        if (p->leftChild_ != NULL)
         {
-            cout << p->leftchild_->data_;
+            cout << p->leftChild_->data_;
         }
         else
         {
@@ -264,9 +264,9 @@ void InThreadBinaryTree<ElemType>::InOrder(void (*Visit)(const ElemType &)) cons
         {
             cout << "；其右指针为孩子指针，指向";
         }
-        if (p->rightchild_ != NULL)
+        if (p->rightChild_ != NULL)
         {
-            cout << p->rightchild_->data_ << endl;
+            cout << p->rightChild_->data_ << endl;
         }
         else
         {
@@ -298,7 +298,7 @@ void DisplayBTWithTreeShapeHelp(ThreadBinaryTreeNode<ElemType> *r, int level)
     {
         if (!r->righttag_)
         {
-            DisplayBTWithTreeShapeHelp<ElemType>(r->rightchild_, level + 1);
+            DisplayBTWithTreeShapeHelp<ElemType>(r->rightChild_, level + 1);
         }
         cout << endl;
         for (int i = 0; i < level - 1; i++)
@@ -308,7 +308,7 @@ void DisplayBTWithTreeShapeHelp(ThreadBinaryTreeNode<ElemType> *r, int level)
         cout << r->data_;
         if (!r->lefttag_)
         {
-            DisplayBTWithTreeShapeHelp<ElemType>(r->leftchild_, level + 1);
+            DisplayBTWithTreeShapeHelp<ElemType>(r->leftChild_, level + 1);
         }
     }
 }

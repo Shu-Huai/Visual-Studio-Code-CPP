@@ -7,18 +7,18 @@ class BinaryTreeNode
 {
 public:
     ElemType data_;
-    BinaryTreeNode<ElemType> *leftchild_;
-    BinaryTreeNode<ElemType> *rightchild_;
+    BinaryTreeNode<ElemType> *leftChild_;
+    BinaryTreeNode<ElemType> *rightChild_;
     BinaryTreeNode();
-    BinaryTreeNode(const ElemType &data, BinaryTreeNode<ElemType> *leftchild = NULL, BinaryTreeNode<ElemType> *rightchild = NULL);
+    BinaryTreeNode(const ElemType &data, BinaryTreeNode<ElemType> *leftChild = NULL, BinaryTreeNode<ElemType> *rightChild = NULL);
 };
 template <class ElemType>
-BinaryTreeNode<ElemType>::BinaryTreeNode() : leftchild_(NULL), rightchild_(NULL)
+BinaryTreeNode<ElemType>::BinaryTreeNode() : leftChild_(NULL), rightChild_(NULL)
 {
 }
 template <class ElemType>
-BinaryTreeNode<ElemType>::BinaryTreeNode(const ElemType &data, BinaryTreeNode<ElemType> *leftchild, BinaryTreeNode<ElemType> *rightchild)
-    : data_(data), leftchild_(leftchild), rightchild_(rightchild)
+BinaryTreeNode<ElemType>::BinaryTreeNode(const ElemType &data, BinaryTreeNode<ElemType> *leftChild, BinaryTreeNode<ElemType> *rightChild)
+    : data_(data), leftChild_(leftChild), rightChild_(rightChild)
 {
 }
 #endif

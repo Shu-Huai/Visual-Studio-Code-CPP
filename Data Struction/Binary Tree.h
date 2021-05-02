@@ -2,7 +2,6 @@
 #ifndef __BINaRY_TREE_H__
 #define __BINaRY_TREE_H__
 #include "Binary Tree Node.h"
-#include "Link Queue.h"
 template <class ElemType>
 class BinaryTree
 {
@@ -43,7 +42,7 @@ public:
     int GetHeight() const;
     int GetWidth() const;
     int GetLeafNumber() const;
-    BinaryTreeNode<ElemType> *InitByPreOrder(LinkQueue<ElemType> &LQ);
+    BinaryTreeNode<ElemType> *InitByPreOrder(queue<ElemType> &Q);
     void GetMirror(BinaryTreeNode<ElemType> *r);
     BinaryTree<ElemType> &operator=(const BinaryTree<ElemType> &BT);
 };
@@ -56,8 +55,8 @@ BinaryTreeNode<ElemType> *BinaryTree<ElemType>::CopyTree(BinaryTreeNode<ElemType
     }
     BinaryTreeNode<ElemType> *copy = new BinaryTreeNode<ElemType>(BTN->data_);
     assert(copy);
-    copy->leftchild_ = CopyTree(BTN->leftchild_);
-    copy->rightchild_ = CopyTree(BTN->rightchild_);
+    copy->leftChild_ = CopyTree(BTN->leftChild_);
+    copy->rightChild_ = CopyTree(BTN->rightChild_);
     return copy;
 }
 template <class ElemType>
@@ -65,8 +64,8 @@ void BinaryTree<ElemType>::Destroy(BinaryTreeNode<ElemType> *&r)
 {
     if (r)
     {
-        Destroy(r->leftchild_);
-        Destroy(r->rightchild_);
+        Destroy(r->leftChild_);
+        Destroy(r->rightChild_);
         delete r;
         r = NULL;
     }
@@ -77,8 +76,8 @@ void BinaryTree<ElemType>::PreOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(c
     if (r)
     {
         (*Visit)(r->data_);
-        PreOrder(r->leftchild_, Visit);
-        PreOrder(r->rightchild_, Visit);
+        PreOrder(r->leftChild_, Visit);
+        PreOrder(r->rightChild_, Visit);
     }
 }
 template <class ElemType>
@@ -86,9 +85,9 @@ void BinaryTree<ElemType>::InOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(co
 {
     if (r)
     {
-        InOrder(r->leftchild_, Visit);
+        InOrder(r->leftChild_, Visit);
         (*Visit)(r->data_);
-        InOrder(r->rightchild_, Visit);
+        InOrder(r->rightChild_, Visit);
     }
 }
 template <class ElemType>
@@ -96,8 +95,8 @@ void BinaryTree<ElemType>::PostOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(
 {
     if (r)
     {
-        PostOrder(r->leftchild_, Visit);
-        PostOrder(r->rightchild_, Visit);
+        PostOrder(r->leftChild_, Visit);
+        PostOrder(r->rightChild_, Visit);
         (*Visit)(r->data_);
     }
 }
@@ -108,8 +107,8 @@ int BinaryTree<ElemType>::GetHeight(const BinaryTreeNode<ElemType> *r) const
     {
         return 0;
     }
-    int leftheight = GetHeight(r->leftchild_);
-    int rightheight = GetHeight(r->rightchild_);
+    int leftheight = GetHeight(r->leftChild_);
+    int rightheight = GetHeight(r->rightChild_);
     return 1 + (leftheight > rightheight ? leftheight : rightheight);
 }
 template <class ElemType>
@@ -119,7 +118,7 @@ int BinaryTree<ElemType>::GetLeafNumber(const BinaryTreeNode<ElemType> *r) const
     {
         return 0;
     }
-    return 1 + GetLeafNumber(r->leftchild_) + GetLeafNumber(r->rightchild_);
+    return 1 + GetLeafNumber(r->leftChild_) + GetLeafNumber(r->rightChild_);
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetParent(BinaryTreeNode<ElemType> *r, const BinaryTreeNode<ElemType> *p) const
@@ -128,17 +127,17 @@ BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetParent(BinaryTreeNode<ElemTyp
     {
         return NULL;
     }
-    if (r->leftchild_ == p || r->rightchild_ == p)
+    if (r->leftChild_ == p || r->rightChild_ == p)
     {
         return r;
     }
     BinaryTreeNode<ElemType> *temp;
-    temp = GetParent(r->leftchild_, p);
+    temp = GetParent(r->leftChild_, p);
     if (temp)
     {
         return temp;
     }
-    temp = GetParent(r->rightchild_, p);
+    temp = GetParent(r->rightChild_, p);
     if (temp)
     {
         return temp;
@@ -160,7 +159,6 @@ template <class ElemType>
 BinaryTree<ElemType>::BinaryTree(BinaryTreeNode<ElemType> *BTN)
 {
     root_ = CopyTree(BTN);
-    assert(root_);
 }
 template <class ElemType>
 BinaryTree<ElemType>::BinaryTree(const BinaryTree<ElemType> &BT)
@@ -208,13 +206,13 @@ void BinaryTree<ElemType>::LevelOrder(void (*Visit)(const ElemType &)) const
         p = Q.front();
         Q.pop();
         (*Visit)(p->data_);
-        if (p->leftchild_)
+        if (p->leftChild_)
         {
-            Q.push(p->leftchild_);
+            Q.push(p->leftChild_);
         }
-        if (p->rightchild_)
+        if (p->rightChild_)
         {
-            Q.push(p->rightchild_);
+            Q.push(p->rightChild_);
         }
     }
 }
@@ -226,11 +224,11 @@ void BinaryTree<ElemType>::InsertLeftChild(BinaryTreeNode<ElemType> *p, const El
         return;
     }
     BinaryTreeNode<ElemType> *q = new BinaryTreeNode<ElemType>(e);
-    if (p->leftchild_)
+    if (p->leftChild_)
     {
-        q->leftchild_ = p->leftchild_;
+        q->leftChild_ = p->leftChild_;
     }
-    p->leftchild_ = q;
+    p->leftChild_ = q;
 }
 template <class ElemType>
 void BinaryTree<ElemType>::InsertRightChild(BinaryTreeNode<ElemType> *p, const ElemType &e)
@@ -240,21 +238,21 @@ void BinaryTree<ElemType>::InsertRightChild(BinaryTreeNode<ElemType> *p, const E
         return;
     }
     BinaryTreeNode<ElemType> *q = new BinaryTreeNode<ElemType>(e);
-    if (p->rightchild_)
+    if (p->rightChild_)
     {
-        q->rightchild_ = p->rightchild_;
+        q->rightChild_ = p->rightChild_;
     }
-    p->rightchild_ = q;
+    p->rightChild_ = q;
 }
 template <class ElemType>
 void BinaryTree<ElemType>::DeleteLeftChild(BinaryTreeNode<ElemType> *p)
 {
-    Destroy(p->leftchild_);
+    Destroy(p->leftChild_);
 }
 template <class ElemType>
 void BinaryTree<ElemType>::DeleteRightChild(BinaryTreeNode<ElemType> *p)
 {
-    Destroy(p->rightchild_);
+    Destroy(p->rightChild_);
 }
 template <class ElemType>
 Status BinaryTree<ElemType>::SetElem(BinaryTreeNode<ElemType> *p, const ElemType &e)
@@ -293,7 +291,7 @@ BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetLeftChild(const BinaryTreeNod
     {
         return NULL;
     }
-    return p->leftchild_;
+    return p->leftChild_;
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetRightChild(const BinaryTreeNode<ElemType> *p) const
@@ -302,7 +300,7 @@ BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetRightChild(const BinaryTreeNo
     {
         return NULL;
     }
-    return p->rightchild_;
+    return p->rightChild_;
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetLeftSibling(const BinaryTreeNode<ElemType> *p) const
@@ -312,9 +310,9 @@ BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetLeftSibling(const BinaryTreeN
     {
         return NULL;
     }
-    if (r->rightchild_ == p)
+    if (r->rightChild_ == p)
     {
-        return r->leftchild_;
+        return r->leftChild_;
     }
     return NULL;
 }
@@ -326,9 +324,9 @@ BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetRightSibling(const BinaryTree
     {
         return NULL;
     }
-    if (r->leftchild_ == p)
+    if (r->leftChild_ == p)
     {
-        return r->rightchild_;
+        return r->rightChild_;
     }
     return NULL;
 }
@@ -340,41 +338,42 @@ int BinaryTree<ElemType>::GetHeight() const
 template <class ElemType>
 int BinaryTree<ElemType>::GetWidth() const
 {
-    LinkQueue<BinaryTreeNode<ElemType> *> LQ;
-    BinaryTreeNode<ElemType> *BTN;
-    int max = 0;
+    queue<BinaryTreeNode<ElemType> *> Q;
+    BinaryTreeNode<ElemType> *temp;
+    int maxWidth = 0;
     int number = 0;
-    int nextnumber = 0;
+    int nextNumber = 0;
     if (root_)
     {
-        LQ.EnQueue(root_);
-        max = 1;
+        Q.push(root_);
+        maxWidth = 1;
         number = 1;
     }
-    while (!LQ.IsEmpty())
+    while (!Q.empty())
     {
-        nextnumber = 0;
+        nextNumber = 0;
         for (int i = 0; i < number; i++)
         {
-            LQ.DelQueue(BTN);
-            if (BTN->leftchild_)
+            temp = Q.front();
+            Q.pop();
+            if (temp->leftChild_)
             {
-                LQ.EnQueue(BTN->leftchild_);
-                nextnumber++;
+                Q.push(temp->leftChild_);
+                nextNumber++;
             }
-            if (BTN->rightchild_)
+            if (temp->rightChild_)
             {
-                LQ.EnQueue(BTN->rightchild_);
-                nextnumber++;
+                Q.push(temp->rightChild_);
+                nextNumber++;
             }
         }
-        number = nextnumber;
-        if (nextnumber > max)
+        number = nextNumber;
+        if (nextNumber > maxWidth)
         {
-            max = nextnumber;
+            maxWidth = nextNumber;
         }
     }
-    return max;
+    return maxWidth;
 }
 template <class ElemType>
 int BinaryTree<ElemType>::GetLeafNumber() const
@@ -382,12 +381,12 @@ int BinaryTree<ElemType>::GetLeafNumber() const
     return GetLeafNumber(root_);
 }
 template <class ElemType>
-BinaryTreeNode<ElemType> *BinaryTree<ElemType>::InitByPreOrder(LinkQueue<ElemType> &LQ)
+BinaryTreeNode<ElemType> *BinaryTree<ElemType>::InitByPreOrder(queue<ElemType> &Q)
 {
     BinaryTreeNode<ElemType> *BT;
     char t;
-    ElemType e;
-    LQ.DelQueue(e);
+    ElemType e = Q.front();
+    Q.pop();
     if (e == "#")
     {
         return NULL;
@@ -398,27 +397,27 @@ BinaryTreeNode<ElemType> *BinaryTree<ElemType>::InitByPreOrder(LinkQueue<ElemTyp
     {
         root_ = BT;
     }
-    BT->leftchild_ = InitByPreOrder(LQ);
-    BT->rightchild_ = InitByPreOrder(LQ);
+    BT->leftChild_ = InitByPreOrder(Q);
+    BT->rightChild_ = InitByPreOrder(Q);
     return BT;
 }
 template <class ElemType>
 void BinaryTree<ElemType>::GetMirror(BinaryTreeNode<ElemType> *r)
 {
-    if (!r || !r->leftchild_ && !r->rightchild_)
+    if (!r || !r->leftChild_ && !r->rightChild_)
     {
         return;
     }
-    BinaryTreeNode<ElemType> *temp = r->leftchild_;
-    r->leftchild_ = r->rightchild_;
-    r->rightchild_ = temp;
-    if (r->leftchild_)
+    BinaryTreeNode<ElemType> *temp = r->leftChild_;
+    r->leftChild_ = r->rightChild_;
+    r->rightChild_ = temp;
+    if (r->leftChild_)
     {
-        GetMirror(r->leftchild_);
+        GetMirror(r->leftChild_);
     }
-    if (r->rightchild_)
+    if (r->rightChild_)
     {
-        GetMirror(r->rightchild_);
+        GetMirror(r->rightChild_);
     }
 }
 template <class ElemType>

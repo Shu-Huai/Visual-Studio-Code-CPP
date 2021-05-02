@@ -7,8 +7,8 @@ class ThreadBinaryTreeNode
 {
 public:
     ElemType data_;
-    ThreadBinaryTreeNode<ElemType> *leftchild_;
-    ThreadBinaryTreeNode<ElemType> *rightchild_;
+    ThreadBinaryTreeNode<ElemType> *leftChild_;
+    ThreadBinaryTreeNode<ElemType> *rightChild_;
     int lefttag_;
     int righttag_;
     ThreadBinaryTreeNode();
@@ -17,14 +17,14 @@ public:
                          int lefttag = 0, int righttag = 0);
 };
 template <class ElemType>
-ThreadBinaryTreeNode<ElemType>::ThreadBinaryTreeNode() : leftchild_(NULL), rightchild_(NULL), lefttag_(0), righttag_(0)
+ThreadBinaryTreeNode<ElemType>::ThreadBinaryTreeNode() : leftChild_(NULL), rightChild_(NULL), lefttag_(0), righttag_(0)
 {
 }
 template <class ElemType>
 ThreadBinaryTreeNode<ElemType>::ThreadBinaryTreeNode(const ElemType &data,
                                                      ThreadBinaryTreeNode<ElemType> *leftchild, ThreadBinaryTreeNode<ElemType> *rightchild,
                                                      int lefttag, int righttag)
-    : data_(data), leftchild_(leftchild), rightchild_(rightchild), lefttag_(lefttag), righttag_(righttag)
+    : data_(data), leftChild_(leftchild), rightChild_(rightchild), lefttag_(lefttag), righttag_(righttag)
 {
 }
 #endif

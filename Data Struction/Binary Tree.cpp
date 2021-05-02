@@ -5,10 +5,10 @@ int main()
     BinaryTreeNode<int> *testnode0 = test0.GetRoot();
     test0.InsertLeftChild(testnode0, 1);
     test0.InsertRightChild(testnode0, 2);
-    BinaryTreeNode<int> *testnode1 = testnode0->leftchild_;
+    BinaryTreeNode<int> *testnode1 = testnode0->leftChild_;
     test0.InsertLeftChild(testnode1, 3);
     test0.InsertRightChild(testnode1, 4);
-    testnode0 = testnode0->rightchild_;
+    testnode0 = testnode0->rightChild_;
     test0.InsertLeftChild(testnode0, 5);
     test0.InsertRightChild(testnode0, 6);
     cout << "PreOrder: ";

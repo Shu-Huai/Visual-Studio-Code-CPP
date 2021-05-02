@@ -39,20 +39,20 @@ void PostThreadBinaryTree<ElemType>::PostThreadHelp(ThreadBinaryTreeNode<ElemTyp
 {
     if (p != NULL)
     {
-        PostThreadHelp(p->leftchild_, pre);
-        PostThreadHelp(p->rightchild_, pre);
-        if (p->leftchild_ == NULL)
+        PostThreadHelp(p->leftChild_, pre);
+        PostThreadHelp(p->rightChild_, pre);
+        if (p->leftChild_ == NULL)
         {
-            p->leftchild_ = pre;
+            p->leftChild_ = pre;
             p->lefttag_ = 1;
         }
         else
         {
             p->lefttag_ = 0;
         }
-        if (pre != NULL && pre->rightchild_ == NULL)
+        if (pre != NULL && pre->rightChild_ == NULL)
         {
-            pre->rightchild_ = p;
+            pre->rightChild_ = p;
             pre->righttag_ = 1;
         }
         else if (pre != NULL)
@@ -69,8 +69,8 @@ ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::TransformHelp(Bi
     {
         return NULL;
     }
-    ThreadBinaryTreeNode<ElemType> *leftchild = TransformHelp(r->leftchild_);
-    ThreadBinaryTreeNode<ElemType> *rightchild = TransformHelp(r->rightchild_);
+    ThreadBinaryTreeNode<ElemType> *leftchild = TransformHelp(r->leftChild_);
+    ThreadBinaryTreeNode<ElemType> *rightchild = TransformHelp(r->rightChild_);
     ThreadBinaryTreeNode<ElemType> *root = new ThreadBinaryTreeNode<ElemType>(r->data_, leftchild, rightchild);
     return root;
 }
@@ -85,7 +85,7 @@ ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::CopyTreeHelp(Thr
     ThreadBinaryTreeNode<ElemType> *rightchild;
     if (!t->lefttag_)
     {
-        leftchild = CopyTreeHelp(t->leftchild_);
+        leftchild = CopyTreeHelp(t->leftChild_);
     }
     else
     {
@@ -93,7 +93,7 @@ ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::CopyTreeHelp(Thr
     }
     if (!t->righttag_)
     {
-        rightchild = CopyTreeHelp(t->rightchild_);
+        rightchild = CopyTreeHelp(t->rightChild_);
     }
     else
     {
@@ -109,11 +109,11 @@ void PostThreadBinaryTree<ElemType>::DestroyHelp(ThreadBinaryTreeNode<ElemType> 
     {
         if (!r->lefttag_)
         {
-            DestroyHelp(r->leftchild_);
+            DestroyHelp(r->leftChild_);
         }
         if (!r->righttag_)
         {
-            DestroyHelp(r->rightchild_);
+            DestroyHelp(r->rightChild_);
         }
         delete r;
         r = NULL;
@@ -126,17 +126,17 @@ ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::GetParent(Thread
     {
         return NULL;
     }
-    if (!root_->lefttag_ and root_->leftchild_ == p or !root_->righttag_ and root_->rightchild_ == p)
+    if (!root_->lefttag_ and root_->leftChild_ == p or !root_->righttag_ and root_->rightChild_ == p)
     {
         return root;
     }
     ThreadBinaryTreeNode<ElemType> *tmp;
-    tmp = root->lefttag_ ? NULL : GetParent(root->leftchild_, p);
+    tmp = root->lefttag_ ? NULL : GetParent(root->leftChild_, p);
     if (tmp != NULL)
     {
         return tmp;
     }
-    tmp = root->righttag_ ? NULL : GetParent(root->rightchild_, p);
+    tmp = root->righttag_ ? NULL : GetParent(root->rightChild_, p);
     if (tmp != NULL)
     {
         return tmp;
@@ -173,11 +173,11 @@ ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::GetFirst() const
     {
         if (!p->lefttag_)
         {
-            p = p->leftchild_;
+            p = p->leftChild_;
         }
         else
         {
-            p = p->rightchild_;
+            p = p->rightChild_;
         }
     }
     return p;
@@ -196,12 +196,12 @@ ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::GetNext(ThreadBi
     }
     if (p->righttag_)
     {
-        p = p->rightchild_;
+        p = p->rightChild_;
     }
     else
     {
         ThreadBinaryTreeNode<ElemType> *parent = GetParent(p);
-        if (parent->rightchild_ == p)
+        if (parent->rightChild_ == p)
         {
             return parent;
         }
@@ -210,11 +210,11 @@ ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::GetNext(ThreadBi
         {
             if (!q->lefttag_)
             {
-                q = q->leftchild_;
+                q = q->leftChild_;
             }
             else
             {
-                q = q->rightchild_;
+                q = q->rightChild_;
             }
         }
         return q;
@@ -241,25 +241,25 @@ void PostThreadBinaryTree<ElemType>::InsertRightChild(ThreadBinaryTreeNode<ElemT
     ThreadBinaryTreeNode<ElemType> *x, *q;
     if (p->righttag_)
     {
-        x = new ThreadBinaryTreeNode<ElemType>(e, p->leftchild_, p, p->lefttag_, 1);
-        if (p->leftchild_->righttag_)
+        x = new ThreadBinaryTreeNode<ElemType>(e, p->leftChild_, p, p->lefttag_, 1);
+        if (p->leftChild_->righttag_)
         {
-            p->leftchild_->rightchild_ = x;
+            p->leftChild_->rightChild_ = x;
         }
     }
     else
     {
-        x = new ThreadBinaryTreeNode<ElemType>(e, p->rightchild_, p->rightchild_, 1, 0);
-        if (p->rightchild_->righttag_)
+        x = new ThreadBinaryTreeNode<ElemType>(e, p->rightChild_, p->rightChild_, 1, 0);
+        if (p->rightChild_->righttag_)
         {
-            p->rightchild_->rightchild_ = x;
+            p->rightChild_->rightChild_ = x;
         }
         if (p->lefttag_)
         {
-            p->leftchild_ = x;
+            p->leftChild_ = x;
         }
     }
-    p->rightchild_ = x;
+    p->rightChild_ = x;
     p->righttag_ = 0;
 }
 template <class ElemType>
@@ -272,10 +272,10 @@ void PostThreadBinaryTree<ElemType>::DeleteLeftChild(ThreadBinaryTreeNode<ElemTy
     ThreadBinaryTreeNode<ElemType> *q = GetParent(p);
     if (q->righttag_)
     {
-        q->rightchild_ = p;
+        q->rightChild_ = p;
     }
-    DestroyHelp(p->leftchild_);
-    p->leftchild_ = q->leftchild_;
+    DestroyHelp(p->leftChild_);
+    p->leftChild_ = q->leftChild_;
     p->lefttag_ = 1;
 }
 template <class ElemType>
@@ -293,9 +293,9 @@ void PostThreadBinaryTree<ElemType>::PostOrder(void (*Visit)(const ElemType &)) 
         {
             cout << "其左指针为孩子指针，指向";
         }
-        if (p->leftchild_ != NULL)
+        if (p->leftChild_ != NULL)
         {
-            cout << p->leftchild_->data_;
+            cout << p->leftChild_->data_;
         }
         else
         {
@@ -309,9 +309,9 @@ void PostThreadBinaryTree<ElemType>::PostOrder(void (*Visit)(const ElemType &)) 
         {
             cout << "；其右指针为孩子指针，指向";
         }
-        if (p->rightchild_ != NULL)
+        if (p->rightChild_ != NULL)
         {
-            cout << p->rightchild_->data_ << endl;
+            cout << p->rightChild_->data_ << endl;
         }
         else
         {
@@ -348,7 +348,7 @@ void DisplayBTWithTreeShapeHelp(ThreadBinaryTreeNode<ElemType> *r, int level)
     {
         if (!r->righttag_)
         {
-            DisplayBTWithTreeShapeHelp<ElemType>(r->rightchild_, level + 1);
+            DisplayBTWithTreeShapeHelp<ElemType>(r->rightChild_, level + 1);
         }
         cout << endl;
         for (int i = 0; i < level - 1; i++)
@@ -358,7 +358,7 @@ void DisplayBTWithTreeShapeHelp(ThreadBinaryTreeNode<ElemType> *r, int level)
         cout << r->data_;
         if (!r->lefttag_)
         {
-            DisplayBTWithTreeShapeHelp<ElemType>(r->leftchild_, level + 1);
+            DisplayBTWithTreeShapeHelp<ElemType>(r->leftChild_, level + 1);
         }
     }
 }
