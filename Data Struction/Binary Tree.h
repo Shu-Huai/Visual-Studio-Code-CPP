@@ -13,7 +13,7 @@ protected:
     void InOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
     void PostOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
     int GetHeight(const BinaryTreeNode<ElemType> *r) const;
-    int GetLeafNumber(const BinaryTreeNode<ElemType> *r) const;
+    int GetNodeNumber(const BinaryTreeNode<ElemType> *r) const;
     BinaryTreeNode<ElemType> *GetParent(BinaryTreeNode<ElemType> *r, const BinaryTreeNode<ElemType> *p) const;
 
 public:
@@ -41,7 +41,7 @@ public:
     BinaryTreeNode<ElemType> *GetRightSibling(const BinaryTreeNode<ElemType> *p) const;
     int GetHeight() const;
     int GetWidth() const;
-    int GetLeafNumber() const;
+    int GetNodeNumber() const;
     BinaryTreeNode<ElemType> *InitByPreOrder(queue<ElemType> &Q);
     void GetMirror(BinaryTreeNode<ElemType> *r);
     BinaryTree<ElemType> &operator=(const BinaryTree<ElemType> &BT);
@@ -112,13 +112,13 @@ int BinaryTree<ElemType>::GetHeight(const BinaryTreeNode<ElemType> *r) const
     return 1 + (leftheight > rightheight ? leftheight : rightheight);
 }
 template <class ElemType>
-int BinaryTree<ElemType>::GetLeafNumber(const BinaryTreeNode<ElemType> *r) const
+int BinaryTree<ElemType>::GetNodeNumber(const BinaryTreeNode<ElemType> *r) const
 {
     if (!r)
     {
         return 0;
     }
-    return 1 + GetLeafNumber(r->leftChild_) + GetLeafNumber(r->rightChild_);
+    return 1 + GetNodeNumber(r->leftChild_) + GetNodeNumber(r->rightChild_);
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetParent(BinaryTreeNode<ElemType> *r, const BinaryTreeNode<ElemType> *p) const
@@ -376,9 +376,9 @@ int BinaryTree<ElemType>::GetWidth() const
     return maxWidth;
 }
 template <class ElemType>
-int BinaryTree<ElemType>::GetLeafNumber() const
+int BinaryTree<ElemType>::GetNodeNumber() const
 {
-    return GetLeafNumber(root_);
+    return GetNodeNumber(root_);
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinaryTree<ElemType>::InitByPreOrder(queue<ElemType> &Q)

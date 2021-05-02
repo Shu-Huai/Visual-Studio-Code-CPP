@@ -14,13 +14,13 @@ protected:
     void PostOrder(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
     void Delete(BinaryTreeNode<ElemType> *&p);
     int GetHeight(const BinaryTreeNode<ElemType> *r) const;
-    int GetLeafNumber(const BinaryTreeNode<ElemType> *r) const;
+    int GetNodeNumber(const BinaryTreeNode<ElemType> *r) const;
     BinaryTreeNode<ElemType> *GetParent(BinaryTreeNode<ElemType> *r, const BinaryTreeNode<ElemType> *p) const;
-    BinaryTreeNode<ElemType> *Find(const ElemType &key, BinaryTreeNode<ElemType> *&f) const;
+    BinaryTreeNode<ElemType> *Find(const ElemType &key, BinaryTreeNode<ElemType> *&parentNode) const;
 
 public:
     BinarySortTree();
-    BinarySortTree(const ElemType &e);
+    BinarySortTree(const ElemType &elem);
     BinarySortTree(BinaryTreeNode<ElemType> *BTN);
     BinarySortTree(const BinarySortTree<ElemType> &BST);
     virtual ~BinarySortTree();
@@ -29,11 +29,11 @@ public:
     void InOrder(void (*Visit)(const ElemType &)) const;
     void PostOrder(void (*Visit)(const ElemType &)) const;
     void LevelOrder(void (*Visit)(const ElemType &)) const;
-    bool Insert(const ElemType &e);
-    bool Delete(const ElemType &key);
-    Status SetElem(BinaryTreeNode<ElemType> *p, const ElemType &e);
+    Status Insert(const ElemType &elem);
+    Status Delete(const ElemType &key);
+    Status SetElem(BinaryTreeNode<ElemType> *p, const ElemType &elem);
     BinaryTreeNode<ElemType> *GetRoot() const;
-    Status GetElem(BinaryTreeNode<ElemType> *p, ElemType &e) const;
+    Status GetElem(BinaryTreeNode<ElemType> *p, ElemType &elem) const;
     BinaryTreeNode<ElemType> *GetParent(const BinaryTreeNode<ElemType> *p) const;
     BinaryTreeNode<ElemType> *GetLeftChild(const BinaryTreeNode<ElemType> *p) const;
     BinaryTreeNode<ElemType> *GetRightChild(const BinaryTreeNode<ElemType> *p) const;
@@ -41,7 +41,7 @@ public:
     BinaryTreeNode<ElemType> *GetRightSibling(const BinaryTreeNode<ElemType> *p) const;
     int GetHeight() const;
     int GetWidth() const;
-    int GetLeafNumber() const;
+    int GetNodeNumber() const;
     BinaryTreeNode<ElemType> *Find(const ElemType &key) const;
     BinarySortTree<ElemType> &operator=(const BinarySortTree<ElemType> &BST);
 };
@@ -106,7 +106,6 @@ void BinarySortTree<ElemType>::PostOrder(BinaryTreeNode<ElemType> *r, void (*Vis
 template <class ElemType>
 void BinarySortTree<ElemType>::Delete(BinaryTreeNode<ElemType> *&p)
 {
-    BinaryTreeNode<ElemType> *tmpPtr, *tmpF;
     if (!p->leftChild_ && !p->rightChild_)
     {
         delete p;
@@ -114,33 +113,33 @@ void BinarySortTree<ElemType>::Delete(BinaryTreeNode<ElemType> *&p)
     }
     else if (!p->leftChild_)
     {
-        tmpPtr = p;
+        BinaryTreeNode<ElemType> *q = p;
         p = p->rightChild_;
-        delete tmpPtr;
+        delete q;
     }
     else if (!p->rightChild_)
     {
-        tmpPtr = p;
+        BinaryTreeNode<ElemType> *q = p;
         p = p->leftChild_;
-        delete tmpPtr;
+        delete q;
     }
     else
     {
-        tmpF = p;
-        tmpPtr = p->leftChild_;
-        while (tmpPtr->rightChild_)
+        BinaryTreeNode<ElemType> *parentNode = p;
+        BinaryTreeNode<ElemType> *q = p->leftChild_;
+        while (q->rightChild_)
         {
-            tmpF = tmpPtr;
-            tmpPtr = tmpPtr->rightChild_;
+            parentNode = q;
+            q = q->rightChild_;
         }
-        p->data_ = tmpPtr->data_;
-        if (tmpF->rightChild_ == tmpPtr)
+        p->data_ = q->data_;
+        if (parentNode->rightChild_ == q)
         {
-            Delete(tmpF->rightChild_);
+            Delete(parentNode->rightChild_);
         }
         else
         {
-            Delete(tmpF->leftChild_);
+            Delete(parentNode->leftChild_);
         }
     }
 }
@@ -156,13 +155,13 @@ int BinarySortTree<ElemType>::GetHeight(const BinaryTreeNode<ElemType> *r) const
     return 1 + (leftheight > rightheight ? leftheight : rightheight);
 }
 template <class ElemType>
-int BinarySortTree<ElemType>::GetLeafNumber(const BinaryTreeNode<ElemType> *r) const
+int BinarySortTree<ElemType>::GetNodeNumber(const BinaryTreeNode<ElemType> *r) const
 {
     if (!r)
     {
         return 0;
     }
-    return 1 + GetLeafNumber(r->leftChild_) + GetLeafNumber(r->rightChild_);
+    return 1 + GetNodeNumber(r->leftChild_) + GetNodeNumber(r->rightChild_);
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinarySortTree<ElemType>::GetParent(BinaryTreeNode<ElemType> *r, const BinaryTreeNode<ElemType> *p) const
@@ -189,22 +188,20 @@ BinaryTreeNode<ElemType> *BinarySortTree<ElemType>::GetParent(BinaryTreeNode<Ele
     return NULL;
 }
 template <class ElemType>
-BinaryTreeNode<ElemType> *BinarySortTree<ElemType>::Find(const ElemType &key, BinaryTreeNode<ElemType> *&f) const
+BinaryTreeNode<ElemType> *BinarySortTree<ElemType>::Find(const ElemType &key, BinaryTreeNode<ElemType> *&parentNode) const
 {
     BinaryTreeNode<ElemType> *p = root_;
-    f = NULL;
+    parentNode = NULL;
     while (p && p->data_ != key)
     {
         if (key < p->data_)
         {
-            cout << "比" << p->data_ << "小" << endl;
-            f = p;
+            parentNode = p;
             p = p->leftChild_;
         }
         else
         {
-            cout << "比" << p->data_ << "大" << endl;
-            f = p;
+            parentNode = p;
             p = p->rightChild_;
         }
     }
@@ -215,9 +212,9 @@ BinarySortTree<ElemType>::BinarySortTree() : root_(NULL)
 {
 }
 template <class ElemType>
-BinarySortTree<ElemType>::BinarySortTree(const ElemType &e)
+BinarySortTree<ElemType>::BinarySortTree(const ElemType &elem)
 {
-    root_ = new BinaryTreeNode<ElemType>(e);
+    root_ = new BinaryTreeNode<ElemType>(elem);
     assert(root_);
 }
 template <class ElemType>
@@ -280,52 +277,50 @@ void BinarySortTree<ElemType>::LevelOrder(void (*Visit)(const ElemType &)) const
     }
 }
 template <class ElemType>
-bool BinarySortTree<ElemType>::Insert(const ElemType &e)
-// 操作结果: 插入数据元素e
+Status BinarySortTree<ElemType>::Insert(const ElemType &elem)
 {
-    BinaryTreeNode<ElemType> *f; // 指向被查找结点的双亲
-
-    cout << "插入数据元素" << e << "的搜索过程：" << endl;
-    if (Find(e, f) == NULL)
-    {                                // 查找失败, 插入成功
-        BinaryTreeNode<ElemType> *p; // 插入的新结点
-        p = new BinaryTreeNode<ElemType>(e);
-        if (IsEmpty()) // 空二叉树,新结点为根结点
-            root_ = p;
-        else if (e < f->data_) // e小于其双亲,插入结点为f的左孩子
-            f->leftChild_ = p;
-        else // e大于其双亲,插入结点为f的右孩子
-            f->rightChild_ = p;
-        return true;
-    }
-    else // 查找成功, 插入失败
-        return false;
-}
-template <class ElemType>
-bool BinarySortTree<ElemType>::Delete(const ElemType &key)
-{
-    BinaryTreeNode<ElemType> *p, *f;
-    p = Find(key, f);
-    if (!p)
+    BinaryTreeNode<ElemType> *parentNode;
+    if (Find(elem, parentNode))
     {
-        return false;
+        return FAIL;
+    }
+    BinaryTreeNode<ElemType> *p = new BinaryTreeNode<ElemType>(elem);
+    if (IsEmpty())
+    {
+        root_ = p;
+    }
+    else if (elem < parentNode->data_)
+    {
+        parentNode->leftChild_ = p;
     }
     else
     {
-        if (!f)
-        {
-            Delete(p);
-        }
-        else if (key < f->data_)
-        {
-            Delete(f->leftChild_);
-        }
-        else
-        {
-            Delete(f->rightChild_);
-        }
+        parentNode->rightChild_ = p;
     }
-    return true;
+    return SUCCESS;
+}
+template <class ElemType>
+Status BinarySortTree<ElemType>::Delete(const ElemType &key)
+{
+    BinaryTreeNode<ElemType> *parentNode = NULL;
+    BinaryTreeNode<ElemType> *p = Find(key, parentNode);
+    if (!p)
+    {
+        return FAIL;
+    }
+    if (!parentNode)
+    {
+        Delete(p);
+    }
+    else if (key < parentNode->data_)
+    {
+        Delete(parentNode->leftChild_);
+    }
+    else
+    {
+        Delete(parentNode->rightChild_);
+    }
+    return SUCCESS;
 }
 template <class ElemType>
 Status BinarySortTree<ElemType>::SetElem(BinaryTreeNode<ElemType> *p, const ElemType &e)
@@ -449,15 +444,15 @@ int BinarySortTree<ElemType>::GetWidth() const
     return maxWidth;
 }
 template <class ElemType>
-int BinarySortTree<ElemType>::GetLeafNumber() const
+int BinarySortTree<ElemType>::GetNodeNumber() const
 {
-    return GetLeafNumber(root_);
+    return GetNodeNumber(root_);
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinarySortTree<ElemType>::Find(const ElemType &key) const
 {
-    BinaryTreeNode<ElemType> *f;
-    return Find(key, f);
+    BinaryTreeNode<ElemType> *parentNode;
+    return Find(key, parentNode);
 }
 template <class ElemType>
 BinarySortTree<ElemType> &BinarySortTree<ElemType>::operator=(const BinarySortTree<ElemType> &BST)
@@ -475,12 +470,12 @@ void DisplayBTWithTreeShapeHelp(const BinaryTreeNode<ElemType> *r, int level)
 //	操作结果：按树状形式显示以r为根的二叉排序树，level为层次数，可设根结点的层次数为1
 {
     if (r != NULL)
-    {                                                                   //空树不显式，只显式非空树
+    {                                                                    //空树不显式，只显式非空树
         DisplayBTWithTreeShapeHelp<ElemType>(r->rightChild_, level + 1); //显示右子树
         cout << endl
              << endl; //显示新行
         for (int i = 0; i < level - 1; i++)
-            cout << "   ";                                             //确保在第level列显示结点
+            cout << "   ";                                              //确保在第level列显示结点
         cout << r->data_;                                               //显示结点
         DisplayBTWithTreeShapeHelp<ElemType>(r->leftChild_, level + 1); //显示左子树
     }

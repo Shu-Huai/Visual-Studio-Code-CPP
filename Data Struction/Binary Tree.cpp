@@ -35,7 +35,7 @@ int main()
     cout << endl;
     cout << "Width: " << test0.GetWidth() << endl;
     cout << "Height: " << test0.GetHeight() << endl;
-    cout << "LeafNumber: " << test0.GetLeafNumber() << endl;
+    cout << "LeafNumber: " << test0.GetNodeNumber() << endl;
     cout << "Clone." << endl;
     BinaryTree<int> test1(test0);
     test1.PreOrder(Write<int>);
