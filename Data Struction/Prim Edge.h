@@ -1,7 +1,8 @@
-#ifndef __PRIM_H__
-#define __PRIM_H__
+#pragma once
+#ifndef __PRIM_EDGE_H__
+#define __PRIM_EDGE_H__
 template <class ElemType, class WeightType>
-class Prim
+class PrimEdge
 {
 public:
     WeightType minimunWeight_;

@@ -6,7 +6,7 @@
 #include "Kruskal Edge.h"
 #include "Maximum Heap.h"
 #include "Minimum Heap.h"
-#include "Prim.h"
+#include "Prim Edge.h"
 #include "Union-Find Sets.h"
 template <class ElemType, class WeightType>
 class AdjacencyMatrixUndirectedNetwork
@@ -434,8 +434,7 @@ void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::KruskalMinimumSpann
 template <class ElemType, class WeightType>
 void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::PrimMinimumSpanningTree(int firstVertex)
 {
-    Prim<ElemType, WeightType> *minimunWeightEdge;
-    minimunWeightEdge = new Prim<ElemType, WeightType>[vertexNum_];
+    PrimEdge<ElemType, WeightType> *minimunWeightEdge = new PrimEdge<ElemType, WeightType>[vertexNum_];
     assert(minimunWeightEdge);
     for (int i = 0; i < vertexNum_; i++)
     {

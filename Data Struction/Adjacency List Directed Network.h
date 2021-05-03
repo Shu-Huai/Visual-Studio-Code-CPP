@@ -393,37 +393,36 @@ void AdjacencyListDirectedNetwork<ElemType, WeightType>::DijkstraShortestPath(in
     tags_[sourceVertex] = 1;
     for (int i = 0; i < vertexNum_ - 1; i++)
     {
-        WeightType min = infinity_;
+        WeightType minimumWeight = infinity_;
         int vertex = sourceVertex;
         for (int j = 0; j < vertexNum_; j++)
         {
-            if (!tags_[j] && distance[j] < min)
+            if (!tags_[j] && distance[j] < minimumWeight)
             {
                 vertex = j;
-                min = distance[j];
+                minimumWeight = distance[j];
             }
         }
         tags_[vertex] = 1;
         for (int j = GetFirstAdjacencyVertex(vertex); j != -1; j = GetNextAdjacencyVertex(vertex, j))
         {
-            if (!tags_[j] && min + GetWeight(vertex, j) < distance[j])
+            if (!tags_[j] && minimumWeight + GetWeight(vertex, j) < distance[j])
             {
-                distance[j] = min + GetWeight(vertex, j);
+                distance[j] = minimumWeight + GetWeight(vertex, j);
                 path[j] = vertex;
             }
         }
-        cout << endl
-             << "path: ";
-        for (int i = 0; i < vertexNum_; i++)
-        {
-            cout << path[i] << " ";
-        }
-        cout << endl
-             << "distance: ";
-        for (int i = 0; i < vertexNum_; i++)
-        {
-            cout << distance[i] << " ";
-        }
+    }
+    cout << "Path: ";
+    for (int i = 0; i < vertexNum_; i++)
+    {
+        cout << path[i] << " ";
+    }
+    cout << endl
+         << "Distance: ";
+    for (int i = 0; i < vertexNum_; i++)
+    {
+        cout << distance[i] << " ";
     }
     delete[] path;
     delete[] distance;
