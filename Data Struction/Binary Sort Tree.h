@@ -46,10 +46,6 @@ public:
     BinarySortTree<ElemType> &operator=(const BinarySortTree<ElemType> &BST);
 };
 template <class ElemType>
-void DisplayBTWithTreeShapeHelp(const BinaryTreeNode<ElemType> *r, int level);
-template <class ElemType>
-void DisplayBTWithTreeShape(const BinarySortTree<ElemType> &bt);
-template <class ElemType>
 BinaryTreeNode<ElemType> *BinarySortTree<ElemType>::CopyTree(BinaryTreeNode<ElemType> *BTN)
 {
     if (!BTN)
@@ -464,30 +460,4 @@ BinarySortTree<ElemType> &BinarySortTree<ElemType>::operator=(const BinarySortTr
     }
     return *this;
 }
-
-template <class ElemType>
-void DisplayBTWithTreeShapeHelp(const BinaryTreeNode<ElemType> *r, int level)
-//	操作结果：按树状形式显示以r为根的二叉排序树，level为层次数，可设根结点的层次数为1
-{
-    if (r != NULL)
-    {                                                                    //空树不显式，只显式非空树
-        DisplayBTWithTreeShapeHelp<ElemType>(r->rightChild_, level + 1); //显示右子树
-        cout << endl
-             << endl; //显示新行
-        for (int i = 0; i < level - 1; i++)
-            cout << "   ";                                              //确保在第level列显示结点
-        cout << r->data_;                                               //显示结点
-        DisplayBTWithTreeShapeHelp<ElemType>(r->leftChild_, level + 1); //显示左子树
-    }
-}
-
-template <class ElemType>
-void DisplayBTWithTreeShape(const BinarySortTree<ElemType> &bt)
-//	操作结果：树状形式显示二叉排序树
-{
-    DisplayBTWithTreeShapeHelp<ElemType>(bt.GetRoot(), 1);
-    // 树状显示以bt.GetRoot()为根的二叉排序树
-    cout << endl;
-}
-
 #endif
