@@ -12,7 +12,8 @@ int main()
          {infinity, infinity, infinity, infinity, 20, infinity}};
      char functionSelect = 0;
      int e, e1, e2;
-     int n = 6, v, v1, v2, w;
+     int n = 6;
+     int v, v1, v2, w;
      AdjacencyListDirectedNetwork<int, int> ALDN(vexs, n);
      for (int v = 0; v < n; v++)
      {
