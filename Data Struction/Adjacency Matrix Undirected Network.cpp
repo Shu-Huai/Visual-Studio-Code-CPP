@@ -2,27 +2,27 @@
 int main()
 {
     char vertexes[6] = {'A', 'B', 'C', 'D', 'E', 'F'};
-    AdjacencyMatrixUndirectedNetwork<char, int> ALDN(vertexes, 6);
-    ALDN.InsertEdge(0, 1, 6);
-    ALDN.InsertEdge(0, 2, 3);
-    ALDN.InsertEdge(0, 3, 5);
-    ALDN.InsertEdge(1, 3, 1);
-    ALDN.InsertEdge(1, 4, 5);
-    ALDN.InsertEdge(2, 3, 6);
-    ALDN.InsertEdge(2, 5, 6);
-    ALDN.InsertEdge(3, 4, 5);
-    ALDN.InsertEdge(3, 5, 4);
-    ALDN.InsertEdge(4, 5, 2);
+    AdjacencyMatrixUndirectedNetwork<char, int> AMUN(vertexes, 6);
+    AMUN.InsertEdge(0, 1, 6);
+    AMUN.InsertEdge(0, 2, 3);
+    AMUN.InsertEdge(0, 3, 5);
+    AMUN.InsertEdge(1, 3, 1);
+    AMUN.InsertEdge(1, 4, 5);
+    AMUN.InsertEdge(2, 3, 6);
+    AMUN.InsertEdge(2, 5, 6);
+    AMUN.InsertEdge(3, 4, 5);
+    AMUN.InsertEdge(3, 5, 4);
+    AMUN.InsertEdge(4, 5, 2);
     cout << "The adjacency matrix is:" << endl;
-    ALDN.Display();
+    AMUN.Display();
     cout << endl
          << "The Kruskal Minimum Spanning Tree is:" << endl;
-    ALDN.KruskalMinimumSpanningTree();
+    AMUN.KruskalMinimumSpanningTree();
     cout << endl
          << "The Prim Minimum Spanning Tree is:" << endl;
-    ALDN.PrimMinimumSpanningTree();
+    AMUN.PrimMinimumSpanningTree();
     cout << endl
          << "The Tear Cycle Minimum Spanning Tree is:" << endl;
-    ALDN.TearCycleMinimumSpanningTree();
+    AMUN.TearCycleMinimumSpanningTree();
     return 0;
 }
