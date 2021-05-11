@@ -78,6 +78,7 @@
         "future": "cpp",
         "mutex": "cpp",
         "unordered_map": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "*.rh": "cpp"
     }, // 格式化时调整include的顺序（按字母排序）
 }
