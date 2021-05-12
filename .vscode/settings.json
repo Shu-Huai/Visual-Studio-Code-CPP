@@ -2,7 +2,7 @@
     "files.defaultLanguage": "c",
     "editor.formatOnType": true,
     "editor.suggest.snippetsPreventQuickSuggestions": false,
-    "editor.acceptSuggestionOnEnter": "on",
+    "editor.acceptSuggestionOnEnter": "off",
     "code-runner.runInTerminal": true,
     "code-runner.executorMap": {
         "c": "cd $dir && gcc '$fileName' -o '$fileNameWithoutExt.exe' -Wall -g -O2 -static-libgcc -std=c11 -fexec-charset=GBK && &'$dir$fileNameWithoutExt'",
@@ -78,6 +78,7 @@
         "future": "cpp",
         "mutex": "cpp",
         "unordered_map": "cpp",
-        "stack": "cpp"
+        "stack": "cpp",
+        "*.rh": "cpp"
     }, // 格式化时调整include的顺序（按字母排序）
 }
