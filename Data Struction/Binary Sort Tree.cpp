@@ -1,13 +1,13 @@
 #include "Binary Sort Tree.h"
 #include "Assistance.h"
-int main(void)
+int main()
 {
     BinarySortTree<int> BST;
     int elems[] = {39, 68, 11, 23, 46, 34, 75, 86, 8, 71};
     int n = 10;
     for (int i = 0; i < n; i++)
     {
-        BST.Insert(elems[i]);
+        BST.InsertElem(elems[i]);
     }
     char functionSelect = 0;
     int elem = 0;
@@ -36,7 +36,7 @@ int main(void)
             cout << endl
                  << "输入插入元素的值：";
             cin >> elem;
-            BST.Insert(elem);
+            BST.InsertElem(elem);
             break;
         case '2':
             cout << endl
@@ -57,7 +57,7 @@ int main(void)
             cout << endl
                  << "输入删除元素的值：";
             cin >> elem;
-            BST.Delete(elem);
+            BST.DeleteElem(elem);
             break;
         case '4':
             cout << endl;
