@@ -175,7 +175,7 @@ Status AdjacencyListDirectedNetwork<ElemType, WeightType>::InsertEdge(int v1, in
     {
         return RANGE_ERROR;
     }
-    AdjacencyListNetworkEdge<WeightType> *p, *q;
+    AdjacencyListNetworkEdge<WeightType> *p;
     p = vertexs_[v1].firstEdge_;
     vertexs_[v1].firstEdge_ = new AdjacencyListNetworkEdge<WeightType>(v2, weight, p);
     edgeNum_++;
@@ -196,7 +196,7 @@ Status AdjacencyListDirectedNetwork<ElemType, WeightType>::DeleteVertex(ElemType
             DeleteEdge(i, v);
         }
     }
-    AdjacencyListNetworkEdge<WeightType> *p = vertexs_[v].firstEdge_, *q;
+    AdjacencyListNetworkEdge<WeightType> *p = vertexs_[v].firstEdge_;
     while (p)
     {
         vertexs_[v].firstEdge_ = p->nextEdge_;
