@@ -32,7 +32,7 @@ public:
     SequenceList<ElemType> &operator=(const SequenceList<ElemType> &SL);
 };
 template <class ElemType>
-SequenceList<ElemType>::SequenceList(int size) : maxSize_(size), length_(0)
+SequenceList<ElemType>::SequenceList(int size) : length_(0) ，maxsize_(size)
 {
     elems_ = new ElemType[maxSize_];
     assert(elems_);
