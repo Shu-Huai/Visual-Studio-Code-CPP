@@ -12,13 +12,13 @@ int main()
     test0.InsertLeftChild(testnode0, 5);
     test0.InsertRightChild(testnode0, 6);
     cout << "PreOrder: ";
-    test0.PreOrder(Write<int>);
+    test0.PreOrderTraverse(Write<int>);
     cout << endl;
     cout << "InOrder: ";
-    test0.InOrder(Write<int>);
+    test0.InOrderTraverse(Write<int>);
     cout << endl;
     cout << "PostOrder: ";
-    test0.PostOrder(Write<int>);
+    test0.PostOrderTraverse(Write<int>);
     cout << endl;
     cout << "LevelOrder: ";
     test0.LevelOrder(Write<int>);
@@ -28,17 +28,17 @@ int main()
     cout << "Delete 5." << endl;
     test0.DeleteLeftChild(testnode0);
     cout << "PreOrder: ";
-    test0.PreOrder(Write<int>);
+    test0.PreOrderTraverse(Write<int>);
     cout << endl;
     test0.GetMirror(test0.GetRoot());
-    test0.PreOrder(Write<int>);
+    test0.PreOrderTraverse(Write<int>);
     cout << endl;
     cout << "Width: " << test0.GetWidth() << endl;
     cout << "Height: " << test0.GetHeight() << endl;
     cout << "LeafNumber: " << test0.GetNodeNumber() << endl;
     cout << "Clone." << endl;
     BinaryTree<int> test1(test0);
-    test1.PreOrder(Write<int>);
+    test1.PreOrderTraverse(Write<int>);
     cout << endl;
     return 0;
 }

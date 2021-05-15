@@ -1,4 +1,4 @@
-#include "PostThreadBinaryTree.h"
+#include "In Thread Binary Tree.h"
 int main()
 {
     BinaryTree<int> test0(0);
@@ -15,58 +15,58 @@ int main()
     int e = 0;
     ThreadBinaryTreeNode<int> *p;
     cout << endl
-         << "中序索化后的线索二叉树:" << endl;
-    PostThreadBinaryTree<int> PTBT(test0);
-    DisplayBTWithTreeShape<int>(PTBT);
+         << "中序索化后的线索二叉树：" << endl;
+    InThreadBinaryTree<int> ITBT(test0);
+    DisplayBTWithTreeShape<int>(ITBT);
     while (c != '0')
     {
         cout << endl
-             << "1. 插入右孩子.";
+             << "1. 插入右孩子。";
         cout << endl
-             << "2. 删除左子树.";
+             << "2. 删除左子树。";
         cout << endl
-             << "3. 中序遍历.";
+             << "3. 中序遍历。";
         cout << endl
-             << "4. 显示二叉树.";
+             << "4. 显示二叉树。";
         cout << endl
-             << "0. 退出";
+             << "0. 退出。";
         cout << endl
-             << "选择功能(0~4):";
+             << "选择功能（0~4）：";
         cin >> c;
         switch (c)
         {
         case '1':
             cout << endl
-                 << "输入被插入元素的值:";
+                 << "输入被插入元素的值：";
             cin >> e;
-            p = PTBT.Find(e);
+            p = ITBT.Find(e);
             if (p == NULL)
                 cout << "该结点不存在！" << endl;
             else
             {
                 cout << endl
-                     << "输入插入元素的值:";
+                     << "输入插入元素的值：";
                 cin >> e;
-                PTBT.InsertRightChild(p, e);
+                ITBT.InsertRightChild(p, e);
             }
             break;
         case '2':
             cout << endl
-                 << "输入删除子树双亲元素的值:";
+                 << "输入删除子树双亲元素的值：";
             cin >> e;
-            p = PTBT.Find(e);
+            p = ITBT.Find(e);
             if (p == NULL)
                 cout << "该结点不存在！" << endl;
             else
-                PTBT.DeleteLeftChild(p);
+                ITBT.DeleteLeftChild(p);
             break;
         case '3':
             cout << endl;
-            PTBT.PostOrder(Write<int>);
+            ITBT.InOrderTraverse(Write<int>);
             break;
         case '4':
             cout << endl;
-            DisplayBTWithTreeShape(PTBT);
+            DisplayBTWithTreeShape(ITBT);
             break;
         }
     }

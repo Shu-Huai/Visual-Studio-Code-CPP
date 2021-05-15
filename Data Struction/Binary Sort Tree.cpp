@@ -61,15 +61,15 @@ int main()
             break;
         case '4':
             cout << endl;
-            BST.PreOrder(Write<int>);
+            BST.PreOrderTraverse(Write<int>);
             break;
         case '5':
             cout << endl;
-            BST.InOrder(Write<int>);
+            BST.InOrderTraverse(Write<int>);
             break;
         case '6':
             cout << endl;
-            BST.PostOrder(Write<int>);
+            BST.PostOrderTraverse(Write<int>);
             break;
         }
     }

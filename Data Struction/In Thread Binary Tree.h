@@ -1,46 +1,43 @@
 #pragma once
-#ifndef __POST_THREAD_BINARY_TREE__
-#define __POST_THREAD_BINARY_TREE__
+#ifndef __IN_THREAD_BINARY_TREE__
+#define __IN_THREAD_BINARY_TREE__
 #include "Binary Tree.h"
 #include "Thread Binary Tree Node.h"
 template <class ElemType>
-class PostThreadBinaryTree
+class InThreadBinaryTree
 {
 protected:
     ThreadBinaryTreeNode<ElemType> *root_;
-    void PostThreadHelp(ThreadBinaryTreeNode<ElemType> *p, ThreadBinaryTreeNode<ElemType> *&pre);
+    void InThreadHelp(ThreadBinaryTreeNode<ElemType> *p, ThreadBinaryTreeNode<ElemType> *&pre);
     ThreadBinaryTreeNode<ElemType> *TransformHelp(BinaryTreeNode<ElemType> *r);
     ThreadBinaryTreeNode<ElemType> *CopyTreeHelp(ThreadBinaryTreeNode<ElemType> *t);
     void DestroyHelp(ThreadBinaryTreeNode<ElemType> *&r);
-    ThreadBinaryTreeNode<ElemType> *GetParent(ThreadBinaryTreeNode<ElemType> *root, const ThreadBinaryTreeNode<ElemType> *p) const;
 
 public:
-    PostThreadBinaryTree(const BinaryTree<ElemType> &BT);
-    virtual ~PostThreadBinaryTree();
+    InThreadBinaryTree(const BinaryTree<ElemType> &BT);
+    virtual ~InThreadBinaryTree();
     ThreadBinaryTreeNode<ElemType> *GetRoot() const;
-    void PostThread();
+    void InThread();
     ThreadBinaryTreeNode<ElemType> *GetFirst() const;
     ThreadBinaryTreeNode<ElemType> *GetLast() const;
     ThreadBinaryTreeNode<ElemType> *GetNext(ThreadBinaryTreeNode<ElemType> *p) const;
     ThreadBinaryTreeNode<ElemType> *Find(const ElemType &e) const;
     void InsertRightChild(ThreadBinaryTreeNode<ElemType> *p, const ElemType &e);
     void DeleteLeftChild(ThreadBinaryTreeNode<ElemType> *p);
-    void PostOrder(void (*Visit)(const ElemType &)) const;
-    PostThreadBinaryTree(const PostThreadBinaryTree<ElemType> &PTBT);
-    PostThreadBinaryTree<ElemType> &operator=(const PostThreadBinaryTree<ElemType> &PTBT);
-    ThreadBinaryTreeNode<ElemType> *GetParent(const ThreadBinaryTreeNode<ElemType> *p) const;
+    void InOrderTraverse(void (*Visit)(const ElemType &)) const;
+    InThreadBinaryTree(const InThreadBinaryTree<ElemType> &ITBT);
+    InThreadBinaryTree<ElemType> &operator=(const InThreadBinaryTree<ElemType> &ITBT);
 };
 template <class ElemType>
 void DisplayBTWithTreeShapeHelp(ThreadBinaryTreeNode<ElemType> *r, int level);
 template <class ElemType>
-void DisplayBTWithTreeShape(PostThreadBinaryTree<ElemType> &PTBT);
+void DisplayBTWithTreeShape(InThreadBinaryTree<ElemType> &ITBT);
 template <class ElemType>
-void PostThreadBinaryTree<ElemType>::PostThreadHelp(ThreadBinaryTreeNode<ElemType> *p, ThreadBinaryTreeNode<ElemType> *&pre)
+void InThreadBinaryTree<ElemType>::InThreadHelp(ThreadBinaryTreeNode<ElemType> *p, ThreadBinaryTreeNode<ElemType> *&pre)
 {
     if (p != NULL)
     {
-        PostThreadHelp(p->leftChild_, pre);
-        PostThreadHelp(p->rightChild_, pre);
+        InThreadHelp(p->leftChild_, pre);
         if (p->leftChild_ == NULL)
         {
             p->leftChild_ = pre;
@@ -50,7 +47,7 @@ void PostThreadBinaryTree<ElemType>::PostThreadHelp(ThreadBinaryTreeNode<ElemTyp
         {
             p->lefttag_ = 0;
         }
-        if (pre != NULL && pre->rightChild_ == NULL)
+        if (pre != NULL and pre->rightChild_ == NULL)
         {
             pre->rightChild_ = p;
             pre->righttag_ = 1;
@@ -60,10 +57,11 @@ void PostThreadBinaryTree<ElemType>::PostThreadHelp(ThreadBinaryTreeNode<ElemTyp
             pre->righttag_ = 0;
         }
         pre = p;
+        InThreadHelp(p->rightChild_, pre);
     }
 }
 template <class ElemType>
-ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::TransformHelp(BinaryTreeNode<ElemType> *r)
+ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::TransformHelp(BinaryTreeNode<ElemType> *r)
 {
     if (r == NULL)
     {
@@ -75,7 +73,7 @@ ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::TransformHelp(Bi
     return root;
 }
 template <class ElemType>
-ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::CopyTreeHelp(ThreadBinaryTreeNode<ElemType> *t)
+ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::CopyTreeHelp(ThreadBinaryTreeNode<ElemType> *t)
 {
     if (t == NULL)
     {
@@ -103,7 +101,7 @@ ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::CopyTreeHelp(Thr
     return r;
 }
 template <class ElemType>
-void PostThreadBinaryTree<ElemType>::DestroyHelp(ThreadBinaryTreeNode<ElemType> *&r)
+void InThreadBinaryTree<ElemType>::DestroyHelp(ThreadBinaryTreeNode<ElemType> *&r)
 {
     if (r != NULL)
     {
@@ -120,109 +118,75 @@ void PostThreadBinaryTree<ElemType>::DestroyHelp(ThreadBinaryTreeNode<ElemType> 
     }
 }
 template <class ElemType>
-ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::GetParent(ThreadBinaryTreeNode<ElemType> *root, const ThreadBinaryTreeNode<ElemType> *p) const
-{
-    if (root == NULL)
-    {
-        return NULL;
-    }
-    if (!root_->lefttag_ and root_->leftChild_ == p or !root_->righttag_ and root_->rightChild_ == p)
-    {
-        return root;
-    }
-    ThreadBinaryTreeNode<ElemType> *tmp;
-    tmp = root->lefttag_ ? NULL : GetParent(root->leftChild_, p);
-    if (tmp != NULL)
-    {
-        return tmp;
-    }
-    tmp = root->righttag_ ? NULL : GetParent(root->rightChild_, p);
-    if (tmp != NULL)
-    {
-        return tmp;
-    }
-    return NULL;
-}
-template <class ElemType>
-PostThreadBinaryTree<ElemType>::PostThreadBinaryTree(const BinaryTree<ElemType> &BT)
+InThreadBinaryTree<ElemType>::InThreadBinaryTree(const BinaryTree<ElemType> &BT)
 {
     root_ = TransformHelp(BT.GetRoot());
-    PostThread();
+    InThread();
 }
 template <class ElemType>
-PostThreadBinaryTree<ElemType>::~PostThreadBinaryTree()
+InThreadBinaryTree<ElemType>::~InThreadBinaryTree()
 {
     DestroyHelp(root_);
 }
 template <class ElemType>
-ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::GetRoot() const
+ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::GetRoot() const
 {
     return root_;
 }
 template <class ElemType>
-void PostThreadBinaryTree<ElemType>::PostThread()
+void InThreadBinaryTree<ElemType>::InThread()
 {
     ThreadBinaryTreeNode<ElemType> *pre = NULL;
-    PostThreadHelp(root_, pre);
+    InThreadHelp(root_, pre);
+    pre->righttag_ = 1;
 }
 template <class ElemType>
-ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::GetFirst() const
+ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::GetFirst() const
 {
-    ThreadBinaryTreeNode<ElemType> *p = root_;
-    while (!p->lefttag_ or !p->righttag_)
+    if (root_ == NULL)
     {
-        if (!p->lefttag_)
-        {
-            p = p->leftChild_;
-        }
-        else
-        {
-            p = p->rightChild_;
-        }
+        return NULL;
+    }
+    ThreadBinaryTreeNode<ElemType> *p = root_;
+    while (!p->lefttag_)
+    {
+        p = p->leftChild_;
     }
     return p;
 }
 template <class ElemType>
-ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::GetLast() const
+ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::GetLast() const
 {
-    return root_;
-}
-template <class ElemType>
-ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::GetNext(ThreadBinaryTreeNode<ElemType> *p) const
-{
-    if (p == root_)
+    if (root_ == NULL)
     {
         return NULL;
     }
+    ThreadBinaryTreeNode<ElemType> *p = root_;
+    while (!p->righttag_)
+    {
+        p = p->rightChild_;
+    }
+    return p;
+}
+template <class ElemType>
+ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::GetNext(ThreadBinaryTreeNode<ElemType> *p) const
+{
     if (p->righttag_)
     {
         p = p->rightChild_;
     }
     else
     {
-        ThreadBinaryTreeNode<ElemType> *parent = GetParent(p);
-        if (parent->rightChild_ == p)
+        p = p->rightChild_;
+        while (!p->lefttag_)
         {
-            return parent;
+            p = p->leftChild_;
         }
-        ThreadBinaryTreeNode<ElemType> *q = parent;
-        while (!q->righttag_ or !q->righttag_)
-        {
-            if (!q->lefttag_)
-            {
-                q = q->leftChild_;
-            }
-            else
-            {
-                q = q->rightChild_;
-            }
-        }
-        return q;
     }
     return p;
 }
 template <class ElemType>
-ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::Find(const ElemType &e) const
+ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::Find(const ElemType &e) const
 {
     ThreadBinaryTreeNode<ElemType> *p = GetFirst();
     while (p != NULL && p->data_ != e)
@@ -232,54 +196,45 @@ ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::Find(const ElemT
     return p;
 }
 template <class ElemType>
-void PostThreadBinaryTree<ElemType>::InsertRightChild(ThreadBinaryTreeNode<ElemType> *p, const ElemType &e)
+void InThreadBinaryTree<ElemType>::InsertRightChild(ThreadBinaryTreeNode<ElemType> *p, const ElemType &e)
 {
     if (p == NULL)
     {
         return;
     }
     ThreadBinaryTreeNode<ElemType> *x, *q;
-    if (p->righttag_)
+    x = new ThreadBinaryTreeNode<ElemType>(e, p, p->rightChild_, 1, p->righttag_);
+    if (!p->righttag_)
     {
-        x = new ThreadBinaryTreeNode<ElemType>(e, p->leftChild_, p, p->lefttag_, 1);
-        if (p->leftChild_->righttag_)
+        q = p->rightChild_;
+        while (!q->lefttag_)
         {
-            p->leftChild_->rightChild_ = x;
+            q = q->leftChild_;
         }
-    }
-    else
-    {
-        x = new ThreadBinaryTreeNode<ElemType>(e, p->rightChild_, p->rightChild_, 1, 0);
-        if (p->rightChild_->righttag_)
-        {
-            p->rightChild_->rightChild_ = x;
-        }
-        if (p->lefttag_)
-        {
-            p->leftChild_ = x;
-        }
+        q->leftChild_ = x;
     }
     p->rightChild_ = x;
     p->righttag_ = 0;
 }
 template <class ElemType>
-void PostThreadBinaryTree<ElemType>::DeleteLeftChild(ThreadBinaryTreeNode<ElemType> *p)
+void InThreadBinaryTree<ElemType>::DeleteLeftChild(ThreadBinaryTreeNode<ElemType> *p)
 {
-    if (p == NULL or p->lefttag_)
+    if (p == NULL or p->lefttag_ != 0)
     {
         return;
     }
-    ThreadBinaryTreeNode<ElemType> *q = GetParent(p);
-    if (q->righttag_)
+    ThreadBinaryTreeNode<ElemType> *q;
+    q = p->leftChild_;
+    while (!q->lefttag_)
     {
-        q->rightChild_ = p;
+        q = q->leftChild_;
     }
     DestroyHelp(p->leftChild_);
     p->leftChild_ = q->leftChild_;
     p->lefttag_ = 1;
 }
 template <class ElemType>
-void PostThreadBinaryTree<ElemType>::PostOrder(void (*Visit)(const ElemType &)) const
+void InThreadBinaryTree<ElemType>::InOrderTraverse(void (*Visit)(const ElemType &)) const
 {
     ThreadBinaryTreeNode<ElemType> *p;
     for (p = GetFirst(); p != NULL; p = GetNext(p))
@@ -320,26 +275,21 @@ void PostThreadBinaryTree<ElemType>::PostOrder(void (*Visit)(const ElemType &)) 
     }
 }
 template <class ElemType>
-PostThreadBinaryTree<ElemType>::PostThreadBinaryTree(const PostThreadBinaryTree<ElemType> &PTBT)
+InThreadBinaryTree<ElemType>::InThreadBinaryTree(const InThreadBinaryTree<ElemType> &ITBT)
 {
-    root_ = CopyTreeHelp(PTBT.root_);
-    PostThread();
+    root_ = CopyTreeHelp(ITBT.root_);
+    InThread();
 }
 template <class ElemType>
-PostThreadBinaryTree<ElemType> &PostThreadBinaryTree<ElemType>::operator=(const PostThreadBinaryTree<ElemType> &PTBT)
+InThreadBinaryTree<ElemType> &InThreadBinaryTree<ElemType>::operator=(const InThreadBinaryTree<ElemType> &ITBT)
 {
-    if (&PTBT != this)
+    if (&ITBT != this)
     {
         DestroyHelp(root_);
-        root_ = CopyTreeHelp(PTBT.root_);
-        PostThread();
+        root_ = CopyTreeHelp(ITBT.root_);
+        InThread();
     }
     return *this;
-}
-template <class ElemType>
-ThreadBinaryTreeNode<ElemType> *PostThreadBinaryTree<ElemType>::GetParent(const ThreadBinaryTreeNode<ElemType> *p) const
-{
-    return (root_ == NULL or root_ == p) ? NULL : GetParent(root_, p);
 }
 template <class ElemType>
 void DisplayBTWithTreeShapeHelp(ThreadBinaryTreeNode<ElemType> *r, int level)
@@ -363,9 +313,9 @@ void DisplayBTWithTreeShapeHelp(ThreadBinaryTreeNode<ElemType> *r, int level)
     }
 }
 template <class ElemType>
-void DisplayBTWithTreeShape(PostThreadBinaryTree<ElemType> &PTBT)
+void DisplayBTWithTreeShape(InThreadBinaryTree<ElemType> &ITBT)
 {
-    DisplayBTWithTreeShapeHelp<ElemType>(PTBT.GetRoot(), 1);
+    DisplayBTWithTreeShapeHelp<ElemType>(ITBT.GetRoot(), 1);
     cout << endl;
 }
 #endif

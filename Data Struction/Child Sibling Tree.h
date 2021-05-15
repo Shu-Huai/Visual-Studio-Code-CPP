@@ -11,8 +11,8 @@ protected:
     ChildSiblingTreeNode<ElemType> *Copy(ChildSiblingTreeNode<ElemType> *r);
     ChildSiblingTreeNode<ElemType> *Create(ElemType *datas, int *parents, int n, int rootIndex);
     void Destroy(ChildSiblingTreeNode<ElemType> *&r);
-    void PreOrder(ChildSiblingTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
-    void PostOrder(ChildSiblingTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
+    void PreOrderTraverse(ChildSiblingTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
+    void PostOrderTraverse(ChildSiblingTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
     ChildSiblingTreeNode<ElemType> *GetParent(ChildSiblingTreeNode<ElemType> *r, ChildSiblingTreeNode<ElemType> *CSTN) const;
     int GetDegree(ChildSiblingTreeNode<ElemType> *r) const;
     int GetHeight(ChildSiblingTreeNode<ElemType> *r) const;
@@ -27,8 +27,8 @@ public:
     ChildSiblingTree(const ChildSiblingTree<ElemType> &CST);
     virtual ~ChildSiblingTree();
     bool IsEmpty() const;
-    void PreOrder(void (*Visit)(const ElemType &)) const;
-    void PostOrder(void (*Visit)(const ElemType &)) const;
+    void PreOrderTraverse(void (*Visit)(const ElemType &)) const;
+    void PostOrderTraverse(void (*Visit)(const ElemType &)) const;
     ChildSiblingTreeNode<ElemType> *GetFirstChild(ChildSiblingTreeNode<ElemType> *CSTN) const;
     ChildSiblingTreeNode<ElemType> *GetNextSibling(ChildSiblingTreeNode<ElemType> *CSTN) const;
     ChildSiblingTreeNode<ElemType> *GetParent(ChildSiblingTreeNode<ElemType> *CSTN) const;
@@ -108,7 +108,7 @@ void ChildSiblingTree<ElemType>::Destroy(ChildSiblingTreeNode<ElemType> *&r)
     }
 }
 template <class ElemType>
-void ChildSiblingTree<ElemType>::PreOrder(ChildSiblingTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const
+void ChildSiblingTree<ElemType>::PreOrderTraverse(ChildSiblingTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const
 {
     if (r)
     {
@@ -116,20 +116,20 @@ void ChildSiblingTree<ElemType>::PreOrder(ChildSiblingTreeNode<ElemType> *r, voi
         ChildSiblingTreeNode<ElemType> *p = r->firstChild_;
         while (p)
         {
-            PreOrder(p, Visit);
+            PreOrderTraverse(p, Visit);
             p = p->nextSibling_;
         }
     }
 }
 template <class ElemType>
-void ChildSiblingTree<ElemType>::PostOrder(ChildSiblingTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const
+void ChildSiblingTree<ElemType>::PostOrderTraverse(ChildSiblingTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const
 {
     if (r)
     {
         ChildSiblingTreeNode<ElemType> *p = r->firstChild_;
         while (p)
         {
-            PostOrder(p, Visit);
+            PostOrderTraverse(p, Visit);
             p = p->nextSibling_;
         }
         (*Visit)(r->data);
@@ -256,14 +256,14 @@ bool ChildSiblingTree<ElemType>::IsEmpty() const
     return root_ == NULL;
 }
 template <class ElemType>
-void ChildSiblingTree<ElemType>::PreOrder(void (*Visit)(const ElemType &)) const
+void ChildSiblingTree<ElemType>::PreOrderTraverse(void (*Visit)(const ElemType &)) const
 {
     PreRootOrder(root_, Visit);
 }
 template <class ElemType>
-void ChildSiblingTree<ElemType>::PostOrder(void (*Visit)(const ElemType &)) const
+void ChildSiblingTree<ElemType>::PostOrderTraverse(void (*Visit)(const ElemType &)) const
 {
-    PostOrder(root_, Visit);
+    PostOrderTraverse(root_, Visit);
 }
 template <class ElemType>
 ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::GetFirstChild(ChildSiblingTreeNode<ElemType> *CSTN) const

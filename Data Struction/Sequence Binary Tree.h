@@ -2,7 +2,7 @@
 #ifndef __SQ_BINNARY_TREE_H__
 #define __SQ_BINNARY_TREE_H__
 #include "Assistance.h" // 辅助软件包
-#include "LinkQueue.h"	// 链队列
+#include "Link Queue.h"	// 链队列
 
 // 顺序二叉树类
 template <class ElemType>
@@ -18,9 +18,9 @@ protected:
 	int NodeCount(int r) const;									  // 统计以r为根的二叉树中结点个数
 	void SetNodeEmpty(int p);									  // 将结点p置空
 	void Destroy(int r);										  // 删除以r为根的二叉树
-	void PreOrder(int r, void (*Visit)(const ElemType &)) const;  // 先序遍历以r为根的二叉树
-	void InOrder(int r, void (*Visit)(const ElemType &)) const;	  // 中序遍历以r为根的二叉树
-	void PostOrder(int r, void (*Visit)(const ElemType &)) const; // 后序遍历以r为根的二叉树
+	void PreOrderTraverse(int r, void (*Visit)(const ElemType &)) const;  // 先序遍历以r为根的二叉树
+	void InOrderTraverse(int r, void (*Visit)(const ElemType &)) const;	  // 中序遍历以r为根的二叉树
+	void PostOrderTraverse(int r, void (*Visit)(const ElemType &)) const; // 后序遍历以r为根的二叉树
 	int Height(int r) const;									  // 求以r为根的二叉树的高度
 
 public:
@@ -32,9 +32,9 @@ public:
 	Status GetElem(int p, ElemType &e);						   // 返回结点p的元素值
 	Status SetElem(int p, const ElemType &e);				   // 将结点p的值置为e
 	bool IsEmpty() const;									   // 判断二叉树是否为空
-	void InOrder(void (*Visit)(const ElemType &)) const;	   // 中序遍历二叉树
-	void PreOrder(void (*Visit)(const ElemType &)) const;	   // 先序遍历二叉树
-	void PostOrder(void (*Visit)(const ElemType &)) const;	   // 后序遍历二叉树
+	void InOrderTraverse(void (*Visit)(const ElemType &)) const;	   // 中序遍历二叉树
+	void PreOrderTraverse(void (*Visit)(const ElemType &)) const;	   // 先序遍历二叉树
+	void PostOrderTraverse(void (*Visit)(const ElemType &)) const;	   // 后序遍历二叉树
 	void LevelOrder(void (*Visit)(const ElemType &)) const;	   // 层次遍历二叉树
 	int NodeCount() const;									   // 求二叉树的结点个数
 	int LeftChild(const int p) const;						   // 求二叉树中结点p的左孩子
@@ -153,60 +153,60 @@ bool SeqBinaryTree<ElemType>::IsEmpty() const
 }
 
 template <class ElemType>
-void SeqBinaryTree<ElemType>::PreOrder(int r, void (*Visit)(const ElemType &)) const
+void SeqBinaryTree<ElemType>::PreOrderTraverse(int r, void (*Visit)(const ElemType &)) const
 // 操作结果：先序遍历以r为根的二叉树
 {
 	if (!IsNodeEmpty(r))
 	{									// 根非空
 		(*Visit)(elems[r]);				// 访问根结点
-		PreOrder(LeftChild(r), Visit);	// 遍历左子树
-		PreOrder(RightChild(r), Visit); // 遍历右子树
+		PreOrderTraverse(LeftChild(r), Visit);	// 遍历左子树
+		PreOrderTraverse(RightChild(r), Visit); // 遍历右子树
 	}
 }
 
 template <class ElemType>
-void SeqBinaryTree<ElemType>::PreOrder(void (*Visit)(const ElemType &)) const
+void SeqBinaryTree<ElemType>::PreOrderTraverse(void (*Visit)(const ElemType &)) const
 // 操作结果：先序遍历二叉树
 {
-	PreOrder(0, Visit);
+	PreOrderTraverse(0, Visit);
 }
 
 template <class ElemType>
-void SeqBinaryTree<ElemType>::InOrder(int r, void (*Visit)(const ElemType &)) const
+void SeqBinaryTree<ElemType>::InOrderTraverse(int r, void (*Visit)(const ElemType &)) const
 // 操作结果：中序遍历以r为根的二叉树
 {
 	if (!IsNodeEmpty(r))
 	{								   // 根非空
-		InOrder(LeftChild(r), Visit);  // 遍历左子树
+		InOrderTraverse(LeftChild(r), Visit);  // 遍历左子树
 		(*Visit)(elems[r]);			   // 访问根结点
-		InOrder(RightChild(r), Visit); // 遍历右子树
+		InOrderTraverse(RightChild(r), Visit); // 遍历右子树
 	}
 }
 
 template <class ElemType>
-void SeqBinaryTree<ElemType>::InOrder(void (*Visit)(const ElemType &)) const
+void SeqBinaryTree<ElemType>::InOrderTraverse(void (*Visit)(const ElemType &)) const
 // 操作结果：中序遍历二叉树
 {
-	InOrder(0, Visit);
+	InOrderTraverse(0, Visit);
 }
 
 template <class ElemType>
-void SeqBinaryTree<ElemType>::PostOrder(int r, void (*Visit)(const ElemType &)) const
+void SeqBinaryTree<ElemType>::PostOrderTraverse(int r, void (*Visit)(const ElemType &)) const
 // 操作结果：后序遍历以r为根的二叉树
 {
 	if (!IsNodeEmpty(r))
 	{									 // 根非空
-		PostOrder(LeftChild(r), Visit);	 // 遍历左子树
-		PostOrder(RightChild(r), Visit); // 遍历右子树
+		PostOrderTraverse(LeftChild(r), Visit);	 // 遍历左子树
+		PostOrderTraverse(RightChild(r), Visit); // 遍历右子树
 		(*Visit)(elems[r]);				 // 访问根结点
 	}
 }
 
 template <class ElemType>
-void SeqBinaryTree<ElemType>::PostOrder(void (*Visit)(const ElemType &)) const
+void SeqBinaryTree<ElemType>::PostOrderTraverse(void (*Visit)(const ElemType &)) const
 // 操作结果：后序遍历二叉树
 {
-	PostOrder(0, Visit);
+	PostOrderTraverse(0, Visit);
 }
 
 template <class ElemType>
