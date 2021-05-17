@@ -53,7 +53,7 @@ int main()
                 }
                 catch (string &error)
                 {
-                    cout << error << "." << endl;
+                    cout << error << endl;
                     break;
                 }
                 cin >> elem;
@@ -72,7 +72,7 @@ int main()
             }
             catch (string &error)
             {
-                cout << error << "." << endl;
+                cout << error << endl;
                 break;
             }
             cout << "Elements: " << elem << endl;
@@ -90,7 +90,7 @@ int main()
             }
             catch (string &error)
             {
-                cout << error << "." << endl;
+                cout << error << endl;
                 break;
             }
             cout << "Succeeded." << endl;
@@ -105,7 +105,7 @@ int main()
             }
             catch (string &error)
             {
-                cout << error << "." << endl;
+                cout << error << endl;
                 break;
             }
             cout << "Succeeded." << endl;
@@ -123,7 +123,7 @@ int main()
             }
             catch (string &error)
             {
-                cout << error << "." << endl;
+                cout << error << endl;
                 break;
             }
             cout << "Succeeded" << endl;
@@ -168,7 +168,7 @@ int main()
             }
             catch (string &error)
             {
-                cout << error << "." << endl;
+                cout << error << endl;
                 break;
             }
             cout << "Deleted elements between " << minimumValue << " and " << maximumValue << "." << endl;

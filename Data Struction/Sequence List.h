@@ -92,7 +92,7 @@ void SequenceList<ElemType>::AppendElem(const ElemType &e)
 {
     if (length_ == maxSize_)
     {
-        throw(string) "Range Error";
+        throw(string) "Range error.";
     }
     elems_[length_++] = e;
 }
@@ -101,11 +101,11 @@ void SequenceList<ElemType>::InsertElem(int i, const ElemType &e)
 {
     if (length_ == maxSize_)
     {
-        throw(string) "Over Flow";
+        throw(string) "Over flow.";
     }
     if (i < 1 or i > length_ + 1)
     {
-        throw(string) "Range Error";
+        throw(string) "Range error.";
     }
     for (int j = length_; j > i - 1; j--)
     {
@@ -119,7 +119,7 @@ void SequenceList<ElemType>::DeleteElem(int i)
 {
     if (i < 1 or i > length_)
     {
-        throw(string) "Range Error";
+        throw(string) "Range error.";
     }
     for (int j = i - 1; j < length_ - 1; j++)
     {
@@ -132,7 +132,7 @@ void SequenceList<ElemType>::SetElem(int i, const ElemType &e)
 {
     if (i < 1 or i > length_)
     {
-        throw(string) "Range Error";
+        throw(string) "Range error.";
     }
     elems_[i - 1] = e;
 }
@@ -141,7 +141,7 @@ ElemType SequenceList<ElemType>::GetElem(int i) const
 {
     if (i < 1 or i > length_)
     {
-        throw(string) "Range Error";
+        throw(string) "Range error.";
     }
     return elems_[i - 1];
 }
@@ -204,11 +204,11 @@ void SequenceList<ElemType>::DeleteBetween(ElemType low, ElemType high)
 {
     if (low >= high)
     {
-        throw(string) "Range Error";
+        throw(string) "Range error.";
     }
     if (!length_)
     {
-        throw(string) "Under Flow";
+        throw(string) "Under flow.";
     }
     for (int i = 0; i < length_; i++)
     {
