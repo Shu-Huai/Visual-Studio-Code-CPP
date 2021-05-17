@@ -7,7 +7,7 @@ class AVLTree
 {
 protected:
     AVLTreeNode<ElemType> *root_;
-    ElemType referrenceValue_;
+    ElemType referenceValue_;
     void CreateTreeByPreOrder(AVLTreeNode<ElemType> *&root, ElemType *elems, int &index, int length);
     void PreOrderTraverse(AVLTreeNode<ElemType> *&root, void (*Visit)(const ElemType &)) const;
     void InOrderTraverse(AVLTreeNode<ElemType> *&root, void (*Visit)(const ElemType &)) const;
@@ -132,7 +132,7 @@ AVLTreeNode<ElemType> *AVLTree<ElemType>::Find(const ElemType &key, AVLTreeNode<
     return p;
 }
 template <class ElemType>
-AVLTree<ElemType>::AVLTree(ElemType referrenceValue) : referrenceValue_(referrenceValue)
+AVLTree<ElemType>::AVLTree(ElemType referrenceValue) : referenceValue_(referrenceValue)
 {
     root_ = new AVLTreeNode<ElemType>;
     assert(root_);
