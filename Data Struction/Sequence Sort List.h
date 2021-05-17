@@ -6,12 +6,13 @@ template <class ElemType>
 class SequenceSortList : public SequenceList<ElemType>
 {
 public:
-    SequenceSortList(int maxLength = DEFAULT_SIZE);
-    SequenceSortList(ElemType *elems, int length, int maxLength = DEFAULT_SIZE);
+    SequenceSortList(int maxLength = 1000);
+    SequenceSortList(ElemType *elems, int length, int maxLength = 1000);
     void Swap(int indexA, int indexB);
     void BubbleSort();
     void QuickSort(int low, int high);
     void StraightInsertSort();
+    void BinaryInsertSort();
 };
 template <class ElemType>
 SequenceSortList<ElemType>::SequenceSortList(int maxLength) : SequenceList<ElemType>(maxLength)
@@ -92,6 +93,34 @@ void SequenceSortList<ElemType>::StraightInsertSort()
             this->elems_[j + 1] = this->elems_[j];
         }
         this->elems_[j + 1] = temp;
+    }
+}
+template <class ElemType>
+void SequenceSortList<ElemType>::BinaryInsertSort()
+{
+    for (int i = 1; i < this->length_; i++)
+    {
+        int low = 0;
+        int high = i - 1;
+        int middle = 0;
+        ElemType key = this->elems_[i];
+        while (low <= high)
+        {
+            middle = (low + high) / 2;
+            if (key < this->elems_[middle])
+            {
+                high = middle - 1;
+            }
+            else if (key > this->elems_[middle])
+            {
+                low = middle + 1;
+            }
+        }
+        for (int j = i - 1; j >= low; j--)
+        {
+            this->elems_[j + 1] = this->elems_[j];
+        }
+        this->elems_[low] = key;
     }
 }
 #endif

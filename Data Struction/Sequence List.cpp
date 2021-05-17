@@ -1,182 +1,182 @@
 #include "Sequence List.h"
 int main()
 {
-    char c = 0;
+    char functionSelect = 0;
     SequenceList<int> SL;
-    int e = 0;
+    int elem = 0;
     int i = 0;
-    Status S=SUCCESS;
-    double low = 0;
-    double high = 0;
-    while (c != '0')
+    double minimumValue = 0;
+    double maximumValue = 0;
+    while (functionSelect != '0')
     {
         cout << endl
-             << "1. 生成顺序表。";
+             << "1. Generate a sequence list.";
         cout << endl
-             << "2. 显示顺序表。";
+             << "2. Display the sequence table.";
         cout << endl
-             << "3. 取指定元素。";
+             << "3. Take a specified element.";
         cout << endl
-             << "4. 设置元素值。";
+             << "4. Set a element value.";
         cout << endl
-             << "5. 删除元素。";
+             << "5. Delete a element.";
         cout << endl
-             << "6. 插入元素。";
+             << "6. Insert a element.";
         cout << endl
-             << "7. 元素定位。";
+             << "7. Get the index of a elements. ";
         cout << endl
-             << "8. 求顺序表长度。";
+             << "8. Find the length of the sequence list.";
         cout << endl
-             << "9. 删除重复。";
+             << "9. Remove duplicate elements.";
         cout << endl
-             << "a. 原地逆置。";
+             << "a. Reverse in situ.";
         cout << endl
-             << "b. 删除处在指定范围内的元素。";
+             << "b. Delete the elements in the specified range.";
         cout << endl
-             << "c. 排序。";
+             << "c. Sort.";
         cout << endl
-             << "0. 退出。";
+             << "0. Exit.";
         cout << endl
-             << "选择功能(0~c)：";
-        cin >> c;
-        switch (c)
+             << "Select function (0~c): ";
+        cin >> functionSelect;
+        switch (functionSelect)
         {
         case '1':
             SL.Clear();
             cout << endl
-                 << "输入e(e = 0时退出)：";
-            cin >> e;
-            while (e != 0 && S != OVER_FLOW)
+                 << "Input a element (exit when elem = 0): ";
+            cin >> elem;
+            while (elem != 0)
             {
-                S = SL.AppendElem(e);
-                if (S == OVER_FLOW)
+                try
                 {
-                    cout << "顺序表已满。" << endl;
+                    SL.AppendElem(elem);
                 }
-                else
+                catch (string &error)
                 {
-                    cin >> e;
+                    cout << error << "." << endl;
+                    break;
                 }
+                cin >> elem;
             }
             break;
         case '2':
-            SL.Traverse(Write<int>);
+            SL.Traverse();
             break;
         case '3':
             cout << endl
-                 << "输入元素位置：";
+                 << "Input the index of the element: ";
             cin >> i;
-            if (SL.GetElem(i, e) == NOT_PRESENT)
+            try
             {
-                cout << "元素不存储。" << endl;
+                elem = SL.GetElem(i);
             }
-            else
+            catch (string &error)
             {
-                cout << "元素：" << e << endl;
+                cout << error << "." << endl;
+                break;
             }
+            cout << "Elements: " << elem << endl;
             break;
         case '4':
             cout << endl
-                 << "输入位置：";
+                 << "Input the index of the element: ";
             cin >> i;
             cout << endl
-                 << "输入元素值：";
-            cin >> e;
-            if (SL.SetElem(i, e) == RANGE_ERROR)
+                 << "Input the value of the element: ";
+            cin >> elem;
+            try
             {
-                cout << "位置范围错。" << endl;
+                SL.SetElem(i, elem);
             }
-            else
+            catch (string &error)
             {
-                cout << "设置成功。" << endl;
+                cout << error << "." << endl;
+                break;
             }
+            cout << "Succeeded." << endl;
             break;
         case '5':
             cout << endl
-                 << "输入位置：";
+                 << "Input the index of the element: ";
             cin >> i;
-            if (SL.DeleteElem(i, e) == RANGE_ERROR)
+            try
             {
-                cout << "位置范围错。" << endl;
+                SL.DeleteElem(i);
             }
-            else
+            catch (string &error)
             {
-                cout << "被删除元素值：" << e << endl;
+                cout << error << "." << endl;
+                break;
             }
+            cout << "Succeeded." << endl;
             break;
         case '6':
             cout << endl
-                 << "输入位置：";
+                 << "Input the index of the element: ";
             cin >> i;
             cout << endl
-                 << "输入元素值：";
-            cin >> e;
-            S = SL.InsertElem(i, e);
-            if (S == RANGE_ERROR)
+                 << "Input the value of the element: ";
+            cin >> elem;
+            try
             {
-                cout << "位置范围错。" << endl;
+                SL.InsertElem(i, elem);
             }
-            else if (S == OVER_FLOW)
+            catch (string &error)
             {
-                cout << "顺序表已满。" << endl;
+                cout << error << "." << endl;
+                break;
             }
-            else
-            {
-                cout << "插入成功。" << endl;
-            }
+            cout << "Succeeded" << endl;
             break;
         case '7':
             cout << endl
-                 << "输入元素值：";
-            cin >> e;
-            i = SL.LocateElem(e);
+                 << "Input the value of the element: ";
+            cin >> elem;
+            i = SL.LocateElem(elem);
             if (i != 0)
             {
-                cout << "元素" << e << "的序号为：" << i << endl;
+                cout << "Element" << elem << "index is: " << i << "." << endl;
             }
             else
             {
-                cout << "元素" << e << "不存在。" << endl;
+                cout << "Element" << elem << "does not exist." << endl;
             }
             break;
         case '8':
             cout << endl
-                 << "顺序表的长度为：" << SL.GetLength() << endl;
+                 << "The length is: " << SL.GetLength() << endl;
             break;
         case '9':
             SL.DeleteRepeat();
             cout << endl
-                 << "已将顺序表删除重复。" << endl;
+                 << "Succeeded" << endl;
             break;
         case 'a':
             SL.Reverse();
             cout << endl
-                 << "已将顺序表逆置。" << endl;
+                 << "Succeeded." << endl;
             break;
         case 'b':
             cout << endl
-                 << "输入删除范围的最小值：";
-            cin >> low;
-            cout << "输入删除范围的最大值：";
-            cin >> high;
-            S = SL.DeleteBetween(low, high);
-            if (S == SUCCESS)
+                 << "Input the maximum value: ";
+            cin >> minimumValue;
+            cout << "Input the minimum value: ";
+            cin >> maximumValue;
+            try
             {
-                cout << "已删除" << low << " < " << e << " < " << high << "的结点。" << endl;
+                SL.DeleteBetween(minimumValue, maximumValue);
             }
-            else if (S == UNDER_FLOW)
+            catch (string &error)
             {
-                cout << "顺序表为空。" << endl;
+                cout << error << "." << endl;
+                break;
             }
-            else
-            {
-                cout << "范围错。" << endl;
-            }
+            cout << "Deleted elements between " << minimumValue << " and " << maximumValue << "." << endl;
             break;
         case 'c':
             cout << endl;
             SL.Sort();
-            cout << "已将顺序表排序。" << endl;
+            cout << "Succeeded." << endl;
             break;
         }
     }

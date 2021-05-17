@@ -81,6 +81,10 @@
         "mutex": "cpp",
         "unordered_map": "cpp",
         "stack": "cpp",
-        "*.rh": "cpp"
+        "*.rh": "cpp",
+        "bit": "cpp",
+        "clocale": "cpp",
+        "condition_variable": "cpp",
+        "stop_token": "cpp"
     },
 }

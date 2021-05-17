@@ -5,26 +5,34 @@ int main()
     SequenceSortList<int> SSL;
     SSL = SequenceSortList<int>(elems, 10);
     cout << "The list is: ";
-    SSL.Traverse(Write<int>);
+    SSL.Traverse();
     SSL.BubbleSort();
     cout << endl
          << "The list after bubble sort is: ";
-    SSL.Traverse(Write<int>);
+    SSL.Traverse();
     SSL = SequenceSortList<int>(elems, 10);
     cout << endl
          << "The list is: ";
-    SSL.Traverse(Write<int>);
+    SSL.Traverse();
     SSL.QuickSort(0, 9);
     cout << endl
          << "The list after qucik sort is: ";
-    SSL.Traverse(Write<int>);
+    SSL.Traverse();
     SSL = SequenceSortList<int>(elems, 10);
     cout << endl
          << "The list is: ";
-    SSL.Traverse(Write<int>);
+    SSL.Traverse();
     SSL.StraightInsertSort();
     cout << endl
          << "The list after straight insert sort is: ";
-    SSL.Traverse(Write<int>);
+    SSL.Traverse();
+    SSL = SequenceSortList<int>(elems, 10);
+    cout << endl
+         << "The list is: ";
+    SSL.Traverse();
+    SSL.BinaryInsertSort();
+    cout << endl
+         << "The list after binary insert sort is: ";
+    SSL.Traverse();
     return 0;
 }
