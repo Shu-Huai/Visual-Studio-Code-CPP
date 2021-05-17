@@ -10,7 +10,7 @@ public:
     SequenceSortList(ElemType *elems, int length, int maxLength = DEFAULT_SIZE);
     void Swap(int indexA, int indexB);
     void BubbleSort(bool isReverse = false);
-    void QuickSort(int low, int high)
+    void QuickSort(int low, int high);
 };
 template <class ElemType>
 SequenceSortList<ElemType>::SequenceSortList(int maxLength) : SequenceList<ElemType>(maxLength)
@@ -37,10 +37,46 @@ void SequenceSortList<ElemType>::BubbleSort(bool isReverse)
         {
             if ((this->elems_[j] > this->elems_[j + 1] && !isReverse) || (this->elems_[j] < this->elems_[j + 1] && isReverse))
             {
-                Swap(i, j);
+                Swap(j, j + 1);
             }
         }
     }
 }
-
+template <class ElemType>
+void SequenceSortList<ElemType>::QuickSort(int low, int high)
+{
+    ElemType referenceValue = this->elems_[low];
+    int i = low;
+    int j = high;
+    while (i < j)
+    {
+        while (i < j && referenceValue <= this->elems_[j])
+        {
+            j--;
+        }
+        if (i < j)
+        {
+            this->elems_[i] = this->elems_[j];
+            i++;
+        }
+        while (i < j && referenceValue >= this->elems_[i])
+        {
+            i++;
+        }
+        if (i < j)
+        {
+            this->elems_[j] = this->elems_[i];
+            j--;
+        }
+    }
+    this->elems_[i] = referenceValue;
+    if (low < i - 1)
+    {
+        QuickSort(low, i - 1);
+    }
+    if (i + 1 < high)
+    {
+        QuickSort(i + 1, high);
+    }
+}
 #endif
