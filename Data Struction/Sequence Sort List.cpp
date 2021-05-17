@@ -10,10 +10,6 @@ int main()
     cout << endl
          << "The list after bubble sort is: ";
     SSL.Traverse(Write<int>);
-    SSL.BubbleSort(true);
-    cout << endl
-         << "The list after bubble sort with reverse is: ";
-    SSL.Traverse(Write<int>);
     SSL = SequenceSortList<int>(elems, 10);
     cout << endl
          << "The list is: ";
@@ -21,6 +17,14 @@ int main()
     SSL.QuickSort(0, 9);
     cout << endl
          << "The list after qucik sort is: ";
+    SSL.Traverse(Write<int>);
+    SSL = SequenceSortList<int>(elems, 10);
+    cout << endl
+         << "The list is: ";
+    SSL.Traverse(Write<int>);
+    SSL.StraightInsertSort();
+    cout << endl
+         << "The list after straight insert sort is: ";
     SSL.Traverse(Write<int>);
     return 0;
 }

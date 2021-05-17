@@ -9,8 +9,9 @@ public:
     SequenceSortList(int maxLength = DEFAULT_SIZE);
     SequenceSortList(ElemType *elems, int length, int maxLength = DEFAULT_SIZE);
     void Swap(int indexA, int indexB);
-    void BubbleSort(bool isReverse = false);
+    void BubbleSort();
     void QuickSort(int low, int high);
+    void StraightInsertSort();
 };
 template <class ElemType>
 SequenceSortList<ElemType>::SequenceSortList(int maxLength) : SequenceList<ElemType>(maxLength)
@@ -23,19 +24,18 @@ SequenceSortList<ElemType>::SequenceSortList(ElemType *elems, int length, int ma
 template <class ElemType>
 void SequenceSortList<ElemType>::Swap(int indexA, int indexB)
 {
-    ElemType temp;
-    temp = this->elems_[indexA];
+    ElemType temp = this->elems_[indexA];
     this->elems_[indexA] = this->elems_[indexB];
     this->elems_[indexB] = temp;
 }
 template <class ElemType>
-void SequenceSortList<ElemType>::BubbleSort(bool isReverse)
+void SequenceSortList<ElemType>::BubbleSort()
 {
     for (int i = 0; i < this->length_; i++)
     {
         for (int j = 0; j < this->length_ - 1; j++)
         {
-            if ((this->elems_[j] > this->elems_[j + 1] && !isReverse) || (this->elems_[j] < this->elems_[j + 1] && isReverse))
+            if (this->elems_[j] > this->elems_[j + 1])
             {
                 Swap(j, j + 1);
             }
@@ -45,38 +45,53 @@ void SequenceSortList<ElemType>::BubbleSort(bool isReverse)
 template <class ElemType>
 void SequenceSortList<ElemType>::QuickSort(int low, int high)
 {
-    ElemType referenceValue = this->elems_[low];
-    int i = low;
-    int j = high;
-    while (i < j)
+    if (low < high)
     {
-        while (i < j && referenceValue <= this->elems_[j])
+        ElemType referenceValue = this->elems_[low];
+        int i = low;
+        int j = high;
+        while (i < j)
         {
-            j--;
+            while (i < j && this->elems_[j] >= referenceValue)
+            {
+                j--;
+            }
+            if (i < j)
+            {
+                this->elems_[i] = this->elems_[j];
+                i++;
+            }
+            while (i < j && this->elems_[i] <= referenceValue)
+            {
+                i++;
+            }
+            if (i < j)
+            {
+                this->elems_[j] = this->elems_[i];
+                j--;
+            }
         }
-        if (i < j)
-        {
-            this->elems_[i] = this->elems_[j];
-            i++;
-        }
-        while (i < j && referenceValue >= this->elems_[i])
-        {
-            i++;
-        }
-        if (i < j)
-        {
-            this->elems_[j] = this->elems_[i];
-            j--;
-        }
-    }
-    this->elems_[i] = referenceValue;
-    if (low < i - 1)
-    {
+        this->elems_[i] = referenceValue;
         QuickSort(low, i - 1);
-    }
-    if (i + 1 < high)
-    {
         QuickSort(i + 1, high);
+    }
+}
+template <class ElemType>
+void SequenceSortList<ElemType>::StraightInsertSort()
+{
+    for (int i = 1; i < this->length_; i++)
+    {
+        int j = i - 1;
+        ElemType temp = this->elems_[i];
+        for (j = i - 1; j >= 0; j--)
+        {
+            if (this->elems_[j] <= temp)
+            {
+                break;
+            }
+            this->elems_[j + 1] = this->elems_[j];
+        }
+        this->elems_[j + 1] = temp;
     }
 }
 #endif
