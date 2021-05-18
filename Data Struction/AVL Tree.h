@@ -9,9 +9,9 @@ protected:
     AVLTreeNode<ElemType> *root_;
     ElemType referenceValue_;
     void CreateTreeByPreOrder(AVLTreeNode<ElemType> *&root, ElemType *elems, int &index, int length);
-    void PreOrderTraverse(AVLTreeNode<ElemType> *&root, void (*Visit)(const ElemType &)) const;
-    void InOrderTraverse(AVLTreeNode<ElemType> *&root, void (*Visit)(const ElemType &)) const;
-    void PostOrderTraverse(AVLTreeNode<ElemType> *&root, void (*Visit)(const ElemType &)) const;
+    void PreOrderTraverse(AVLTreeNode<ElemType> *root, void (*Visit)(const ElemType &)) const;
+    void InOrderTraverse(AVLTreeNode<ElemType> *root, void (*Visit)(const ElemType &)) const;
+    void PostOrderTraverse(AVLTreeNode<ElemType> *root, void (*Visit)(const ElemType &)) const;
     int GetNodeNumber(const AVLTreeNode<ElemType> *p) const;
     void GetLeftNodeNumber(AVLTreeNode<ElemType> *p);
     AVLTreeNode<ElemType> *LocateNode(AVLTreeNode<ElemType> *root, int index) const;
@@ -28,39 +28,46 @@ public:
     AVLTreeNode<ElemType> *Find(const ElemType &key);
 };
 template <class ElemType>
-int AVLTree<ElemType>::GetNodeNumber(const AVLTreeNode<ElemType> *p) const
+void AVLTree<ElemType>::CreateTreeByPreOrder(AVLTreeNode<ElemType> *&root, ElemType *elems, int &index, int length)
 {
-    if (!p)
-        return 0;
-    return 1 + GetNodeNumber(p->leftChild_) + GetNodeNumber(p->rightChild_);
+    if (elems[index] != referenceValue_ && index < length)
+    {
+        root = new AVLTreeNode<ElemType>(elems[index]);
+        CreateTreeByPreOrder(root->leftChild_, elems, ++index, length);
+        CreateTreeByPreOrder(root->rightChild_, elems, ++index, length);
+    }
+    else
+    {
+        root = NULL;
+    }
 }
 template <class ElemType>
-void AVLTree<ElemType>::PreOrderTraverse(AVLTreeNode<ElemType> *&root, void (*Visit)(const ElemType &)) const
+void AVLTree<ElemType>::PreOrderTraverse(AVLTreeNode<ElemType> *root, void (*Visit)(const ElemType &)) const
 {
     if (root)
     {
         (*Visit)(root->data_);
-        PreOrderTraverse(root->leftChild_);
-        PreOrderTraverse(root->rightChild_);
+        PreOrderTraverse(root->leftChild_, Visit);
+        PreOrderTraverse(root->rightChild_, Visit);
     }
 }
 template <class ElemType>
-void AVLTree<ElemType>::InOrderTraverse(AVLTreeNode<ElemType> *&root, void (*Visit)(const ElemType &)) const
+void AVLTree<ElemType>::InOrderTraverse(AVLTreeNode<ElemType> *root, void (*Visit)(const ElemType &)) const
 {
     if (root)
     {
-        InOrderTraverse(root->leftChild_);
+        InOrderTraverse(root->leftChild_, Visit);
         (*Visit)(root->data_);
-        InOrderTraverse(root->rightChild_);
+        InOrderTraverse(root->rightChild_, Visit);
     }
 }
 template <class ElemType>
-void AVLTree<ElemType>::PostOrderTraverse(AVLTreeNode<ElemType> *&root, void (*Visit)(const ElemType &)) const
+void AVLTree<ElemType>::PostOrderTraverse(AVLTreeNode<ElemType> *root, void (*Visit)(const ElemType &)) const
 {
     if (root)
     {
-        PostOrderTraverse(root->leftChild_);
-        PostOrderTraverse(root->rightChild_);
+        PostOrderTraverse(root->leftChild_, Visit);
+        PostOrderTraverse(root->rightChild_, Visit);
         (*Visit)(root->data_);
     }
 }

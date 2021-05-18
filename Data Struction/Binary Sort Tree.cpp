@@ -11,6 +11,7 @@ int main()
     }
     char functionSelect = 0;
     int elem = 0;
+    int key = 0;
     while (functionSelect != '0')
     {
         cout << endl
@@ -18,7 +19,7 @@ int main()
         cout << endl
              << "2. 查找元素。";
         cout << endl
-             << "3. 删除元素方法一。";
+             << "3. 删除元素。";
         cout << endl
              << "4. 先序遍历。";
         cout << endl
@@ -26,9 +27,15 @@ int main()
         cout << endl
              << "6. 后序遍历。";
         cout << endl
+             << "7. 判断二叉树是否为二叉排序树。";
+        cout << endl
+             << "8. 输出不小于关键字的元素。";
+        cout << endl
+             << "9. 查找并插入。";
+        cout << endl
              << "0. 退出。";
         cout << endl
-             << "选择功能(0~7)：";
+             << "选择功能(0~8)：";
         cin >> functionSelect;
         switch (functionSelect)
         {
@@ -70,6 +77,22 @@ int main()
         case '6':
             cout << endl;
             BST.PostOrderTraverse(Write<int>);
+            break;
+        case '7':
+            cout << endl
+                 << "这棵树" << (BST.IsBinarySortTree() ? "是" : "不是") << "二叉排序树。";
+            break;
+        case '8':
+            cout << endl
+                 << "请输入关键字：";
+            cin >> key;
+            BST.GetElemsAbove(key);
+            break;
+        case '9':
+            cout << endl
+                 << "请输入数据：";
+            cin >> elem;
+            BST.Insert_NoRecurve(elem);
             break;
         }
     }
