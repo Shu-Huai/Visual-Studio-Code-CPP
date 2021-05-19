@@ -25,6 +25,7 @@ public:
     void InsertElem(int i, const ElemType &e);
     void DeleteElem(int i);
     void SetElem(int i, const ElemType &e);
+    void Swap(int indexA, int indexB);
     int LocateElem(const ElemType &e) const;
     ElemType GetElem(int i) const;
     void DeleteRepeat();
@@ -135,6 +136,13 @@ void SequenceList<ElemType>::SetElem(int i, const ElemType &e)
         throw(string) "Range error.";
     }
     elems_[i - 1] = e;
+}
+template <class ElemType>
+void SequenceList<ElemType>::Swap(int indexA, int indexB)
+{
+    ElemType temp = elems_[indexA];
+    elems_[indexA] = elems_[indexB];
+    elems_[indexB] = temp;
 }
 template <class ElemType>
 ElemType SequenceList<ElemType>::GetElem(int i) const
