@@ -2,38 +2,43 @@
 #ifndef __BINaRY_TREE_H__
 #define __BINaRY_TREE_H__
 #include "Binary Tree Node.h"
+#include <assert.h>
+#include <queue>
+using namespace std;
 template <class ElemType>
 class BinaryTree
 {
 protected:
     BinaryTreeNode<ElemType> *root_;
+    void InitializeByPreOrder(BinaryTreeNode<ElemType> *&root, ElemType *elems, int &index, int length, ElemType referenceValue);
+    void Destroy(BinaryTreeNode<ElemType> *&root);
+    void PreOrderTraverse(BinaryTreeNode<ElemType> *root) const;
+    void InOrderTraverse(BinaryTreeNode<ElemType> *root) const;
+    void PostOrderTraverse(BinaryTreeNode<ElemType> *root) const;
+    int GetHeight(const BinaryTreeNode<ElemType> *root) const;
+    int GetNodeNumber(const BinaryTreeNode<ElemType> *root) const;
+    BinaryTreeNode<ElemType> *GetParent(BinaryTreeNode<ElemType> *root, const BinaryTreeNode<ElemType> *p) const;
     BinaryTreeNode<ElemType> *CopyTree(BinaryTreeNode<ElemType> *BTN);
-    void Destroy(BinaryTreeNode<ElemType> *&r);
-    void PreOrderTraverse(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
-    void InOrderTraverse(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
-    void PostOrderTraverse(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
-    int GetHeight(const BinaryTreeNode<ElemType> *r) const;
-    int GetNodeNumber(const BinaryTreeNode<ElemType> *r) const;
-    BinaryTreeNode<ElemType> *GetParent(BinaryTreeNode<ElemType> *r, const BinaryTreeNode<ElemType> *p) const;
 
 public:
     BinaryTree();
-    BinaryTree(const ElemType &e);
+    BinaryTree(const ElemType &elem);
     BinaryTree(BinaryTreeNode<ElemType> *BTN);
     BinaryTree(const BinaryTree<ElemType> &BT);
     virtual ~BinaryTree();
+    void InitializeByPreOrder(ElemType *elems, int length, ElemType referenceValue);
     bool IsEmpty() const;
-    void PreOrderTraverse(void (*Visit)(const ElemType &)) const;
-    void InOrderTraverse(void (*Visit)(const ElemType &)) const;
-    void PostOrderTraverse(void (*Visit)(const ElemType &)) const;
-    void LevelOrder(void (*Visit)(const ElemType &)) const;
-    void InsertLeftChild(BinaryTreeNode<ElemType> *p, const ElemType &e);
-    void InsertRightChild(BinaryTreeNode<ElemType> *p, const ElemType &e);
+    void PreOrderTraverse() const;
+    void InOrderTraverse() const;
+    void PostOrderTraverse() const;
+    void LevelOrder() const;
+    void InsertLeftChild(BinaryTreeNode<ElemType> *p, const ElemType &elem);
+    void InsertRightChild(BinaryTreeNode<ElemType> *p, const ElemType &elem);
     void DeleteLeftChild(BinaryTreeNode<ElemType> *p);
     void DeleteRightChild(BinaryTreeNode<ElemType> *p);
-    Status SetElem(BinaryTreeNode<ElemType> *p, const ElemType &e);
+    void SetElem(BinaryTreeNode<ElemType> *p, const ElemType &elem);
     BinaryTreeNode<ElemType> *GetRoot() const;
-    Status GetElem(BinaryTreeNode<ElemType> *p, ElemType &e) const;
+    void GetElem(BinaryTreeNode<ElemType> *p, ElemType &elem) const;
     BinaryTreeNode<ElemType> *GetParent(const BinaryTreeNode<ElemType> *p) const;
     BinaryTreeNode<ElemType> *GetLeftChild(const BinaryTreeNode<ElemType> *p) const;
     BinaryTreeNode<ElemType> *GetRightChild(const BinaryTreeNode<ElemType> *p) const;
@@ -42,10 +47,108 @@ public:
     int GetHeight() const;
     int GetWidth() const;
     int GetNodeNumber() const;
-    BinaryTreeNode<ElemType> *InitByPreOrder(queue<ElemType> &Q);
     void GetMirror(BinaryTreeNode<ElemType> *r);
     BinaryTree<ElemType> &operator=(const BinaryTree<ElemType> &BT);
 };
+template <class ElemType>
+void BinaryTree<ElemType>::InitializeByPreOrder(BinaryTreeNode<ElemType> *&root, ElemType *elems, int &index, int length, ElemType referenceValue)
+{
+    if (elems[index] != referenceValue && index < length)
+    {
+        root = new BinaryTreeNode<ElemType>(elems[index]);
+        InitializeByPreOrder(root->leftChild_, elems, ++index, length, referenceValue);
+        InitializeByPreOrder(root->rightChild_, elems, ++index, length, referenceValue);
+    }
+    else
+    {
+        root = NULL;
+    }
+}
+template <class ElemType>
+void BinaryTree<ElemType>::Destroy(BinaryTreeNode<ElemType> *&root)
+{
+    if (root)
+    {
+        Destroy(root->leftChild_);
+        Destroy(root->rightChild_);
+        delete root;
+        root = NULL;
+    }
+}
+template <class ElemType>
+void BinaryTree<ElemType>::PreOrderTraverse(BinaryTreeNode<ElemType> *root) const
+{
+    if (root)
+    {
+        cout << root->data_ << " ";
+        PreOrderTraverse(root->leftChild_);
+        PreOrderTraverse(root->rightChild_);
+    }
+}
+template <class ElemType>
+void BinaryTree<ElemType>::InOrderTraverse(BinaryTreeNode<ElemType> *root) const
+{
+    if (root)
+    {
+        InOrderTraverse(root->leftChild_);
+        cout << root->data_ << " ";
+        InOrderTraverse(root->rightChild_);
+    }
+}
+template <class ElemType>
+void BinaryTree<ElemType>::PostOrderTraverse(BinaryTreeNode<ElemType> *root) const
+{
+    if (root)
+    {
+        PostOrderTraverse(root->leftChild_);
+        PostOrderTraverse(root->rightChild_);
+        cout << root->data_ << " ";
+    }
+}
+template <class ElemType>
+int BinaryTree<ElemType>::GetHeight(const BinaryTreeNode<ElemType> *root) const
+{
+    if (!root)
+    {
+        return 0;
+    }
+    int leftheight = GetHeight(root->leftChild_);
+    int rightheight = GetHeight(root->rightChild_);
+    return 1 + (leftheight > rightheight ? leftheight : rightheight);
+}
+template <class ElemType>
+int BinaryTree<ElemType>::GetNodeNumber(const BinaryTreeNode<ElemType> *root) const
+{
+    if (!root)
+    {
+        return 0;
+    }
+    return 1 + GetNodeNumber(root->leftChild_) + GetNodeNumber(root->rightChild_);
+}
+template <class ElemType>
+BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetParent(BinaryTreeNode<ElemType> *root, const BinaryTreeNode<ElemType> *p) const
+{
+    if (!root)
+    {
+        return NULL;
+    }
+    if (root->leftChild_ == p || root->rightChild_ == p)
+    {
+        return root;
+    }
+    BinaryTreeNode<ElemType> *temp;
+    temp = GetParent(root->leftChild_, p);
+    if (temp)
+    {
+        return temp;
+    }
+    temp = GetParent(root->rightChild_, p);
+    if (temp)
+    {
+        return temp;
+    }
+    return NULL;
+}
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinaryTree<ElemType>::CopyTree(BinaryTreeNode<ElemType> *BTN)
 {
@@ -60,100 +163,15 @@ BinaryTreeNode<ElemType> *BinaryTree<ElemType>::CopyTree(BinaryTreeNode<ElemType
     return copy;
 }
 template <class ElemType>
-void BinaryTree<ElemType>::Destroy(BinaryTreeNode<ElemType> *&r)
-{
-    if (r)
-    {
-        Destroy(r->leftChild_);
-        Destroy(r->rightChild_);
-        delete r;
-        r = NULL;
-    }
-}
-template <class ElemType>
-void BinaryTree<ElemType>::PreOrderTraverse(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const
-{
-    if (r)
-    {
-        (*Visit)(r->data_);
-        PreOrderTraverse(r->leftChild_, Visit);
-        PreOrderTraverse(r->rightChild_, Visit);
-    }
-}
-template <class ElemType>
-void BinaryTree<ElemType>::InOrderTraverse(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const
-{
-    if (r)
-    {
-        InOrderTraverse(r->leftChild_, Visit);
-        (*Visit)(r->data_);
-        InOrderTraverse(r->rightChild_, Visit);
-    }
-}
-template <class ElemType>
-void BinaryTree<ElemType>::PostOrderTraverse(BinaryTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const
-{
-    if (r)
-    {
-        PostOrderTraverse(r->leftChild_, Visit);
-        PostOrderTraverse(r->rightChild_, Visit);
-        (*Visit)(r->data_);
-    }
-}
-template <class ElemType>
-int BinaryTree<ElemType>::GetHeight(const BinaryTreeNode<ElemType> *r) const
-{
-    if (!r)
-    {
-        return 0;
-    }
-    int leftheight = GetHeight(r->leftChild_);
-    int rightheight = GetHeight(r->rightChild_);
-    return 1 + (leftheight > rightheight ? leftheight : rightheight);
-}
-template <class ElemType>
-int BinaryTree<ElemType>::GetNodeNumber(const BinaryTreeNode<ElemType> *r) const
-{
-    if (!r)
-    {
-        return 0;
-    }
-    return 1 + GetNodeNumber(r->leftChild_) + GetNodeNumber(r->rightChild_);
-}
-template <class ElemType>
-BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetParent(BinaryTreeNode<ElemType> *r, const BinaryTreeNode<ElemType> *p) const
-{
-    if (!r)
-    {
-        return NULL;
-    }
-    if (r->leftChild_ == p || r->rightChild_ == p)
-    {
-        return r;
-    }
-    BinaryTreeNode<ElemType> *temp;
-    temp = GetParent(r->leftChild_, p);
-    if (temp)
-    {
-        return temp;
-    }
-    temp = GetParent(r->rightChild_, p);
-    if (temp)
-    {
-        return temp;
-    }
-    return NULL;
-}
-template <class ElemType>
 BinaryTree<ElemType>::BinaryTree() : root_(NULL)
 {
 }
 template <class ElemType>
-BinaryTree<ElemType>::BinaryTree(const ElemType &e)
+BinaryTree<ElemType>::BinaryTree(const ElemType &elem)
 {
     root_ = new BinaryTreeNode<ElemType>;
     assert(root_);
-    root_->data_ = e;
+    root_->data_ = elem;
 }
 template <class ElemType>
 BinaryTree<ElemType>::BinaryTree(BinaryTreeNode<ElemType> *BTN)
@@ -173,27 +191,33 @@ BinaryTree<ElemType>::~BinaryTree()
     Destroy(root_);
 }
 template <class ElemType>
+void BinaryTree<ElemType>::InitializeByPreOrder(ElemType *elems, int length, ElemType referenceValue)
+{
+    int index = 0;
+    InitializeByPreOrder(root_, elems, index, length, referenceValue);
+}
+template <class ElemType>
 bool BinaryTree<ElemType>::IsEmpty() const
 {
     return root_ == NULL;
 }
 template <class ElemType>
-void BinaryTree<ElemType>::PreOrderTraverse(void (*Visit)(const ElemType &)) const
+void BinaryTree<ElemType>::PreOrderTraverse() const
 {
-    PreOrderTraverse(root_, Visit);
+    PreOrderTraverse(root_);
 }
 template <class ElemType>
-void BinaryTree<ElemType>::InOrderTraverse(void (*Visit)(const ElemType &)) const
+void BinaryTree<ElemType>::InOrderTraverse() const
 {
-    InOrderTraverse(root_, Visit);
+    InOrderTraverse(root_);
 }
 template <class ElemType>
-void BinaryTree<ElemType>::PostOrderTraverse(void (*Visit)(const ElemType &)) const
+void BinaryTree<ElemType>::PostOrderTraverse() const
 {
-    PostOrderTraverse(root_, Visit);
+    PostOrderTraverse(root_);
 }
 template <class ElemType>
-void BinaryTree<ElemType>::LevelOrder(void (*Visit)(const ElemType &)) const
+void BinaryTree<ElemType>::LevelOrder() const
 {
     queue<BinaryTreeNode<ElemType> *> Q;
     BinaryTreeNode<ElemType> *p;
@@ -205,7 +229,7 @@ void BinaryTree<ElemType>::LevelOrder(void (*Visit)(const ElemType &)) const
     {
         p = Q.front();
         Q.pop();
-        (*Visit)(p->data_);
+        cout << p->data_ << " ";
         if (p->leftChild_)
         {
             Q.push(p->leftChild_);
@@ -217,13 +241,13 @@ void BinaryTree<ElemType>::LevelOrder(void (*Visit)(const ElemType &)) const
     }
 }
 template <class ElemType>
-void BinaryTree<ElemType>::InsertLeftChild(BinaryTreeNode<ElemType> *p, const ElemType &e)
+void BinaryTree<ElemType>::InsertLeftChild(BinaryTreeNode<ElemType> *p, const ElemType &elem)
 {
     if (!p)
     {
         return;
     }
-    BinaryTreeNode<ElemType> *q = new BinaryTreeNode<ElemType>(e);
+    BinaryTreeNode<ElemType> *q = new BinaryTreeNode<ElemType>(elem);
     if (p->leftChild_)
     {
         q->leftChild_ = p->leftChild_;
@@ -231,13 +255,13 @@ void BinaryTree<ElemType>::InsertLeftChild(BinaryTreeNode<ElemType> *p, const El
     p->leftChild_ = q;
 }
 template <class ElemType>
-void BinaryTree<ElemType>::InsertRightChild(BinaryTreeNode<ElemType> *p, const ElemType &e)
+void BinaryTree<ElemType>::InsertRightChild(BinaryTreeNode<ElemType> *p, const ElemType &elem)
 {
     if (!p)
     {
         return;
     }
-    BinaryTreeNode<ElemType> *q = new BinaryTreeNode<ElemType>(e);
+    BinaryTreeNode<ElemType> *q = new BinaryTreeNode<ElemType>(elem);
     if (p->rightChild_)
     {
         q->rightChild_ = p->rightChild_;
@@ -255,14 +279,13 @@ void BinaryTree<ElemType>::DeleteRightChild(BinaryTreeNode<ElemType> *p)
     Destroy(p->rightChild_);
 }
 template <class ElemType>
-Status BinaryTree<ElemType>::SetElem(BinaryTreeNode<ElemType> *p, const ElemType &e)
+void BinaryTree<ElemType>::SetElem(BinaryTreeNode<ElemType> *p, const ElemType &elem)
 {
     if (!p)
     {
-        return UNDER_FLOW;
+        throw(string) "The tree is empty.";
     }
-    p->data_ = e;
-    return SUCCESS;
+    p->data_ = elem;
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetRoot() const
@@ -270,14 +293,13 @@ BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetRoot() const
     return root_;
 }
 template <class ElemType>
-Status BinaryTree<ElemType>::GetElem(BinaryTreeNode<ElemType> *p, ElemType &e) const
+void BinaryTree<ElemType>::GetElem(BinaryTreeNode<ElemType> *p, ElemType &elem) const
 {
     if (!p)
     {
-        return UNDER_FLOW;
+        throw(string) "The tree is empty.";
     }
-    e = p->data_;
-    return SUCCESS;
+    elem = p->data_;
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetParent(const BinaryTreeNode<ElemType> *p) const
@@ -379,27 +401,6 @@ template <class ElemType>
 int BinaryTree<ElemType>::GetNodeNumber() const
 {
     return GetNodeNumber(root_);
-}
-template <class ElemType>
-BinaryTreeNode<ElemType> *BinaryTree<ElemType>::InitByPreOrder(queue<ElemType> &Q)
-{
-    BinaryTreeNode<ElemType> *BT;
-    char t;
-    ElemType e = Q.front();
-    Q.pop();
-    if (e == "#")
-    {
-        return NULL;
-    }
-    BT = new BinaryTreeNode<ElemType>(e);
-    assert(BT);
-    if (!root_)
-    {
-        root_ = BT;
-    }
-    BT->leftChild_ = InitByPreOrder(Q);
-    BT->rightChild_ = InitByPreOrder(Q);
-    return BT;
 }
 template <class ElemType>
 void BinaryTree<ElemType>::GetMirror(BinaryTreeNode<ElemType> *r)

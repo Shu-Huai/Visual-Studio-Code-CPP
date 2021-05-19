@@ -15,84 +15,98 @@ int main()
     while (functionSelect != '0')
     {
         cout << endl
-             << "1. 插入元素。";
+             << "1. Insert an element.";
         cout << endl
-             << "2. 查找元素。";
+             << "2. Find an element.";
         cout << endl
-             << "3. 删除元素。";
+             << "3. Delete an element.";
         cout << endl
-             << "4. 先序遍历。";
+             << "4. Pre order Traverse.";
         cout << endl
-             << "5. 中序遍历。";
+             << "5. In Order Traverse.";
         cout << endl
-             << "6. 后序遍历。";
+             << "6. Post Order Traverse.";
         cout << endl
-             << "7. 判断二叉树是否为二叉排序树。";
+             << "7. If it is a binary sort tree.";
         cout << endl
-             << "8. 输出不小于关键字的元素。";
+             << "8. Output elements bigger than the key.";
         cout << endl
-             << "9. 查找并插入。";
+             << "9. Find and insert.";
         cout << endl
-             << "0. 退出。";
+             << "0. Exit.";
         cout << endl
-             << "选择功能(0~8)：";
+             << "Select function(0~9): ";
         cin >> functionSelect;
         switch (functionSelect)
         {
         case '1':
             cout << endl
-                 << "输入插入元素的值：";
+                 << "Please input the element: ";
             cin >> elem;
-            BST.InsertElem(elem);
+            try
+            {
+                BST.InsertElem(elem);
+            }
+            catch (string &error)
+            {
+                cout << error << endl;
+            }
             break;
         case '2':
             cout << endl
-                 << "输入查找元素的值：";
+                 << "Please input the element: ";
             cin >> elem;
             if (!BST.Find(elem))
             {
                 cout << endl
-                     << "元素不存在。";
+                     << "Element does not exsit.";
             }
             else
             {
                 cout << endl
-                     << "元素存在。";
+                     << "Element exsits.";
             }
             break;
         case '3':
             cout << endl
-                 << "输入删除元素的值：";
+                 << "Please input the element: ";
             cin >> elem;
-            BST.DeleteElem(elem);
+            try
+            {
+                BST.DeleteElem(elem);
+            }
+            catch (string &error)
+            {
+                cout << error << endl;
+            }
             break;
         case '4':
             cout << endl;
-            BST.PreOrderTraverse(Write<int>);
+            BST.PreOrderTraverse();
             break;
         case '5':
             cout << endl;
-            BST.InOrderTraverse(Write<int>);
+            BST.InOrderTraverse();
             break;
         case '6':
             cout << endl;
-            BST.PostOrderTraverse(Write<int>);
+            BST.PostOrderTraverse();
             break;
         case '7':
             cout << endl
-                 << "这棵树" << (BST.IsBinarySortTree() ? "是" : "不是") << "二叉排序树。";
+                 << "This tree " << (BST.IsBinarySortTree() ? "is" : "is not") << " a binary sort tree.";
             break;
         case '8':
             cout << endl
-                 << "请输入关键字：";
+                 << "Please input the ley: ";
             cin >> key;
             BST.GetElemsAbove(key);
             break;
         case '9':
             cout << endl
-                 << "请输入数据：";
+                 << "Please input the element: ";
             cin >> elem;
-            BST.Insert_NoRecurve(elem);
+            BST.FindAndInsert(elem);
             break;
         }
     }

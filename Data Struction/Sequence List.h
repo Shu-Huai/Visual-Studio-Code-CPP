@@ -79,7 +79,7 @@ void SequenceList<ElemType>::Traverse() const
 {
     for (int i = 0; i < length_; i++)
     {
-        cout << elems_[i] << "  ";
+        cout << elems_[i] << " ";
     }
 }
 template <class ElemType>

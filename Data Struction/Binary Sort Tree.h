@@ -2,6 +2,8 @@
 #ifndef __BINNARY_SORT_TREE_H__
 #define __BINNARY_SORT_TREE_H__
 #include "Binary Tree.h"
+#include <stack>
+#include <vector>
 template <class ElemType>
 class BinarySortTree : public BinaryTree<ElemType>
 {
@@ -10,9 +12,9 @@ protected:
 
 public:
     bool IsBinarySortTree() const;
-    Status InsertElem(const ElemType &elem);
-    void Insert_NoRecurve(const ElemType &elem);
-    Status DeleteElem(const ElemType &key);
+    void InsertElem(const ElemType &elem);
+    void FindAndInsert(const ElemType &elem);
+    void DeleteElem(const ElemType &key);
     BinaryTreeNode<ElemType> *Find(const ElemType &key) const;
     void GetElemsAbove(int key) const;
 };
@@ -71,12 +73,12 @@ bool BinarySortTree<ElemType>::IsBinarySortTree() const
     return true;
 }
 template <class ElemType>
-Status BinarySortTree<ElemType>::InsertElem(const ElemType &elem)
+void BinarySortTree<ElemType>::InsertElem(const ElemType &elem)
 {
     BinaryTreeNode<ElemType> *parentNode;
     if (Find(elem, parentNode))
     {
-        return FAIL;
+        throw(string) "Element exists.";
     }
     BinaryTreeNode<ElemType> *p = new BinaryTreeNode<ElemType>(elem);
     if (this->IsEmpty())
@@ -91,10 +93,9 @@ Status BinarySortTree<ElemType>::InsertElem(const ElemType &elem)
     {
         parentNode->rightChild_ = p;
     }
-    return SUCCESS;
 }
 template <class ElemType>
-void BinarySortTree<ElemType>::Insert_NoRecurve(const ElemType &elem)
+void BinarySortTree<ElemType>::FindAndInsert(const ElemType &elem)
 {
     if (!this->root_)
     {
@@ -107,8 +108,8 @@ void BinarySortTree<ElemType>::Insert_NoRecurve(const ElemType &elem)
     {
         if (elem == p->data_)
         {
-            cout << "要插入的值已存在!" << endl
-                 << "次数是：" << ++p->searchTimes_ << endl;
+            cout << "The element exsits." << endl
+                 << "Times is: " << ++p->searchTimes_ << endl;
             return;
         }
         parentNode = p;
@@ -132,13 +133,13 @@ void BinarySortTree<ElemType>::Insert_NoRecurve(const ElemType &elem)
     }
 }
 template <class ElemType>
-Status BinarySortTree<ElemType>::DeleteElem(const ElemType &key)
+void BinarySortTree<ElemType>::DeleteElem(const ElemType &key)
 {
     BinaryTreeNode<ElemType> *parentNode = NULL;
     BinaryTreeNode<ElemType> *p = Find(key, parentNode);
     if (!p)
     {
-        return FAIL;
+        throw(string) "The tree is empty.";
     }
     if (!parentNode)
     {
@@ -152,7 +153,6 @@ Status BinarySortTree<ElemType>::DeleteElem(const ElemType &key)
     {
         DeleteElem(parentNode->rightChild_->data_);
     }
-    return SUCCESS;
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinarySortTree<ElemType>::Find(const ElemType &key) const
@@ -189,7 +189,7 @@ void BinarySortTree<ElemType>::GetElemsAbove(int key) const
     {
         if (result[i] >= key)
         {
-            cout << result[i] << "  ";
+            cout << result[i] << " ";
         }
         else
         {

@@ -8,7 +8,7 @@ class AVLTree
 protected:
     AVLTreeNode<ElemType> *root_;
     ElemType referenceValue_;
-    void CreateTreeByPreOrder(AVLTreeNode<ElemType> *&root, ElemType *elems, int &index, int length);
+    void InitializeByPreOrder(AVLTreeNode<ElemType> *&root, ElemType *elems, int &index, int length);
     void PreOrderTraverse(AVLTreeNode<ElemType> *root, void (*Visit)(const ElemType &)) const;
     void InOrderTraverse(AVLTreeNode<ElemType> *root, void (*Visit)(const ElemType &)) const;
     void PostOrderTraverse(AVLTreeNode<ElemType> *root, void (*Visit)(const ElemType &)) const;
@@ -19,7 +19,7 @@ protected:
 
 public:
     AVLTree(ElemType referrenceValue);
-    void CreateTreeByPreOrder(ElemType *elems, int length);
+    void InitializeByPreOrder(ElemType *elems, int length);
     void PreOrderTraverse(void (*Visit)(const ElemType &)) const;
     void InOrderTraverse(void (*Visit)(const ElemType &)) const;
     void PostOrderTraverse(void (*Visit)(const ElemType &)) const;
@@ -28,13 +28,13 @@ public:
     AVLTreeNode<ElemType> *Find(const ElemType &key);
 };
 template <class ElemType>
-void AVLTree<ElemType>::CreateTreeByPreOrder(AVLTreeNode<ElemType> *&root, ElemType *elems, int &index, int length)
+void AVLTree<ElemType>::InitializeByPreOrder(AVLTreeNode<ElemType> *&root, ElemType *elems, int &index, int length)
 {
     if (elems[index] != referenceValue_ && index < length)
     {
         root = new AVLTreeNode<ElemType>(elems[index]);
-        CreateTreeByPreOrder(root->leftChild_, elems, ++index, length);
-        CreateTreeByPreOrder(root->rightChild_, elems, ++index, length);
+        InitializeByPreOrder(root->leftChild_, elems, ++index, length);
+        InitializeByPreOrder(root->rightChild_, elems, ++index, length);
     }
     else
     {
@@ -145,10 +145,10 @@ AVLTree<ElemType>::AVLTree(ElemType referrenceValue) : referenceValue_(referrenc
     assert(root_);
 }
 template <class ElemType>
-void AVLTree<ElemType>::CreateTreeByPreOrder(ElemType *elems, int length)
+void AVLTree<ElemType>::InitializeByPreOrder(ElemType *elems, int length)
 {
     int index = 0;
-    CreateTreeByPreOrder(root_, elems, index, length);
+    InitializeByPreOrder(root_, elems, index, length);
     GetLeftNodeNumber();
 }
 template <class ElemType>

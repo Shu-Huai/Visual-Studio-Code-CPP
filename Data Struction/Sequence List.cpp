@@ -135,11 +135,11 @@ int main()
             i = SL.LocateElem(elem);
             if (i != 0)
             {
-                cout << "Element" << elem << "index is: " << i << "." << endl;
+                cout << "Element " << elem << " index is: " << i << "." << endl;
             }
             else
             {
-                cout << "Element" << elem << "does not exist." << endl;
+                cout << "Element " << elem << " does not exist." << endl;
             }
             break;
         case '8':
@@ -149,7 +149,7 @@ int main()
         case '9':
             SL.DeleteRepeat();
             cout << endl
-                 << "Succeeded" << endl;
+                 << "Succeeded." << endl;
             break;
         case 'a':
             SL.Reverse();
