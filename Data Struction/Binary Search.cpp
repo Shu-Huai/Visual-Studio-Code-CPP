@@ -1,4 +1,5 @@
-#include "Assistance.h"
+#include <iostream>
+using namespace std;
 template <class ElemType>
 int BinarySearch(ElemType *elems, ElemType key, int length)
 {
