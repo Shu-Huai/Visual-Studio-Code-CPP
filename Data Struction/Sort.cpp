@@ -1,4 +1,4 @@
-#include "Sequence Sort.h"
+#include "Sort.h"
 #include <iostream>
 using namespace std;
 int main()
@@ -12,7 +12,7 @@ int main()
         elems[i] = resource[i];
         cout << elems[i] << " ";
     }
-    SequenceSort<int>::BubbleSort(elems, length);
+    Sort<int>::BubbleSort(elems, length);
     cout << endl
          << "The list after bubble sort is:" << endl;
     for (int i = 0; i < length; i++)
@@ -26,7 +26,7 @@ int main()
         elems[i] = resource[i];
         cout << elems[i] << " ";
     }
-    SequenceSort<int>::QuickSort(elems, length);
+    Sort<int>::QuickSort(elems, length);
     cout << endl
          << "The list after qucik sort is:" << endl;
     for (int i = 0; i < length; i++)
@@ -40,7 +40,7 @@ int main()
         elems[i] = resource[i];
         cout << elems[i] << " ";
     }
-    SequenceSort<int>::StraightInsertSort(elems, length);
+    Sort<int>::StraightInsertSort(elems, length);
     cout << endl
          << "The list after straight insert sort is:" << endl;
     for (int i = 0; i < length; i++)
@@ -54,7 +54,7 @@ int main()
         elems[i] = resource[i];
         cout << elems[i] << " ";
     }
-    SequenceSort<int>::BinaryInsertSort(elems, length);
+    Sort<int>::BinaryInsertSort(elems, length);
     cout << endl
          << "The list after binary insert sort is:" << endl;
     for (int i = 0; i < length; i++)
@@ -68,7 +68,7 @@ int main()
         elems[i] = resource[i];
         cout << elems[i] << " ";
     }
-    SequenceSort<int>::ShellSort(elems, length);
+    Sort<int>::ShellSort(elems, length);
     cout << endl
          << "The list after shell sort is:" << endl;
     for (int i = 0; i < length; i++)
@@ -82,7 +82,7 @@ int main()
         elems[i] = resource[i];
         cout << elems[i] << " ";
     }
-    SequenceSort<int>::MergeSort(elems, length);
+    Sort<int>::MergeSort(elems, length);
     cout << endl
          << "The list after merge sort is:" << endl;
     for (int i = 0; i < length; i++)
@@ -96,7 +96,7 @@ int main()
         elems[i] = resource[i];
         cout << elems[i] << " ";
     }
-    SequenceSort<int>::MergeSortWithRecursion(elems, length);
+    Sort<int>::MergeSortWithRecursion(elems, length);
     cout << endl
          << "The list after merge sort with recursion is:" << endl;
     for (int i = 0; i < length; i++)
@@ -110,7 +110,7 @@ int main()
         elems[i] = resource[i];
         cout << elems[i] << " ";
     }
-    SequenceSort<int>::MonkeySort(elems, length);
+    Sort<int>::MonkeySort(elems, length);
     cout << endl
          << "The list after monkey sort is:" << endl;
     for (int i = 0; i < length; i++)

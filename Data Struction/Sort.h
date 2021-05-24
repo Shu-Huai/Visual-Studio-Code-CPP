@@ -1,15 +1,15 @@
 #pragma once
-#ifndef __SEQUENCE_SORT_H__
-#define __SEQUENCE_SORT_H__
+#ifndef __SORT_H__
+#define __SORT_H__
 #include <stdlib.h>
 template <class ElemType>
-class SequenceSort
+class Sort
 {
 private:
     static void Merge(ElemType *elems, int low, int middle, int high);
 
 public:
-    SequenceSort();
+    Sort();
     static void BubbleSort(ElemType *elems, int length);
     static void QuickSort(ElemType *elems, int length);
     static void QuickSort(ElemType *elems, int length, int low, int high);
@@ -22,7 +22,7 @@ public:
     static void MonkeySort(ElemType *elems, int length);
 };
 template <class ElemType>
-void SequenceSort<ElemType>::Merge(ElemType *elems, int low, int middle, int high)
+void Sort<ElemType>::Merge(ElemType *elems, int low, int middle, int high)
 {
     ElemType *result = new ElemType[high + 1];
     int i = low;
@@ -61,11 +61,11 @@ void SequenceSort<ElemType>::Merge(ElemType *elems, int low, int middle, int hig
     delete[] result;
 }
 template <class ElemType>
-SequenceSort<ElemType>::SequenceSort()
+Sort<ElemType>::Sort()
 {
 }
 template <class ElemType>
-void SequenceSort<ElemType>::BubbleSort(ElemType *elems, int length)
+void Sort<ElemType>::BubbleSort(ElemType *elems, int length)
 {
     for (int i = 0; i < length; i++)
     {
@@ -81,12 +81,12 @@ void SequenceSort<ElemType>::BubbleSort(ElemType *elems, int length)
     }
 }
 template <class ElemType>
-void SequenceSort<ElemType>::QuickSort(ElemType *elems, int length)
+void Sort<ElemType>::QuickSort(ElemType *elems, int length)
 {
     QuickSort(elems, length, 0, length - 1);
 }
 template <class ElemType>
-void SequenceSort<ElemType>::QuickSort(ElemType *elems, int length, int low, int high)
+void Sort<ElemType>::QuickSort(ElemType *elems, int length, int low, int high)
 {
     if (low < high)
     {
@@ -120,7 +120,7 @@ void SequenceSort<ElemType>::QuickSort(ElemType *elems, int length, int low, int
     }
 }
 template <class ElemType>
-void SequenceSort<ElemType>::StraightInsertSort(ElemType *elems, int length)
+void Sort<ElemType>::StraightInsertSort(ElemType *elems, int length)
 {
     for (int i = 1; i < length; i++)
     {
@@ -138,7 +138,7 @@ void SequenceSort<ElemType>::StraightInsertSort(ElemType *elems, int length)
     }
 }
 template <class ElemType>
-void SequenceSort<ElemType>::BinaryInsertSort(ElemType *elems, int length)
+void Sort<ElemType>::BinaryInsertSort(ElemType *elems, int length)
 {
     for (int i = 1; i < length; i++)
     {
@@ -166,7 +166,7 @@ void SequenceSort<ElemType>::BinaryInsertSort(ElemType *elems, int length)
     }
 }
 template <class ElemType>
-void SequenceSort<ElemType>::ShellSort(ElemType *elems, int length)
+void Sort<ElemType>::ShellSort(ElemType *elems, int length)
 {
     int distance = length / 2;
     while (distance > 0)
@@ -189,7 +189,7 @@ void SequenceSort<ElemType>::ShellSort(ElemType *elems, int length)
     }
 }
 template <class ElemType>
-void SequenceSort<ElemType>::MergeSort(ElemType *elems, int length)
+void Sort<ElemType>::MergeSort(ElemType *elems, int length)
 {
     int intervalLength = 1;
     while (intervalLength < length)
@@ -208,12 +208,12 @@ void SequenceSort<ElemType>::MergeSort(ElemType *elems, int length)
     }
 }
 template <class ElemType>
-void SequenceSort<ElemType>::MergeSortWithRecursion(ElemType *elems, int length)
+void Sort<ElemType>::MergeSortWithRecursion(ElemType *elems, int length)
 {
     MergeSortWithRecursion(elems, length, 0, length - 1);
 }
 template <class ElemType>
-void SequenceSort<ElemType>::MergeSortWithRecursion(ElemType *elems, int length, int low, int high)
+void Sort<ElemType>::MergeSortWithRecursion(ElemType *elems, int length, int low, int high)
 {
     if (low >= high)
     {
@@ -225,7 +225,7 @@ void SequenceSort<ElemType>::MergeSortWithRecursion(ElemType *elems, int length,
     Merge(elems, low, middle, high);
 }
 template <class ElemType>
-void SequenceSort<ElemType>::MonkeySort(ElemType *elems, int length)
+void Sort<ElemType>::MonkeySort(ElemType *elems, int length)
 {
     bool isSorted = false;
     ElemType *result = new ElemType[length]{0};
