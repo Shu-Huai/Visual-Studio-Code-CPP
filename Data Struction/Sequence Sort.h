@@ -13,6 +13,7 @@ public:
     static void StraightInsertSort(ElemType *elems, int length);
     static void BinaryInsertSort(ElemType *elems, int length);
     static void ShellSort(ElemType *elems, int length);
+    static void MergeSort(ElemType *elems, int length, int middle);
     static void MonkeySort(ElemType *elems, int length);
 };
 template <class ElemType>
@@ -142,6 +143,45 @@ void SequenceSort<ElemType>::ShellSort(ElemType *elems, int length)
         }
         distance /= 2;
     }
+}
+template <class ElemType>
+void SequenceSort<ElemType>::MergeSort(ElemType *elems, int length, int middle)
+{
+    ElemType *result = new ElemType[length];
+    int i = 0;
+    int j = middle + 1;
+    int k = 0;
+    while (i <= middle && j < length)
+    {
+        if (elems[i] <= elems[j])
+        {
+            result[k] = elems[i];
+            i++;
+        }
+        else
+        {
+            result[k] = elems[j];
+            j++;
+        }
+        k++;
+    }
+    while (i <= middle)
+    {
+        result[k] = elems[i];
+        k++;
+        i++;
+    }
+    while (j < length)
+    {
+        result[k] = elems[j];
+        k++;
+        j++;
+    }
+    for (k = 0; k < length; k++)
+    {
+        elems[k] = result[k];
+    }
+    delete[] result;
 }
 template <class ElemType>
 void SequenceSort<ElemType>::MonkeySort(ElemType *elems, int length)

@@ -77,6 +77,22 @@ int main()
     }
     cout << endl
          << "The list is:" << endl;
+    int *temp = new int[10]{6, 23, 31, 58, 65, 79, 18, 27, 31, 43};
+    for (int i = 0; i < length; i++)
+    {
+        elems[i] = temp[i];
+        cout << elems[i] << " ";
+    }
+    delete[] temp;
+    SequenceSort<int>::MergeSort(elems, length, 5);
+    cout << endl
+         << "The list after merge sort is:" << endl;
+    for (int i = 0; i < length; i++)
+    {
+        cout << elems[i] << " ";
+    }
+    cout << endl
+         << "The list is:" << endl;
     for (int i = 0; i < length; i++)
     {
         elems[i] = resource[i];
