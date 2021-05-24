@@ -5,6 +5,9 @@
 template <class ElemType>
 class SequenceSort
 {
+private:
+    static void Merge(ElemType *elems, int low, int middle, int high);
+
 public:
     SequenceSort();
     static void BubbleSort(ElemType *elems, int length);
@@ -13,9 +16,48 @@ public:
     static void StraightInsertSort(ElemType *elems, int length);
     static void BinaryInsertSort(ElemType *elems, int length);
     static void ShellSort(ElemType *elems, int length);
-    static void MergeSort(ElemType *elems, int length, int middle);
+    static void MergeSort(ElemType *elems, int length);
     static void MonkeySort(ElemType *elems, int length);
 };
+template <class ElemType>
+void SequenceSort<ElemType>::Merge(ElemType *elems, int low, int middle, int high)
+{
+    ElemType *result = new ElemType[high + 1];
+    int i = low;
+    int j = middle + 1;
+    int k = low;
+    while (i <= middle && j <= high)
+    {
+        if (elems[i] <= elems[j])
+        {
+            result[k] = elems[i];
+            i++;
+        }
+        else
+        {
+            result[k] = elems[j];
+            j++;
+        }
+        k++;
+    }
+    while (i <= middle)
+    {
+        result[k] = elems[i];
+        k++;
+        i++;
+    }
+    while (j <= high)
+    {
+        result[k] = elems[j];
+        k++;
+        j++;
+    }
+    for (k = low; k <= high; k++)
+    {
+        elems[k] = result[k];
+    }
+    delete[] result;
+}
 template <class ElemType>
 SequenceSort<ElemType>::SequenceSort()
 {
@@ -145,43 +187,24 @@ void SequenceSort<ElemType>::ShellSort(ElemType *elems, int length)
     }
 }
 template <class ElemType>
-void SequenceSort<ElemType>::MergeSort(ElemType *elems, int length, int middle)
+void SequenceSort<ElemType>::MergeSort(ElemType *elems, int length)
 {
-    ElemType *result = new ElemType[length];
-    int i = 0;
-    int j = middle + 1;
-    int k = 0;
-    while (i <= middle && j < length)
+    int intervalLength = 1;
+    int index = 0;
+    while (intervalLength < length)
     {
-        if (elems[i] <= elems[j])
+        index = 0;
+        while (index + 2 * intervalLength <= length)
         {
-            result[k] = elems[i];
-            i++;
+            Merge(elems, index, index + intervalLength - 1, index + 2 * intervalLength - 1);
+            index += 2 * intervalLength;
         }
-        else
+        if (index + intervalLength < length)
         {
-            result[k] = elems[j];
-            j++;
+            Merge(elems, index, index + intervalLength - 1, length - 1);
         }
-        k++;
+        intervalLength *= 2;
     }
-    while (i <= middle)
-    {
-        result[k] = elems[i];
-        k++;
-        i++;
-    }
-    while (j < length)
-    {
-        result[k] = elems[j];
-        k++;
-        j++;
-    }
-    for (k = 0; k < length; k++)
-    {
-        elems[k] = result[k];
-    }
-    delete[] result;
 }
 template <class ElemType>
 void SequenceSort<ElemType>::MonkeySort(ElemType *elems, int length)
