@@ -96,6 +96,20 @@ int main()
         elems[i] = resource[i];
         cout << elems[i] << " ";
     }
+    SequenceSort<int>::MergeSortWithRecursion(elems, length);
+    cout << endl
+         << "The list after merge sort with recursion is:" << endl;
+    for (int i = 0; i < length; i++)
+    {
+        cout << elems[i] << " ";
+    }
+    cout << endl
+         << "The list is:" << endl;
+    for (int i = 0; i < length; i++)
+    {
+        elems[i] = resource[i];
+        cout << elems[i] << " ";
+    }
     SequenceSort<int>::MonkeySort(elems, length);
     cout << endl
          << "The list after monkey sort is:" << endl;

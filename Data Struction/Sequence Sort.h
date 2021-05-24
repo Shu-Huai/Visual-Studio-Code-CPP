@@ -17,6 +17,8 @@ public:
     static void BinaryInsertSort(ElemType *elems, int length);
     static void ShellSort(ElemType *elems, int length);
     static void MergeSort(ElemType *elems, int length);
+    static void MergeSortWithRecursion(ElemType *elems, int length);
+    static void MergeSortWithRecursion(ElemType *elems, int length, int low, int high);
     static void MonkeySort(ElemType *elems, int length);
 };
 template <class ElemType>
@@ -190,10 +192,9 @@ template <class ElemType>
 void SequenceSort<ElemType>::MergeSort(ElemType *elems, int length)
 {
     int intervalLength = 1;
-    int index = 0;
     while (intervalLength < length)
     {
-        index = 0;
+        int index = 0;
         while (index + 2 * intervalLength <= length)
         {
             Merge(elems, index, index + intervalLength - 1, index + 2 * intervalLength - 1);
@@ -205,6 +206,23 @@ void SequenceSort<ElemType>::MergeSort(ElemType *elems, int length)
         }
         intervalLength *= 2;
     }
+}
+template <class ElemType>
+void SequenceSort<ElemType>::MergeSortWithRecursion(ElemType *elems, int length)
+{
+    MergeSortWithRecursion(elems, length, 0, length - 1);
+}
+template <class ElemType>
+void SequenceSort<ElemType>::MergeSortWithRecursion(ElemType *elems, int length, int low, int high)
+{
+    if (low >= high)
+    {
+        return;
+    }
+    int middle = (low + high) / 2;
+    MergeSortWithRecursion(elems, length, low, middle);
+    MergeSortWithRecursion(elems, length, middle + 1, high);
+    Merge(elems, low, middle, high);
 }
 template <class ElemType>
 void SequenceSort<ElemType>::MonkeySort(ElemType *elems, int length)
