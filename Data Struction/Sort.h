@@ -1,6 +1,7 @@
 #pragma once
 #ifndef __SORT_H__
 #define __SORT_H__
+#include "Double Link List.h"
 #include <stdlib.h>
 template <class ElemType>
 class Sort
@@ -20,6 +21,7 @@ public:
     static void MergeSortWithRecursion(ElemType *elems, int length);
     static void MergeSortWithRecursion(ElemType *elems, int length, int low, int high);
     static void MonkeySort(ElemType *elems, int length);
+    static void DoubleLinkListBubbleSort(D)
 };
 template <class ElemType>
 void Sort<ElemType>::Merge(ElemType *elems, int low, int middle, int high)

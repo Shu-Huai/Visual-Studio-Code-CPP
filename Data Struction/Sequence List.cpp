@@ -16,13 +16,13 @@ int main()
         cout << endl
              << "3. Take a specified element.";
         cout << endl
-             << "4. Set a element value.";
+             << "4. Set an element value.";
         cout << endl
-             << "5. Delete a element.";
+             << "5. Delete an element.";
         cout << endl
-             << "6. Insert a element.";
+             << "6. Insert an element.";
         cout << endl
-             << "7. Get the index of a elements. ";
+             << "7. Get the index of an element. ";
         cout << endl
              << "8. Find the length of the sequence list.";
         cout << endl
@@ -43,7 +43,7 @@ int main()
         case '1':
             SL.Clear();
             cout << endl
-                 << "Input a element (exit when elem = 0): ";
+                 << "Input a value (exit when value = 0): ";
             cin >> elem;
             while (elem != 0)
             {

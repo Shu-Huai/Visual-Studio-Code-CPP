@@ -85,6 +85,7 @@
         "bit": "cpp",
         "clocale": "cpp",
         "condition_variable": "cpp",
-        "stop_token": "cpp"
+        "stop_token": "cpp",
+        "cassert": "cpp"
     },
 }
