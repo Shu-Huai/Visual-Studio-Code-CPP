@@ -152,5 +152,16 @@ int main()
     cout << endl
          << "The list after qucik sort is:" << endl;
     sequenceList.Traverse();
+    for (int i = 0; i < length; i++)
+    {
+        sequenceList.SetElem(i, resource[i]);
+    }
+    cout << endl
+         << "The list is:" << endl;
+    sequenceList.Traverse();
+    Sort<int>::TwoWayInsertSort(sequenceList);
+    cout << endl
+         << "The list after qucik sort is:" << endl;
+    sequenceList.Traverse();
     return 0;
 }

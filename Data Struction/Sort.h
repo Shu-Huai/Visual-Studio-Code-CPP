@@ -21,6 +21,7 @@ public:
     static void QuickSortWithoutRecursion(SequenceList<ElemType> &sequenceList);
     static void StraightInsertSort(ElemType *elems, int length);
     static void BinaryInsertSort(ElemType *elems, int length);
+    static void TwoWayInsertSort(SequenceList<ElemType> &SequenceList);
     static void ShellSort(ElemType *elems, int length);
     static void MergeSort(ElemType *elems, int length);
     static void MergeSortWithRecursion(ElemType *elems, int length);
@@ -83,6 +84,22 @@ void Sort<ElemType>::BubbleSort(ElemType *elems, int length)
                 ElemType temp = elems[j];
                 elems[j] = elems[j + 1];
                 elems[j + 1] = temp;
+            }
+        }
+    }
+}
+template <class ElemType>
+void Sort<ElemType>::BubbleSort(DoubleLinkList<ElemType> &doubleLinkList)
+{
+    for (int i = 0; i < doubleLinkList.GetLength() - 1; i++)
+    {
+        for (int j = 0; j < doubleLinkList.GetLength() - 1 - i; j++)
+        {
+            if (doubleLinkList.GetElem(j) > doubleLinkList.GetElem(j + 1))
+            {
+                ElemType temp = doubleLinkList.GetElem(j);
+                doubleLinkList.SetElem(j, doubleLinkList.GetElem(j + 1));
+                doubleLinkList.SetElem(j + 1, temp);
             }
         }
     }
@@ -250,6 +267,61 @@ void Sort<ElemType>::BinaryInsertSort(ElemType *elems, int length)
     }
 }
 template <class ElemType>
+void Sort<ElemType>::TwoWayInsertSort(SequenceList<ElemType> &sequenceList)
+{
+    ElemType *result = new int[sequenceList.GetLength()];
+    int head = 0;
+    int tail = 0;
+    result[0] = sequenceList.GetElem(0);
+    for (int i = 1; i < sequenceList.GetLength(); i++)
+    {
+        ElemType temp = sequenceList.GetElem(i);
+        if (temp > result[0])
+        {
+            int j = tail;
+            for (j = tail; j > 0; j--)
+            {
+                if (result[j] <= temp)
+                {
+                    break;
+                }
+                result[j + 1] = result[j];
+            }
+            result[j + 1] = temp;
+            tail++;
+        }
+        else
+        {
+            if (head == 0)
+            {
+                result[sequenceList.GetLength() - 1] = temp;
+                head = sequenceList.GetLength() - 1;
+            }
+            else
+            {
+                int j = head;
+                for (j = head; j < sequenceList.GetLength(); j++)
+                {
+                    if (result[j] >= temp)
+                    {
+                        break;
+                    }
+                    result[j - 1] = result[j];
+                }
+                result[j - 1] = temp;
+                head--;
+            }
+        }
+    }
+    int count = 0;
+    for (int i = head; i != tail; i = (i + 1) % sequenceList.GetLength())
+    {
+        sequenceList.SetElem(count, result[i]);
+    }
+    sequenceList.SetElem(0, result[head]);
+    delete[] result;
+}
+template <class ElemType>
 void Sort<ElemType>::ShellSort(ElemType *elems, int length)
 {
     int distance = length / 2;
@@ -348,22 +420,6 @@ void Sort<ElemType>::MonkeySort(ElemType *elems, int length)
         elems[i] = result[i];
     }
     delete[] result;
-}
-template <class ElemType>
-void Sort<ElemType>::BubbleSort(DoubleLinkList<ElemType> &doubleLinkList)
-{
-    for (int i = 0; i < doubleLinkList.GetLength() - 1; i++)
-    {
-        for (int j = 0; j < doubleLinkList.GetLength() - 1 - i; j++)
-        {
-            if (doubleLinkList.GetElem(j) > doubleLinkList.GetElem(j + 1))
-            {
-                ElemType temp = doubleLinkList.GetElem(j);
-                doubleLinkList.SetElem(j, doubleLinkList.GetElem(j + 1));
-                doubleLinkList.SetElem(j + 1, temp);
-            }
-        }
-    }
 }
 template <class ElemType>
 void Sort<ElemType>::CountSort(SequenceList<ElemType> &sequenceList)
