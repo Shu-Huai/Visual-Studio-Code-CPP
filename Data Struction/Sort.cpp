@@ -4,7 +4,6 @@ using namespace std;
 int main()
 {
     int resource[10] = {-10, 16, 2, -11, 0, 1, 5, 8, 43, 81};
-    int elems[10] = {-10, 16, 2, -11, 0, 1, 5, 8, 43, 81};
     int length = 10;
     SequenceList<int> sequenceList;
     for (int i = 0; i < length; i++)
@@ -18,104 +17,83 @@ int main()
     cout << endl
          << "The list after bubble sort is:" << endl;
     sequenceList.Traverse();
-    cout << endl
-         << "The list is:" << endl;
     for (int i = 0; i < length; i++)
     {
-        elems[i] = resource[i];
-        cout << elems[i] << " ";
+        sequenceList[i] = resource[i];
     }
-    Sort<int>::QuickSort(elems, length);
+    cout << endl
+         << "The list is:" << endl;
+    sequenceList.Traverse();
+    Sort<int>::QuickSort(sequenceList);
     cout << endl
          << "The list after qucik sort is:" << endl;
+    sequenceList.Traverse();
     for (int i = 0; i < length; i++)
     {
-        cout << elems[i] << " ";
+        sequenceList[i] = resource[i];
     }
     cout << endl
          << "The list is:" << endl;
-    for (int i = 0; i < length; i++)
-    {
-        elems[i] = resource[i];
-        cout << elems[i] << " ";
-    }
-    Sort<int>::StraightInsertSort(elems, length);
+    sequenceList.Traverse();
+    Sort<int>::StraightInsertSort(sequenceList);
     cout << endl
          << "The list after straight insert sort is:" << endl;
+    sequenceList.Traverse();
     for (int i = 0; i < length; i++)
     {
-        cout << elems[i] << " ";
+        sequenceList[i] = resource[i];
     }
     cout << endl
          << "The list is:" << endl;
-    for (int i = 0; i < length; i++)
-    {
-        elems[i] = resource[i];
-        cout << elems[i] << " ";
-    }
-    Sort<int>::BinaryInsertSort(elems, length);
+    sequenceList.Traverse();
+    Sort<int>::BinaryInsertSort(sequenceList);
     cout << endl
          << "The list after binary insert sort is:" << endl;
+    sequenceList.Traverse();
     for (int i = 0; i < length; i++)
     {
-        cout << elems[i] << " ";
+        sequenceList[i] = resource[i];
     }
     cout << endl
          << "The list is:" << endl;
-    for (int i = 0; i < length; i++)
-    {
-        elems[i] = resource[i];
-        cout << elems[i] << " ";
-    }
-    Sort<int>::ShellSort(elems, length);
+    sequenceList.Traverse();
+    Sort<int>::ShellSort(sequenceList);
     cout << endl
          << "The list after shell sort is:" << endl;
+    sequenceList.Traverse();
     for (int i = 0; i < length; i++)
     {
-        cout << elems[i] << " ";
+        sequenceList[i] = resource[i];
     }
     cout << endl
          << "The list is:" << endl;
-    for (int i = 0; i < length; i++)
-    {
-        elems[i] = resource[i];
-        cout << elems[i] << " ";
-    }
-    Sort<int>::MergeSort(elems, length);
+    sequenceList.Traverse();
+    Sort<int>::MergeSort(sequenceList);
     cout << endl
          << "The list after merge sort is:" << endl;
+    sequenceList.Traverse();
     for (int i = 0; i < length; i++)
     {
-        cout << elems[i] << " ";
+        sequenceList[i] = resource[i];
     }
     cout << endl
          << "The list is:" << endl;
-    for (int i = 0; i < length; i++)
-    {
-        elems[i] = resource[i];
-        cout << elems[i] << " ";
-    }
-    Sort<int>::MergeSortWithRecursion(elems, length);
+    sequenceList.Traverse();
+    Sort<int>::MergeSortWithRecursion(sequenceList);
     cout << endl
          << "The list after merge sort with recursion is:" << endl;
+    sequenceList.Traverse();
     for (int i = 0; i < length; i++)
     {
-        cout << elems[i] << " ";
+        sequenceList[i] = resource[i];
     }
     cout << endl
          << "The list is:" << endl;
-    for (int i = 0; i < length; i++)
-    {
-        elems[i] = resource[i];
-        cout << elems[i] << " ";
-    }
-    Sort<int>::MonkeySort(elems, length);
+    sequenceList.Traverse();
+    Sort<int>::MonkeySort(sequenceList);
     cout << endl
          << "The list after monkey sort is:" << endl;
-    for (int i = 0; i < length; i++)
-    {
-        cout << elems[i] << " ";
-    }
+    sequenceList.Traverse();
     DoubleLinkList<int> doubleLinkList;
     for (int i = 0; i < length; i++)
     {

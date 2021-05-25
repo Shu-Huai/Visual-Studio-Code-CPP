@@ -10,27 +10,27 @@ template <class ElemType>
 class Sort
 {
 private:
-    static void Merge(ElemType *elems, int low, int middle, int high);
+    static void Merge(SequenceList<ElemType> &sequenceList, int low, int middle, int high);
 
 public:
     Sort();
     static void BubbleSort(SequenceList<ElemType> &sequenceList);
     static void BubbleSort(DoubleLinkList<ElemType> &doubleLinkList);
-    static void QuickSort(ElemType *elems, int length);
-    static void QuickSort(ElemType *elems, int length, int low, int high);
+    static void QuickSort(SequenceList<ElemType> &sequenceList);
+    static void QuickSort(SequenceList<ElemType> &sequenceList, int low, int high);
     static void QuickSortWithoutRecursion(SequenceList<ElemType> &sequenceList);
-    static void StraightInsertSort(ElemType *elems, int length);
-    static void BinaryInsertSort(ElemType *elems, int length);
+    static void StraightInsertSort(SequenceList<ElemType> &sequenceList);
+    static void BinaryInsertSort(SequenceList<ElemType> &sequenceList);
     static void TwoWayInsertSort(SequenceList<ElemType> &SequenceList);
-    static void ShellSort(ElemType *elems, int length);
-    static void MergeSort(ElemType *elems, int length);
-    static void MergeSortWithRecursion(ElemType *elems, int length);
-    static void MergeSortWithRecursion(ElemType *elems, int length, int low, int high);
-    static void MonkeySort(ElemType *elems, int length);
+    static void ShellSort(SequenceList<ElemType> &sequenceList);
+    static void MergeSort(SequenceList<ElemType> &sequenceList);
+    static void MergeSortWithRecursion(SequenceList<ElemType> &sequenceList);
+    static void MergeSortWithRecursion(SequenceList<ElemType> &sequenceList, int low, int high);
+    static void MonkeySort(SequenceList<ElemType> &sequenceList);
     static void CountSort(SequenceList<ElemType> &sequenceList);
 };
 template <class ElemType>
-void Sort<ElemType>::Merge(ElemType *elems, int low, int middle, int high)
+void Sort<ElemType>::Merge(SequenceList<ElemType> &sequenceList, int low, int middle, int high)
 {
     ElemType *result = new ElemType[high + 1];
     int i = low;
@@ -38,33 +38,33 @@ void Sort<ElemType>::Merge(ElemType *elems, int low, int middle, int high)
     int k = low;
     while (i <= middle && j <= high)
     {
-        if (elems[i] <= elems[j])
+        if (sequenceList[i] <= sequenceList[j])
         {
-            result[k] = elems[i];
+            result[k] = sequenceList[i];
             i++;
         }
         else
         {
-            result[k] = elems[j];
+            result[k] = sequenceList[j];
             j++;
         }
         k++;
     }
     while (i <= middle)
     {
-        result[k] = elems[i];
+        result[k] = sequenceList[i];
         k++;
         i++;
     }
     while (j <= high)
     {
-        result[k] = elems[j];
+        result[k] = sequenceList[j];
         k++;
         j++;
     }
     for (k = low; k <= high; k++)
     {
-        elems[k] = result[k];
+        sequenceList[k] = result[k];
     }
     delete[] result;
 }
@@ -93,7 +93,7 @@ void Sort<ElemType>::BubbleSort(DoubleLinkList<ElemType> &doubleLinkList)
 {
     for (int i = 0; i < doubleLinkList.GetLength() - 1; i++)
     {
-        for (int j = 0; j < doubleLinkList.GetLength() - 1 - i; j++)
+        for (int j = 0; j < doubleLinkList.GetLength() - i - 1; j++)
         {
             if (doubleLinkList[j] > doubleLinkList[j + 1])
             {
@@ -105,42 +105,42 @@ void Sort<ElemType>::BubbleSort(DoubleLinkList<ElemType> &doubleLinkList)
     }
 }
 template <class ElemType>
-void Sort<ElemType>::QuickSort(ElemType *elems, int length)
+void Sort<ElemType>::QuickSort(SequenceList<ElemType> &sequenceList)
 {
-    QuickSort(elems, length, 0, length - 1);
+    QuickSort(sequenceList, 0, sequenceList.GetLength() - 1);
 }
 template <class ElemType>
-void Sort<ElemType>::QuickSort(ElemType *elems, int length, int low, int high)
+void Sort<ElemType>::QuickSort(SequenceList<ElemType> &sequenceList, int low, int high)
 {
     if (low < high)
     {
-        ElemType referenceValue = elems[low];
+        ElemType referenceValue = sequenceList[low];
         int i = low;
         int j = high;
         while (i < j)
         {
-            while (i < j && elems[j] >= referenceValue)
+            while (i < j && sequenceList[j] >= referenceValue)
             {
                 j--;
             }
             if (i < j)
             {
-                elems[i] = elems[j];
+                sequenceList[i] = sequenceList[j];
                 i++;
             }
-            while (i < j && elems[i] <= referenceValue)
+            while (i < j && sequenceList[i] <= referenceValue)
             {
                 i++;
             }
             if (i < j)
             {
-                elems[j] = elems[i];
+                sequenceList[j] = sequenceList[i];
                 j--;
             }
         }
-        elems[i] = referenceValue;
-        QuickSort(elems, length, low, i - 1);
-        QuickSort(elems, length, i + 1, high);
+        sequenceList[i] = referenceValue;
+        QuickSort(sequenceList, low, i - 1);
+        QuickSort(sequenceList, i + 1, high);
     }
 }
 template <class ElemType>
@@ -226,49 +226,49 @@ void Sort<ElemType>::QuickSortWithoutRecursion(SequenceList<ElemType> &sequenceL
     }
 }
 template <class ElemType>
-void Sort<ElemType>::StraightInsertSort(ElemType *elems, int length)
+void Sort<ElemType>::StraightInsertSort(SequenceList<ElemType> &sequenceList)
 {
-    for (int i = 1; i < length; i++)
+    for (int i = 1; i < sequenceList.GetLength(); i++)
     {
         int j = i - 1;
-        ElemType temp = elems[i];
+        ElemType temp = sequenceList[i];
         for (j = i - 1; j >= 0; j--)
         {
-            if (elems[j] <= temp)
+            if (sequenceList[j] <= temp)
             {
                 break;
             }
-            elems[j + 1] = elems[j];
+            sequenceList[j + 1] = sequenceList[j];
         }
-        elems[j + 1] = temp;
+        sequenceList[j + 1] = temp;
     }
 }
 template <class ElemType>
-void Sort<ElemType>::BinaryInsertSort(ElemType *elems, int length)
+void Sort<ElemType>::BinaryInsertSort(SequenceList<ElemType> &sequenceList)
 {
-    for (int i = 1; i < length; i++)
+    for (int i = 1; i < sequenceList.GetLength(); i++)
     {
         int low = 0;
         int high = i - 1;
         int middle = 0;
-        ElemType key = elems[i];
+        ElemType key = sequenceList[i];
         while (low <= high)
         {
             middle = (low + high) / 2;
-            if (key < elems[middle])
+            if (key < sequenceList[middle])
             {
                 high = middle - 1;
             }
-            else if (key > elems[middle])
+            else if (key > sequenceList[middle])
             {
                 low = middle + 1;
             }
         }
         for (int j = i - 1; j >= low; j--)
         {
-            elems[j + 1] = elems[j];
+            sequenceList[j + 1] = sequenceList[j];
         }
-        elems[low] = key;
+        sequenceList[low] = key;
     }
 }
 template <class ElemType>
@@ -327,82 +327,82 @@ void Sort<ElemType>::TwoWayInsertSort(SequenceList<ElemType> &sequenceList)
     delete[] result;
 }
 template <class ElemType>
-void Sort<ElemType>::ShellSort(ElemType *elems, int length)
+void Sort<ElemType>::ShellSort(SequenceList<ElemType> &sequenceList)
 {
-    int distance = length / 2;
+    int distance = sequenceList.GetLength() / 2;
     while (distance > 0)
     {
-        for (int i = distance; i < length; i++)
+        for (int i = distance; i < sequenceList.GetLength(); i++)
         {
             int j = i - distance;
-            ElemType temp = elems[i];
+            ElemType temp = sequenceList[i];
             for (j = i - distance; j >= 0; j -= distance)
             {
-                if (elems[j] <= temp)
+                if (sequenceList[j] <= temp)
                 {
                     break;
                 }
-                elems[j + distance] = elems[j];
+                sequenceList[j + distance] = sequenceList[j];
             }
-            elems[j + distance] = temp;
+            sequenceList[j + distance] = temp;
         }
         distance /= 2;
     }
 }
 template <class ElemType>
-void Sort<ElemType>::MergeSort(ElemType *elems, int length)
+void Sort<ElemType>::MergeSort(SequenceList<ElemType> &sequenceList)
 {
     int intervalLength = 1;
-    while (intervalLength < length)
+    while (intervalLength < sequenceList.GetLength())
     {
         int index = 0;
-        while (index + 2 * intervalLength <= length)
+        while (index + 2 * intervalLength <= sequenceList.GetLength())
         {
-            Merge(elems, index, index + intervalLength - 1, index + 2 * intervalLength - 1);
+            Merge(sequenceList, index, index + intervalLength - 1, index + 2 * intervalLength - 1);
             index += 2 * intervalLength;
         }
-        if (index + intervalLength < length)
+        if (index + intervalLength < sequenceList.GetLength())
         {
-            Merge(elems, index, index + intervalLength - 1, length - 1);
+            Merge(sequenceList, index, index + intervalLength - 1, sequenceList.GetLength() - 1);
         }
         intervalLength *= 2;
     }
 }
 template <class ElemType>
-void Sort<ElemType>::MergeSortWithRecursion(ElemType *elems, int length)
+void Sort<ElemType>::MergeSortWithRecursion(SequenceList<ElemType> &sequenceList)
 {
-    MergeSortWithRecursion(elems, length, 0, length - 1);
+    MergeSortWithRecursion(sequenceList, 0, sequenceList.GetLength() - 1);
 }
 template <class ElemType>
-void Sort<ElemType>::MergeSortWithRecursion(ElemType *elems, int length, int low, int high)
+void Sort<ElemType>::MergeSortWithRecursion(SequenceList<ElemType> &sequenceList, int low, int high)
 {
     if (low >= high)
     {
         return;
     }
     int middle = (low + high) / 2;
-    MergeSortWithRecursion(elems, length, low, middle);
-    MergeSortWithRecursion(elems, length, middle + 1, high);
-    Merge(elems, low, middle, high);
+    MergeSortWithRecursion(sequenceList, low, middle);
+    MergeSortWithRecursion(sequenceList, middle + 1, high);
+    Merge(sequenceList, low, middle, high);
 }
 template <class ElemType>
-void Sort<ElemType>::MonkeySort(ElemType *elems, int length)
+void Sort<ElemType>::MonkeySort(SequenceList<ElemType> &sequenceList)
 {
     bool isSorted = false;
-    ElemType *result = new ElemType[length]{0};
+    ElemType *result = new ElemType[sequenceList.GetLength()]{0};
     while (!isSorted)
     {
-        bool *needIndex = new bool[length];
-        for (int i = 0; i < length; i++)
+        bool *needIndex = new bool[sequenceList.GetLength()];
+        for (int i = 0; i < sequenceList.GetLength(); i++)
         {
             needIndex[i] = true;
         }
-        for (int i = 0; i < length; i++)
+        for (int i = 0; i < sequenceList.GetLength(); i++)
         {
-            int index = rand() % length;
+            int index = rand() % sequenceList.GetLength();
             if (needIndex[index])
             {
-                result[i] = elems[index];
+                result[i] = sequenceList[index];
                 needIndex[index] = false;
             }
             else
@@ -412,7 +412,7 @@ void Sort<ElemType>::MonkeySort(ElemType *elems, int length)
         }
         delete[] needIndex;
         isSorted = true;
-        for (int i = 0; i < length - 1; i++)
+        for (int i = 0; i < sequenceList.GetLength() - 1; i++)
         {
             if (result[i] > result[i + 1])
             {
@@ -420,9 +420,9 @@ void Sort<ElemType>::MonkeySort(ElemType *elems, int length)
             }
         }
     }
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < sequenceList.GetLength(); i++)
     {
-        elems[i] = result[i];
+        sequenceList[i] = result[i];
     }
     delete[] result;
 }
