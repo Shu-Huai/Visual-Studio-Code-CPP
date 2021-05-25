@@ -146,77 +146,82 @@ void Sort<ElemType>::QuickSort(ElemType *elems, int length, int low, int high)
 template <class ElemType>
 void Sort<ElemType>::QuickSortWithoutRecursion(SequenceList<ElemType> &sequenceList)
 {
-    int low = 0;
-    int high = sequenceList.GetLength() - 1;
-    int i, j, l, h, count = 1;
-    int compare, all = 0, move = 0, allc = 0;
-    stack<int> s;
-    queue<int> q;
-    ElemType temp;
-    bool still = true;
-    s.push(low);
-    s.push(high);
-    while (still)
+    int head, tail, pivot;
+    stack<ElemType> s;
+    s.push(0);
+    s.push(sequenceList.GetLength() - 1);
+    while (!s.empty())
     {
-        while (!s.empty())
+        tail = s.top();
+        s.pop();
+        head = s.top();
+        s.pop();
+        while (tail - head >= 3)
         {
-            j = s.top();
-            s.pop();
-            h = j;
-            i = s.top();
-            s.pop();
-            l = i;
-            temp = sequenceList.GetElem(i);
-            compare = 0;
+            int i = head;
+            int j = tail;
+            bool pivotLocation = true;
             while (i < j)
             {
-                while (i < j && temp <= sequenceList.GetElem(j))
+                if (sequenceList[i] > sequenceList[j])
+                {
+                    ElemType temp = sequenceList[i];
+                    sequenceList[i] = sequenceList[j];
+                    sequenceList[j] = temp;
+                    pivotLocation = !pivotLocation;
+                }
+                if (pivotLocation)
                 {
                     j--;
-                    compare++;
                 }
-                if (i < j)
-                {
-                    sequenceList.SetElem(i, sequenceList.GetElem(j));
-                    i++;
-                    move++;
-                    compare++;
-                }
-                while (i < j && temp > sequenceList.GetElem(i))
+                else
                 {
                     i++;
-                    compare++;
-                }
-                if (i < j)
-                {
-                    sequenceList.SetElem(j, sequenceList.GetElem(i));
-                    j--;
-                    move++;
-                    compare++;
                 }
             }
-            sequenceList.SetElem(i, temp);
-            all += move;
-            allc += compare;
-            move = 0;
-            if (l < i - 1)
+            pivot = i;
+            if (pivot - head < tail - pivot)
             {
-                q.push(l);
-                q.push(i - 1);
+                s.push(pivot + 1);
+                s.push(tail);
+                tail = pivot - 1;
             }
-            if (i + 1 < h)
+            else
             {
-                q.push(i + 1);
-                q.push(h);
+                s.push(head);
+                s.push(pivot - 1);
+                head = pivot + 1;
             }
         }
-        still = false;
-        count++;
-        while (!q.empty())
+        if (tail - head == 2)
         {
-            s.push(q.front());
-            q.pop();
-            still = true;
+            if (sequenceList[head] > sequenceList[head + 1])
+            {
+                ElemType temp = sequenceList[head];
+                sequenceList[head] = sequenceList[head + 1];
+                sequenceList[head + 1] = temp;
+            }
+            if (sequenceList[head] > sequenceList[tail])
+            {
+                ElemType temp = sequenceList[head];
+                sequenceList[head] = sequenceList[tail];
+                sequenceList[tail] = temp;
+            }
+            if (sequenceList[head + 1] > sequenceList[tail])
+            {
+                ElemType temp = sequenceList[head + 1];
+                sequenceList[head + 1] = sequenceList[tail];
+                sequenceList[tail] = temp;
+            }
+        }
+        else if (tail - head == 1)
+        {
+            if (sequenceList[head] > sequenceList[tail])
+            {
+                ElemType temp = sequenceList[head];
+                sequenceList[head] = sequenceList[tail];
+                sequenceList[tail] = temp;
+            }
         }
     }
 }

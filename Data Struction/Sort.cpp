@@ -10,7 +10,7 @@ int main()
     for (int i = 0; i < length; i++)
     {
         sequenceList.AppendElem(0);
-        sequenceList.SetElem(i, resource[i]);
+        sequenceList[i] = resource[i];
     }
     cout << "The list is:" << endl;
     sequenceList.Traverse();
@@ -130,7 +130,7 @@ int main()
     doubleLinkList.Traverse();
     for (int i = 0; i < length; i++)
     {
-        sequenceList.SetElem(i, resource[i]);
+        sequenceList[i] = resource[i];
     }
     cout << endl
          << "The list is:" << endl;
@@ -141,7 +141,7 @@ int main()
     sequenceList.Traverse();
     for (int i = 0; i < length; i++)
     {
-        sequenceList.SetElem(i, resource[i]);
+        sequenceList[i] = resource[i];
     }
     cout << endl
          << "The list is:" << endl;
@@ -152,14 +152,14 @@ int main()
     sequenceList.Traverse();
     for (int i = 0; i < length; i++)
     {
-        sequenceList.SetElem(i, resource[i]);
+        sequenceList[i] = resource[i];
     }
     cout << endl
          << "The list is:" << endl;
     sequenceList.Traverse();
     Sort<int>::TwoWayInsertSort(sequenceList);
     cout << endl
-         << "The list after qucik sort is:" << endl;
+         << "The list after two way insert sort is:" << endl;
     sequenceList.Traverse();
     return 0;
 }
