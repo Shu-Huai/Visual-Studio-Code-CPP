@@ -33,6 +33,7 @@ public:
     void Sort();
     void DeleteBetween(ElemType low, ElemType high);
     SequenceList<ElemType> &operator=(const SequenceList<ElemType> &SL);
+    ElemType &operator[](int index);
 };
 template <class ElemType>
 SequenceList<ElemType>::SequenceList(int size) : length_(0), maxSize_(size)
@@ -51,7 +52,7 @@ SequenceList<ElemType>::SequenceList(ElemType *v, int n, int size) : length_(n),
     }
 }
 template <class ElemType>
-SequenceList<ElemType>::SequenceList(const SequenceList<ElemType> &SL) : maxSize_(SL.maxSize_), length_(SL.length_)
+SequenceList<ElemType>::SequenceList(const SequenceList<ElemType> &SL) : length_(SL.length_), maxSize_(SL.maxSize_)
 {
     elems_ = new ElemType[maxSize_];
     assert(elems_);
@@ -247,5 +248,10 @@ SequenceList<ElemType> &SequenceList<ElemType>::operator=(const SequenceList<Ele
         }
     }
     return *this;
+}
+template <class ElemType>
+ElemType &SequenceList<ElemType>::operator[](int index)
+{
+    return elems_[index];
 }
 #endif

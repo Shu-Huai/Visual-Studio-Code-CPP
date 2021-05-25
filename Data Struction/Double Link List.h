@@ -27,6 +27,7 @@ public:
     int LocateElem(const ElemType &elem) const;
     ElemType GetElem(int position) const;
     DoubleLinkList<ElemType> &operator=(const DoubleLinkList<ElemType> &DLL);
+    ElemType &operator[](int position);
 };
 template <class ElemType>
 DoubleLinkList<ElemType>::DoubleLinkList() : length_(0)
@@ -206,5 +207,19 @@ DoubleLinkList<ElemType> &DoubleLinkList<ElemType>::operator=(const DoubleLinkLi
         }
     }
     return *this;
+}
+template <class ElemType>
+ElemType &DoubleLinkList<ElemType>::operator[](int position)
+{
+    if (position < 0 || position >= length_)
+    {
+        throw(string) "Range error.";
+    }
+    DoubleLinkListNode<ElemType> *p = head_;
+    for (int i = 0; i <= position; i++)
+    {
+        p = p->next_;
+    }
+    return p->data_;
 }
 #endif

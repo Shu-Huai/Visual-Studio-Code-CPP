@@ -14,7 +14,7 @@ private:
 
 public:
     Sort();
-    static void BubbleSort(ElemType *elems, int length);
+    static void BubbleSort(SequenceList<ElemType> &sequenceList);
     static void BubbleSort(DoubleLinkList<ElemType> &doubleLinkList);
     static void QuickSort(ElemType *elems, int length);
     static void QuickSort(ElemType *elems, int length, int low, int high);
@@ -73,17 +73,17 @@ Sort<ElemType>::Sort()
 {
 }
 template <class ElemType>
-void Sort<ElemType>::BubbleSort(ElemType *elems, int length)
+void Sort<ElemType>::BubbleSort(SequenceList<ElemType> &sequenceList)
 {
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < sequenceList.GetLength(); i++)
     {
-        for (int j = 0; j < length - i - 1; j++)
+        for (int j = 0; j < sequenceList.GetLength() - i - 1; j++)
         {
-            if (elems[j] > elems[j + 1])
+            if (sequenceList[j] > sequenceList[j + 1])
             {
-                ElemType temp = elems[j];
-                elems[j] = elems[j + 1];
-                elems[j + 1] = temp;
+                ElemType temp = sequenceList[j];
+                sequenceList[j] = sequenceList[j + 1];
+                sequenceList[j + 1] = temp;
             }
         }
     }
@@ -95,11 +95,11 @@ void Sort<ElemType>::BubbleSort(DoubleLinkList<ElemType> &doubleLinkList)
     {
         for (int j = 0; j < doubleLinkList.GetLength() - 1 - i; j++)
         {
-            if (doubleLinkList.GetElem(j) > doubleLinkList.GetElem(j + 1))
+            if (doubleLinkList[j] > doubleLinkList[j + 1])
             {
-                ElemType temp = doubleLinkList.GetElem(j);
-                doubleLinkList.SetElem(j, doubleLinkList.GetElem(j + 1));
-                doubleLinkList.SetElem(j + 1, temp);
+                ElemType temp = doubleLinkList[j];
+                doubleLinkList[j] = doubleLinkList[j + 1];
+                doubleLinkList[j + 1] = temp;
             }
         }
     }

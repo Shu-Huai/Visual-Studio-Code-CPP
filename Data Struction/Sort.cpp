@@ -6,19 +6,18 @@ int main()
     int resource[10] = {-10, 16, 2, -11, 0, 1, 5, 8, 43, 81};
     int elems[10] = {-10, 16, 2, -11, 0, 1, 5, 8, 43, 81};
     int length = 10;
-    cout << "The list is:" << endl;
+    SequenceList<int> sequenceList;
     for (int i = 0; i < length; i++)
     {
-        elems[i] = resource[i];
-        cout << elems[i] << " ";
+        sequenceList.AppendElem(0);
+        sequenceList.SetElem(i, resource[i]);
     }
-    Sort<int>::BubbleSort(elems, length);
+    cout << "The list is:" << endl;
+    sequenceList.Traverse();
+    Sort<int>::BubbleSort(sequenceList);
     cout << endl
          << "The list after bubble sort is:" << endl;
-    for (int i = 0; i < length; i++)
-    {
-        cout << elems[i] << " ";
-    }
+    sequenceList.Traverse();
     cout << endl
          << "The list is:" << endl;
     for (int i = 0; i < length; i++)
@@ -129,10 +128,9 @@ int main()
     cout << endl
          << "The list after bubble sort is:" << endl;
     doubleLinkList.Traverse();
-    SequenceList<int> sequenceList;
     for (int i = 0; i < length; i++)
     {
-        sequenceList.AppendElem(resource[i]);
+        sequenceList.SetElem(i, resource[i]);
     }
     cout << endl
          << "The list is:" << endl;
