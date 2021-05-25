@@ -104,25 +104,25 @@ void SequenceList<ElemType>::InsertElem(int i, const ElemType &e)
     {
         throw(string) "Over flow.";
     }
-    if (i < 1 or i > length_ + 1)
+    if (i < 0 or i >= length_ + 1)
     {
         throw(string) "Range error.";
     }
-    for (int j = length_; j > i - 1; j--)
+    for (int j = length_; j > i; j--)
     {
         elems_[j] = elems_[j - 1];
     }
-    elems_[i - 1] = e;
+    elems_[i] = e;
     length_++;
 }
 template <class ElemType>
 void SequenceList<ElemType>::DeleteElem(int i)
 {
-    if (i < 1 or i > length_)
+    if (i < 0 or i >= length_)
     {
         throw(string) "Range error.";
     }
-    for (int j = i - 1; j < length_ - 1; j++)
+    for (int j = i; j < length_ - 1; j++)
     {
         elems_[j] = elems_[j + 1];
     }
@@ -131,11 +131,11 @@ void SequenceList<ElemType>::DeleteElem(int i)
 template <class ElemType>
 void SequenceList<ElemType>::SetElem(int i, const ElemType &e)
 {
-    if (i < 1 or i > length_)
+    if (i < 0 or i >= length_)
     {
         throw(string) "Range error.";
     }
-    elems_[i - 1] = e;
+    elems_[i] = e;
 }
 template <class ElemType>
 void SequenceList<ElemType>::Swap(int indexA, int indexB)
@@ -147,11 +147,11 @@ void SequenceList<ElemType>::Swap(int indexA, int indexB)
 template <class ElemType>
 ElemType SequenceList<ElemType>::GetElem(int i) const
 {
-    if (i < 1 or i > length_)
+    if (i < 0 or i >= length_)
     {
         throw(string) "Range error.";
     }
-    return elems_[i - 1];
+    return elems_[i];
 }
 template <class ElemType>
 int SequenceList<ElemType>::LocateElem(const ElemType &e) const
@@ -160,7 +160,7 @@ int SequenceList<ElemType>::LocateElem(const ElemType &e) const
     {
         if (elems_[i] == e)
         {
-            return i + 1;
+            return i;
         }
     }
     return 0;

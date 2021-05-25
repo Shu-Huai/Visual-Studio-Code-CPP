@@ -117,5 +117,40 @@ int main()
     {
         cout << elems[i] << " ";
     }
+    DoubleLinkList<int> doubleLinkList;
+    for (int i = 0; i < length; i++)
+    {
+        doubleLinkList.AppendElem(resource[i]);
+    }
+    cout << endl
+         << "The list is:" << endl;
+    doubleLinkList.Traverse();
+    Sort<int>::BubbleSort(doubleLinkList);
+    cout << endl
+         << "The list after bubble sort is:" << endl;
+    doubleLinkList.Traverse();
+    SequenceList<int> sequenceList;
+    for (int i = 0; i < length; i++)
+    {
+        sequenceList.AppendElem(resource[i]);
+    }
+    cout << endl
+         << "The list is:" << endl;
+    sequenceList.Traverse();
+    Sort<int>::CountSort(sequenceList);
+    cout << endl
+         << "The list after count sort is:" << endl;
+    sequenceList.Traverse();
+    for (int i = 0; i < length; i++)
+    {
+        sequenceList.SetElem(i, resource[i]);
+    }
+    cout << endl
+         << "The list is:" << endl;
+    sequenceList.Traverse();
+    Sort<int>::QuickSortWithoutRecursion(sequenceList);
+    cout << endl
+         << "The list after qucik sort is:" << endl;
+    sequenceList.Traverse();
     return 0;
 }

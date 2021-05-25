@@ -22,6 +22,7 @@ public:
     void InsertElem(int position, const ElemType &elem);
     void DeleteElem(int position, ElemType &elem);
     void SetElem(int position, const ElemType &elem);
+    void SwapElem(int positionA, int positionB);
     int GetLength() const;
     int LocateElem(const ElemType &elem) const;
     ElemType GetElem(int position) const;
@@ -97,12 +98,12 @@ void DoubleLinkList<ElemType>::AppendElem(const ElemType &elem)
 template <class ElemType>
 void DoubleLinkList<ElemType>::InsertElem(int position, const ElemType &elem)
 {
-    if (position < 1 || position > length_ + 1)
+    if (position < 0 || position >= length_ + 2)
     {
         throw(string) "Range error.";
     }
     DoubleLinkListNode<ElemType> *p = head_;
-    for (int i = 0; i < position - 1; i++)
+    for (int i = 0; i <= position - 1; i++)
     {
         p = p->next_;
     }
@@ -113,12 +114,12 @@ void DoubleLinkList<ElemType>::InsertElem(int position, const ElemType &elem)
 template <class ElemType>
 void DoubleLinkList<ElemType>::DeleteElem(int position, ElemType &elem)
 {
-    if (position < 1 || position > length_)
+    if (position < 0 || position >= length_)
     {
         throw(string) "Range error.";
     }
     DoubleLinkListNode<ElemType> *p = head_;
-    for (int i = 0; i < position; i++)
+    for (int i = 0; i <= position; i++)
     {
         p = p->next_;
     }
@@ -131,16 +132,33 @@ void DoubleLinkList<ElemType>::DeleteElem(int position, ElemType &elem)
 template <class ElemType>
 void DoubleLinkList<ElemType>::SetElem(int position, const ElemType &elem)
 {
-    if (position < 1 || position > length_)
+    if (position < 0 || position >= length_)
     {
         throw(string) "Range error.";
     }
     DoubleLinkListNode<ElemType> *p = head_;
-    for (int i = 0; i < position; i++)
+    for (int i = 0; i <= position; i++)
     {
         p = p->next_;
     }
     p->data_ = elem;
+}
+template <class ElemType>
+void DoubleLinkList<ElemType>::SwapElem(int positionA, int positionB)
+{
+    DoubleLinkListNode<ElemType> *p = head_->next_;
+    DoubleLinkListNode<ElemType> *q = head_->next_;
+    for (int i = 0; i < positionA; i++)
+    {
+        p = p->next_;
+    }
+    for (int i = 0; i < positionB; i++)
+    {
+        q = q->next_;
+    }
+    ElemType temp = p->data_;
+    p->data_ = q->data_;
+    q->data_ = temp;
 }
 template <class ElemType>
 int DoubleLinkList<ElemType>::GetLength() const
@@ -151,7 +169,7 @@ template <class ElemType>
 int DoubleLinkList<ElemType>::LocateElem(const ElemType &elem) const
 {
     DoubleLinkListNode<ElemType> *p = head_->next_;
-    int count = 1;
+    int count = 0;
     while (p != head_ and p->data_ != elem)
     {
         count++;
@@ -162,12 +180,12 @@ int DoubleLinkList<ElemType>::LocateElem(const ElemType &elem) const
 template <class ElemType>
 ElemType DoubleLinkList<ElemType>::GetElem(int position) const
 {
-    if (position < 1 || position > length_)
+    if (position < 0 || position >= length_)
     {
         throw(string) "Range error.";
     }
     DoubleLinkListNode<ElemType> *p = head_;
-    for (int i = 0; i < position; i++)
+    for (int i = 0; i <= position; i++)
     {
         p = p->next_;
     }
