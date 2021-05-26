@@ -9,7 +9,6 @@ public:
     ElemType data_;
     BinaryTreeNode<ElemType> *leftChild_;
     BinaryTreeNode<ElemType> *rightChild_;
-    int searchTimes_ = 0;
     BinaryTreeNode();
     BinaryTreeNode(const ElemType &data, BinaryTreeNode<ElemType> *leftChild = NULL, BinaryTreeNode<ElemType> *rightChild = NULL);
 };

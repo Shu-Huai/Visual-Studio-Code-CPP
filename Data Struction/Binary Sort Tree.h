@@ -108,8 +108,7 @@ void BinarySortTree<ElemType>::FindAndInsert(const ElemType &elem)
     {
         if (elem == p->data_)
         {
-            cout << "The element exsits." << endl
-                 << "Times is: " << ++p->searchTimes_ << endl;
+            cout << "The element exsits." << endl;
             return;
         }
         parentNode = p;
