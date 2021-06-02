@@ -8,8 +8,7 @@ int main()
     SequenceList<int> sequenceList;
     for (int i = 0; i < length; i++)
     {
-        sequenceList.AppendElem(0);
-        sequenceList[i] = resource[i];
+        sequenceList.AppendElem(resource[i]);
     }
     cout << "The list is:" << endl;
     sequenceList.Traverse();

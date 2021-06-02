@@ -277,10 +277,10 @@ void Sort<ElemType>::TwoWayInsertSort(SequenceList<ElemType> &sequenceList)
     ElemType *result = new int[sequenceList.GetLength()];
     int head = 0;
     int tail = 0;
-    result[0] = sequenceList.GetElem(0);
+    result[0] = sequenceList[0];
     for (int i = 1; i < sequenceList.GetLength(); i++)
     {
-        ElemType temp = sequenceList.GetElem(i);
+        ElemType temp = sequenceList[i];
         if (temp > result[0])
         {
             int j = tail;
@@ -321,9 +321,10 @@ void Sort<ElemType>::TwoWayInsertSort(SequenceList<ElemType> &sequenceList)
     int count = 0;
     for (int i = head; i != tail; i = (i + 1) % sequenceList.GetLength())
     {
-        sequenceList.SetElem(count, result[i]);
+        sequenceList[count] = result[i];
+        count++;
     }
-    sequenceList.SetElem(0, result[head]);
+    sequenceList[0] = result[head];
     delete[] result;
 }
 template <class ElemType>
@@ -434,7 +435,7 @@ void Sort<ElemType>::CountSort(SequenceList<ElemType> &sequenceList)
     {
         for (int j = 0; j < sequenceList.GetLength(); j++)
         {
-            if (sequenceList.GetElem(j) < sequenceList.GetElem(i))
+            if (sequenceList[j] < sequenceList[i])
             {
                 indexes[i]++;
             }
@@ -447,7 +448,7 @@ void Sort<ElemType>::CountSort(SequenceList<ElemType> &sequenceList)
     }
     for (int i = 0; i < sequenceList.GetLength(); i++)
     {
-        result.SetElem(indexes[i], sequenceList.GetElem(i));
+        result[indexes[i]] = sequenceList[i];
     }
     sequenceList = result;
     delete[] indexes;
