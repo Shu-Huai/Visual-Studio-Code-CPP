@@ -14,6 +14,7 @@ public:
     bool IsBinarySortTree() const;
     void InsertElem(const ElemType &elem);
     void FindAndInsert(const ElemType &elem);
+    void DeleteNode(BinaryTreeNode<ElemType> *&p);
     void DeleteElem(const ElemType &key);
     BinaryTreeNode<ElemType> *Find(const ElemType &key) const;
     void GetElemsAbove(int key) const;
@@ -132,26 +133,57 @@ void BinarySortTree<ElemType>::FindAndInsert(const ElemType &elem)
     }
 }
 template <class ElemType>
-void BinarySortTree<ElemType>::DeleteElem(const ElemType &key)
+void BinarySortTree<ElemType>::DeleteNode(BinaryTreeNode<ElemType> *&p)
 {
-    BinaryTreeNode<ElemType> *parentNode = NULL;
-    BinaryTreeNode<ElemType> *p = Find(key, parentNode);
-    if (!p)
+    BinaryTreeNode<ElemType> *tempNode;
+    BinaryTreeNode<ElemType> *tempParentNode;
+    if (!p->leftChild_ && !p->rightChild_)
     {
-        throw(string) "The tree is empty.";
+        delete p;
+        p = NULL;
     }
-    if (!parentNode)
+    else if (!p->leftChild_)
     {
-        DeleteElem(p->data_);
+        tempNode = p;
+        p = p->rightChild_;
+        delete tempNode;
     }
-    else if (key < parentNode->data_)
+    else if (!p->rightChild_)
     {
-        DeleteElem(parentNode->leftChild_->data_);
+        tempNode = p;
+        p = p->leftChild_;
+        delete tempNode;
     }
     else
     {
-        DeleteElem(parentNode->rightChild_->data_);
+        tempParentNode = p;
+        tempNode = p->leftChild_;
+        while (tempNode->rightChild_)
+        {
+            tempParentNode = tempNode;
+            tempNode = tempNode->rightChild_;
+        }
+        p->data_ = tempNode->data_;
+        if (tempParentNode->rightChild_ == tempNode)
+        {
+            DeleteNode(tempParentNode->rightChild_);
+        }
+        else
+        {
+            DeleteNode(tempParentNode->leftChild_);
+        }
     }
+}
+template <class ElemType>
+void BinarySortTree<ElemType>::DeleteElem(const ElemType &key)
+{
+    BinaryTreeNode<ElemType> *tempNode = NULL;
+    BinaryTreeNode<ElemType> *p = Find(key, tempNode);
+    if (!p)
+    {
+        throw(string) "The element dose not exist.";
+    }
+    DeleteNode(p);
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinarySortTree<ElemType>::Find(const ElemType &key) const
