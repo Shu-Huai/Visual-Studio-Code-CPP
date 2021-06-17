@@ -16,7 +16,7 @@ protected:
     int maxVertexNum_;
     int edgeNum_;
     ElemType *vertexes_;
-    bool *tags_;
+    bool *visited_;
     int **adjacencyMatrix_;
     WeightType infinity_;
     void DepthFirstSearch(int v, void (*Visit)(const ElemType &));
@@ -57,11 +57,11 @@ template <class ElemType, class WeightType>
 void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::DepthFirstSearch(int v, void (*Visit)(const ElemType &))
 {
     ElemType e;
-    tags_[v] = 1;
+    visited_[v] = 1;
     Visit(vertexes_[v]);
     for (int i = GetFirstAdjacencyVertex(v); i != -1; i = GetNextAdjacencyVertex(v, i))
     {
-        if (!tags_[i])
+        if (!visited_[i])
         {
             DepthFirstSearch(i, Visit);
         }
@@ -70,7 +70,7 @@ void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::DepthFirstSearch(in
 template <class ElemType, class WeigthType>
 void AdjacencyMatrixUndirectedNetwork<ElemType, WeigthType>::BreadthFirstSearch(int v, void (*Visit)(const ElemType &))
 {
-    tags_[v] = 1;
+    visited_[v] = 1;
     Visit(vertexes_[v]);
     queue<int> Q;
     Q.push(v);
@@ -80,9 +80,9 @@ void AdjacencyMatrixUndirectedNetwork<ElemType, WeigthType>::BreadthFirstSearch(
         Q.pop();
         for (int i = GetFirstAdjacencyVertex(e); i != -1; i = GetNextAdjacencyVertex(e, i))
         {
-            if (!tags_[i])
+            if (!visited_[i])
             {
-                tags_[i] = 1;
+                visited_[i] = 1;
                 Visit(vertexes_[i]);
                 Q.push(i);
             }
@@ -95,8 +95,8 @@ AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::AdjacencyMatrixUndirecte
 {
     vertexes_ = new ElemType[maxVertexNum_];
     assert(vertexes_);
-    tags_ = new bool[maxVertexNum_];
-    assert(tags_);
+    visited_ = new bool[maxVertexNum_];
+    assert(visited_);
     adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
     assert(adjacencyMatrix_);
     for (int i = 0; i < maxVertexNum_; i++)
@@ -111,12 +111,12 @@ AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::AdjacencyMatrixUndirecte
 {
     vertexes_ = new ElemType[maxVertexNum_];
     assert(vertexes_);
-    tags_ = new bool[maxVertexNum_];
-    assert(tags_);
+    visited_ = new bool[maxVertexNum_];
+    assert(visited_);
     for (int i = 0; i < vertexNum_; i++)
     {
         vertexes_[i] = v[i];
-        tags_[i] = 0;
+        visited_[i] = 0;
     }
     adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
     assert(adjacencyMatrix_);
@@ -139,12 +139,12 @@ AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::AdjacencyMatrixUndirecte
 {
     vertexes_ = new ElemType[maxVertexNum_];
     assert(vertexes_);
-    tags_ = new bool[maxVertexNum_];
-    assert(tags_);
+    visited_ = new bool[maxVertexNum_];
+    assert(visited_);
     for (int i = 0; i < vertexNum_; i++)
     {
         vertexes_[i] = AMUN.vertexes_[i];
-        tags_[i] = AMUN.tags_[i];
+        visited_[i] = AMUN.visited_[i];
     }
     adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
     assert(adjacencyMatrix_);
@@ -165,7 +165,7 @@ template <class ElemType, class WeightType>
 AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::~AdjacencyMatrixUndirectedNetwork()
 {
     delete[] vertexes_;
-    delete[] tags_;
+    delete[] visited_;
     for (int i = 0; i < maxVertexNum_; i++)
     {
         delete[] adjacencyMatrix_[i];
@@ -206,11 +206,11 @@ void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::DepthFirstTraverse(
 {
     for (int i = 0; i < vertexNum_; i++)
     {
-        tags_[i] = 0;
+        visited_[i] = 0;
     }
     for (int i = 0; i < vertexNum_; i++)
     {
-        if (!tags_[i])
+        if (!visited_[i])
         {
             DepthFirstSearch(i, Visit);
         }
@@ -221,11 +221,11 @@ void AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::BreadthFirstTravers
 {
     for (int i = 0; i < vertexNum_; i++)
     {
-        tags_[i] = 0;
+        visited_[i] = 0;
     }
     for (int i = 0; i < vertexNum_; i++)
     {
-        if (!tags_[i])
+        if (!visited_[i])
         {
             BreadthFirstSearch(i, Visit);
         }
@@ -239,7 +239,7 @@ Status AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::AppendVertex(cons
         return OVER_FLOW;
     }
     vertexes_[vertexNum_] = e;
-    tags_[vertexNum_] = 0;
+    visited_[vertexNum_] = 0;
     for (int i = 0; i <= vertexNum_; i++)
     {
         adjacencyMatrix_[vertexNum_][i] = infinity_;
@@ -285,7 +285,7 @@ Status AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::DeleteVertex(Elem
     if (v < vertexNum_)
     {
         vertexes_[v] = vertexes_[vertexNum_];
-        tags_[v] = tags_[vertexNum_];
+        visited_[v] = visited_[vertexNum_];
         for (int i = 0; i <= vertexNum_; i++)
         {
             adjacencyMatrix_[v][i] = adjacencyMatrix_[vertexNum_][i];
@@ -329,7 +329,7 @@ Status AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::SetTag(int v, boo
     {
         return RANGE_ERROR;
     }
-    tags_[v] = val;
+    visited_[v] = val;
     return SUCCESS;
 }
 template <class ElemType, class WeightType>
@@ -362,7 +362,7 @@ int AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::GetElem(int v) const
 template <class ElemType, class WeightType>
 bool AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::GetTag(int v) const
 {
-    return tags_[v];
+    return visited_[v];
 }
 template <class ElemType, class WeightType>
 WeightType AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::GetWeight(int v1, int v2) const
@@ -483,12 +483,12 @@ bool AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::IsConnected()
 
     for (int i = 0; i < vertexNum_; i++)
     {
-        tags_[i] = 0;
+        visited_[i] = 0;
     }
     DepthFirstSearch(0, Write<ElemType>);
     for (int i = 0; i < vertexNum_; i++)
     {
-        if (!tags_[i])
+        if (!visited_[i])
         {
             return 0;
         }
@@ -536,7 +536,7 @@ AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &AdjacencyMatrixUndirecte
     if (&AMUN != this)
     {
         delete[] vertexes_;
-        delete[] tags_;
+        delete[] visited_;
         for (int i = 0; i < maxVertexNum_; i++)
         {
             delete[] adjacencyMatrix_[i];
@@ -548,12 +548,12 @@ AdjacencyMatrixUndirectedNetwork<ElemType, WeightType> &AdjacencyMatrixUndirecte
         infinity_ = AMUN.infinity_;
         vertexes_ = new ElemType[maxVertexNum_];
         assert(vertexes_);
-        tags_ = new bool[maxVertexNum_];
-        assert(tags_);
+        visited_ = new bool[maxVertexNum_];
+        assert(visited_);
         for (int i = 0; i < vertexNum_; i++)
         {
             vertexes_[i] = AMUN.vertexes_[i];
-            tags_[i] = AMUN.tags_[i];
+            visited_[i] = AMUN.visited_[i];
         }
         adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
         assert(adjacencyMatrix_);

@@ -1,7 +1,7 @@
 #pragma once
 #ifndef __ADJACENCY_LIST_NETWORK_EDGE_H__
 #define __ADJACENCY_LIST_NETWORK_EDGE_H__
-#include "Assistance.h"
+#include <iostream>
 template <class WeightType>
 class AdjacencyListNetworkEdge
 {
