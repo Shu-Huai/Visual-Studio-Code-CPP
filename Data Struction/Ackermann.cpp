@@ -1,7 +1,7 @@
-#include "SeqStack.h"
-#include <future>
-#include <thread>
-int Akm(int m, int n)
+#include <iostream>
+#include <stack>
+using namespace std;
+int AkmWithRecursion(int m, int n)
 {
     if (!m)
     {
@@ -9,50 +9,60 @@ int Akm(int m, int n)
     }
     if (!n)
     {
-        return Akm(m - 1, 1);
+        return AkmWithRecursion(m - 1, 1);
     }
-    return Akm(m - 1, Akm(m, n - 1));
+    return AkmWithRecursion(m - 1, AkmWithRecursion(m, n - 1));
 }
-int AKM(promise<int> &P, int m, int n)
+int Akm(int m, int n)
 {
-    SeqStack<int> SS;
-    SS.Push(m);
-    SS.Push(n);
-    int tempm = 0;
-    int tempn = 0;
-    while (SS.Pop(tempn) != UNDER_FLOW and SS.Pop(tempm) != UNDER_FLOW)
+    stack<int> s;
+    s.push(m);
+    s.push(n);
+    int tempM = 0;
+    int tempN = 0;
+    while (!s.empty())
     {
-        if (!tempm)
+        tempN = s.top();
+        s.pop();
+        if (s.empty())
         {
-            SS.Push(tempn + 1);
+            break;
         }
-        else if (!tempn)
+        tempM = s.top();
+        s.pop();
+        if (!tempM)
         {
-            SS.Push(tempm - 1);
-            SS.Push(1);
+            s.push(tempN + 1);
+        }
+        else if (!tempN)
+        {
+            s.push(tempM - 1);
+            s.push(1);
         }
         else
         {
-            SS.Push(tempm - 1);
-            SS.Push(tempm);
-            SS.Push(tempn - 1);
+            s.push(tempM - 1);
+            s.push(tempM);
+            s.push(tempN - 1);
         }
     }
-    P.set_value(tempn);
-    return tempn;
+    return tempN;
 }
 int main()
 {
+    cout << "Please input m and n: ";
     int m = 0;
     int n = 0;
     while (cin >> m >> n)
     {
-        promise<int> P;
-        future<int> F = P.get_future();
-        thread T(AKM, ref(P), m, n);
-        cout << Akm(m, n) << endl
-             << F.get() << endl;
-        T.join();
+        if (m == -1 && n == -1)
+        {
+            cout << "Exit." << endl;
+            break;
+        }
+        cout << "Akm with recusion is: " << AkmWithRecursion(m, n) << endl
+             << "Akm without recursion is: " << Akm(m, n) << endl
+             << "Please input m and n: ";
     }
     return 0;
 }
