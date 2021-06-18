@@ -54,9 +54,13 @@ int main()
         cout << endl
              << "d. Find the critical path.";
         cout << endl
+             << "e. Depth first traverse.";
+        cout << endl
+             << "f. Breadth first traverse.";
+        cout << endl
              << "0. Exit.";
         cout << endl
-             << "Select funstion(0~d): ";
+             << "Select funstion(0~f): ";
         cin >> functionSelect;
         switch (functionSelect)
         {
@@ -155,6 +159,14 @@ int main()
             {
                 cout << error << endl;
             }
+            break;
+        case 'e':
+            cout << endl;
+            network.DepthFirstTraverse();
+            break;
+        case 'f':
+            cout << endl;
+            network.DepthFirstTraverse();
             break;
         }
     }

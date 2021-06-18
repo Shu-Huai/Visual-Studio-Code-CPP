@@ -37,12 +37,12 @@ public:
     Status DeleteVertex(ElemType &e);
     Status DeleteEdge(int v1, int v2);
     Status SetElem(int v, const ElemType &e);
-    Status SetTag(int v, bool val);
+    Status SetVisited(int v, bool val);
     int GetVertexNum() const;
     int GetEdgeNum() const;
     int GetIndex(ElemType &e) const;
     int GetElem(int v) const;
-    bool GetTag(int v) const;
+    bool IsVisited(int v) const;
     WeightType GetWeight(int v1, int v2) const;
     WeightType GetInfinity() const;
     int GetFirstAdjacencyVertex(int v) const;
@@ -323,7 +323,7 @@ Status AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::SetElem(int v, co
     return SUCCESS;
 }
 template <class ElemType, class WeightType>
-Status AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::SetTag(int v, bool val)
+Status AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::SetVisited(int v, bool val)
 {
     if (v < 0 || v >= vertexNum_)
     {
@@ -360,7 +360,7 @@ int AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::GetElem(int v) const
     return vertexes_[v];
 }
 template <class ElemType, class WeightType>
-bool AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::GetTag(int v) const
+bool AdjacencyMatrixUndirectedNetwork<ElemType, WeightType>::IsVisited(int v) const
 {
     return visited_[v];
 }
