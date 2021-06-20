@@ -28,7 +28,7 @@ int main()
         case '1':
             stack.Clear();
             cout << endl
-                 << "Input a value (exit when value = 0): ";
+                 << "Input a element (exit when element = 0): ";
             cin >> elem;
             while (elem)
             {

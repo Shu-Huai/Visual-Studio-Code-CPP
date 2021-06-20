@@ -43,7 +43,7 @@ int main()
         case '1':
             SL.Clear();
             cout << endl
-                 << "Input a value (exit when value = 0): ";
+                 << "Input a element (exit when element = 0): ";
             cin >> elem;
             while (elem)
             {
