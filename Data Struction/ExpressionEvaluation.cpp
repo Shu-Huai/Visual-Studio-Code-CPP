@@ -82,7 +82,7 @@ ElemType Operate(ElemType first, string s, ElemType second)
 }
 void Evaluation(SequenceList<string> &ExpressList)
 {
-    SeqStack<double> ExpressStack;
+    SequenceStack<double> ExpressStack;
     int length = ExpressList.GetLength();
     char ch = 0;
     int i = 0;

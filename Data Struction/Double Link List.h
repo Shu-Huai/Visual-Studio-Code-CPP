@@ -17,8 +17,8 @@ public:
     virtual ~DoubleLinkList();
     void Clear();
     bool IsEmpty() const;
-    void Traverse() const;
     void Display() const;
+    void Traverse() const;
     void AppendElem(const ElemType elem);
     void InsertElem(int index, const ElemType elem);
     void DeleteElem(int index);
@@ -88,17 +88,6 @@ bool DoubleLinkList<ElemType>::IsEmpty() const
     return head_->next_ == head_;
 }
 template <class ElemType>
-void DoubleLinkList<ElemType>::Traverse() const
-{
-    DoubleLinkListNode<ElemType> *p = head_->next_;
-    while (p != head_)
-    {
-        cout << p->elem_ << " ";
-        p = p->next_;
-    }
-    cout << endl;
-}
-template <class ElemType>
 void DoubleLinkList<ElemType>::Display() const
 {
     DoubleLinkListNode<ElemType> *p = head_->next_;
@@ -113,6 +102,17 @@ void DoubleLinkList<ElemType>::Display() const
     }
     cout << endl
          << "The length is: " << length_ << endl;
+}
+template <class ElemType>
+void DoubleLinkList<ElemType>::Traverse() const
+{
+    DoubleLinkListNode<ElemType> *p = head_->next_;
+    while (p != head_)
+    {
+        cout << p->elem_ << " ";
+        p = p->next_;
+    }
+    cout << endl;
 }
 template <class ElemType>
 void DoubleLinkList<ElemType>::AppendElem(const ElemType elem)

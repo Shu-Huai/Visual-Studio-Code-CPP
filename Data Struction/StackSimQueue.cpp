@@ -2,8 +2,8 @@
 class StackSimQueue
 {
 protected:
-    SeqStack<int> SS1_;
-    SeqStack<int> SS2_;
+    SequenceStack<int> SS1_;
+    SequenceStack<int> SS2_;
 
 public:
     StackSimQueue(int size = DEFAULT_SIZE);
