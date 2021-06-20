@@ -1,147 +1,167 @@
 #include "Link List.h"
 int main()
 {
-	char c = 0;
-	LinkList<double> LL0;
-	LinkList<double> LL1;
-	double e = 0;
-	int i = 0;
-	double low = 0;
-	double high = 0;
-	while (c != '0')
-	{
-		cout << endl
-			 << "1. 生成单链表。";
-		cout << endl
-			 << "2. 显示单链表。";
-		cout << endl
-			 << "3. 取指定位置的元素。";
-		cout << endl
-			 << "4. 设置元素值。";
-		cout << endl
-			 << "5. 删除元素。";
-		cout << endl
-			 << "6. 插入元素。";
-		cout << endl
-			 << "7. 元素定位。";
-		cout << endl
-			 << "8. 取单链表长度。";
-		cout << endl
-			 << "9. 原地逆置。";
-		cout << endl
-			 << "a. 删除low<e<high的结点。";
-		cout << endl
-			 << "b. 将两个递增有序的单链表合并为一个递减有序的单链表。";
-		cout << endl
-			 << "0. 退出。";
-		cout << endl
-			 << "选择功能(0~b)：";
-		cin >> c;
-		switch (c)
-		{
-		case '1':
-			LL0.Clear();
-			cout << endl
-				 << "输入e（e = 0时退出）：";
-			cin >> e;
-			while (e != 0)
-			{
-				LL0.AppendElem(e);
-				cin >> e;
-			}
-			break;
-		case '2':
-			LL0.Traverse(Write<double>);
-			break;
-		case '3':
-			cout << endl
-				 << "输入元素位置：";
-			cin >> i;
-			if (LL0.GetElem(i, e) == RANGE_ERROR)
-				cout << "元素不存在。" << endl;
-			else
-				cout << "元素：" << e << endl;
-			break;
-		case '4':
-			cout << endl
-				 << "输入位置：";
-			cin >> i;
-			cout << endl
-				 << "输入元素值：";
-			cin >> e;
-			if (LL0.SetElem(i, e) == RANGE_ERROR)
-				cout << "位置范围错。" << endl;
-			else
-				cout << "设置成功。" << endl;
-			break;
-		case '5':
-			cout << endl
-				 << "输入位置：";
-			cin >> i;
-			if (LL0.DeleteElem(i, e) == RANGE_ERROR)
-				cout << "位置范围错。" << endl;
-			else
-				cout << "被删除元素值：" << e << endl;
-			break;
-		case '6':
-			cout << endl
-				 << "输入位置：";
-			cin >> i;
-			cout << endl
-				 << "输入元素值：";
-			cin >> e;
-			if (LL0.InsertElem(i, e) == RANGE_ERROR)
-				cout << "位置范围错。" << endl;
-			else
-				cout << "成功：" << e << endl;
-			break;
-		case '7':
-			cout << endl
-				 << "输入元素的值：";
-			cin >> e;
-			i = LL0.LocateElem(e);
-			if (i == 0)
-				cout << "元素不存在。" << endl;
-			else
-				cout << "元素" << e << "的序号为：" << i << endl;
-			break;
-		case '8':
-			cout << endl
-				 << "单链表的长度为：" << LL0.GetLength() << endl;
-			break;
-		case '9':
-			LL0.Reverse();
-			cout << endl
-				 << "已将单链表逆置。" << endl;
-			break;
-		case 'a':
-			cout << endl
-				 << "输入low的值：";
-			cin >> low;
-			cout << "输入high的值：";
-			cin >> high;
-			if (LL0.DeleteBetween(low, high) == SUCCESS)
-			{
-				cout << "已删除low<e<high的结点。" << endl;
-			}
-			else
-			{
-				cout << "错误。" << endl;
-			}
-			break;
-		case 'b':
-			LL1.Clear();
-			cout << endl
-				 << "输入e（e = 0时退出）：";
-			cin >> e;
-			while (e != 0)
-			{
-				LL1.AppendElem(e);
-				cin >> e;
-			}
-			LL0.Merge(LL1);
-			break;
-		}
-	}
-	return 0;
+    char functionSelect = 0;
+    LinkList<int> list;
+    LinkList<int> subList;
+    int elem = 0;
+    int i = 0;
+    int minElem = 0;
+    int maxElem = 0;
+    while (functionSelect != '0')
+    {
+        cout << endl
+             << "1. Generate singly linked list.";
+        cout << endl
+             << "2. Traverse singly linked list.";
+        cout << endl
+             << "3. Take the element at the specified position.";
+        cout << endl
+             << "4. Set element value.";
+        cout << endl
+             << "5. Delete element.";
+        cout << endl
+             << "6. Insert element.";
+        cout << endl
+             << "7. Element positioning.";
+        cout << endl
+             << "8. Take the length of the singly linked list.";
+        cout << endl
+             << "9. In-situ invert.";
+        cout << endl
+             << "a. Delete the node between minimum element and maximum element.";
+        cout << endl
+             << "b. Combine two singly linked lists in increasing order into one singly linked list in decreasing order.";
+        cout << endl
+             << "0. Exit.";
+        cout << endl
+             << "Select function(0~b): ";
+        cin >> functionSelect;
+        switch (functionSelect)
+        {
+        case '1':
+            list.Clear();
+            cout << endl
+                 << "Input a element (exit when value = 0): ";
+            cin >> elem;
+            while (elem != 0)
+            {
+                list.AppendElem(elem);
+                cin >> elem;
+            }
+            list.Swap(0, 5);
+            break;
+        case '2':
+            list.Traverse();
+            break;
+        case '3':
+            cout << endl
+                 << "Enter element position: ";
+            cin >> i;
+            try
+            {
+                elem = list.GetElem(i);
+                cout << "Element: " << elem << endl;
+            }
+            catch (string &error)
+            {
+                cout << error;
+            }
+            break;
+        case '4':
+            cout << endl
+                 << "Enter element position: ";
+            cin >> i;
+            cout << endl
+                 << "Enter element: ";
+            cin >> elem;
+            try
+            {
+                list.SetElem(i, elem);
+            }
+            catch (string &error)
+            {
+                cout << error;
+            }
+            break;
+        case '5':
+            cout << endl
+                 << "Enter element position: ";
+            cin >> i;
+            try
+            {
+                list.DeleteElem(i);
+            }
+            catch (string &error)
+            {
+                cout << error;
+            }
+            break;
+        case '6':
+            cout << endl
+                 << "Enter element position: ";
+            cin >> i;
+            cout << endl
+                 << "Enter element: ";
+            cin >> elem;
+            try
+            {
+                list.InsertElem(i, elem);
+            }
+            catch (string &error)
+            {
+                cout << error;
+            }
+            break;
+        case '7':
+            cout << endl
+                 << "Enter element: ";
+            cin >> elem;
+            i = list.GetIndex(elem);
+            if (i == -1)
+            {
+                cout << "Element does not exist." << endl;
+            }
+            else
+            {
+                cout << "Index is: " << i << endl;
+            }
+            break;
+        case '8':
+            cout << endl
+                 << "The length is: " << list.GetLength() << endl;
+            break;
+        case '9':
+            list.Reverse();
+            break;
+        case 'a':
+            cout << endl
+                 << "Enter manimum element: ";
+            cin >> minElem;
+            cout << "Enter maximum element: ";
+            cin >> maxElem;
+            try
+            {
+                list.DeleteBetween(minElem, maxElem);
+            }
+            catch (string &error)
+            {
+                cout << error;
+            }
+            break;
+        case 'b':
+            subList.Clear();
+            cout << endl
+                 << "Input a element (exit when value = 0): ";
+            cin >> elem;
+            while (elem != 0)
+            {
+                subList.AppendElem(elem);
+                cin >> elem;
+            }
+            list.Merge(subList);
+            break;
+        }
+    }
+    return 0;
 }

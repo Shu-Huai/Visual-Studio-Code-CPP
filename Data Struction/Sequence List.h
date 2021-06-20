@@ -266,6 +266,10 @@ SequenceList<ElemType> &SequenceList<ElemType>::operator=(const SequenceList<Ele
 template <class ElemType>
 ElemType &SequenceList<ElemType>::operator[](int index)
 {
+    if (index < 0 || index > length_)
+    {
+        throw string("Range error.");
+    }
     return elems_[index];
 }
 #endif
