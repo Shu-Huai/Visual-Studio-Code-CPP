@@ -27,7 +27,7 @@ public:
     int GetLength() const;
     int GetIndex(const ElemType &e) const;
     ElemType GetElem(int i) const;
-    void Swap(int indexA, int indexB);
+    void SwapElem(int indexA, int indexB);
     void Reverse();
     void DeleteBetween(ElemType low, ElemType high);
     void DeleteRepeat();
@@ -172,7 +172,7 @@ ElemType SequenceList<ElemType>::GetElem(int i) const
     return elems_[i];
 }
 template <class ElemType>
-void SequenceList<ElemType>::Swap(int indexA, int indexB)
+void SequenceList<ElemType>::SwapElem(int indexA, int indexB)
 {
     ElemType temp = elems_[indexA];
     elems_[indexA] = elems_[indexB];
@@ -234,7 +234,7 @@ void SequenceList<ElemType>::Sort()
         {
             if (elems_[j] > elems_[j + 1])
             {
-                Swap(j, j + 1);
+                SwapElem(j, j + 1);
             }
         }
     }

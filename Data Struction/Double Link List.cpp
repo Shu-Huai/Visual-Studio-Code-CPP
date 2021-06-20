@@ -49,12 +49,13 @@ int main()
             try
             {
                 elem = doubleLinkList.GetElem(index);
-                cout << "Element: " << elem << endl;
             }
             catch (string &error)
             {
                 cout << error << endl;
+                break;
             }
+            cout << "Element: " << elem << endl;
             break;
         case '4':
             cout << endl
@@ -66,12 +67,13 @@ int main()
             try
             {
                 doubleLinkList.SetElem(index, elem);
-                cout << "Succeeded." << endl;
             }
             catch (string &error)
             {
                 cout << error << endl;
+                break;
             }
+            cout << "Succeeded." << endl;
             break;
         case '5':
             cout << endl
@@ -79,13 +81,14 @@ int main()
             cin >> index;
             try
             {
-                doubleLinkList.DeleteElem(index, elem);
-                cout << "Succeeded." << endl;
+                doubleLinkList.DeleteElem(index);
             }
             catch (string &error)
             {
                 cout << error << endl;
+                break;
             }
+            cout << "Succeeded." << endl;
             break;
         case '6':
             cout << endl
@@ -97,18 +100,19 @@ int main()
             try
             {
                 doubleLinkList.InsertElem(index, elem);
-                cout << "Succeeded." << endl;
             }
             catch (string &error)
             {
                 cout << error << endl;
+                break;
             }
+            cout << "Succeeded." << endl;
             break;
         case '7':
             cout << endl
                  << "Input the value: ";
             cin >> elem;
-            index = doubleLinkList.LocateElem(elem);
+            index = doubleLinkList.GetIndex(elem);
             if (index == 0)
                 cout << "The element does not exist." << endl;
             else

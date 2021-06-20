@@ -75,7 +75,7 @@ UnionFindSets<ElemType>::UnionFindSets(ElemType *v, int n) : size_(n)
     assert(sets_);
     for (int i = 0; i < size_; i++)
     {
-        sets_[i].data_ = v[i];
+        sets_[i].elem_ = v[i];
         sets_[i].parent_ = -1;
     }
 }
@@ -107,14 +107,14 @@ void UnionFindSets<ElemType>::Display() const
          << "Data:   ";
     for (int i = 0; i < size_; i++)
     {
-        cout << setw(3) << sets_[i].data_;
+        cout << setw(3) << sets_[i].elem_;
     }
     cout << endl;
 }
 template <class ElemType>
 ElemType UnionFindSets<ElemType>::GetElem(int p) const
 {
-    return sets_[p].data_;
+    return sets_[p].elem_;
 }
 template <class ElemType>
 int UnionFindSets<ElemType>::GetParent(int p) const
@@ -127,7 +127,7 @@ int UnionFindSets<ElemType>::GetIndex(ElemType e) const
     int p = 0;
     while (p < size_)
     {
-        if (sets_[p].data_ != e)
+        if (sets_[p].elem_ != e)
         {
             p++;
         }

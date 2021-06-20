@@ -69,7 +69,7 @@ ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::TransformHelp(Bina
     }
     ThreadBinaryTreeNode<ElemType> *leftchild = TransformHelp(r->leftChild_);
     ThreadBinaryTreeNode<ElemType> *rightchild = TransformHelp(r->rightChild_);
-    ThreadBinaryTreeNode<ElemType> *root = new ThreadBinaryTreeNode<ElemType>(r->data_, leftchild, rightchild);
+    ThreadBinaryTreeNode<ElemType> *root = new ThreadBinaryTreeNode<ElemType>(r->elem_, leftchild, rightchild);
     return root;
 }
 template <class ElemType>
@@ -97,7 +97,7 @@ ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::CopyTreeHelp(Threa
     {
         rightchild = NULL;
     }
-    ThreadBinaryTreeNode<ElemType> *r = new ThreadBinaryTreeNode<ElemType>(t->data_, leftchild, rightchild);
+    ThreadBinaryTreeNode<ElemType> *r = new ThreadBinaryTreeNode<ElemType>(t->elem_, leftchild, rightchild);
     return r;
 }
 template <class ElemType>
@@ -189,7 +189,7 @@ template <class ElemType>
 ThreadBinaryTreeNode<ElemType> *InThreadBinaryTree<ElemType>::Find(const ElemType &e) const
 {
     ThreadBinaryTreeNode<ElemType> *p = GetFirst();
-    while (p != NULL && p->data_ != e)
+    while (p != NULL && p->elem_ != e)
     {
         p = GetNext(p);
     }
@@ -239,7 +239,7 @@ void InThreadBinaryTree<ElemType>::InOrderTraverse(void (*Visit)(const ElemType 
     ThreadBinaryTreeNode<ElemType> *p;
     for (p = GetFirst(); p != NULL; p = GetNext(p))
     {
-        (*Visit)(p->data_);
+        (*Visit)(p->elem_);
         if (p->lefttag_)
         {
             cout << "其左指针为线索指针，指向";
@@ -250,7 +250,7 @@ void InThreadBinaryTree<ElemType>::InOrderTraverse(void (*Visit)(const ElemType 
         }
         if (p->leftChild_ != NULL)
         {
-            cout << p->leftChild_->data_;
+            cout << p->leftChild_->elem_;
         }
         else
         {
@@ -266,7 +266,7 @@ void InThreadBinaryTree<ElemType>::InOrderTraverse(void (*Visit)(const ElemType 
         }
         if (p->rightChild_ != NULL)
         {
-            cout << p->rightChild_->data_ << endl;
+            cout << p->rightChild_->elem_ << endl;
         }
         else
         {
@@ -305,7 +305,7 @@ void DisplayBTWithTreeShapeHelp(ThreadBinaryTreeNode<ElemType> *r, int level)
         {
             cout << "  ";
         }
-        cout << r->data_;
+        cout << r->elem_;
         if (!r->lefttag_)
         {
             DisplayBTWithTreeShapeHelp<ElemType>(r->leftChild_, level + 1);

@@ -23,7 +23,7 @@ public:
     AdjacencyListDirectedNetwork(int maxVertexNum = 1000, WeightType infinity = (WeightType)1000000);
     AdjacencyListDirectedNetwork(ElemType *vertexes, int vertexNum, int maxVertexNum = 1000, WeightType infinity = (WeightType)1000000);
     AdjacencyListDirectedNetwork(const AdjacencyListDirectedNetwork<ElemType, WeightType> &network);
-    ~AdjacencyListDirectedNetwork();
+    virtual ~AdjacencyListDirectedNetwork();
     void Clear();
     bool IsEmpty();
     void Show();
@@ -56,7 +56,7 @@ public:
 template <class ElemType, class WeightType>
 void AdjacencyListDirectedNetwork<ElemType, WeightType>::DepthFirstSearch(int vertex)
 {
-    cout << vertexes_[vertex].data_ << " ";
+    cout << vertexes_[vertex].elem_ << " ";
     isVisited_[vertex] = true;
     for (int i = GetFirstAdjacencyVertex(vertex); i != -1; i = GetNextAdjacencyVertex(vertex, i))
     {
@@ -69,7 +69,7 @@ void AdjacencyListDirectedNetwork<ElemType, WeightType>::DepthFirstSearch(int ve
 template <class ElemType, class WeightType>
 void AdjacencyListDirectedNetwork<ElemType, WeightType>::BreadthFirstSearch(int vertex)
 {
-    cout << vertexes_[vertex].data_ << " ";
+    cout << vertexes_[vertex].elem_ << " ";
     isVisited_[vertex] = true;
     queue<int> q;
     q.push(vertex);
@@ -81,7 +81,7 @@ void AdjacencyListDirectedNetwork<ElemType, WeightType>::BreadthFirstSearch(int 
         {
             if (!isVisited_[i])
             {
-                cout << vertexes_[i].data_ << " ";
+                cout << vertexes_[i].elem_ << " ";
                 isVisited_[i] = true;
                 q.push(i);
             }
@@ -103,7 +103,7 @@ AdjacencyListDirectedNetwork<ElemType, WeightType>::AdjacencyListDirectedNetwork
     isVisited_ = new bool[maxVertexNum_];
     for (int i = 0; i < vertexNum_; i++)
     {
-        vertexes_[i].data_ = vertexes[i];
+        vertexes_[i].elem_ = vertexes[i];
         vertexes_[i].firstEdge_ = NULL;
         isVisited_[i] = false;
     }
@@ -116,7 +116,7 @@ AdjacencyListDirectedNetwork<ElemType, WeightType>::AdjacencyListDirectedNetwork
     isVisited_ = new int[maxVertexNum_];
     for (int i = 0; i < vertexNum_; i++)
     {
-        vertexes_[i].data_ = network.vertexes_[i].data_;
+        vertexes_[i].elem_ = network.vertexes_[i].elem_;
         vertexes_[i].firstEdge_ = NULL;
         AdjacencyListNetworkEdge<WeightType> *p = network.vertexes_[i].firstEdge_;
         AdjacencyListNetworkEdge<WeightType> *q;
@@ -175,7 +175,7 @@ void AdjacencyListDirectedNetwork<ElemType, WeightType>::Show()
          << "edge number is: " << edgeNum_ << "." << endl;
     for (int i = 0; i < vertexNum_; i++)
     {
-        cout << i << ":\t" << vertexes_[i].data_;
+        cout << i << ":\t" << vertexes_[i].elem_;
         p = vertexes_[i].firstEdge_;
         while (p)
         {
@@ -207,7 +207,7 @@ void AdjacencyListDirectedNetwork<ElemType, WeightType>::AppendVertex(const Elem
     {
         throw(string) "Over flow.";
     }
-    vertexes_[vertexNum_].data_ = data;
+    vertexes_[vertexNum_].elem_ = data;
     vertexes_[vertexNum_].firstEdge_ = NULL;
     isVisited_[vertexNum_] = false;
     vertexNum_++;
@@ -250,7 +250,7 @@ void AdjacencyListDirectedNetwork<ElemType, WeightType>::DeleteVertex(ElemType &
         p = vertexes_[vertex].firstEdge_;
         edgeNum_--;
     }
-    vertexes_[vertex].data_ = vertexes_[vertexNum_].data_;
+    vertexes_[vertex].elem_ = vertexes_[vertexNum_].elem_;
     vertexes_[vertex].firstEdge_ = vertexes_[vertexNum_].firstEdge_;
     vertexes_[vertexNum_].firstEdge_ = NULL;
     isVisited_[vertex] = isVisited_[vertexNum_];
@@ -310,7 +310,7 @@ void AdjacencyListDirectedNetwork<ElemType, WeightType>::SetElem(int vertex, con
     {
         throw(string) "Range error.";
     }
-    vertexes_[vertex].data_ = data;
+    vertexes_[vertex].elem_ = data;
 }
 template <class ElemType, class WeightType>
 void AdjacencyListDirectedNetwork<ElemType, WeightType>::SetVisited(int vertex, bool isVisited) const
@@ -357,7 +357,7 @@ int AdjacencyListDirectedNetwork<ElemType, WeightType>::GetIndex(ElemType &data)
 {
     for (int i = 0; i < vertexNum_; i++)
     {
-        if (vertexes_[i].data_ == data)
+        if (vertexes_[i].elem_ == data)
         {
             return i;
         }
@@ -371,7 +371,7 @@ ElemType AdjacencyListDirectedNetwork<ElemType, WeightType>::GetElem(int vertex)
     {
         throw(string) "Range error.";
     }
-    return vertexes_[vertex].data_;
+    return vertexes_[vertex].elem_;
 }
 template <class ElemType, class WeightType>
 bool AdjacencyListDirectedNetwork<ElemType, WeightType>::IsVisited(int vertex) const
@@ -511,7 +511,7 @@ void AdjacencyListDirectedNetwork<ElemType, WeightType>::TopologicalSort() const
     {
         int vertex = s.top();
         s.pop();
-        cout << vertexes_[vertex].data_ << " ";
+        cout << vertexes_[vertex].elem_ << " ";
         count++;
         for (int i = GetFirstAdjacencyVertex(vertex); i != -1; i = GetNextAdjacencyVertex(vertex, i))
         {
@@ -603,7 +603,7 @@ void AdjacencyListDirectedNetwork<ElemType, WeightType>::CriticalPath() const
             late.push_back(el);
             if (ee == el)
             {
-                cout << "<" << vertexes_[vertex].data_ << ", " << vertexes_[i].data_ << "> ";
+                cout << "<" << vertexes_[vertex].elem_ << ", " << vertexes_[i].elem_ << "> ";
             }
         }
     }
@@ -682,7 +682,7 @@ ostream operator<<(ostream &out, const AdjacencyListDirectedNetwork<ElemType, We
         << "edge number is: " << network.edgeNum_ << "." << endl;
     for (int i = 0; i < network.vertexNum_; i++)
     {
-        out << i << ":\t" << network.vertexes_[i].data_;
+        out << i << ":\t" << network.vertexes_[i].elem_;
         p = network.vertexes_[i].firstEdge_;
         while (p)
         {

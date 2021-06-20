@@ -49,7 +49,7 @@ ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::Copy(ChildSiblingTre
     {
         return NULL;
     }
-    ChildSiblingTreeNode<ElemType> *r = new ChildSiblingTreeNode<ElemType>(CSTN->data_);
+    ChildSiblingTreeNode<ElemType> *r = new ChildSiblingTreeNode<ElemType>(CSTN->elem_);
     ChildSiblingTreeNode<ElemType> *p = CSTN->firstChild_;
     ChildSiblingTreeNode<ElemType> *q = NULL;
     while (p)
@@ -112,7 +112,7 @@ void ChildSiblingTree<ElemType>::PreOrderTraverse(ChildSiblingTreeNode<ElemType>
 {
     if (r)
     {
-        (*Visit)(r->data_);
+        (*Visit)(r->elem_);
         ChildSiblingTreeNode<ElemType> *p = r->firstChild_;
         while (p)
         {
@@ -356,7 +356,7 @@ Status ChildSiblingTree<ElemType>::DeleteChild(ChildSiblingTreeNode<ElemType> *C
         q = p->nextSibling_;
         p->nextSibling_ = q->nextSibling_;
     }
-    e = q->data_;
+    e = q->elem_;
     Destroy(q);
     return SUCCESS;
 }
@@ -367,7 +367,7 @@ Status ChildSiblingTree<ElemType>::SetElem(ChildSiblingTreeNode<ElemType> *CSTN,
     {
         return UNDER_FLOW;
     }
-    CSTN->data_ = e;
+    CSTN->elem_ = e;
     return SUCCESS;
 }
 template <class ElemType>
@@ -377,7 +377,7 @@ Status ChildSiblingTree<ElemType>::GetElem(ChildSiblingTreeNode<ElemType> *CSTN,
     {
         return UNDER_FLOW;
     }
-    e = CSTN->data_;
+    e = CSTN->elem_;
     return SUCCESS;
 }
 template <class ElemType>

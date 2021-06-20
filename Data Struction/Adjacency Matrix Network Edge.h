@@ -1,7 +1,6 @@
 #pragma once
 #ifndef __ADJACENCY_MATRIX_NETWORK_EDGE_H__
 #define __ADJACENCY_MATRIX_NETWORK_EDGE_H__
-#include "Assistance.h"
 template <class ElemType, class WeightType>
 class AdjacencyMatrixNetworkEdge
 {
@@ -11,8 +10,10 @@ public:
     AdjacencyMatrixNetworkEdge();
     AdjacencyMatrixNetworkEdge(ElemType vertexA, ElemType vertexB, WeightType weight);
     void SetElem(ElemType vertexA, ElemType vertexB, WeightType weight);
-    bool operator<(const AdjacencyMatrixNetworkEdge<ElemType, WeightType> &AMNE);
-    bool operator>=(const AdjacencyMatrixNetworkEdge<ElemType, WeightType> &AMNE);
+    bool operator<(const AdjacencyMatrixNetworkEdge<ElemType, WeightType> &edge);
+    bool operator<=(const AdjacencyMatrixNetworkEdge<ElemType, WeightType> &edge);
+    bool operator>(const AdjacencyMatrixNetworkEdge<ElemType, WeightType> &edge);
+    bool operator>=(const AdjacencyMatrixNetworkEdge<ElemType, WeightType> &edge);
 };
 template <class ElemType, class WeightType>
 AdjacencyMatrixNetworkEdge<ElemType, WeightType>::AdjacencyMatrixNetworkEdge()
@@ -31,13 +32,23 @@ void AdjacencyMatrixNetworkEdge<ElemType, WeightType>::SetElem(ElemType vertexA,
     weight_ = weight;
 }
 template <class ElemType, class WeightType>
-bool AdjacencyMatrixNetworkEdge<ElemType, WeightType>::operator<(const AdjacencyMatrixNetworkEdge<ElemType, WeightType> &AMNE)
+bool AdjacencyMatrixNetworkEdge<ElemType, WeightType>::operator<(const AdjacencyMatrixNetworkEdge<ElemType, WeightType> &edge)
 {
-    return weight_ < AMNE.weight_ ? 1 : 0;
+    return weight_ < edge.weight_ ? true : false;
 }
 template <class ElemType, class WeightType>
-bool AdjacencyMatrixNetworkEdge<ElemType, WeightType>::operator>=(const AdjacencyMatrixNetworkEdge<ElemType, WeightType> &AMNE)
+bool AdjacencyMatrixNetworkEdge<ElemType, WeightType>::operator<=(const AdjacencyMatrixNetworkEdge<ElemType, WeightType> &edge)
 {
-    return weight_ >= AMNE.weight_ ? 1 : 0;
+    return weight_ <= edge.weight_ ? true : false;
+}
+template <class ElemType, class WeightType>
+bool AdjacencyMatrixNetworkEdge<ElemType, WeightType>::operator>(const AdjacencyMatrixNetworkEdge<ElemType, WeightType> &edge)
+{
+    return weight_ > edge.weight_ ? true : false;
+}
+template <class ElemType, class WeightType>
+bool AdjacencyMatrixNetworkEdge<ElemType, WeightType>::operator>=(const AdjacencyMatrixNetworkEdge<ElemType, WeightType> &edge)
+{
+    return weight_ >= edge.weight_ ? true : false;
 }
 #endif

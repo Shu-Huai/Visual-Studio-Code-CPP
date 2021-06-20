@@ -46,7 +46,7 @@ void AVLTree<ElemType>::PreOrderTraverse(AVLTreeNode<ElemType> *root, void (*Vis
 {
     if (root)
     {
-        (*Visit)(root->data_);
+        (*Visit)(root->elem_);
         PreOrderTraverse(root->leftChild_, Visit);
         PreOrderTraverse(root->rightChild_, Visit);
     }
@@ -57,7 +57,7 @@ void AVLTree<ElemType>::InOrderTraverse(AVLTreeNode<ElemType> *root, void (*Visi
     if (root)
     {
         InOrderTraverse(root->leftChild_, Visit);
-        (*Visit)(root->data_);
+        (*Visit)(root->elem_);
         InOrderTraverse(root->rightChild_, Visit);
     }
 }
@@ -68,7 +68,7 @@ void AVLTree<ElemType>::PostOrderTraverse(AVLTreeNode<ElemType> *root, void (*Vi
     {
         PostOrderTraverse(root->leftChild_, Visit);
         PostOrderTraverse(root->rightChild_, Visit);
-        (*Visit)(root->data_);
+        (*Visit)(root->elem_);
     }
 }
 template <class ElemType>
@@ -114,19 +114,19 @@ AVLTreeNode<ElemType> *AVLTree<ElemType>::Find(const ElemType &key, AVLTreeNode<
     parentNode = NULL;
     nearestNode = NULL;
     nearestParentNode = NULL;
-    while (p && p->data_ != key)
+    while (p && p->elem_ != key)
     {
         if (p->balanceFactor_)
         {
             nearestParentNode = parentNode;
             nearestNode = p;
         }
-        if (key < p->data_)
+        if (key < p->elem_)
         {
             parentNode = p;
             p = p->leftChild_;
         }
-        if (key > p->data_)
+        if (key > p->elem_)
         {
             parentNode = p;
             p = p->rightChild_;

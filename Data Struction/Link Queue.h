@@ -9,7 +9,7 @@ class LinkQueue
 {
 protected:
     //  链队列实现的数据成员:
-    Node<ElemType> *front_, *rear_; // 队头队尾指指
+    LinkListNode<ElemType> *front_, *rear_; // 队头队尾指指
 
 public:
     LinkQueue();                                                  // 无参数的构造函数
@@ -31,7 +31,7 @@ template <class ElemType>
 LinkQueue<ElemType>::LinkQueue()
 // 操作结果：构造一个空队列
 {
-    rear_ = front_ = new Node<ElemType>; // 生成链队列头结点
+    rear_ = front_ = new LinkListNode<ElemType>; // 生成链队列头结点
 }
 
 template <class ElemType>
@@ -47,7 +47,7 @@ int LinkQueue<ElemType>::GetLength() const
 // 操作结果：返回队列长度
 {
     int count = 0; // 初始化计数器
-    for (Node<ElemType> *p = front_->next; p != NULL; p = p->next)
+    for (LinkListNode<ElemType> *p = front_->next; p != NULL; p = p->next)
         count++; // 统计链队列中的结点数
     return count;
 }
@@ -63,7 +63,7 @@ template <class ElemType>
 void LinkQueue<ElemType>::Clear()
 // 操作结果：清空队列
 {
-    Node<ElemType> *p = front_->next_;
+    LinkListNode<ElemType> *p = front_->next_;
     while (p != NULL)
     { // 依次删除队列中的元素结点
         front_->next_ = p->next_;
@@ -77,9 +77,9 @@ template <class ElemType>
 void LinkQueue<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
 // 操作结果：依次对队列的每个元素调用函数(*visit)
 {
-    for (Node<ElemType> *p = front_->next_; p != NULL; p = p->next_)
+    for (LinkListNode<ElemType> *p = front_->next_; p != NULL; p = p->next_)
         // 对队列每个元素调用函数(*visit)访问
-        (*Visit)(p->data_);
+        (*Visit)(p->elem_);
 }
 
 template <class ElemType>
@@ -89,8 +89,8 @@ Status LinkQueue<ElemType>::DelQueue(ElemType &e)
 {
     if (!IsEmpty())
     {                                    // 队列非空
-        Node<ElemType> *p = front_->next_; // 指向队列头素
-        e = p->data_;                     // 用e返回队头元素
+        LinkListNode<ElemType> *p = front_->next_; // 指向队列头素
+        e = p->elem_;                     // 用e返回队头元素
         front_->next_ = p->next_;           // front指向下一元素
         if (rear_ == p)                   // 出队前队列中只有一个元素，出队后为空队列
             rear_ = front_;
@@ -108,7 +108,7 @@ Status LinkQueue<ElemType>::GetHead(ElemType &e) const
 {
     if (!IsEmpty())
     {                          // 队列非空
-        e = front_->next_->data_; // 用e返回队头元素
+        e = front_->next_->elem_; // 用e返回队头元素
         return SUCCESS;
     }
     else
@@ -120,8 +120,8 @@ Status LinkQueue<ElemType>::EnQueue(const ElemType e)
 // 操作结果：如果系统空间不够，返回OVER_FLOW,
 //	否则插入元素e为新的队尾，返回SUCCESS
 {
-    Node<ElemType> *p;
-    p = new Node<ElemType>(e); // 生成一个新结点
+    LinkListNode<ElemType> *p;
+    p = new LinkListNode<ElemType>(e); // 生成一个新结点
     if (p)
     {
         rear_->next_ = p;    // 将新结点加在队尾
@@ -136,8 +136,8 @@ template <class ElemType>
 LinkQueue<ElemType>::LinkQueue(const LinkQueue<ElemType> &q)
 // 操作结果：由队列q构造新队列--复制构造函数
 {
-    rear_ = front_ = new Node<ElemType>; // 生成队列头结点
-    for (Node<ElemType> *p = q.front_->next; p != NULL; p = p->next)
+    rear_ = front_ = new LinkListNode<ElemType>; // 生成队列头结点
+    for (LinkListNode<ElemType> *p = q.front_->next; p != NULL; p = p->next)
         // 取q队列每个元素的值,将其在当前队列中作入队列操作
         EnQueue(p->data);
 }
@@ -149,7 +149,7 @@ LinkQueue<ElemType> &LinkQueue<ElemType>::operator=(const LinkQueue<ElemType> &q
     if (&q != this)
     {
         Clear(); //清除原有队列
-        for (Node<ElemType> *p = q.front_->next; p != NULL; p = p->next)
+        for (LinkListNode<ElemType> *p = q.front_->next; p != NULL; p = p->next)
             // 取q队列每个元素的值,将其在当前队列中作入队列操作
             EnQueue(p->data);
     }

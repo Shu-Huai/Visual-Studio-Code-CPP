@@ -24,9 +24,9 @@ BinaryTreeNode<ElemType> *BinarySortTree<ElemType>::Find(const ElemType &key, Bi
 {
     BinaryTreeNode<ElemType> *p = this->root_;
     parentNode = NULL;
-    while (p && p->data_ != key)
+    while (p && p->elem_ != key)
     {
-        if (key < p->data_)
+        if (key < p->elem_)
         {
             parentNode = p;
             p = p->leftChild_;
@@ -59,7 +59,7 @@ bool BinarySortTree<ElemType>::IsBinarySortTree() const
         else
         {
             p = s.top();
-            result.push_back(p->data_);
+            result.push_back(p->elem_);
             s.pop();
             p = p->rightChild_;
         }
@@ -86,7 +86,7 @@ void BinarySortTree<ElemType>::InsertElem(const ElemType &elem)
     {
         this->root_ = p;
     }
-    else if (elem < parentNode->data_)
+    else if (elem < parentNode->elem_)
     {
         parentNode->leftChild_ = p;
     }
@@ -107,13 +107,13 @@ void BinarySortTree<ElemType>::FindAndInsert(const ElemType &elem)
     BinaryTreeNode<ElemType> *parentNode = NULL;
     while (p)
     {
-        if (elem == p->data_)
+        if (elem == p->elem_)
         {
             cout << "The element exsits." << endl;
             return;
         }
         parentNode = p;
-        if (elem < p->data_)
+        if (elem < p->elem_)
         {
             p = p->leftChild_;
         }
@@ -123,7 +123,7 @@ void BinarySortTree<ElemType>::FindAndInsert(const ElemType &elem)
         }
     }
     p = new BinaryTreeNode<ElemType>(elem);
-    if (elem < parentNode->data_)
+    if (elem < parentNode->elem_)
     {
         parentNode->leftChild_ = p;
     }
@@ -163,7 +163,7 @@ void BinarySortTree<ElemType>::DeleteNode(BinaryTreeNode<ElemType> *&p)
             tempParentNode = tempNode;
             tempNode = tempNode->rightChild_;
         }
-        p->data_ = tempNode->data_;
+        p->elem_ = tempNode->elem_;
         if (tempParentNode->rightChild_ == tempNode)
         {
             DeleteNode(tempParentNode->rightChild_);
@@ -211,7 +211,7 @@ void BinarySortTree<ElemType>::GetElemsAbove(int key) const
         else
         {
             p = s.top();
-            result.push_back(p->data_);
+            result.push_back(p->elem_);
             s.pop();
             p = p->rightChild_;
         }

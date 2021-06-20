@@ -13,7 +13,7 @@ int main()
     AVLTreeNode<int> *p = t1.LocateNode(number);
     if (p)
     {
-        cout << "The element is: " << p->data_ << endl;
+        cout << "The element is: " << p->elem_ << endl;
     }
     else
     {

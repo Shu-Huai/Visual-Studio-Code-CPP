@@ -7,7 +7,7 @@ template <class ElemType, class WeightType>
 class AdjacencyListNetWorkVertex
 {
 public:
-    ElemType data_;
+    ElemType elem_;
     AdjacencyListNetworkEdge<WeightType> *firstEdge_;
     AdjacencyListNetWorkVertex();
     AdjacencyListNetWorkVertex(ElemType e, AdjacencyListNetworkEdge<WeightType> *sides = NULL);
@@ -18,7 +18,7 @@ AdjacencyListNetWorkVertex<ElemType, WeightType>::AdjacencyListNetWorkVertex() :
 }
 template <class ElemType, class WeightType>
 AdjacencyListNetWorkVertex<ElemType, WeightType>::AdjacencyListNetWorkVertex(ElemType e, AdjacencyListNetworkEdge<WeightType> *sides)
-    : data_(e), firstEdge_(sides)
+    : elem_(e), firstEdge_(sides)
 {
 }
 #endif

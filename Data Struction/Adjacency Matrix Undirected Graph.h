@@ -10,10 +10,10 @@ protected:
     int maxVertexNum_;
     int edgeNum_;
     ElemType *vertexes_;
-    bool *visited_;
+    bool *isVisited_;
     int **adjacencyMatrix_;
-    void DepthFirstSearch(int v, void (*Visit)(const ElemType &));
-    void BreadthFirstSearch(int v, void (*Visit)(const ElemType &));
+    void DepthFirstSearch(int vertex);
+    void BreadthFirstSearch(int vertex);
 
 public:
     AdjacencyMatrixUndirectedGraph(int maxVertexNum = DEFAULT_SIZE);
@@ -30,45 +30,45 @@ public:
     Status DeleteVertex(ElemType &e);
     Status DeleteEdge(int v1, int v2);
     Status SetElem(int v, const ElemType &e);
-    Status SetTag(int v, bool val);
+    Status SetVisited(int v, bool val);
     int GetVertexNum() const;
     int GetEdgeNum() const;
     int GetIndex(ElemType &e) const;
     int GetElem(int v) const;
-    bool GetTag(int v) const;
+    bool IsVisited(int v) const;
     int GetFirstAdjacencyVertex(int v) const;
     int GetNextAdjacencyVertex(int v1, int v2) const;
     AdjacencyMatrixUndirectedGraph<ElemType> &operator=(const AdjacencyMatrixUndirectedGraph<ElemType> &AMUG);
 };
 template <class ElemType>
-void AdjacencyMatrixUndirectedGraph<ElemType>::DepthFirstSearch(int v, void (*Visit)(const ElemType &))
+void AdjacencyMatrixUndirectedGraph<ElemType>::DepthFirstSearch(int vertex)
 {
-    visited_[v] = 1;
-    Visit(vertexes_[v]);
-    for (int i = GetFirstAdjacencyVertex(v); i != -1; i = GetNextAdjacencyVertex(v, i))
+    isVisited_[vertex] = true;
+    Visit(vertexes_[vertex]);
+    for (int i = GetFirstAdjacencyVertex(vertex); i != -1; i = GetNextAdjacencyVertex(vertex, i))
     {
-        if (!visited_[i])
+        if (!isVisited_[i])
         {
             DepthFirstSearch(i, Visit);
         }
     }
 }
 template <class ElemType>
-void AdjacencyMatrixUndirectedGraph<ElemType>::BreadthFirstSearch(int v, void (*Visit)(const ElemType &))
+void AdjacencyMatrixUndirectedGraph<ElemType>::BreadthFirstSearch(int vertex)
 {
-    visited_[v] = 1;
-    Visit(vertexes_[v]);
+    isVisited_[vertex] = true;
+    Visit(vertexes_[vertex]);
     queue<int> Q;
-    Q.push(v);
+    Q.push(vertex);
     while (!Q.empty())
     {
         int e = Q.front();
         Q.pop();
         for (int i = GetFirstAdjacencyVertex(e); i != -1; i = GetNextAdjacencyVertex(e, i))
         {
-            if (!visited_[i])
+            if (!isVisited_[i])
             {
-                visited_[i] = 1;
+                isVisited_[i] = true;
                 Visit(vertexes_[i]);
                 Q.push(i);
             }
@@ -79,7 +79,7 @@ template <class ElemType>
 AdjacencyMatrixUndirectedGraph<ElemType>::AdjacencyMatrixUndirectedGraph(int maxVertexNum) : vertexNum_(0), maxVertexNum_(maxVertexNum), edgeNum_(0)
 {
     vertexes_ = new ElemType[maxVertexNum_];
-    visited_ = new bool[maxVertexNum_];
+    isVisited_ = new bool[maxVertexNum_];
     adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
     for (int i = 0; i < maxVertexNum_; i++)
     {
@@ -91,11 +91,11 @@ AdjacencyMatrixUndirectedGraph<ElemType>::AdjacencyMatrixUndirectedGraph(ElemTyp
     : vertexNum_(vertexNum), maxVertexNum_(maxVertexNum), edgeNum_(0)
 {
     vertexes_ = new ElemType[maxVertexNum_];
-    visited_ = new bool[maxVertexNum_];
+    isVisited_ = new bool[maxVertexNum_];
     for (int i = 0; i < vertexNum_; i++)
     {
         vertexes_[i] = v[i];
-        visited_[i] = 0;
+        isVisited_[i] = false;
     }
     adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
     for (int i = 0; i < maxVertexNum_; i++)
@@ -115,11 +115,11 @@ AdjacencyMatrixUndirectedGraph<ElemType>::AdjacencyMatrixUndirectedGraph(const A
     : vertexNum_(AMUG.vertexNum_), maxVertexNum_(AMUG.maxVertexNum_), edgeNum_(AMUG.edgeNum_)
 {
     vertexes_ = new ElemType[maxVertexNum_];
-    visited_ = new bool[maxVertexNum_];
+    isVisited_ = new bool[maxVertexNum_];
     for (int i = 0; i < vertexNum_; i++)
     {
         vertexes_[i] = AMUG.vertexes_[i];
-        visited_[i] = AMUG.visited_[i];
+        isVisited_[i] = AMUG.isVisited_[i];
     }
     adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
     for (int i = 0; i < maxVertexNum_; i++)
@@ -138,7 +138,7 @@ template <class ElemType>
 AdjacencyMatrixUndirectedGraph<ElemType>::~AdjacencyMatrixUndirectedGraph()
 {
     delete[] vertexes_;
-    delete[] visited_;
+    delete[] isVisited_;
     for (int i = 0; i < maxVertexNum_; i++)
     {
         delete[] adjacencyMatrix_[i];
@@ -179,11 +179,11 @@ void AdjacencyMatrixUndirectedGraph<ElemType>::DepthFirstTraverse(void (*Visit)(
 {
     for (int i = 0; i < vertexNum_; i++)
     {
-        visited_[i] = 0;
+        isVisited_[i] = false;
     }
     for (int i = 0; i < vertexNum_; i++)
     {
-        if (!visited_[i])
+        if (!isVisited_[i])
         {
             DepthFirstSearch(i, Visit);
         }
@@ -194,11 +194,11 @@ void AdjacencyMatrixUndirectedGraph<ElemType>::BreadthFirstTraverse(void (*Visit
 {
     for (int i = 0; i < vertexNum_; i++)
     {
-        visited_[i] = 0;
+        isVisited_[i] = false;
     }
     for (int i = 0; i < vertexNum_; i++)
     {
-        if (!visited_[i])
+        if (!isVisited_[i])
         {
             BreadthFirstSearch(i, Visit);
         }
@@ -212,7 +212,7 @@ Status AdjacencyMatrixUndirectedGraph<ElemType>::AppendVertex(const ElemType &e)
         return OVER_FLOW;
     }
     vertexes_[vertexNum_] = e;
-    visited_[vertexNum_] = 0;
+    isVisited_[vertexNum_] = false;
     for (int i = 0; i <= vertexNum_; i++)
     {
         adjacencyMatrix_[vertexNum_][i] = 0;
@@ -257,7 +257,7 @@ Status AdjacencyMatrixUndirectedGraph<ElemType>::DeleteVertex(ElemType &e)
     if (v < vertexNum_)
     {
         vertexes_[v] = vertexes_[vertexNum_];
-        visited_[v] = visited_[vertexNum_];
+        isVisited_[v] = isVisited_[vertexNum_];
         for (int i = 0; i <= vertexNum_; i++)
         {
             adjacencyMatrix_[v][i] = adjacencyMatrix_[vertexNum_][i];
@@ -295,13 +295,13 @@ Status AdjacencyMatrixUndirectedGraph<ElemType>::SetElem(int v, const ElemType &
     return SUCCESS;
 }
 template <class ElemType>
-Status AdjacencyMatrixUndirectedGraph<ElemType>::SetTag(int v, bool val)
+Status AdjacencyMatrixUndirectedGraph<ElemType>::SetVisited(int v, bool val)
 {
     if (v < 0 || v >= vertexNum_)
     {
         return RANGE_ERROR;
     }
-    visited_[v] = val;
+    isVisited_[v] = val;
     return SUCCESS;
 }
 template <class ElemType>
@@ -332,9 +332,9 @@ int AdjacencyMatrixUndirectedGraph<ElemType>::GetElem(int v) const
     return vertexes_[v];
 }
 template <class ElemType>
-bool AdjacencyMatrixUndirectedGraph<ElemType>::GetTag(int v) const
+bool AdjacencyMatrixUndirectedGraph<ElemType>::IsVisited(int v) const
 {
-    return visited_[v];
+    return isVisited_[v];
 }
 template <class ElemType>
 int AdjacencyMatrixUndirectedGraph<ElemType>::GetFirstAdjacencyVertex(int v) const
@@ -366,7 +366,7 @@ AdjacencyMatrixUndirectedGraph<ElemType> &AdjacencyMatrixUndirectedGraph<ElemTyp
     if (&AMUG != this)
     {
         delete[] vertexes_;
-        delete[] visited_;
+        delete[] isVisited_;
         for (int i = 0; i < maxVertexNum_; i++)
         {
             delete[] adjacencyMatrix_[i];
@@ -376,11 +376,11 @@ AdjacencyMatrixUndirectedGraph<ElemType> &AdjacencyMatrixUndirectedGraph<ElemTyp
         maxVertexNum_ = AMUG.maxVertexNum_;
         edgeNum_ = AMUG.edgeNum_;
         vertexes_ = new ElemType[maxVertexNum_];
-        visited_ = new bool[maxVertexNum_];
+        isVisited_ = new bool[maxVertexNum_];
         for (int i = 0; i < vertexNum_; i++)
         {
             vertexes_[i] = AMUG.vertexes_[i];
-            visited_[i] = AMUG.visited_[i];
+            isVisited_[i] = AMUG.isVisited_[i];
         }
         adjacencyMatrix_ = (int **)new int *[maxVertexNum_];
         for (int i = 0; i < maxVertexNum_; i++)

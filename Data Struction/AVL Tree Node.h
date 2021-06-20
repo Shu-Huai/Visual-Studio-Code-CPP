@@ -6,7 +6,7 @@ template <class ElemType>
 class AVLTreeNode
 {
 public:
-    ElemType data_;
+    ElemType elem_;
     int balanceFactor_;
     int leftNodeNumber_;
     AVLTreeNode<ElemType> *leftChild_;
@@ -20,7 +20,7 @@ AVLTreeNode<ElemType>::AVLTreeNode() : leftChild_(NULL), rightChild_(NULL)
 }
 template <class ElemType>
 AVLTreeNode<ElemType>::AVLTreeNode(const ElemType &data, int balanceFactor, AVLTreeNode<ElemType> *leftChild, AVLTreeNode<ElemType> *rightChild)
-    : data_(data), balanceFactor_(balanceFactor), leftChild_(leftChild), rightChild_(rightChild)
+    : elem_(data), balanceFactor_(balanceFactor), leftChild_(leftChild), rightChild_(rightChild)
 {
 }
 #endif

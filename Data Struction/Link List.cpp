@@ -49,7 +49,7 @@ int main()
                 list.AppendElem(elem);
                 cin >> elem;
             }
-            list.Swap(0, 5);
+            list.SwapElem(0, 5);
             break;
         case '2':
             list.Traverse();

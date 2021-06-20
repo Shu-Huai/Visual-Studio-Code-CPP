@@ -6,7 +6,7 @@ template <class ElemType>
 class ChildSiblingTreeNode
 {
 public:
-    ElemType data_;
+    ElemType elem_;
     ChildSiblingTreeNode<ElemType> *firstChild_;
     ChildSiblingTreeNode<ElemType> *nextSibling_;
     ChildSiblingTreeNode();
@@ -18,7 +18,7 @@ ChildSiblingTreeNode<ElemType>::ChildSiblingTreeNode() : firstChild_(NULL), next
 }
 template <class ElemType>
 ChildSiblingTreeNode<ElemType>::ChildSiblingTreeNode(ElemType data, ChildSiblingTreeNode<ElemType> *firstChild, ChildSiblingTreeNode<ElemType> *nextSibling)
-    : data_(data), firstChild_(firstChild), nextSibling_(nextSibling)
+    : elem_(data), firstChild_(firstChild), nextSibling_(nextSibling)
 {
 }
 #endif

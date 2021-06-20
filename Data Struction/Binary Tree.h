@@ -80,7 +80,7 @@ void BinaryTree<ElemType>::PreOrderTraverse(BinaryTreeNode<ElemType> *root) cons
 {
     if (root)
     {
-        cout << root->data_ << " ";
+        cout << root->elem_ << " ";
         PreOrderTraverse(root->leftChild_);
         PreOrderTraverse(root->rightChild_);
     }
@@ -91,7 +91,7 @@ void BinaryTree<ElemType>::InOrderTraverse(BinaryTreeNode<ElemType> *root) const
     if (root)
     {
         InOrderTraverse(root->leftChild_);
-        cout << root->data_ << " ";
+        cout << root->elem_ << " ";
         InOrderTraverse(root->rightChild_);
     }
 }
@@ -102,7 +102,7 @@ void BinaryTree<ElemType>::PostOrderTraverse(BinaryTreeNode<ElemType> *root) con
     {
         PostOrderTraverse(root->leftChild_);
         PostOrderTraverse(root->rightChild_);
-        cout << root->data_ << " ";
+        cout << root->elem_ << " ";
     }
 }
 template <class ElemType>
@@ -156,7 +156,7 @@ BinaryTreeNode<ElemType> *BinaryTree<ElemType>::CopyTree(BinaryTreeNode<ElemType
     {
         return NULL;
     }
-    BinaryTreeNode<ElemType> *copy = new BinaryTreeNode<ElemType>(BTN->data_);
+    BinaryTreeNode<ElemType> *copy = new BinaryTreeNode<ElemType>(BTN->elem_);
     assert(copy);
     copy->leftChild_ = CopyTree(BTN->leftChild_);
     copy->rightChild_ = CopyTree(BTN->rightChild_);
@@ -171,7 +171,7 @@ BinaryTree<ElemType>::BinaryTree(const ElemType &elem)
 {
     root_ = new BinaryTreeNode<ElemType>;
     assert(root_);
-    root_->data_ = elem;
+    root_->elem_ = elem;
 }
 template <class ElemType>
 BinaryTree<ElemType>::BinaryTree(BinaryTreeNode<ElemType> *BTN)
@@ -229,7 +229,7 @@ void BinaryTree<ElemType>::LevelOrder() const
     {
         p = Q.front();
         Q.pop();
-        cout << p->data_ << " ";
+        cout << p->elem_ << " ";
         if (p->leftChild_)
         {
             Q.push(p->leftChild_);
@@ -285,7 +285,7 @@ void BinaryTree<ElemType>::SetElem(BinaryTreeNode<ElemType> *p, const ElemType &
     {
         throw(string) "The tree is empty.";
     }
-    p->data_ = elem;
+    p->elem_ = elem;
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetRoot() const
@@ -299,7 +299,7 @@ void BinaryTree<ElemType>::GetElem(BinaryTreeNode<ElemType> *p, ElemType &elem) 
     {
         throw(string) "The tree is empty.";
     }
-    elem = p->data_;
+    elem = p->elem_;
 }
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinaryTree<ElemType>::GetParent(const BinaryTreeNode<ElemType> *p) const

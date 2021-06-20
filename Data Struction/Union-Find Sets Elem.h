@@ -6,7 +6,7 @@ template <class ElemType>
 class UnionFindSetsElem
 {
 public:
-    ElemType data_;
+    ElemType elem_;
     int parent_;
     UnionFindSetsElem();
     Status SetData(ElemType data);
@@ -22,7 +22,7 @@ UnionFindSetsElem<ElemType>::UnionFindSetsElem()
 template <class ElemType>
 Status UnionFindSetsElem<ElemType>::SetData(ElemType data)
 {
-    data_ = data;
+    elem_ = data;
     return SUCCESS;
 }
 template <class ElemType>
@@ -34,7 +34,7 @@ Status UnionFindSetsElem<ElemType>::SetParent(int parent)
 template <class ElemType>
 ElemType UnionFindSetsElem<ElemType>::GetData() const
 {
-    return data_;
+    return elem_;
 }
 template <class ElemType>
 int UnionFindSetsElem<ElemType>::GetParent() const
@@ -46,7 +46,7 @@ UnionFindSetsElem<ElemType> &UnionFindSetsElem<ElemType>::operator=(const UnionF
 {
     if (&UFSE != this)
     {
-        data_ = UFSE.data_;
+        elem_ = UFSE.elem_;
         parent_ = UFSE.parent_;
     }
     return *this;

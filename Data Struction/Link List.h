@@ -26,7 +26,7 @@ public:
     int GetLength() const;
     int GetIndex(const ElemType elem) const;
     ElemType GetElem(int index) const;
-    void Swap(int indexA, int indexB);
+    void SwapElem(int indexA, int indexB);
     void Reverse();
     void DeleteBetween(ElemType minELem, ElemType maxElem);
     void Merge(LinkList<ElemType> &list);
@@ -200,7 +200,7 @@ ElemType LinkList<ElemType>::GetElem(int index) const
     return p->elem_;
 }
 template <class ElemType>
-void LinkList<ElemType>::Swap(int indexA, int indexB)
+void LinkList<ElemType>::SwapElem(int indexA, int indexB)
 {
     if (indexA < 0 || indexA >= length_ || indexB < 0 || indexB >= length_)
     {

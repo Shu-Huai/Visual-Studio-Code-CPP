@@ -6,7 +6,7 @@ template <class ElemType>
 class LinkStack
 {
 protected:
-    Node<ElemType> *top_;
+    LinkListNode<ElemType> *top_;
 
 public:
     LinkStack();
@@ -29,7 +29,7 @@ LinkStack<ElemType>::LinkStack()
 template <class ElemType>
 LinkStack<ElemType>::~LinkStack()
 {
-    Node<ElemType> *p;
+    LinkListNode<ElemType> *p;
     while (top_ != NULL)
     {
         p = top_;
@@ -41,7 +41,7 @@ template <class ElemType>
 int LinkStack<ElemType>::GetLength() const
 {
     int count = 0;
-    Node<ElemType> *p = top_;
+    LinkListNode<ElemType> *p = top_;
     while (p != NULL)
     {
         count++;
@@ -57,7 +57,7 @@ bool LinkStack<ElemType>::IsEmpty() const
 template <class ElemType>
 void LinkStack<ElemType>::Clear()
 {
-    Node<ElemType> *p;
+    LinkListNode<ElemType> *p;
     while (top_ != NULL)
     {
         p = top_;
@@ -68,17 +68,17 @@ void LinkStack<ElemType>::Clear()
 template <class ElemType>
 void LinkStack<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
 {
-    Node<ElemType> *p = top_;
+    LinkListNode<ElemType> *p = top_;
     while (p != NULL)
     {
-        (*Visit)(p->data_);
+        (*Visit)(p->elem_);
         p = p->next_;
     }
 }
 template <class ElemType>
 Status LinkStack<ElemType>::Push(const ElemType e)
 {
-    Node<ElemType> *p = new Node<ElemType>(e, top_);
+    LinkListNode<ElemType> *p = new LinkListNode<ElemType>(e, top_);
     if (p == NULL)
     {
         return OVER_FLOW;
@@ -98,7 +98,7 @@ Status LinkStack<ElemType>::Top(ElemType &e) const
     }
     else
     {
-        e = top_->data_;
+        e = top_->elem_;
         return SUCCESS;
     }
 }
@@ -111,8 +111,8 @@ Status LinkStack<ElemType>::Pop(ElemType &e)
     }
     else
     {
-        Node<ElemType> *p = top_;
-        e = top_->data_;
+        LinkListNode<ElemType> *p = top_;
+        e = top_->elem_;
         top_ = top_->next_;
         delete p;
         return SUCCESS;

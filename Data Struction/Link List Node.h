@@ -9,14 +9,14 @@ public:
     ElemType elem_;
     LinkListNode<ElemType> *next_;
     LinkListNode();
-    LinkListNode(ElemType data, LinkListNode<ElemType> *next = NULL);
+    LinkListNode(ElemType elem, LinkListNode<ElemType> *next = NULL);
 };
 template <class ElemType>
 LinkListNode<ElemType>::LinkListNode() : next_(NULL)
 {
 }
 template <class ElemType>
-LinkListNode<ElemType>::LinkListNode(ElemType data, LinkListNode<ElemType> *next) : elem_(data), next_(next)
+LinkListNode<ElemType>::LinkListNode(ElemType elem, LinkListNode<ElemType> *next) : elem_(elem), next_(next)
 {
 }
 #endif
