@@ -132,7 +132,7 @@ int main()
             cout << endl
                  << "Input the value of the element: ";
             cin >> elem;
-            i = SL.LocateElem(elem);
+            i = SL.GetIndex(elem);
             if (i != 0)
             {
                 cout << "Element " << elem << " index is: " << i << "." << endl;
