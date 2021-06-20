@@ -50,7 +50,7 @@ LinkList<ElemType>::LinkList(ElemType *elems, int n) : length_(n)
     }
 }
 template <class ElemType>
-LinkList<ElemType>::LinkList(const LinkList<ElemType> &list) : length_(0)
+LinkList<ElemType>::LinkList(const LinkList<ElemType> &list) : length_(list.GetLength())
 {
     head_ = new LinkListNode<ElemType>;
     ElemType elem;
@@ -124,7 +124,7 @@ void LinkList<ElemType>::AppendElem(const ElemType elem)
 template <class ElemType>
 void LinkList<ElemType>::InsertElem(int index, const ElemType elem)
 {
-    if (index < 0 || index > length_ + 1)
+    if (index < 0 || index >= length_ + 1)
     {
         throw string("Range error.");
     }
@@ -140,7 +140,7 @@ void LinkList<ElemType>::InsertElem(int index, const ElemType elem)
 template <class ElemType>
 void LinkList<ElemType>::DeleteElem(int index)
 {
-    if (index < 0 || index > length_)
+    if (index < 0 || index >= length_)
     {
         throw string("Range error.");
     }
@@ -157,7 +157,7 @@ void LinkList<ElemType>::DeleteElem(int index)
 template <class ElemType>
 void LinkList<ElemType>::SetElem(int index, const ElemType elem)
 {
-    if (index < 0 || index > length_)
+    if (index < 0 || index >= length_)
     {
         throw string("Range error.");
     }
@@ -183,16 +183,12 @@ int LinkList<ElemType>::GetIndex(const ElemType elem) const
         count++;
         p = p->next_;
     }
-    if (!p)
-    {
-        throw(string) "Element does not exist.";
-    }
-    return count;
+    return (p) ? count : -1;
 }
 template <class ElemType>
 ElemType LinkList<ElemType>::GetElem(int index) const
 {
-    if (index < 0 || index > length_)
+    if (index < 0 || index >= length_)
     {
         throw string("Range error.");
     }
@@ -206,7 +202,7 @@ ElemType LinkList<ElemType>::GetElem(int index) const
 template <class ElemType>
 void LinkList<ElemType>::Swap(int indexA, int indexB)
 {
-    if (indexA < 0 || indexA > length_ || indexB < 0 || indexB > length_)
+    if (indexA < 0 || indexA >= length_ || indexB < 0 || indexB >= length_)
     {
         throw string("Range error.");
     }
@@ -323,7 +319,7 @@ LinkList<ElemType> &LinkList<ElemType>::operator=(const LinkList<ElemType> &list
 template <class ElemType>
 ElemType &LinkList<ElemType>::operator[](int index)
 {
-    if (index < 0 || index > length_)
+    if (index < 0 || index >= length_)
     {
         throw string("Range error.");
     }

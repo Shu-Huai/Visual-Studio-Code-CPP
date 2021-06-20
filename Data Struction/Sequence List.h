@@ -1,7 +1,6 @@
 #pragma once
 #ifndef __SEQUENCE_LIST_H__
 #define __SEQUENCE_LIST_H__
-#include <assert.h>
 #include <iostream>
 using namespace std;
 template <class ElemType>
@@ -40,13 +39,11 @@ template <class ElemType>
 SequenceList<ElemType>::SequenceList(int size) : length_(0), maxSize_(size)
 {
     elems_ = new ElemType[maxSize_];
-    assert(elems_);
 }
 template <class ElemType>
 SequenceList<ElemType>::SequenceList(ElemType *v, int n, int size) : length_(n), maxSize_(size)
 {
     elems_ = new ElemType[maxSize_];
-    assert(elems_);
     for (int i = 0; i < length_; i++)
     {
         elems_[i] = v[i];
@@ -56,7 +53,6 @@ template <class ElemType>
 SequenceList<ElemType>::SequenceList(const SequenceList<ElemType> &list) : length_(list.length_), maxSize_(list.maxSize_)
 {
     elems_ = new ElemType[maxSize_];
-    assert(elems_);
     for (int i = 0; i < length_; i++)
     {
         elems_[i] = list.elems_[i];
@@ -252,7 +248,6 @@ SequenceList<ElemType> &SequenceList<ElemType>::operator=(const SequenceList<Ele
         maxSize_ = list.maxSize_;
         length_ = list.length_;
         elems_ = new ElemType[maxSize_];
-        assert(elems_);
         for (int i = 0; i < length_; i++)
         {
             for (int i = 0; i < length_; i++)

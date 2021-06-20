@@ -45,7 +45,7 @@ int main()
             cout << endl
                  << "Input a value (exit when value = 0): ";
             cin >> elem;
-            while (elem != 0)
+            while (elem)
             {
                 try
                 {

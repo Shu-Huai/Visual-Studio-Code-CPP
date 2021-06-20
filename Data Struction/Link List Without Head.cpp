@@ -1,13 +1,11 @@
-#include "Link List.h"
+#include "Link List Without Head.h"
 int main()
 {
     char functionSelect = 0;
-    LinkList<int> list;
-    LinkList<int> subList;
-    int elem = 0;
-    int i = 0;
-    int minElem = 0;
-    int maxElem = 0;
+    LinkListWithoutHead<int> list;
+    LinkListWithoutHead<int> subList;
+    int elem;
+    int index;
     while (functionSelect != '0')
     {
         cout << endl
@@ -27,9 +25,7 @@ int main()
         cout << endl
              << "8. Take the length of the singly linked list.";
         cout << endl
-             << "9. In-situ invert.";
-        cout << endl
-             << "a. Delete the node between minimum element and maximum element.";
+             << "9. In situ inverse.";
         cout << endl
              << "b. Combine two singly linked lists in increasing order into one singly linked list in decreasing order.";
         cout << endl
@@ -49,7 +45,6 @@ int main()
                 list.AppendElem(elem);
                 cin >> elem;
             }
-            list.Swap(0, 5);
             break;
         case '2':
             list.Traverse();
@@ -57,10 +52,10 @@ int main()
         case '3':
             cout << endl
                  << "Enter element position: ";
-            cin >> i;
+            cin >> index;
             try
             {
-                elem = list.GetElem(i);
+                elem = list.GetElem(index);
             }
             catch (string &error)
             {
@@ -72,13 +67,13 @@ int main()
         case '4':
             cout << endl
                  << "Enter element position: ";
-            cin >> i;
+            cin >> index;
             cout << endl
                  << "Enter element: ";
             cin >> elem;
             try
             {
-                list.SetElem(i, elem);
+                list.SetElem(index, elem);
             }
             catch (string &error)
             {
@@ -90,10 +85,10 @@ int main()
         case '5':
             cout << endl
                  << "Enter element position: ";
-            cin >> i;
+            cin >> index;
             try
             {
-                list.DeleteElem(i);
+                list.DeleteElem(index);
             }
             catch (string &error)
             {
@@ -105,13 +100,13 @@ int main()
         case '6':
             cout << endl
                  << "Enter element position: ";
-            cin >> i;
+            cin >> index;
             cout << endl
                  << "Enter element: ";
             cin >> elem;
             try
             {
-                list.InsertElem(i, elem);
+                list.InsertElem(index, elem);
             }
             catch (string &error)
             {
@@ -124,39 +119,24 @@ int main()
             cout << endl
                  << "Enter element: ";
             cin >> elem;
-            i = list.GetIndex(elem);
-            if (i == -1)
+            index = list.GetIndex(elem);
+            if (index == -1)
             {
                 cout << "Element does not exist." << endl;
             }
             else
             {
-                cout << "Index is: " << i << endl;
+                cout << "The index is: " << index << endl;
             }
             break;
         case '8':
             cout << endl
-                 << "The length is: " << list.GetLength() << endl;
+                 << "The length of the singly linked list is: " << list.GetLength() << endl;
             break;
         case '9':
             list.Reverse();
-            break;
-        case 'a':
             cout << endl
-                 << "Enter manimum element: ";
-            cin >> minElem;
-            cout << "Enter maximum element: ";
-            cin >> maxElem;
-            try
-            {
-                list.DeleteBetween(minElem, maxElem);
-            }
-            catch (string &error)
-            {
-                cout << error << endl;
-                break;
-            }
-            cout << "Succeeded." << endl;
+                 << "The singly linked list has been inverted." << endl;
             break;
         case 'b':
             subList.Clear();
