@@ -91,6 +91,7 @@ template <class ElemType>
 void DoubleLinkList<ElemType>::Display() const
 {
     DoubleLinkListNode<ElemType> *p = head_->next_;
+    cout << "头 -> ";
     while (p != head_)
     {
         cout << p->elem_;
@@ -100,8 +101,7 @@ void DoubleLinkList<ElemType>::Display() const
         }
         p = p->next_;
     }
-    cout << endl
-         << "The length is: " << length_ << endl;
+    cout << "长度是：" << length_ << endl;
 }
 template <class ElemType>
 void DoubleLinkList<ElemType>::Traverse() const
@@ -127,7 +127,7 @@ void DoubleLinkList<ElemType>::InsertElem(int index, const ElemType elem)
 {
     if (index < 0 || index >= length_ + 2)
     {
-        throw(string) "Range error.";
+        throw(string) "范围错误。";
     }
     DoubleLinkListNode<ElemType> *p = head_;
     for (int i = 0; i <= index - 1; i++)
@@ -143,7 +143,7 @@ void DoubleLinkList<ElemType>::DeleteElem(int index)
 {
     if (index < 0 || index >= length_)
     {
-        throw(string) "Range error.";
+        throw(string) "范围错误。";
     }
     DoubleLinkListNode<ElemType> *p = head_;
     for (int i = 0; i <= index; i++)
@@ -160,7 +160,7 @@ void DoubleLinkList<ElemType>::SetElem(int index, const ElemType elem)
 {
     if (index < 0 || index >= length_)
     {
-        throw(string) "Range error.";
+        throw(string) "范围错误。";
     }
     DoubleLinkListNode<ElemType> *p = head_;
     for (int i = 0; i <= index; i++)
@@ -191,7 +191,7 @@ ElemType DoubleLinkList<ElemType>::GetElem(int index) const
 {
     if (index < 0 || index >= length_)
     {
-        throw(string) "Range error.";
+        throw(string) "范围错误。";
     }
     DoubleLinkListNode<ElemType> *p = head_;
     for (int i = 0; i <= index; i++)
@@ -238,7 +238,7 @@ ElemType &DoubleLinkList<ElemType>::operator[](int index)
 {
     if (index < 0 || index >= length_)
     {
-        throw(string) "Range error.";
+        throw(string) "范围错误。";
     }
     DoubleLinkListNode<ElemType> *p = head_;
     for (int i = 0; i <= index; i++)

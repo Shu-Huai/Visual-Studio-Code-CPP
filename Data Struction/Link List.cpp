@@ -11,38 +11,38 @@ int main()
     while (functionSelect != '0')
     {
         cout << endl
-             << "1. Generate singly linked list.";
+             << "1. 生成链表。";
         cout << endl
-             << "2. Traverse singly linked list.";
+             << "2. 遍历链表。";
         cout << endl
-             << "3. Take the element at the specified position.";
+             << "3. 取元素。";
         cout << endl
-             << "4. Set element value.";
+             << "4. 设元素。";
         cout << endl
-             << "5. Delete element.";
+             << "5. 删除元素。";
         cout << endl
-             << "6. Insert element.";
+             << "6. 插入元素。";
         cout << endl
-             << "7. Element positioning.";
+             << "7. 取元素下标。";
         cout << endl
-             << "8. Take the length of the singly linked list.";
+             << "8. 取链表长度。";
         cout << endl
-             << "9. In-situ invert.";
+             << "9. 逆置。";
         cout << endl
-             << "a. Delete the node between minimum element and maximum element.";
+             << "a. 删除范围内的元素。";
         cout << endl
-             << "b. Combine two singly linked lists in increasing order into one singly linked list in decreasing order.";
+             << "b. 将两个链表合并为一个。";
         cout << endl
-             << "0. Exit.";
+             << "0. 退出。";
         cout << endl
-             << "Select function (0~b): ";
+             << "选择功能（0~b）：";
         cin >> functionSelect;
         switch (functionSelect)
         {
         case '1':
             list.Clear();
             cout << endl
-                 << "Input a element (exit when value = 0): ";
+                 << "输入元素（输入0时退出）：";
             cin >> elem;
             while (elem)
             {
@@ -56,7 +56,7 @@ int main()
             break;
         case '3':
             cout << endl
-                 << "Enter element position: ";
+                 << "输入元素下标：";
             cin >> i;
             try
             {
@@ -67,14 +67,14 @@ int main()
                 cout << error << endl;
                 break;
             }
-            cout << "Element: " << elem << endl;
+            cout << "元素：" << elem << endl;
             break;
         case '4':
             cout << endl
-                 << "Enter element position: ";
+                 << "输入元素下标：";
             cin >> i;
             cout << endl
-                 << "Enter element: ";
+                 << "输入元素：";
             cin >> elem;
             try
             {
@@ -85,11 +85,11 @@ int main()
                 cout << error << endl;
                 break;
             }
-            cout << "Succeeded." << endl;
+            cout << "成功。" << endl;
             break;
         case '5':
             cout << endl
-                 << "Enter element position: ";
+                 << "输入元素下标：";
             cin >> i;
             try
             {
@@ -100,14 +100,14 @@ int main()
                 cout << error << endl;
                 break;
             }
-            cout << "Succeeded." << endl;
+            cout << "成功。" << endl;
             break;
         case '6':
             cout << endl
-                 << "Enter element position: ";
+                 << "输入元素下标：";
             cin >> i;
             cout << endl
-                 << "Enter element: ";
+                 << "输入元素：";
             cin >> elem;
             try
             {
@@ -118,34 +118,34 @@ int main()
                 cout << error << endl;
                 break;
             }
-            cout << "Succeeded." << endl;
+            cout << "成功。" << endl;
             break;
         case '7':
             cout << endl
-                 << "Enter element: ";
+                 << "输入元素：";
             cin >> elem;
             i = list.GetIndex(elem);
             if (i == -1)
             {
-                cout << "Element does not exist." << endl;
+                cout << "元素不存在。" << endl;
             }
             else
             {
-                cout << "Index is: " << i << endl;
+                cout << "下标是：" << i << endl;
             }
             break;
         case '8':
             cout << endl
-                 << "The length is: " << list.GetLength() << endl;
+                 << "长度是：" << list.GetLength() << endl;
             break;
         case '9':
             list.Reverse();
             break;
         case 'a':
             cout << endl
-                 << "Enter manimum element: ";
+                 << "输入最小元素：";
             cin >> minElem;
-            cout << "Enter maximum element: ";
+            cout << "输入最大元素。、：";
             cin >> maxElem;
             try
             {
@@ -156,12 +156,12 @@ int main()
                 cout << error << endl;
                 break;
             }
-            cout << "Succeeded." << endl;
+            cout << "成功。" << endl;
             break;
         case 'b':
             subList.Clear();
             cout << endl
-                 << "Input a element (exit when value = 0): ";
+                 << "输入元素（输入0时退出）：";
             cin >> elem;
             while (elem)
             {

@@ -18,9 +18,9 @@ public:
     bool IsEmpty() const;                                         // 判断队列是否为空
     void Clear();                                                 // 将队列清空
     void Traverse(void (*Visit)(const ElemType &)) const;         // 遍历队列
-    Status DelQueue(ElemType &e);                                 // 出队操作
-    Status GetHead(ElemType &e) const;                            // 取队头操作
-    Status EnQueue(const ElemType e);                             // 入队操作
+    Status Pop(ElemType &e);                                 // 出队操作
+    Status GetFront(ElemType &e) const;                            // 取队头操作
+    Status Push(const ElemType e);                             // 入队操作
     LinkQueue(const LinkQueue<ElemType> &q);                      // 复制构造函数
     LinkQueue<ElemType> &operator=(const LinkQueue<ElemType> &q); // 赋值语句重载
 };
@@ -83,7 +83,7 @@ void LinkQueue<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
 }
 
 template <class ElemType>
-Status LinkQueue<ElemType>::DelQueue(ElemType &e)
+Status LinkQueue<ElemType>::Pop(ElemType &e)
 // 操作结果：如果队列非空，那么删除队头元素，并用e返回其值，函数返回SUCCESS,
 //	否则函数返回UNDER_FLOW，
 {
@@ -102,7 +102,7 @@ Status LinkQueue<ElemType>::DelQueue(ElemType &e)
 }
 
 template <class ElemType>
-Status LinkQueue<ElemType>::GetHead(ElemType &e) const
+Status LinkQueue<ElemType>::GetFront(ElemType &e) const
 // 操作结果：如果队列非空，那么用e返回队头元素，函数返回SUCCESS,
 //	否则函数返回UNDER_FLOW，
 {
@@ -116,7 +116,7 @@ Status LinkQueue<ElemType>::GetHead(ElemType &e) const
 }
 
 template <class ElemType>
-Status LinkQueue<ElemType>::EnQueue(const ElemType e)
+Status LinkQueue<ElemType>::Push(const ElemType e)
 // 操作结果：如果系统空间不够，返回OVER_FLOW,
 //	否则插入元素e为新的队尾，返回SUCCESS
 {
@@ -139,7 +139,7 @@ LinkQueue<ElemType>::LinkQueue(const LinkQueue<ElemType> &q)
     rear_ = front_ = new LinkListNode<ElemType>; // 生成队列头结点
     for (LinkListNode<ElemType> *p = q.front_->next; p != NULL; p = p->next)
         // 取q队列每个元素的值,将其在当前队列中作入队列操作
-        EnQueue(p->data);
+        Push(p->data);
 }
 
 template <class ElemType>
@@ -151,7 +151,7 @@ LinkQueue<ElemType> &LinkQueue<ElemType>::operator=(const LinkQueue<ElemType> &q
         Clear(); //清除原有队列
         for (LinkListNode<ElemType> *p = q.front_->next; p != NULL; p = p->next)
             // 取q队列每个元素的值,将其在当前队列中作入队列操作
-            EnQueue(p->data);
+            Push(p->data);
     }
     return *this;
 }

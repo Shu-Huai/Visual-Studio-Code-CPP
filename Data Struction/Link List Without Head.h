@@ -92,7 +92,7 @@ void LinkListWithoutHead<ElemType>::Display() const
         p = p->next_;
     }
     cout << endl;
-    cout << "The length is: " << length_;
+    cout << "长度是：" << length_;
 }
 template <class ElemType>
 void LinkListWithoutHead<ElemType>::Traverse() const
@@ -128,7 +128,7 @@ void LinkListWithoutHead<ElemType>::InsertElem(int index, const ElemType elem)
 {
     if (index < 0 || index >= length_ + 1)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     LinkListNode<ElemType> *p = head_;
     LinkListNode<ElemType> *q = new LinkListNode<ElemType>(elem, NULL);
@@ -153,7 +153,7 @@ void LinkListWithoutHead<ElemType>::DeleteElem(int index)
 {
     if (index < 0 || index >= length_)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     LinkListNode<ElemType> *p = head_;
     if (!index)
@@ -178,7 +178,7 @@ void LinkListWithoutHead<ElemType>::SetElem(int index, const ElemType elem)
 {
     if (index < 0 || index >= length_)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     LinkListNode<ElemType> *p = head_;
     for (int i = 0; i < index; i++)
@@ -209,7 +209,7 @@ ElemType LinkListWithoutHead<ElemType>::GetElem(int index) const
 {
     if (index < 0 || index >= length_)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     LinkListNode<ElemType> *p = head_;
     for (int i = 0; i < index; i++)
@@ -301,7 +301,7 @@ ElemType &LinkListWithoutHead<ElemType>::operator[](int index)
 {
     if (index < 0 || index >= length_)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     LinkListNode<ElemType> *p = head_;
     for (int i = 0; i < index; i++)

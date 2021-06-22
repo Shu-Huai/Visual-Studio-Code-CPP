@@ -217,15 +217,15 @@ void SeqBinaryTree<ElemType>::LevelOrder(void (*Visit)(const ElemType &)) const
 	int t = 0;		  // 从根结点开始进行层次遍历
 
 	if (!IsNodeEmpty(t))
-		q.EnQueue(t); // 如果根非空,则入队
+		q.Push(t); // 如果根非空,则入队
 	while (!q.IsEmpty())
 	{ // q非空,说明还有结点未访问
-		q.DelQueue(t);
+		q.Pop(t);
 		(*Visit)(elems[t]);
 		if (!IsNodeEmpty(LeftChild(t)))	 // 左孩子非空
-			q.EnQueue(LeftChild(t));	 // 左孩子入队
+			q.Push(LeftChild(t));	 // 左孩子入队
 		if (!IsNodeEmpty(RightChild(t))) // 右孩子非空
-			q.EnQueue(RightChild(t));	 // 右孩子入队
+			q.Push(RightChild(t));	 // 右孩子入队
 	}
 }
 
@@ -325,16 +325,16 @@ int SeqBinaryTree<ElemType>::Find(const ElemType &e) const
 	int t = 0;
 
 	if (!IsNodeEmpty(t))
-		q.EnQueue(t); // 如果根非空,则入队
+		q.Push(t); // 如果根非空,则入队
 	while (!q.IsEmpty())
 	{ // q非空,说明还有结点未访问
-		q.DelQueue(t);
+		q.Pop(t);
 		if (elems[t] == e)
 			return t;
 		if (!IsNodeEmpty(LeftChild(t)))	 // 左孩子非空
-			q.EnQueue(LeftChild(t));	 // 左孩子入队
+			q.Push(LeftChild(t));	 // 左孩子入队
 		if (!IsNodeEmpty(RightChild(t))) // 右孩子非空
-			q.EnQueue(RightChild(t));	 // 右孩子入队
+			q.Push(RightChild(t));	 // 右孩子入队
 	}
 	return -1;
 }

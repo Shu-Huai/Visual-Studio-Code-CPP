@@ -19,7 +19,7 @@ public:
     void Clear(int No);
     void Traverse(void (*Visit)(const ElemType &), int No) const;
     Status Push(const ElemType e, int No);
-    Status Top(ElemType &e, int No) const;
+    Status GetTop(ElemType &e, int No) const;
     Status Pop(ElemType &e, int No);
     ShareSeqStack(const ShareSeqStack<ElemType> &s);
     ShareSeqStack<ElemType> &operator=(const ShareSeqStack<ElemType> &s);
@@ -105,7 +105,7 @@ Status ShareSeqStack<ElemType>::Push(const ElemType e, int No)
     return SUCCESS;
 }
 template <class ElemType>
-Status ShareSeqStack<ElemType>::Top(ElemType &e, int No) const
+Status ShareSeqStack<ElemType>::GetTop(ElemType &e, int No) const
 {
     if (No < 1 or No > 2)
     {

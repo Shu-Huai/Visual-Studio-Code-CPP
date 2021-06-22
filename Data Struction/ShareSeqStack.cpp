@@ -59,7 +59,7 @@ int main()
                cout << endl
                     << "输入栈号:";
                cin >> No;
-               if (SSS.Top(e, No) == UNDER_FLOW)
+               if (SSS.GetTop(e, No) == UNDER_FLOW)
                {
                     cout << "顺序栈空." << endl;
                }

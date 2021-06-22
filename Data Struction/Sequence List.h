@@ -81,11 +81,11 @@ void SequenceList<ElemType>::Display() const
         cout << elems_[i] << " ";
         if (i != length_ - 1)
         {
-            cout << ", ";
+            cout << "，";
         }
     }
     cout << endl
-         << "The length is: " << length_ << endl;
+         << "长度是：" << length_ << endl;
 }
 template <class ElemType>
 void SequenceList<ElemType>::Traverse() const
@@ -101,7 +101,7 @@ void SequenceList<ElemType>::AppendElem(const ElemType &e)
 {
     if (length_ == maxSize_)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     elems_[length_++] = e;
 }
@@ -110,11 +110,11 @@ void SequenceList<ElemType>::InsertElem(int i, const ElemType &e)
 {
     if (length_ == maxSize_)
     {
-        throw(string) "Over flow.";
+        throw(string) "溢出。";
     }
     if (i < 0 or i >= length_ + 1)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     for (int j = length_; j > i; j--)
     {
@@ -128,7 +128,7 @@ void SequenceList<ElemType>::DeleteElem(int i)
 {
     if (i < 0 or i >= length_)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     for (int j = i; j < length_ - 1; j++)
     {
@@ -141,7 +141,7 @@ void SequenceList<ElemType>::SetElem(int i, const ElemType &e)
 {
     if (i < 0 or i >= length_)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     elems_[i] = e;
 }
@@ -167,7 +167,7 @@ ElemType SequenceList<ElemType>::GetElem(int i) const
 {
     if (i < 0 or i >= length_)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     return elems_[i];
 }
@@ -193,11 +193,11 @@ void SequenceList<ElemType>::DeleteBetween(ElemType low, ElemType high)
 {
     if (low >= high)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     if (!length_)
     {
-        throw(string) "Under flow.";
+        throw(string) "顺序表空。";
     }
     for (int i = 0; i < length_; i++)
     {
@@ -263,7 +263,7 @@ ElemType &SequenceList<ElemType>::operator[](int index)
 {
     if (index < 0 || index > length_)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     return elems_[index];
 }

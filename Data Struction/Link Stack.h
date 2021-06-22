@@ -20,7 +20,7 @@ public:
     void Push(const ElemType elem);
     void Pop();
     int GetLength() const;
-    ElemType Top() const;
+    ElemType GetTop() const;
     LinkStack<ElemType> &operator=(const LinkStack<ElemType> &stack);
 };
 template <class ElemType>
@@ -89,7 +89,7 @@ void LinkStack<ElemType>::Display() const
         cout << p->elem_;
         if (p == top_)
         {
-            cout << " <- top";
+            cout << " <- 栈顶";
         }
         cout << endl;
         p = p->next_;
@@ -117,7 +117,7 @@ void LinkStack<ElemType>::Pop()
 {
     if (IsEmpty())
     {
-        throw string("The stack is empty.");
+        throw string("栈空。");
     }
     LinkListNode<ElemType> *p = top_;
     top_ = top_->next_;
@@ -136,11 +136,11 @@ int LinkStack<ElemType>::GetLength() const
     return count;
 }
 template <class ElemType>
-ElemType LinkStack<ElemType>::Top() const
+ElemType LinkStack<ElemType>::GetTop() const
 {
     if (IsEmpty())
     {
-        throw string("The stack is empty.");
+        throw string("栈空。");
     }
     return top_->elem_;
 }

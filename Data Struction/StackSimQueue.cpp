@@ -11,8 +11,8 @@ public:
     bool IsEmpty() const;
     void Clear();
     void Traverse(void (*Visit)(const int &));
-    Status EnQueue(const int e);
-    Status DelQueue(int &e);
+    Status Push(const int e);
+    Status Pop(int &e);
 };
 StackSimQueue::StackSimQueue(int size) : SS1_(size), SS2_(size)
 {
@@ -46,11 +46,11 @@ void StackSimQueue::Traverse(void (*Visit)(const int &))
         SS1_.Push(temp);
     }
 }
-Status StackSimQueue::EnQueue(const int e)
+Status StackSimQueue::Push(const int e)
 {
     return SS1_.Push(e);
 }
-Status StackSimQueue::DelQueue(int &e)
+Status StackSimQueue::Pop(int &e)
 {
     int length = SS1_.GetLength();
     for (int i = 0; i < length; i++)
@@ -103,7 +103,7 @@ int main()
             cin >> e;
             while (e != 0 && sta != OVER_FLOW)
             {
-                sta = SSQ.EnQueue(e);
+                sta = SSQ.Push(e);
                 if (sta == OVER_FLOW)
                 {
                     cout << "顺序栈已满." << endl;
@@ -121,7 +121,7 @@ int main()
             cout << endl
                  << "输入e:";
             cin >> e;
-            if (SSQ.EnQueue(e) == UNDER_FLOW)
+            if (SSQ.Push(e) == UNDER_FLOW)
             {
                 cout << "顺序栈空." << endl;
             }
@@ -131,7 +131,7 @@ int main()
             }
             break;
         case '4':
-            if (SSQ.DelQueue(e) == UNDER_FLOW)
+            if (SSQ.Pop(e) == UNDER_FLOW)
             {
                 cout << "顺序栈空." << endl;
             }

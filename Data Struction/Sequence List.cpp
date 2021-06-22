@@ -10,40 +10,40 @@ int main()
     while (functionSelect != '0')
     {
         cout << endl
-             << "1. Generate a sequence list.";
+             << "1. 生成顺序表。";
         cout << endl
-             << "2. Display the sequence table.";
+             << "2. 遍历顺序表。";
         cout << endl
-             << "3. Take a specified element.";
+             << "3. 取元素值。";
         cout << endl
-             << "4. Set an element value.";
+             << "4. 设置元素值。";
         cout << endl
-             << "5. Delete an element.";
+             << "5. 删除元素。";
         cout << endl
-             << "6. Insert an element.";
+             << "6. 插入元素。";
         cout << endl
-             << "7. Get the index of an element. ";
+             << "7. 取元素下标。";
         cout << endl
-             << "8. Find the length of the sequence list.";
+             << "8. 取顺序表长度。";
         cout << endl
-             << "9. Remove duplicate elements.";
+             << "9. 删除重复元素。";
         cout << endl
-             << "a. Reverse in situ.";
+             << "a. 逆置。";
         cout << endl
-             << "b. Delete the elements in the specified range.";
+             << "b. 删除范围内的元素。";
         cout << endl
-             << "c. Sort.";
+             << "c. 排序。";
         cout << endl
-             << "0. Exit.";
+             << "0. 退出。";
         cout << endl
-             << "Select function (0~c): ";
+             << "选择功能：（0~c）：";
         cin >> functionSelect;
         switch (functionSelect)
         {
         case '1':
             SL.Clear();
             cout << endl
-                 << "Input a element (exit when element = 0): ";
+                 << "输入元素（输入0时停止）：";
             cin >> elem;
             while (elem)
             {
@@ -64,7 +64,7 @@ int main()
             break;
         case '3':
             cout << endl
-                 << "Input the index of the element: ";
+                 << "输入元素下标：";
             cin >> i;
             try
             {
@@ -75,14 +75,14 @@ int main()
                 cout << error << endl;
                 break;
             }
-            cout << "Elements: " << elem << endl;
+            cout << "元素：" << elem << endl;
             break;
         case '4':
             cout << endl
-                 << "Input the index of the element: ";
+                 << "输入元素下标：";
             cin >> i;
             cout << endl
-                 << "Input the value of the element: ";
+                 << "输入元素：";
             cin >> elem;
             try
             {
@@ -93,11 +93,11 @@ int main()
                 cout << error << endl;
                 break;
             }
-            cout << "Succeeded." << endl;
+            cout << "成功。" << endl;
             break;
         case '5':
             cout << endl
-                 << "Input the index of the element: ";
+                 << "输入元素下标：";
             cin >> i;
             try
             {
@@ -108,14 +108,14 @@ int main()
                 cout << error << endl;
                 break;
             }
-            cout << "Succeeded." << endl;
+            cout << "成功。" << endl;
             break;
         case '6':
             cout << endl
-                 << "Input the index of the element: ";
+                 << "输入元素下标：";
             cin >> i;
             cout << endl
-                 << "Input the value of the element: ";
+                 << "输入元素：";
             cin >> elem;
             try
             {
@@ -126,41 +126,41 @@ int main()
                 cout << error << endl;
                 break;
             }
-            cout << "Succeeded" << endl;
+            cout << "成功。" << endl;
             break;
         case '7':
             cout << endl
-                 << "Input the value of the element: ";
+                 << "输入元素：";
             cin >> elem;
             i = SL.GetIndex(elem);
             if (i != 0)
             {
-                cout << "Element " << elem << " index is: " << i << "." << endl;
+                cout << "下标是：" << i << "。" << endl;
             }
             else
             {
-                cout << "Element " << elem << " does not exist." << endl;
+                cout << "元素不存在。" << endl;
             }
             break;
         case '8':
             cout << endl
-                 << "The length is: " << SL.GetLength() << endl;
+                 << "长度是：" << SL.GetLength() << endl;
             break;
         case '9':
             SL.DeleteRepeat();
             cout << endl
-                 << "Succeeded." << endl;
+                 << "成功。" << endl;
             break;
         case 'a':
             SL.Reverse();
             cout << endl
-                 << "Succeeded." << endl;
+                 << "成功。" << endl;
             break;
         case 'b':
             cout << endl
-                 << "Input the maximum value: ";
+                 << "输入最小元素：";
             cin >> minimumValue;
-            cout << "Input the minimum value: ";
+            cout << "输入最大元素：";
             cin >> maximumValue;
             try
             {
@@ -171,12 +171,12 @@ int main()
                 cout << error << endl;
                 break;
             }
-            cout << "Deleted elements between " << minimumValue << " and " << maximumValue << "." << endl;
+            cout << "删除" << minimumValue << "和" << maximumValue << "之间的元素。" << endl;
             break;
         case 'c':
             cout << endl;
             SL.Sort();
-            cout << "Succeeded." << endl;
+            cout << "成功。" << endl;
             break;
         }
     }

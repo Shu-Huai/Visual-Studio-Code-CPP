@@ -22,7 +22,7 @@ public:
     void Push(const ElemType elem);
     void Pop();
     int GetLength() const;
-    ElemType Top() const;
+    ElemType GetTop() const;
     SequenceStack<ElemType> &operator=(const SequenceStack<ElemType> &stack);
 };
 template <class ElemType>
@@ -62,11 +62,11 @@ void SequenceStack<ElemType>::Display() const
         cout << elems_[i];
         if (i == top_)
         {
-            cout << " <- top";
+            cout << " <- 栈顶";
         }
         cout << endl;
     }
-    cout << "The maximum size is: " << maxSize_ << endl;
+    cout << "最大大小是：" << maxSize_ << endl;
 }
 template <class ElemType>
 void SequenceStack<ElemType>::Traverse() const
@@ -82,7 +82,7 @@ void SequenceStack<ElemType>::Push(const ElemType elem)
 {
     if (top_ == maxSize_)
     {
-        throw string("Over flow.");
+        throw string("栈满。");
     }
     elems_[++top_] = elem;
 }
@@ -91,7 +91,7 @@ void SequenceStack<ElemType>::Pop()
 {
     if (IsEmpty())
     {
-        throw string("The stack is empty.");
+        throw string("栈空。");
     }
     top_--;
 }
@@ -101,11 +101,11 @@ int SequenceStack<ElemType>::GetLength() const
     return top_ + 1;
 }
 template <class ElemType>
-ElemType SequenceStack<ElemType>::Top() const
+ElemType SequenceStack<ElemType>::GetTop() const
 {
     if (IsEmpty())
     {
-        throw string("The stack is empty.");
+        throw string("栈空。");
     }
     return elems_[top_];
 }

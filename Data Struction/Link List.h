@@ -87,6 +87,7 @@ template <class ElemType>
 void LinkList<ElemType>::Display() const
 {
     LinkListNode<ElemType> *p = head_->next_;
+    cout << "头 -> ";
     while (p)
     {
         cout << p->elem_;
@@ -97,7 +98,7 @@ void LinkList<ElemType>::Display() const
         p = p->next_;
     }
     cout << endl
-         << "The length is: " << length_ << endl;
+         << "长度是：" << length_ << endl;
 }
 template <class ElemType>
 void LinkList<ElemType>::Traverse() const
@@ -126,7 +127,7 @@ void LinkList<ElemType>::InsertElem(int index, const ElemType elem)
 {
     if (index < 0 || index >= length_ + 1)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     LinkListNode<ElemType> *p = head_;
     for (int i = 0; i < index; i++)
@@ -142,7 +143,7 @@ void LinkList<ElemType>::DeleteElem(int index)
 {
     if (index < 0 || index >= length_)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     LinkListNode<ElemType> *p = head_;
     for (int i = 0; i < index; i++)
@@ -159,7 +160,7 @@ void LinkList<ElemType>::SetElem(int index, const ElemType elem)
 {
     if (index < 0 || index >= length_)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     LinkListNode<ElemType> *p = head_->next_;
     for (int i = 0; i < index; i++)
@@ -190,7 +191,7 @@ ElemType LinkList<ElemType>::GetElem(int index) const
 {
     if (index < 0 || index >= length_)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     LinkListNode<ElemType> *p = head_->next_;
     for (int i = 0; i < index; i++)
@@ -204,7 +205,7 @@ void LinkList<ElemType>::SwapElem(int indexA, int indexB)
 {
     if (indexA < 0 || indexA >= length_ || indexB < 0 || indexB >= length_)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     LinkListNode<ElemType> *p = head_;
     for (int i = 0; i < indexA; i++)
@@ -242,7 +243,7 @@ void LinkList<ElemType>::DeleteBetween(ElemType minELem, ElemType maxElem)
 {
     if (minELem > maxElem)
     {
-        throw(string) "Minimum element is bigger than maximum element.";
+        throw(string) "最大值小于最小值。";
     }
     LinkListNode<ElemType> *p = head_;
     while (p && p->next_)
@@ -321,7 +322,7 @@ ElemType &LinkList<ElemType>::operator[](int index)
 {
     if (index < 0 || index >= length_)
     {
-        throw string("Range error.");
+        throw string("范围错误。");
     }
     LinkListNode<ElemType> *p = head_->next_;
     for (int i = 0; i < index; i++)

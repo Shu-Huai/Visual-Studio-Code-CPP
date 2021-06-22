@@ -7,28 +7,28 @@ int main()
     while (functionSelect != '0')
     {
         cout << endl
-             << "1. Generate stack.";
+             << "1. 生成栈。";
         cout << endl
-             << "2. Traverse stack.";
+             << "2. 遍历栈。";
         cout << endl
-             << "3. Take the top element of the stack.";
+             << "3. 取栈顶元素。";
         cout << endl
-             << "4. Push into the stack.";
+             << "4. 入栈。";
         cout << endl
-             << "5. Pop.";
+             << "5. 出栈。";
         cout << endl
-             << "6. Find the length of the chain stack.";
+             << "6. 取栈长度。";
         cout << endl
-             << "0. Exit.";
+             << "0. 退出。";
         cout << endl
-             << "Select function (0~6): ";
+             << "选择功能（0~6）：";
         cin >> functionSelect;
         switch (functionSelect)
         {
         case '1':
             stack.Clear();
             cout << endl
-                 << "Input a element (exit when element = 0): ";
+                 << "输入元素（输入0时停止）：";
             cin >> elem;
             while (elem)
             {
@@ -49,18 +49,18 @@ int main()
         case '3':
             try
             {
-                elem = stack.Top();
+                elem = stack.GetTop();
             }
             catch (string &error)
             {
                 cout << error << endl;
                 break;
             }
-            cout << "The element is: " << elem << endl;
+            cout << "元素是：" << elem << endl;
             break;
         case '4':
             cout << endl
-                 << "Enter element: ";
+                 << "输入元素：";
             cin >> elem;
             try
             {
@@ -71,7 +71,7 @@ int main()
                 cout << error << endl;
                 break;
             }
-            cout << "Succeeded." << endl;
+            cout << "成功。" << endl;
             break;
         case '5':
             try
@@ -83,11 +83,11 @@ int main()
                 cout << error << endl;
                 break;
             }
-            cout << "Succeeded." << endl;
+            cout << "成功。" << endl;
             break;
         case '6':
             cout << endl
-                 << "The length of the stack is: " << stack.GetLength() << endl;
+                 << "栈的长度是：" << stack.GetLength() << endl;
             break;
         }
     }

@@ -32,7 +32,7 @@ int main(void)
                cin >> x;
                while (x != 0)
                {
-                    qa.EnQueue(x);
+                    qa.Push(x);
                     cin >> x;
                }
                break;
@@ -44,15 +44,15 @@ int main(void)
                cout << endl
                     << "输入元素值:";
                cin >> x;
-               qa.EnQueue(x);
+               qa.Push(x);
                break;
           case '4':
-               qa.DelQueue(x);
+               qa.Pop(x);
                cout << endl
                     << "队头元素值为 " << x << " ." << endl;
                break;
           case '5':
-               qa.GetHead(x);
+               qa.GetFront(x);
                cout << endl
                     << "队头元素值为 " << x << " ." << endl;
                break;
