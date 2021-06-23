@@ -6,8 +6,7 @@ int main()
     int elem;
     while (functionSelect != '0')
     {
-        cout << endl
-             << "1. 生成队列。";
+        cout << "1. 生成队列。";
         cout << endl
              << "2. 显示队列。";
         cout << endl
@@ -25,8 +24,7 @@ int main()
         {
         case '1':
             queue.Clear();
-            cout << endl
-                 << "输入元素（输入0时退出）：";
+            cout << "输入元素（输入0时退出）：";
             cin >> elem;
             while (elem)
             {
@@ -38,8 +36,7 @@ int main()
             queue.Traverse();
             break;
         case '3':
-            cout << endl
-                 << "输入元素：";
+            cout << "输入元素：";
             cin >> elem;
             queue.Push(elem);
             break;

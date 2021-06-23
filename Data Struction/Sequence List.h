@@ -12,8 +12,8 @@ protected:
     ElemType *elems_;
 
 public:
-    SequenceList(int size = 1000);
-    SequenceList(ElemType *v, int n, int size = 1000);
+    SequenceList(int maxSize = 1000);
+    SequenceList(ElemType *v, int n, int maxSize = 1000);
     SequenceList(const SequenceList<ElemType> &list);
     virtual ~SequenceList();
     void Clear();
@@ -36,12 +36,12 @@ public:
     ElemType &operator[](int index);
 };
 template <class ElemType>
-SequenceList<ElemType>::SequenceList(int size) : length_(0), maxSize_(size)
+SequenceList<ElemType>::SequenceList(int maxSize) : length_(0), maxSize_(maxSize)
 {
     elems_ = new ElemType[maxSize_];
 }
 template <class ElemType>
-SequenceList<ElemType>::SequenceList(ElemType *v, int n, int size) : length_(n), maxSize_(size)
+SequenceList<ElemType>::SequenceList(ElemType *v, int n, int maxSize) : length_(n), maxSize_(maxSize)
 {
     elems_ = new ElemType[maxSize_];
     for (int i = 0; i < length_; i++)

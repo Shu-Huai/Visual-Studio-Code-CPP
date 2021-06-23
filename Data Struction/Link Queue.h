@@ -88,6 +88,7 @@ void LinkQueue<ElemType>::Traverse() const
     {
         cout << p->elem_ << " ";
     }
+    cout << endl;
 }
 template <class ElemType>
 void LinkQueue<ElemType>::Push(const ElemType elem)

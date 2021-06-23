@@ -50,7 +50,7 @@ int Akm(int m, int n)
 }
 int main()
 {
-    cout << "Please input m and n: ";
+    cout << "请输入两个数（输入-1时退出）：";
     int m = 0;
     int n = 0;
     while (cin >> m >> n)
@@ -60,9 +60,9 @@ int main()
             cout << "Exit." << endl;
             break;
         }
-        cout << "Akm with recusion is: " << AkmWithRecursion(m, n) << endl
-             << "Akm without recursion is: " << Akm(m, n) << endl
-             << "Please input m and n: ";
+        cout << "递归的结果是：" << AkmWithRecursion(m, n) << endl
+             << "不递归的结果是：" << Akm(m, n) << endl
+             << "请输入两个数（输入-1时退出）：";
     }
     return 0;
 }

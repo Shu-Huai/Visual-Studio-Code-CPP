@@ -12,7 +12,7 @@ protected:
     ElemType *elems_;
 
 public:
-    SequenceStack(int size = 1000);
+    SequenceStack(int maxSize = 1000);
     SequenceStack(const SequenceStack<ElemType> &stack);
     virtual ~SequenceStack();
     void Clear();
@@ -26,7 +26,7 @@ public:
     SequenceStack<ElemType> &operator=(const SequenceStack<ElemType> &stack);
 };
 template <class ElemType>
-SequenceStack<ElemType>::SequenceStack(int size) : top_(-1), maxSize_(size)
+SequenceStack<ElemType>::SequenceStack(int maxSize) : top_(-1), maxSize_(maxSize)
 {
     elems_ = new ElemType[maxSize_];
 }
