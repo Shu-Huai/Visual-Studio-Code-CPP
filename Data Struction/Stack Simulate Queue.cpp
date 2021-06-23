@@ -1,8 +1,8 @@
-#include "Sequence Queue.h"
+#include "Stack Simulate Queue.h"
 int main()
 {
     char functionSelect = 0;
-    SequenceQueue<int> queue(10);
+    StackSimulateQueue<int> queue;
     int elem = 0;
     while (functionSelect != '0')
     {
@@ -10,15 +10,17 @@ int main()
         cout << endl
              << "2. 显示队列。";
         cout << endl
-             << "3. 入队列。";
+             << "3. 入队。";
         cout << endl
-             << "4. 出队列。";
+             << "4. 出队。";
         cout << endl
-             << "5. 取队列头。";
+             << "5. 求队列长度。";
         cout << endl
-             << "0. 退出";
+             << "6. 判断列空。";
         cout << endl
-             << "选择功能（0~5）：";
+             << "0. 退出。";
+        cout << endl
+             << "选择功能（0~6）：";
         cin >> functionSelect;
         switch (functionSelect)
         {
@@ -36,17 +38,9 @@ int main()
             queue.Traverse();
             break;
         case '3':
-            cout << "输入元素值：";
+            cout << "输入元素：";
             cin >> elem;
-            try
-            {
-                queue.Push(elem);
-            }
-            catch (string &error)
-            {
-                cout << error << endl;
-                break;
-            }
+            queue.Push(elem);
             cout << "成功。" << endl;
             break;
         case '4':
@@ -62,8 +56,17 @@ int main()
             cout << "成功。" << endl;
             break;
         case '5':
-            elem = queue.GetFront();
-            cout << "队头元素值为 " << elem << "。" << endl;
+            cout << "长度为：" << queue.GetLength() << "。" << endl;
+            break;
+        case '6':
+            if (queue.IsEmpty())
+            {
+                cout << "列空。" << endl;
+            }
+            else
+            {
+                cout << "列非空。" << endl;
+            }
             break;
         }
     }

@@ -6,8 +6,7 @@ int main()
     int elem = 0;
     while (functionSelect != '0')
     {
-        cout << endl
-             << "1. 生成栈。";
+        cout << "1. 生成栈。";
         cout << endl
              << "2. 遍历栈。";
         cout << endl
@@ -27,8 +26,7 @@ int main()
         {
         case '1':
             stack.Clear();
-            cout << endl
-                 << "输入元素（输入0时停止）：";
+            cout << "输入元素（输入0时停止）：";
             cin >> elem;
             while (elem)
             {
@@ -59,8 +57,7 @@ int main()
             cout << "元素是：" << elem << endl;
             break;
         case '4':
-            cout << endl
-                 << "输入元素：";
+            cout << "输入元素：";
             cin >> elem;
             try
             {
@@ -86,8 +83,7 @@ int main()
             cout << "成功。" << endl;
             break;
         case '6':
-            cout << endl
-                 << "栈的长度是：" << stack.GetLength() << endl;
+            cout << "栈的长度是：" << stack.GetLength() << endl;
             break;
         }
     }

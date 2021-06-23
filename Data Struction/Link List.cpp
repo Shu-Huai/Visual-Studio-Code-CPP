@@ -10,8 +10,7 @@ int main()
     int maxElem = 0;
     while (functionSelect != '0')
     {
-        cout << endl
-             << "1. 生成链表。";
+        cout << "1. 生成链表。";
         cout << endl
              << "2. 遍历链表。";
         cout << endl
@@ -41,8 +40,7 @@ int main()
         {
         case '1':
             list.Clear();
-            cout << endl
-                 << "输入元素（输入0时退出）：";
+            cout << "输入元素（输入0时退出）：";
             cin >> elem;
             while (elem)
             {
@@ -55,8 +53,7 @@ int main()
             list.Traverse();
             break;
         case '3':
-            cout << endl
-                 << "输入元素下标：";
+            cout << "输入元素下标：";
             cin >> i;
             try
             {
@@ -70,11 +67,9 @@ int main()
             cout << "元素：" << elem << endl;
             break;
         case '4':
-            cout << endl
-                 << "输入元素下标：";
+            cout << "输入元素下标：";
             cin >> i;
-            cout << endl
-                 << "输入元素：";
+            cout << "输入元素：";
             cin >> elem;
             try
             {
@@ -88,8 +83,7 @@ int main()
             cout << "成功。" << endl;
             break;
         case '5':
-            cout << endl
-                 << "输入元素下标：";
+            cout << "输入元素下标：";
             cin >> i;
             try
             {
@@ -103,11 +97,9 @@ int main()
             cout << "成功。" << endl;
             break;
         case '6':
-            cout << endl
-                 << "输入元素下标：";
+            cout << "输入元素下标：";
             cin >> i;
-            cout << endl
-                 << "输入元素：";
+            cout << "输入元素：";
             cin >> elem;
             try
             {
@@ -121,8 +113,7 @@ int main()
             cout << "成功。" << endl;
             break;
         case '7':
-            cout << endl
-                 << "输入元素：";
+            cout << "输入元素：";
             cin >> elem;
             i = list.GetIndex(elem);
             if (i == -1)
@@ -135,15 +126,13 @@ int main()
             }
             break;
         case '8':
-            cout << endl
-                 << "长度是：" << list.GetLength() << endl;
+            cout << "长度是：" << list.GetLength() << endl;
             break;
         case '9':
             list.Reverse();
             break;
         case 'a':
-            cout << endl
-                 << "输入最小元素：";
+            cout << "输入最小元素：";
             cin >> minElem;
             cout << "输入最大元素。、：";
             cin >> maxElem;
@@ -160,8 +149,7 @@ int main()
             break;
         case 'b':
             subList.Clear();
-            cout << endl
-                 << "输入元素（输入0时退出）：";
+            cout << "输入元素（输入0时退出）：";
             cin >> elem;
             while (elem)
             {

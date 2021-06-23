@@ -6,8 +6,7 @@ int main()
     int elem;
     while (functionSelect != '0')
     {
-        cout << endl
-             << "1. 生成栈。";
+        cout << "1. 生成栈。";
         cout << endl
              << "2. 遍历栈。";
         cout << endl
@@ -34,12 +33,10 @@ int main()
             }
             break;
         case '2':
-            cout << endl;
             stack.Traverse();
             break;
         case '3':
-            cout << endl
-                 << "输入元素：";
+            cout << "输入元素：";
             cin >> elem;
             stack.Push(elem);
             break;

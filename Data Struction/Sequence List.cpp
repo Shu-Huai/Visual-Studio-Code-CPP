@@ -9,8 +9,7 @@ int main()
     double maximumValue = 0;
     while (functionSelect != '0')
     {
-        cout << endl
-             << "1. 生成顺序表。";
+        cout << "1. 生成顺序表。";
         cout << endl
              << "2. 遍历顺序表。";
         cout << endl
@@ -42,8 +41,7 @@ int main()
         {
         case '1':
             SL.Clear();
-            cout << endl
-                 << "输入元素（输入0时停止）：";
+            cout << "输入元素（输入0时停止）：";
             cin >> elem;
             while (elem)
             {
@@ -63,8 +61,7 @@ int main()
             SL.Traverse();
             break;
         case '3':
-            cout << endl
-                 << "输入元素下标：";
+            cout << "输入元素下标：";
             cin >> i;
             try
             {
@@ -78,11 +75,9 @@ int main()
             cout << "元素：" << elem << endl;
             break;
         case '4':
-            cout << endl
-                 << "输入元素下标：";
+            cout << "输入元素下标：";
             cin >> i;
-            cout << endl
-                 << "输入元素：";
+            cout << "输入元素：";
             cin >> elem;
             try
             {
@@ -96,8 +91,7 @@ int main()
             cout << "成功。" << endl;
             break;
         case '5':
-            cout << endl
-                 << "输入元素下标：";
+            cout << "输入元素下标：";
             cin >> i;
             try
             {
@@ -111,11 +105,9 @@ int main()
             cout << "成功。" << endl;
             break;
         case '6':
-            cout << endl
-                 << "输入元素下标：";
+            cout << "输入元素下标：";
             cin >> i;
-            cout << endl
-                 << "输入元素：";
+            cout << "输入元素：";
             cin >> elem;
             try
             {
@@ -129,8 +121,7 @@ int main()
             cout << "成功。" << endl;
             break;
         case '7':
-            cout << endl
-                 << "输入元素：";
+            cout << "输入元素：";
             cin >> elem;
             i = SL.GetIndex(elem);
             if (i != 0)
@@ -143,22 +134,18 @@ int main()
             }
             break;
         case '8':
-            cout << endl
-                 << "长度是：" << SL.GetLength() << endl;
+            cout << "长度是：" << SL.GetLength() << endl;
             break;
         case '9':
             SL.DeleteRepeat();
-            cout << endl
-                 << "成功。" << endl;
+            cout << "成功。" << endl;
             break;
         case 'a':
             SL.Reverse();
-            cout << endl
-                 << "成功。" << endl;
+            cout << "成功。" << endl;
             break;
         case 'b':
-            cout << endl
-                 << "输入最小元素：";
+            cout << "输入最小元素：";
             cin >> minimumValue;
             cout << "输入最大元素：";
             cin >> maximumValue;
@@ -174,7 +161,6 @@ int main()
             cout << "删除" << minimumValue << "和" << maximumValue << "之间的元素。" << endl;
             break;
         case 'c':
-            cout << endl;
             SL.Sort();
             cout << "成功。" << endl;
             break;
