@@ -1,62 +1,73 @@
-#include "Link Queue.h" // 链队列类
-
-int main(void)
+#include "Link Queue.h"
+int main()
 {
-     char c = '1';
-     LinkQueue<int> qa;
-     int x;
-
-     while (c != '0')
-     {
-          cout << endl
-               << "1. 生成队列.";
-          cout << endl
-               << "2. 显示队列.";
-          cout << endl
-               << "3. 入队列.";
-          cout << endl
-               << "4. 出队列.";
-          cout << endl
-               << "5. 取队列头.";
-          cout << endl
-               << "0. 退出";
-          cout << endl
-               << "选择功能(0~5):";
-          cin >> c;
-          switch (c)
-          {
-          case '1':
-               qa.Clear();
-               cout << endl
-                    << "输入e(e = 0时退出)";
-               cin >> x;
-               while (x != 0)
-               {
-                    qa.Push(x);
-                    cin >> x;
-               }
-               break;
-          case '2':
-               cout << endl;
-               qa.Traverse(Write<int>);
-               break;
-          case '3':
-               cout << endl
-                    << "输入元素值:";
-               cin >> x;
-               qa.Push(x);
-               break;
-          case '4':
-               qa.Pop(x);
-               cout << endl
-                    << "队头元素值为 " << x << " ." << endl;
-               break;
-          case '5':
-               qa.GetFront(x);
-               cout << endl
-                    << "队头元素值为 " << x << " ." << endl;
-               break;
-          }
-     }
-     return 0;
+    char functionSelect = 0;
+    LinkQueue<int> queue;
+    int elem;
+    while (functionSelect != '0')
+    {
+        cout << endl
+             << "1. 生成队列。";
+        cout << endl
+             << "2. 显示队列。";
+        cout << endl
+             << "3. 入队列。";
+        cout << endl
+             << "4. 出队列。";
+        cout << endl
+             << "5. 取队列头。";
+        cout << endl
+             << "0. 退出。";
+        cout << endl
+             << "选择功能（0~5）：";
+        cin >> functionSelect;
+        switch (functionSelect)
+        {
+        case '1':
+            queue.Clear();
+            cout << endl
+                 << "输入元素（输入0时退出）：";
+            cin >> elem;
+            while (elem)
+            {
+                queue.Push(elem);
+                cin >> elem;
+            }
+            break;
+        case '2':
+            queue.Traverse();
+            break;
+        case '3':
+            cout << endl
+                 << "输入元素：";
+            cin >> elem;
+            queue.Push(elem);
+            break;
+        case '4':
+            try
+            {
+                queue.Pop();
+            }
+            catch (string &error)
+            {
+                cout << error << endl;
+                break;
+            }
+            cout << "成功。" << endl;
+            break;
+        case '5':
+            try
+            {
+                elem = queue.GetFront();
+            }
+            catch (string &error)
+            {
+                cout << error << endl;
+                break;
+            }
+            cout << "队头元素值为 " << elem << "。" << endl;
+            break;
+        }
+    }
+    return 0;
 }

@@ -1,159 +1,146 @@
-#ifndef __LK_QUEUE_H__
-#define __LK_QUEUE_H__
-#include "Node.h"
-
-// 链队列类
-
+#pragma once
+#ifndef __LINK_QUEUE_H__
+#define __LINK_QUEUE_H__
+#include "Link List Node.h"
+using namespace std;
 template <class ElemType>
 class LinkQueue
 {
 protected:
-    //  链队列实现的数据成员:
-    LinkListNode<ElemType> *front_, *rear_; // 队头队尾指指
+    LinkListNode<ElemType> *front_;
+    LinkListNode<ElemType> *rear_;
 
 public:
-    LinkQueue();                                                  // 无参数的构造函数
-    virtual ~LinkQueue();                                         // 析构函数
-    int GetLength() const;                                        // 求队列长度
-    bool IsEmpty() const;                                         // 判断队列是否为空
-    void Clear();                                                 // 将队列清空
-    void Traverse(void (*Visit)(const ElemType &)) const;         // 遍历队列
-    Status Pop(ElemType &e);                                 // 出队操作
-    Status GetFront(ElemType &e) const;                            // 取队头操作
-    Status Push(const ElemType e);                             // 入队操作
-    LinkQueue(const LinkQueue<ElemType> &q);                      // 复制构造函数
-    LinkQueue<ElemType> &operator=(const LinkQueue<ElemType> &q); // 赋值语句重载
+    LinkQueue();
+    LinkQueue(const LinkQueue<ElemType> &queue);
+    virtual ~LinkQueue();
+    void Clear();
+    bool IsEmpty() const;
+    void Display() const;
+    void Traverse() const;
+    void Push(const ElemType elem);
+    void Pop();
+    int GetLength() const;
+    ElemType GetFront() const;
+    LinkQueue<ElemType> &operator=(const LinkQueue<ElemType> &queue);
 };
-
-// 链队列类的实现部分
-
 template <class ElemType>
 LinkQueue<ElemType>::LinkQueue()
-// 操作结果：构造一个空队列
 {
-    rear_ = front_ = new LinkListNode<ElemType>; // 生成链队列头结点
+    rear_ = new LinkListNode<ElemType>;
+    front_ = new LinkListNode<ElemType>;
 }
-
+template <class ElemType>
+LinkQueue<ElemType>::LinkQueue(const LinkQueue<ElemType> &queue)
+{
+    rear_ = new LinkListNode<ElemType>;
+    front_ = new LinkListNode<ElemType>;
+    for (LinkListNode<ElemType> *p = queue.front_->next_; p; p = p->next_)
+    {
+        Push(p->elem_);
+    }
+}
 template <class ElemType>
 LinkQueue<ElemType>::~LinkQueue()
-// 操作结果：销毁队列
 {
     Clear();
     delete front_;
 }
-
-template <class ElemType>
-int LinkQueue<ElemType>::GetLength() const
-// 操作结果：返回队列长度
-{
-    int count = 0; // 初始化计数器
-    for (LinkListNode<ElemType> *p = front_->next; p != NULL; p = p->next)
-        count++; // 统计链队列中的结点数
-    return count;
-}
-
-template <class ElemType>
-bool LinkQueue<ElemType>::IsEmpty() const
-// 操作结果：如队列为空，则返回true，否则返回false
-{
-    return rear_ == front_;
-}
-
 template <class ElemType>
 void LinkQueue<ElemType>::Clear()
-// 操作结果：清空队列
 {
     LinkListNode<ElemType> *p = front_->next_;
-    while (p != NULL)
-    { // 依次删除队列中的元素结点
+    while (p)
+    {
         front_->next_ = p->next_;
         delete p;
         p = front_->next_;
     }
     rear_ = front_;
 }
-
 template <class ElemType>
-void LinkQueue<ElemType>::Traverse(void (*Visit)(const ElemType &)) const
-// 操作结果：依次对队列的每个元素调用函数(*visit)
+bool LinkQueue<ElemType>::IsEmpty() const
 {
-    for (LinkListNode<ElemType> *p = front_->next_; p != NULL; p = p->next_)
-        // 对队列每个元素调用函数(*visit)访问
-        (*Visit)(p->elem_);
+    return rear_ == front_;
 }
-
 template <class ElemType>
-Status LinkQueue<ElemType>::Pop(ElemType &e)
-// 操作结果：如果队列非空，那么删除队头元素，并用e返回其值，函数返回SUCCESS,
-//	否则函数返回UNDER_FLOW，
+void LinkQueue<ElemType>::Display() const
 {
-    if (!IsEmpty())
-    {                                    // 队列非空
-        LinkListNode<ElemType> *p = front_->next_; // 指向队列头素
-        e = p->elem_;                     // 用e返回队头元素
-        front_->next_ = p->next_;           // front指向下一元素
-        if (rear_ == p)                   // 出队前队列中只有一个元素，出队后为空队列
-            rear_ = front_;
-        delete p; // 释放出队的元素结点
-        return SUCCESS;
-    }
-    else
-        return UNDER_FLOW;
-}
-
-template <class ElemType>
-Status LinkQueue<ElemType>::GetFront(ElemType &e) const
-// 操作结果：如果队列非空，那么用e返回队头元素，函数返回SUCCESS,
-//	否则函数返回UNDER_FLOW，
-{
-    if (!IsEmpty())
-    {                          // 队列非空
-        e = front_->next_->elem_; // 用e返回队头元素
-        return SUCCESS;
-    }
-    else
-        return UNDER_FLOW;
-}
-
-template <class ElemType>
-Status LinkQueue<ElemType>::Push(const ElemType e)
-// 操作结果：如果系统空间不够，返回OVER_FLOW,
-//	否则插入元素e为新的队尾，返回SUCCESS
-{
-    LinkListNode<ElemType> *p;
-    p = new LinkListNode<ElemType>(e); // 生成一个新结点
-    if (p)
+    for (LinkListNode<ElemType> *p = front_->next_; p; p = p->next_)
     {
-        rear_->next_ = p;    // 将新结点加在队尾
-        rear_ = rear_->next_; // rear_指向新队尾
-        return SUCCESS;
+        cout << p->elem_ << " ";
+        if (p == front_->next_)
+        {
+            cout << " <- 头";
+        }
+        else if (!p->next_)
+        {
+            cout << " <- 尾";
+        }
+        cout << endl;
     }
-    else //系统空间不够，返回OVER_FLOW
-        return OVER_FLOW;
+    cout << "长度是：" << GetLength() << endl;
 }
-
 template <class ElemType>
-LinkQueue<ElemType>::LinkQueue(const LinkQueue<ElemType> &q)
-// 操作结果：由队列q构造新队列--复制构造函数
+void LinkQueue<ElemType>::Traverse() const
 {
-    rear_ = front_ = new LinkListNode<ElemType>; // 生成队列头结点
-    for (LinkListNode<ElemType> *p = q.front_->next; p != NULL; p = p->next)
-        // 取q队列每个元素的值,将其在当前队列中作入队列操作
-        Push(p->data);
-}
-
-template <class ElemType>
-LinkQueue<ElemType> &LinkQueue<ElemType>::operator=(const LinkQueue<ElemType> &q)
-// 操作结果：将队列q赋值给当前队列--赋值语句重载
-{
-    if (&q != this)
+    for (LinkListNode<ElemType> *p = front_->next_; p; p = p->next_)
     {
-        Clear(); //清除原有队列
-        for (LinkListNode<ElemType> *p = q.front_->next; p != NULL; p = p->next)
-            // 取q队列每个元素的值,将其在当前队列中作入队列操作
-            Push(p->data);
+        cout << p->elem_ << " ";
+    }
+}
+template <class ElemType>
+void LinkQueue<ElemType>::Push(const ElemType elem)
+{
+    LinkListNode<ElemType> *p = new LinkListNode<ElemType>(elem, NULL);
+    rear_->next_ = p;
+    rear_ = rear_->next_;
+}
+template <class ElemType>
+void LinkQueue<ElemType>::Pop()
+{
+    if (rear_ == front_)
+    {
+        throw string("队空。");
+    }
+    LinkListNode<ElemType> *p = front_->next_;
+    front_->next_ = p->next_;
+    if (rear_ == p)
+    {
+        rear_ = front_;
+    }
+    delete p;
+}
+template <class ElemType>
+int LinkQueue<ElemType>::GetLength() const
+{
+    int count = 0;
+    for (LinkListNode<ElemType> *p = front_->next_; p; p = p->next_)
+    {
+        count++;
+    }
+    return count;
+}
+template <class ElemType>
+ElemType LinkQueue<ElemType>::GetFront() const
+{
+    if (rear_ == front_)
+    {
+        throw string("队空。");
+    }
+    return front_->next_->elem_;
+}
+template <class ElemType>
+LinkQueue<ElemType> &LinkQueue<ElemType>::operator=(const LinkQueue<ElemType> &queue)
+{
+    if (&queue != this)
+    {
+        Clear();
+        for (LinkListNode<ElemType> *p = queue.front_->next_; p; p = p->next_)
+        {
+            Push(p->elem_);
+        }
     }
     return *this;
 }
-
 #endif
