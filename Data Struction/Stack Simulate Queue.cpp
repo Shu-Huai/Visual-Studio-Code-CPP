@@ -16,11 +16,13 @@ int main()
         cout << endl
              << "5. 求队列长度。";
         cout << endl
+             << "6. 求队头元素。";
+        cout << endl
              << "6. 判断列空。";
         cout << endl
              << "0. 退出。";
         cout << endl
-             << "选择功能（0~6）：";
+             << "选择功能（0~7）：";
         cin >> functionSelect;
         switch (functionSelect)
         {
@@ -59,6 +61,9 @@ int main()
             cout << "长度为：" << queue.GetLength() << "。" << endl;
             break;
         case '6':
+            cout << "元素：" << queue.GetFront() << "。" << endl;
+            break;
+        case '7':
             if (queue.IsEmpty())
             {
                 cout << "列空。" << endl;
