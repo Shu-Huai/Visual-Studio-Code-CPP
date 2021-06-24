@@ -1,83 +1,53 @@
-#include <cstring>
-#include <iostream>
-using namespace std;
-int BFPatternMatching(string &ob, string &pat)
-{
-    int i = 0;
-    int j = 0;
-    while (j < int(pat.length()) && i < int(ob.length()) && int(pat.length()) - j <= int(ob.length()) - i)
-    {
-        if (ob[i] == pat[j])
-        {
-            i++;
-            j++;
-        }
-        else
-        {
-            i = i - j + 1;
-            j = 0;
-        }
-    }
-    if (j >= int(pat.length()))
-    {
-        return i - j;
-    }
-    else
-    {
-        return -1;
-    }
-}
-void GetFailure(string &pat, int f[])
-{
-    int j = 0;
-    int k = -1;
-    f[0] = -1;
-    while (j < int(pat.length()) - 1)
-    {
-        if (k == -1 || pat[j] == pat[k])
-        {
-            j++;
-            k++;
-            f[j] = k;
-        }
-        else
-        {
-            k = f[k];
-        }
-    }
-}
-int KMPPatternMatching(string &ob, string &pat)
-{
-    int *f = new int[pat.length()];
-    GetFailure(pat, f);
-    int i = 0;
-    int j = 0;
-    while (j < int(pat.length()) && i < int(ob.length()) && int(pat.length()) - j <= int(ob.length()) - i)
-    {
-        if (j == -1 || ob[i] == pat[j])
-        {
-            i++;
-            j++;
-        }
-        else
-        {
-            j = f[j];
-        }
-    }
-    if (j >= int(pat.length()))
-    {
-        return i - j;
-    }
-    else
-    {
-        return -1;
-    }
-}
+#include "Pattern Matching.h"
 int main()
 {
-    string ob = "ZWWZWZ";
-    string pat = "ZWZ";
-    cout << BFPatternMatching(ob, pat) << endl;
-    cout << KMPPatternMatching(ob, pat) << endl;
+    string ob;
+    string pat;
+    char functionSelect = 0;
+    int index = 0;
+    while (functionSelect != '0')
+    {
+        cout << "1. 第一个模式匹配。";
+        cout << endl
+             << "2. 第二个模式匹配。";
+        cout << endl
+             << "0. 退出。";
+        cout << endl
+             << "选择功能（0~2）：";
+        cin >> functionSelect;
+        switch (functionSelect)
+        {
+        case '1':
+            cout << "输入字符串：";
+            cin >> ob;
+            cout << "输入模式串：";
+            cin >> pat;
+            index = PatternMatching::BruteForcePatternMatching(ob, pat);
+            if (index==-1)
+            {
+                cout << "不存在。" << endl;
+            }
+            else
+            {
+                cout << "下标是：" << index << "。" << endl;
+            }
+            break;
+        case '2':
+            cout << "输入字符串：";
+            cin >> ob;
+            cout << "输入模式串：";
+            cin >> pat;
+            index = PatternMatching::KMPPatternMatching(ob, pat);
+            if (index == -1)
+            {
+                cout << "不存在。" << endl;
+            }
+            else
+            {
+                cout << "下标是：" << index << "。" << endl;
+            }
+            break;
+        }
+    }
     return 0;
 }
