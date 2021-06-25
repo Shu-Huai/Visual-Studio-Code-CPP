@@ -10,8 +10,6 @@ protected:
     int rowIndex_;
     int colIndex_;
     ElemType elem_;
-    template <class SubElemType>
-    friend class TripleSparseMatrix;
 
 public:
     Triple();
@@ -19,6 +17,12 @@ public:
     Triple<ElemType> &operator=(const Triple<ElemType> &triple);
     template <class SubElemType>
     friend ostream &operator<<(ostream &out, Triple<SubElemType> &triple);
+    template <class SubElemType>
+    friend class TripleSparseMatrix;
+    template <class SubElemType>
+    friend class CrossListMatrix;
+    template <class SubElemType>
+    friend class CrossListMatrixNode;
 };
 template <class ElemType>
 Triple<ElemType>::Triple()

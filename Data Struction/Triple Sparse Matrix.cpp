@@ -1,5 +1,4 @@
 #include "Triple Sparse Matrix.h"
-using namespace std;
 int main()
 {
     char functionSelect = 0;
