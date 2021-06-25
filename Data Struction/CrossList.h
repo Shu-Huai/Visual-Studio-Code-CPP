@@ -7,17 +7,17 @@ class CrossList
 protected:
     CrossNode<ElemType> **rowhead_;
     CrossNode<ElemType> **colhead_;
-    int rows_;
-    int cols_;
-    int num_;
+    int rowNum_;
+    int colNum_;
+    int elemNum_;
 
 public:
     CrossList(int rows = DEFAULT_SIZE, int cols = DEFAULT_SIZE);
     ~CrossList();
     void Clear();
-    int GetRows() const;
-    int GetCols() const;
-    int GetNum() const;
+    int GetRowNum() const;
+    int GetColNum() const;
+    int GetElemNum() const;
     Status SetElem(int r, int c, const ElemType &v);
     Status GetElem(int r, int c, ElemType &v);
     CrossList(const CrossList<ElemType> &CL);
@@ -25,17 +25,17 @@ public:
     CrossList<ElemType> operator+(const CrossList<ElemType> &CL);
 };
 template <class ElemType>
-CrossList<ElemType>::CrossList(int rows, int cols) : rows_(rows), cols_(cols), num_(0)
+CrossList<ElemType>::CrossList(int rows, int cols) : rowNum_(rows), colNum_(cols), elemNum_(0)
 {
     if (rows > 0 and cols > 0)
     {
-        rowhead_ = new CrossNode<ElemType> *[rows_];
-        colhead_ = new CrossNode<ElemType> *[cols_];
-        for (int i = 0; i < rows_; i++)
+        rowhead_ = new CrossNode<ElemType> *[rowNum_];
+        colhead_ = new CrossNode<ElemType> *[colNum_];
+        for (int i = 0; i < rowNum_; i++)
         {
             rowhead_[i] = NULL;
         }
-        for (int i = 0; i < cols_; i++)
+        for (int i = 0; i < colNum_; i++)
         {
             colhead_[i] = NULL;
         }
@@ -52,7 +52,7 @@ template <class ElemType>
 void CrossList<ElemType>::Clear()
 {
     CrossNode<ElemType> *p;
-    for (int i = 0; i < rows_; i++)
+    for (int i = 0; i < rowNum_; i++)
     {
         while (rowhead_[i] != NULL)
         {
@@ -61,44 +61,44 @@ void CrossList<ElemType>::Clear()
             delete p;
         }
     }
-    for (int j = 0; j < cols_; j++)
+    for (int j = 0; j < colNum_; j++)
     {
         colhead_[j] = NULL;
     }
-    num_ = 0;
+    elemNum_ = 0;
 }
 template <class ElemType>
-int CrossList<ElemType>::GetRows() const
+int CrossList<ElemType>::GetRowNum() const
 {
-    return rows_;
+    return rowNum_;
 }
 template <class ElemType>
-int CrossList<ElemType>::GetCols() const
+int CrossList<ElemType>::GetColNum() const
 {
-    return cols_;
+    return colNum_;
 }
 template <class ElemType>
-int CrossList<ElemType>::GetNum() const
+int CrossList<ElemType>::GetElemNum() const
 {
-    return num_;
+    return elemNum_;
 }
 template <class ElemType>
 Status CrossList<ElemType>::SetElem(int r, int c, const ElemType &v)
 {
-    if (r >= rows_ or r < 0 or c >= cols_ or c < 0)
+    if (r >= rowNum_ or r < 0 or c >= colNum_ or c < 0)
     {
         return RANGE_ERROR;
     }
     CrossNode<ElemType> *pre = NULL;
     CrossNode<ElemType> *p = rowhead_[r];
-    while (p != NULL and p->elem_->col_ < c)
+    while (p != NULL and p->elem_->colIndex_ < c)
     {
         pre = p;
         p = p->right_;
     }
     if (v == 0)
     {
-        if (p != NULL and p->elem_->col_ == c)
+        if (p != NULL and p->elem_->colIndex_ == c)
         {
             if (rowhead_[r] == p)
             {
@@ -122,14 +122,14 @@ Status CrossList<ElemType>::SetElem(int r, int c, const ElemType &v)
                 pre->down_ = p->down_;
             }
             delete p;
-            num_--;
+            elemNum_--;
         }
     }
     else
     {
-        if (p != NULL and p->elem_->col_ == c)
+        if (p != NULL and p->elem_->colIndex_ == c)
         {
-            p->elem_->value_ = v;
+            p->elem_->elem_ = v;
         }
         else
         {
@@ -146,7 +146,7 @@ Status CrossList<ElemType>::SetElem(int r, int c, const ElemType &v)
             q->right_ = p;
             pre = NULL;
             p = colhead_[c];
-            while (p != NULL and p->elem_->row_ < r)
+            while (p != NULL and p->elem_->rowIndex_ < r)
             {
                 pre = p;
                 p = p->down_;
@@ -160,7 +160,7 @@ Status CrossList<ElemType>::SetElem(int r, int c, const ElemType &v)
                 pre->down_ = q;
             }
             q->down_ = p;
-            num_++;
+            elemNum_++;
         }
     }
     return SUCCESS;
@@ -168,18 +168,18 @@ Status CrossList<ElemType>::SetElem(int r, int c, const ElemType &v)
 template <class ElemType>
 Status CrossList<ElemType>::GetElem(int r, int c, ElemType &v)
 {
-    if (r < 0 or r >= rows_ or c < 0 or c >= cols_)
+    if (r < 0 or r >= rowNum_ or c < 0 or c >= colNum_)
     {
         return RANGE_ERROR;
     }
     CrossNode<ElemType> *p = rowhead_[r];
-    while (p != NULL and p->elem_->col_ < c)
+    while (p != NULL and p->elem_->colIndex_ < c)
     {
         p = p->right_;
     }
-    if (p != NULL and p->elem_->col_ == c)
+    if (p != NULL and p->elem_->colIndex_ == c)
     {
-        v = p->elem_->value_;
+        v = p->elem_->elem_;
     }
     else
     {
@@ -188,24 +188,24 @@ Status CrossList<ElemType>::GetElem(int r, int c, ElemType &v)
     return SUCCESS;
 }
 template <class ElemType>
-CrossList<ElemType>::CrossList(const CrossList<ElemType> &CL) : rows_(CL.rows_), cols_(CL.cols_), num_(0)
+CrossList<ElemType>::CrossList(const CrossList<ElemType> &CL) : rowNum_(CL.rowNum_), colNum_(CL.colNum_), elemNum_(0)
 {
     CrossNode<ElemType> *p;
-    rowhead_ = new CrossNode<ElemType> *[rows_];
-    colhead_ = new CrossNode<ElemType> *[cols_];
-    for (int i = 0; i < rows_; i++)
+    rowhead_ = new CrossNode<ElemType> *[rowNum_];
+    colhead_ = new CrossNode<ElemType> *[colNum_];
+    for (int i = 0; i < rowNum_; i++)
     {
         rowhead_[i] = NULL;
     }
-    for (int i = 0; i < cols_; i++)
+    for (int i = 0; i < colNum_; i++)
     {
         colhead_[i] = NULL;
     }
-    for (int i = 0; i < rows_; i++)
+    for (int i = 0; i < rowNum_; i++)
     {
         for (p = CL.rowhead_[i]; p != NULL; p = p->right_)
         {
-            SetElem(p->elem_->row_, p->elem_->col_, p->elem_->value_);
+            SetElem(p->elem_->rowIndex_, p->elem_->colIndex_, p->elem_->elem_);
         }
     }
 }
@@ -216,12 +216,12 @@ CrossList<ElemType> &CrossList<ElemType>::operator=(const CrossList<ElemType> &C
     {
         CrossNode<ElemType> *p;
         Clear();
-        num_ = CL.num_;
-        for (int i = 0; i < rows_; i++)
+        elemNum_ = CL.elemNum_;
+        for (int i = 0; i < rowNum_; i++)
         {
             for (p = CL.rowhead_[i]; p != NULL; p = p->right_)
             {
-                SetElem(p->elem_->row_, p->elem_->col_, p->elem_->value_);
+                SetElem(p->elem_->rowIndex_, p->elem_->colIndex_, p->elem_->elem_);
             }
         }
     }
@@ -230,44 +230,44 @@ CrossList<ElemType> &CrossList<ElemType>::operator=(const CrossList<ElemType> &C
 template <class ElemType>
 CrossList<ElemType> CrossList<ElemType>::operator+(const CrossList<ElemType> &CL)
 {
-    if (rows_ != CL.rows_ || cols_ != CL.cols_)
+    if (rowNum_ != CL.rowNum_ || colNum_ != CL.colNum_)
         throw Error("行数或列数不相等!");
 
-    CrossList<ElemType> temp(CL.rows_, CL.cols_);
+    CrossList<ElemType> temp(CL.rowNum_, CL.colNum_);
     ElemType v;
     CrossNode<ElemType> *p, *q;
 
-    for (int i = 0; i < rows_; i++)
+    for (int i = 0; i < rowNum_; i++)
     {
         p = rowhead_[i];
         q = CL.rowhead_[i];
         while (p != NULL && q != NULL)
-            if (p->elem_->col_ < q->elem_->col_)
+            if (p->elem_->colIndex_ < q->elem_->colIndex_)
             {
-                temp.SetElem(p->elem_->row_, p->elem_->col_, p->elem_->value_);
+                temp.SetElem(p->elem_->rowIndex_, p->elem_->colIndex_, p->elem_->elem_);
                 p = p->right_;
             }
-            else if (p->elem_->col_ > q->elem_->col_)
+            else if (p->elem_->colIndex_ > q->elem_->colIndex_)
             {
-                temp.SetElem(q->elem_->row_, q->elem_->col_, q->elem_->value_);
+                temp.SetElem(q->elem_->rowIndex_, q->elem_->colIndex_, q->elem_->elem_);
                 q = q->right_;
             }
             else
             {
-                v = p->elem_->value_ + q->elem_->value_;
+                v = p->elem_->elem_ + q->elem_->elem_;
                 if (v != 0)
-                    temp.SetElem(q->elem_->row_, q->elem_->col_, v);
+                    temp.SetElem(q->elem_->rowIndex_, q->elem_->colIndex_, v);
                 p = p->right_;
                 q = q->right_;
             }
         while (p != NULL)
         {
-            temp.SetElem(p->elem_->row_, p->elem_->col_, p->elem_->value_);
+            temp.SetElem(p->elem_->rowIndex_, p->elem_->colIndex_, p->elem_->elem_);
             p = p->right_;
         }
         while (q != NULL)
         {
-            temp.SetElem(q->elem_->row_, q->elem_->col_, q->elem_->value_);
+            temp.SetElem(q->elem_->rowIndex_, q->elem_->colIndex_, q->elem_->elem_);
             q = q->right_;
         }
     }

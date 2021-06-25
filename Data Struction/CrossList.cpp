@@ -19,9 +19,9 @@ int main(void)
         }
     }
     cout << "显示矩阵CL:" << endl;
-    for (i = 0; i < CL.GetRows(); i++)
+    for (i = 0; i < CL.GetRowNum(); i++)
     {
-        for (j = 0; j < CL.GetCols(); j++)
+        for (j = 0; j < CL.GetColNum(); j++)
         {
             CL.GetElem(i, j, v);
             cout << v << "\t";
@@ -32,9 +32,9 @@ int main(void)
     cout << "显示矩阵CL+CL:" << endl;
     CrossList<int> c(CL);
     c = CL + c;
-    for (i = 0; i < c.GetRows(); i++)
+    for (i = 0; i < c.GetRowNum(); i++)
     {
-        for (j = 0; j < c.GetCols(); j++)
+        for (j = 0; j < c.GetColNum(); j++)
         {
             c.GetElem(i, j, v);
             cout << v << "\t";

@@ -252,6 +252,7 @@ int String::KMPPatternMatching(const String &string)
             j = failure[j];
         }
     }
+    delete[] failure;
     if (j >= string.length_)
     {
         return i - j;
