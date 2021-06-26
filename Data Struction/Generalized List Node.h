@@ -2,8 +2,9 @@
 #ifndef __GENERALIZED_LIST_NODE_H__
 #define __GENERALIZED_LIST_NODE_H__
 #include <iostream>
+using namespace std;
 template <class ElemType>
-class GenListNode
+class GeneralizedListNode
 {
 protected:
     int tag_;
@@ -11,18 +12,23 @@ protected:
     {
         int referenceCount_;
         ElemType elem_;
-        GenListNode<ElemType> *down_;
+        GeneralizedListNode<ElemType> *down_;
     };
-    GenListNode<ElemType> *next_;
+    GeneralizedListNode<ElemType> *next_;
 
 public:
-    GenListNode(int tag = 0, GenListNode<ElemType> *next = NULL);
+    GeneralizedListNode(int tag = 0, GeneralizedListNode<ElemType> *next = NULL);
+    template <class SubElemType>
+    friend class GeneralizedList;
 };
 template <class ElemType>
-GenListNode<ElemType>::GenListNode(int tag, GenListNode<ElemType> *next)
+GeneralizedListNode<ElemType>::GeneralizedListNode(int tag, GeneralizedListNode<ElemType> *next)
 {
-    if (tag)
-    tag = tg;
-    tLink = next;
+    if (tag < 0 || tag > 2)
+    {
+        throw string("范围错误。");
+    }
+    tag_ = tag;
+    next_ = next;
 }
 #endif

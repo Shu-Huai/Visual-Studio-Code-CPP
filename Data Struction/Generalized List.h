@@ -1,321 +1,254 @@
-#ifndef __GEN_LIST_H__
-#define __GEN_LIST_H__
-
-#include "Assistance.h" // 辅助软件包
-#include "GenNode.h"    // 广义表结点类
-
-// 广义表类
+#ifndef __GENERALIZED_LIST_H__
+#define __GENERALIZED_LIST_H__
+#include "Generalized List Node.h"
 template <class ElemType>
-class GenList
+class GeneralizedList
 {
 protected:
-    // 广义表类的数据成员:
-    GenListNode<ElemType> *head; // 广义表头指针
-
-    // 辅助函数
-    void ShowHelp(GenListNode<ElemType> *hd) const;
-    // 显示以hd为头结点的广义表
-    int DepthHelp(const GenListNode<ElemType> *hd);
-    // 计算以hd为表头的广义表的深度
-    void ClearHelp(GenListNode<ElemType> *hd);
-    // 释放以hd为表头的广义表结构
-    void CopyHelp(const GenListNode<ElemType> *sourceHead,
-                  GenListNode<ElemType> *&destHead);
-    // 将以destHead为头结点的广义表复制成以sourceHead为头结点的
-    // 广义表
-    static void CreateHelp(GenListNode<ElemType> *&first);
-    // 创建以first为头结点的广义表
+    GeneralizedListNode<ElemType> *head_;
+    void Create(GeneralizedListNode<ElemType> *&first);
+    void Clear(GeneralizedListNode<ElemType> *head);
+    void Display(GeneralizedListNode<ElemType> *head) const;
+    int GetDepth(const GeneralizedListNode<ElemType> *head);
+    void Copy(const GeneralizedListNode<ElemType> *sourceHead, GeneralizedListNode<ElemType> *&destHead);
 
 public:
-    // 抽象数据类型方法声明及重载编译系统默认方法声明:
-    GenList();                            // 无参数的构造函数
-    GenList(GenListNode<ElemType> *hd);   // 由头结点指针构造广义表
-    ~GenList();                           // 析构函数
-    GenListNode<ElemType> *First() const; // 返回广义表的第一个元素
-    GenListNode<ElemType> *Next(GenListNode<ElemType> *p) const;
-    // 返回p指向的广义表元素的后继
-    bool IsEmpty() const;           // 判断广义表是否为空
-    void Insert(const ElemType &e); // 将原子元素e作为表头加入到广义表最前面
-    void Insert(GenList<ElemType> &subList);
-    // 将子表subList作为表头加入到广义表最前面
-    Status Delete(int i);                                     // 删除广义表中第i个元素
-    int GetDepth();                                           // 计算广义表深度
-    int GetLength();                                          // 求广义表的长度
-    GenList(const GenList<ElemType> &g);                      // 复制构造函数
-    GenList<ElemType> &operator=(const GenList<ElemType> &g); // 赋值语句重载
-    void Input(void);                                         // 输入广义表
-    void Show(void);                                          // 显示广义表
+    GeneralizedList();
+    GeneralizedList(GeneralizedListNode<ElemType> *head);
+    GeneralizedList(const GeneralizedList<ElemType> &list);
+    ~GeneralizedList();
+    bool IsEmpty() const;
+    void Create();
+    void Display() const;
+    void Insert(const ElemType elem);
+    void Insert(GeneralizedList<ElemType> &list);
+    void Delete(int index);
+    int GetLength();
+    int GetDepth();
+    GeneralizedListNode<ElemType> *GetFirst() const;
+    GeneralizedListNode<ElemType> *GetNext(GeneralizedListNode<ElemType> *node) const;
+    GeneralizedList<ElemType> &operator=(const GeneralizedList<ElemType> &list);
 };
-
-// 广义表类的实现部分
 template <class ElemType>
-GenList<ElemType>::GenList()
-// 操作结果：构造一个空广义表
+void GeneralizedList<ElemType>::Create(GeneralizedListNode<ElemType> *&first)
 {
-    head = new GenListNode<ElemType>(HEAD);
-    head->ref = 1; // 引用数
-}
-
-template <class ElemType>
-GenList<ElemType>::GenList(GenListNode<ElemType> *hd)
-// 操作结果：由头结点指针构造广义表
-{
-    head = hd; // 头结点
-}
-
-template <class ElemType>
-GenListNode<ElemType> *GenList<ElemType>::First() const
-// 操作结果：返回广义表的第一个元素
-{
-    return head->tLink;
-}
-
-template <class ElemType>
-GenListNode<ElemType> *GenList<ElemType>::Next(GenListNode<ElemType> *p) const
-// 操作结果：返回p指向的广义表元素的后继
-{
-    return p->tLink;
-}
-
-template <class ElemType>
-bool GenList<ElemType>::IsEmpty() const
-// 操作结果：如广义表为空，则返回true，否则返回false
-{
-    return head->tLink == NULL;
-}
-
-template <class ElemType>
-void GenList<ElemType>::Insert(const ElemType &e)
-// 操作结果：将原子元素e作为表头加入到广义表最前面
-{
-    GenListNode<ElemType> *p = new GenListNode<ElemType>(ATOM, head->tLink);
-    p->atom = e;     // 数据域
-    head->tLink = p; // 将p插入在head与head->tLink之间
-}
-
-template <class ElemType>
-void GenList<ElemType>::Insert(GenList<ElemType> &subList)
-// 操作结果：将子表subList作为表头加入到广义表最前面
-{
-    GenListNode<ElemType> *p = new GenListNode<ElemType>(LIST, head->tLink);
-    p->hLink = subList.head; // 子表
-    subList.head->ref++;     // subList引用数自加1
-    head->tLink = p;         // 将p插入在head与head->tLink之间
-}
-
-template <class ElemType>
-Status GenList<ElemType>::Delete(int i)
-// 操作结果：删除广义表中第i个元素
-{
-    if (i < 1 || i > GetLength())
-        return RANGE_ERROR; // 返回位置错
-    else
+    char character = getchar();
+    GeneralizedListNode<ElemType> *subHead;
+    ElemType elem = 0;
+    switch (character)
     {
-        GenListNode<ElemType> *pre = head, *p = head->tLink;
-        for (int k = 1; k < i; k++)
-        { //  使p和pre分别指向被删除结点和其前驱结点
-            pre = p;
-            p = p->tLink;
+    case ')':
+        return;
+    case '(':
+        first = new GeneralizedListNode<ElemType>(2);
+        subHead = new GeneralizedListNode<ElemType>(0);
+        subHead->referenceCount_ = 1;
+        first->down_ = subHead;
+        Create(subHead->next_);
+        break;
+    default:
+        cin.putback(character);
+        cin >> elem;
+        first = new GeneralizedListNode<ElemType>(1);
+        first->elem_ = elem;
+        break;
+    }
+    character = getchar();
+    if (character != ',')
+    {
+        cin.putback(character);
+    }
+    Create(first->next_);
+}
+template <class ElemType>
+void GeneralizedList<ElemType>::Clear(GeneralizedListNode<ElemType> *head)
+{
+    head->referenceCount_--;
+    if (!head->referenceCount_)
+    {
+        GeneralizedListNode<ElemType> *p = head;
+        for (GeneralizedListNode<ElemType> *q = head->next_; q; q = q->next_)
+        {
+            delete p;
+            p = q;
+            if (q->tag_ == 2)
+            {
+                Clear(q->down_);
+            }
         }
-        pre->tLink = p->tLink;
-        if (p->tag == LIST)
-            ClearHelp(p->hLink);
         delete p;
-        return SUCCESS; // 返回删除成功
     }
 }
-
 template <class ElemType>
-void GenList<ElemType>::ShowHelp(GenListNode<ElemType> *hd) const
-// 操作结果：显示以hd为头结点的广义表
+void GeneralizedList<ElemType>::Display(GeneralizedListNode<ElemType> *head) const
 {
-    bool frist = true;
-    cout << "("; // 广义表以(开始
-    for (GenListNode<ElemType> *p = hd->tLink; p != NULL; p = p->tLink)
-    { // 依次处理广义表各元素
-        if (frist)
-            frist = false; // 第一个元素
+    cout << "（";
+    for (GeneralizedListNode<ElemType> *p = head->next_; p; p = p->next_)
+    {
+        if (p != head->next_)
+        {
+            cout << "，";
+        }
+        if (p->tag_ == 1)
+        {
+            cout << p->elem_;
+        }
         else
-            cout << ",";    // 不同元素这间用逗号隔开
-        if (p->tag == ATOM) // 原子结点
-            cout << p->atom;
-        else // 表结点
-            ShowHelp(p->hLink);
-    }
-    cout << ")"; // 广义表以)结束
-}
-
-template <class ElemType>
-void GenList<ElemType>::Show(void)
-// 操作结果：显示广义表
-{
-    ShowHelp(head); // 调用辅助函数显示广义表
-}
-
-template <class ElemType>
-int GenList<ElemType>::DepthHelp(const GenListNode<ElemType> *hd)
-// 操作结果：返回以hd为表头的广义表的深度
-{
-    if (hd->tLink == NULL)
-        return 1; // 空广义表的深度为1
-
-    int subMaxDepth = 0; // 子表最大深度
-    for (GenListNode<ElemType> *p = hd->tLink; p != NULL; p = p->tLink)
-    { // 求子表的最大深度
-        if (p->tag == LIST)
-        {                                          // 子表
-            int curSubDepth = DepthHelp(p->hLink); // 子表深度
-            if (subMaxDepth < curSubDepth)
-                subMaxDepth = curSubDepth;
+        {
+            Display(p->down_);
         }
     }
-    return subMaxDepth + 1; // 广义表深度为子表最大深度加1
+    cout << "）";
 }
-
 template <class ElemType>
-int GenList<ElemType>::GetDepth()
-// 操作结果：返回广义表深度
+int GeneralizedList<ElemType>::GetDepth(const GeneralizedListNode<ElemType> *head)
 {
-    return DepthHelp(head);
+    if (!head->next_)
+    {
+        return 1;
+    }
+    int subMaxDepth = 0;
+    for (GeneralizedListNode<ElemType> *p = head->next_; p; p = p->next_)
+    {
+        if (p->tag_ == 2)
+        {
+            int subDepth = GetDepth(p->down_);
+            if (subMaxDepth < subDepth)
+                subMaxDepth = subDepth;
+        }
+    }
+    return subMaxDepth + 1;
 }
-
 template <class ElemType>
-int GenList<ElemType>::GetLength()
-// 操作结果：返回广义表长度
+void GeneralizedList<ElemType>::Copy(const GeneralizedListNode<ElemType> *sourceHead, GeneralizedListNode<ElemType> *&destHead)
 {
-    GenListNode<ElemType> *p = head->tLink; // 临时变量
+    destHead = new GeneralizedListNode<ElemType>(0);
+    GeneralizedListNode<ElemType> *q = destHead;
+    destHead->referenceCount_ = 1;
+    for (GeneralizedListNode<ElemType> *p = sourceHead->next_; p; p = p->next_)
+    {
+        q = new GeneralizedListNode<ElemType>(p->tag_);
+        q->next_ = new GeneralizedListNode<ElemType>(p->tag_);
+        if (p->tag_ == 2)
+        {
+            Copy(p->down_, q->down_);
+        }
+        else
+        {
+            q->elem_ = p->elem_;
+        }
+    }
+}
+template <class ElemType>
+GeneralizedList<ElemType>::GeneralizedList()
+{
+    head_ = new GeneralizedListNode<ElemType>(0);
+    head_->referenceCount_ = 1;
+}
+template <class ElemType>
+GeneralizedList<ElemType>::GeneralizedList(GeneralizedListNode<ElemType> *head) : head_(head)
+{
+}
+template <class ElemType>
+GeneralizedList<ElemType>::GeneralizedList(const GeneralizedList<ElemType> &list)
+{
+    Copy(list.head_, head_);
+}
+template <class ElemType>
+GeneralizedList<ElemType>::~GeneralizedList()
+{
+    Clear(head_);
+}
+template <class ElemType>
+bool GeneralizedList<ElemType>::IsEmpty() const
+{
+    return head_->next_ == NULL;
+}
+template <class ElemType>
+void GeneralizedList<ElemType>::Create()
+{
+    Clear(head_);
+    head_ = new GeneralizedListNode<ElemType>(0);
+    head_->referenceCount_ = 1;
+    getchar();
+    GeneralizedList<ElemType>::Create(head_->next_);
+}
+template <class ElemType>
+void GeneralizedList<ElemType>::Display() const
+{
+    Display(head_);
+}
+template <class ElemType>
+void GeneralizedList<ElemType>::Insert(const ElemType elem)
+{
+    GeneralizedListNode<ElemType> *p = new GeneralizedListNode<ElemType>(1, head_->next_);
+    p->elem_ = elem;
+    head_->next_ = p;
+}
+template <class ElemType>
+void GeneralizedList<ElemType>::Insert(GeneralizedList<ElemType> &list)
+{
+    GeneralizedListNode<ElemType> *p = new GeneralizedListNode<ElemType>(2, head_->next_);
+    p->down_ = list.head_;
+    list.head_->referenceCount_++;
+    head_->next_ = p;
+}
+template <class ElemType>
+void GeneralizedList<ElemType>::Delete(int index)
+{
+    if (index < 1 || index > GetLength())
+    {
+        throw string("范围错误。");
+    }
+    GeneralizedListNode<ElemType> *p = head_->next_;
+    GeneralizedListNode<ElemType> *q = head_;
+    for (int i = 1; i < index; i++)
+    {
+        q = p;
+        p = p->next_;
+    }
+    q->next_ = p->next_;
+    if (p->tag_ == 2)
+    {
+        Clear(p->down_);
+    }
+    delete p;
+}
+template <class ElemType>
+int GeneralizedList<ElemType>::GetLength()
+{
+    GeneralizedListNode<ElemType> *p = head_->next_;
     int length = 0;
     while (p)
     {
-        p = p->tLink;
+        p = p->next_;
         length++;
     }
     return length;
 }
-
 template <class ElemType>
-void GenList<ElemType>::ClearHelp(GenListNode<ElemType> *hd)
-// 操作结果：释放以hd为表头的广义表结构
+int GeneralizedList<ElemType>::GetDepth()
 {
-    hd->ref--; // 引用数自减1
-
-    if (hd->ref == 0)
-    {                                        // 引用数为0,释放结点所占用空间
-        GenListNode<ElemType> *pre = hd, *p; // 临时变量
-        for (p = hd->tLink; p != NULL; p = p->tLink)
-        {               // 扫描广义表hd的顶层
-            delete pre; // 释放pre
-            pre = p;
-            if (p->tag == LIST)      // p为子表
-                ClearHelp(p->hLink); // 释放子表
-        }
-        delete pre; // 释放尾结点pre
-    }
+    return GetDepth(head_);
 }
-
 template <class ElemType>
-GenList<ElemType>::~GenList()
-// 操作结果：释放广义表结构——析构函数
+GeneralizedListNode<ElemType> *GeneralizedList<ElemType>::GetFirst() const
 {
-    ClearHelp(head);
+    return head_->next_;
 }
-
 template <class ElemType>
-void GenList<ElemType>::CopyHelp(const GenListNode<ElemType> *sourceHead,
-                                 GenListNode<ElemType> *&destHead)
-// 初始条件: 以sourceHead为头结点的广义表为非递归广义表
-// 操作结果: 将以sourceHead为头结点的广义表复制成以destHead为头结点的广义表
+GeneralizedListNode<ElemType> *GeneralizedList<ElemType>::GetNext(GeneralizedListNode<ElemType> *node) const
 {
-    destHead = new GenListNode<ElemType>(HEAD); // 复制头结点
-    GenListNode<ElemType> *destPtr = destHead;  // destHead的当前结点
-    destHead->ref = 1;                          // 引用数为1
-    for (GenListNode<ElemType> *p = sourceHead->tLink; p != NULL;
-         p = p->tLink)
-    { // 扫描广义表sourceHead的顶层
-        destPtr = destPtr->tLink = new GenListNode<ElemType>(p->tag);
-        // 生成新结点
-        if (p->tag == LIST)
-        {                                       // 子表
-            CopyHelp(p->hLink, destPtr->hLink); // 复制子表
-        }
-        else
-        {                            // 原子结点
-            destPtr->atom = p->atom; // 复制原子结点
-        }
-    }
+    return node->next_;
 }
-
 template <class ElemType>
-GenList<ElemType>::GenList(const GenList<ElemType> &g)
-// 操作结果：由广义表g构造新广义表--复制构造函数
+GeneralizedList<ElemType> &GeneralizedList<ElemType>::operator=(const GeneralizedList<ElemType> &list)
 {
-    CopyHelp(g.head, head);
-}
-
-template <class ElemType>
-GenList<ElemType> &GenList<ElemType>::operator=(const GenList<ElemType> &g)
-// 操作结果：将广义表g赋值给当前广义表--赋值语句重载
-{
-    if (&g != this)
+    if (&list != this)
     {
-        ClearHelp(head);        // 清空当前广义表
-        CopyHelp(g.head, head); // 复制广义表
+        Clear(head_);
+        Copy(list.head_, head_);
     }
     return *this;
 }
-
-template <class ElemType>
-void GenList<ElemType>::CreateHelp(GenListNode<ElemType> *&first)
-// 操作结果：创建以first为头结点的广义表
-{
-    char ch = GetChar(); // 读入字符
-    switch (ch)
-    {
-    case ')': // 广义表建立完毕
-        return;
-    case '(': // 子表
-        // 表头为子表
-        first = new GenListNode<ElemType>(LIST); // 生成表结点
-
-        GenListNode<ElemType> *subHead;            // 子表指针
-        subHead = new GenListNode<ElemType>(HEAD); // 生成子表的头结点
-        subHead->ref = 1;                          // 引用数为1
-        first->hLink = subHead;                    // subHead为子表
-        CreateHelp(subHead->tLink);                // 递归建立子表
-
-        ch = GetChar(); // 跳过','
-        if (ch != ',')
-            cin.putback(ch);      // 如不是','，则将ch回退到输入流
-        CreateHelp(first->tLink); // 建立广义表下一结点
-        break;
-    default: // 原子
-        // 表头为原子
-        cin.putback(ch);                         // 将ch回退到输入流
-        ElemType amData;                         // 原子结点数据
-        cin >> amData;                           // 输入原子结点数据
-        first = new GenListNode<ElemType>(ATOM); // 生成原表结点
-        first->atom = amData;                    // 原子结点数据
-
-        ch = GetChar(); // 跳过','
-        if (ch != ',')
-            cin.putback(ch);      // 如不是','，则将ch回退到输入流
-        CreateHelp(first->tLink); // 建立广义表下一结点
-        break;
-    }
-}
-
-template <class ElemType>
-void GenList<ElemType>::Input(void)
-// 操作结果：输入广义表
-{
-    ClearHelp(head);
-    head = new GenListNode<ElemType>(HEAD); // 生成广义表头结点
-    head->ref = 1;                          // 引用数为1
-
-    GetChar(); // 读入第一个'('
-               //	cout <<"ss"<<endl;
-    GenList<ElemType>::CreateHelp(head->tLink);
-    // 创建以head->tLink为表头的广义表
-}
-
 #endif
