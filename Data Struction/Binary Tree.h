@@ -1,8 +1,7 @@
 #pragma once
-#ifndef __BINaRY_TREE_H__
-#define __BINaRY_TREE_H__
+#ifndef __BINARY_TREE_H__
+#define __BINARY_TREE_H__
 #include "Binary Tree Node.h"
-#include <assert.h>
 #include <queue>
 using namespace std;
 template <class ElemType>
