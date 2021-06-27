@@ -13,23 +13,23 @@ protected:
 
 public:
     SequenceList(int maxSize = 1000);
-    SequenceList(ElemType *v, int n, int maxSize = 1000);
+    SequenceList(ElemType *elems, int n, int maxSize = 1000);
     SequenceList(const SequenceList<ElemType> &list);
     virtual ~SequenceList();
     void Clear();
     bool IsEmpty() const;
     void Display() const;
     void Traverse() const;
-    void AppendElem(const ElemType &e);
-    void InsertElem(int i, const ElemType &e);
-    void DeleteElem(int i);
-    void SetElem(int i, const ElemType &e);
+    void AppendElem(const ElemType &elem);
+    void InsertElem(int index, const ElemType &elem);
+    void DeleteElem(int index);
+    void SetElem(int index, const ElemType &elem);
     int GetLength() const;
-    int GetIndex(const ElemType &e) const;
-    ElemType GetElem(int i) const;
-    void SwapElem(int indexA, int indexB);
+    int GetIndex(const ElemType &elem) const;
+    ElemType GetElem(int index) const;
+    void SwapElem(int firstIndex, int secondIndex);
     void Reverse();
-    void DeleteBetween(ElemType low, ElemType high);
+    void DeleteBetween(ElemType &minElem, ElemType &maxElem);
     void DeleteRepeat();
     void Sort();
     SequenceList<ElemType> &operator=(const SequenceList<ElemType> &list);
@@ -41,12 +41,12 @@ SequenceList<ElemType>::SequenceList(int maxSize) : length_(0), maxSize_(maxSize
     elems_ = new ElemType[maxSize_];
 }
 template <class ElemType>
-SequenceList<ElemType>::SequenceList(ElemType *v, int n, int maxSize) : length_(n), maxSize_(maxSize)
+SequenceList<ElemType>::SequenceList(ElemType *elems, int n, int maxSize) : length_(n), maxSize_(maxSize)
 {
     elems_ = new ElemType[maxSize_];
     for (int i = 0; i < length_; i++)
     {
-        elems_[i] = v[i];
+        elems_[i] = elems[i];
     }
 }
 template <class ElemType>
@@ -97,53 +97,53 @@ void SequenceList<ElemType>::Traverse() const
     cout << endl;
 }
 template <class ElemType>
-void SequenceList<ElemType>::AppendElem(const ElemType &e)
+void SequenceList<ElemType>::AppendElem(const ElemType &elem)
 {
     if (length_ == maxSize_)
     {
         throw string("范围错误。");
     }
-    elems_[length_++] = e;
+    elems_[length_++] = elem;
 }
 template <class ElemType>
-void SequenceList<ElemType>::InsertElem(int i, const ElemType &e)
+void SequenceList<ElemType>::InsertElem(int index, const ElemType &elem)
 {
     if (length_ == maxSize_)
     {
         throw(string) "溢出。";
     }
-    if (i < 0 or i >= length_ + 1)
+    if (index < 0 || index >= length_ + 1)
     {
         throw string("范围错误。");
     }
-    for (int j = length_; j > i; j--)
+    for (int j = length_; j > index; j--)
     {
         elems_[j] = elems_[j - 1];
     }
-    elems_[i] = e;
+    elems_[index] = elem;
     length_++;
 }
 template <class ElemType>
-void SequenceList<ElemType>::DeleteElem(int i)
+void SequenceList<ElemType>::DeleteElem(int index)
 {
-    if (i < 0 or i >= length_)
+    if (index < 0 || index >= length_)
     {
         throw string("范围错误。");
     }
-    for (int j = i; j < length_ - 1; j++)
+    for (int j = index; j < length_ - 1; j++)
     {
         elems_[j] = elems_[j + 1];
     }
     length_--;
 }
 template <class ElemType>
-void SequenceList<ElemType>::SetElem(int i, const ElemType &e)
+void SequenceList<ElemType>::SetElem(int index, const ElemType &elem)
 {
-    if (i < 0 or i >= length_)
+    if (index < 0 || index >= length_)
     {
         throw string("范围错误。");
     }
-    elems_[i] = e;
+    elems_[index] = elem;
 }
 template <class ElemType>
 int SequenceList<ElemType>::GetLength() const
@@ -151,11 +151,11 @@ int SequenceList<ElemType>::GetLength() const
     return length_;
 }
 template <class ElemType>
-int SequenceList<ElemType>::GetIndex(const ElemType &e) const
+int SequenceList<ElemType>::GetIndex(const ElemType &elem) const
 {
     for (int i = 0; i < length_; i++)
     {
-        if (elems_[i] == e)
+        if (elems_[i] == elem)
         {
             return i;
         }
@@ -163,20 +163,20 @@ int SequenceList<ElemType>::GetIndex(const ElemType &e) const
     return 0;
 }
 template <class ElemType>
-ElemType SequenceList<ElemType>::GetElem(int i) const
+ElemType SequenceList<ElemType>::GetElem(int index) const
 {
-    if (i < 0 or i >= length_)
+    if (index < 0 || index >= length_)
     {
         throw string("范围错误。");
     }
-    return elems_[i];
+    return elems_[index];
 }
 template <class ElemType>
-void SequenceList<ElemType>::SwapElem(int indexA, int indexB)
+void SequenceList<ElemType>::SwapElem(int firstIndex, int secondIndex)
 {
-    ElemType temp = elems_[indexA];
-    elems_[indexA] = elems_[indexB];
-    elems_[indexB] = temp;
+    ElemType temp = elems_[firstIndex];
+    elems_[firstIndex] = elems_[secondIndex];
+    elems_[secondIndex] = temp;
 }
 template <class ElemType>
 void SequenceList<ElemType>::Reverse()
@@ -189,9 +189,9 @@ void SequenceList<ElemType>::Reverse()
     }
 }
 template <class ElemType>
-void SequenceList<ElemType>::DeleteBetween(ElemType low, ElemType high)
+void SequenceList<ElemType>::DeleteBetween(ElemType &minElem, ElemType &maxElem)
 {
-    if (low >= high)
+    if (minElem >= maxElem)
     {
         throw string("范围错误。");
     }
@@ -201,7 +201,7 @@ void SequenceList<ElemType>::DeleteBetween(ElemType low, ElemType high)
     }
     for (int i = 0; i < length_; i++)
     {
-        if (elems_[i] > low and elems_[i] < high)
+        if (elems_[i] > minElem and elems_[i] < maxElem)
         {
             elems_[i] = GetElem(i + 1);
             DeleteElem(i + 1);

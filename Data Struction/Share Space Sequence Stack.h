@@ -20,7 +20,7 @@ public:
     bool IsEmpty(int number) const;
     void Display() const;
     void Traverse(int number) const;
-    void Push(int number, const ElemType elem);
+    void Push(int number, const ElemType &elem);
     void Pop(int number);
     int GetLength(int number) const;
     ElemType GetTop(int number) const;
@@ -124,7 +124,7 @@ void ShareSpaceSequenceStack<ElemType>::Traverse(int number) const
     cout << endl;
 }
 template <class ElemType>
-void ShareSpaceSequenceStack<ElemType>::Push(int number, const ElemType elem)
+void ShareSpaceSequenceStack<ElemType>::Push(int number, const ElemType &elem)
 {
     if (number != 0 && number != 1)
     {

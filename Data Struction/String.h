@@ -9,7 +9,7 @@ class String
 protected:
     char *characters_;
     int length_;
-    int *GetFailure(const String &string);
+    int *GetFailure(const String &string) const;
 
 public:
     String();
@@ -26,12 +26,13 @@ public:
     int GetIndex(const char character) const;
     char GetChar(int index) const;
     String GetSubString(int index, int length) const;
+    int *GetFrequency() const;
     const char *GetCharacters() const;
     void Copy(const String &string);
     void Copy(const String &string, int length);
     int Compare(const String &string) const;
-    int BruteForcePatternMatching(const String &string);
-    int KMPPatternMatching(const String &string);
+    int BruteForcePatternMatching(const String &string) const;
+    int KMPPatternMatching(const String &string) const;
     String &operator=(const String &string);
     char &operator[](int index) const;
     String operator+(const String &string) const;
@@ -45,7 +46,7 @@ public:
     friend istream &operator>>(istream &in, String &string);
     friend ostream &operator<<(ostream &out, const String &string);
 };
-int *String::GetFailure(const String &string)
+int *String::GetFailure(const String &string) const
 {
     int j = 0;
     int k = -1;
@@ -186,6 +187,15 @@ String String::GetSubString(int index, int length) const
     temp[length] = '\0';
     return String(temp);
 }
+int *String::GetFrequency() const
+{
+    int *times = new int[128]{0};
+    for (int i = 0; i < length_; i++)
+    {
+        times[int(characters_[i])]++;
+    }
+    return times;
+}
 const char *String::GetCharacters() const
 {
     return (const char *)characters_;
@@ -209,7 +219,7 @@ int String::Compare(const String &string) const
 {
     return strcmp(characters_, string.characters_);
 }
-int String::BruteForcePatternMatching(const String &string)
+int String::BruteForcePatternMatching(const String &string) const
 {
     int i = 0;
     int j = 0;
@@ -235,7 +245,7 @@ int String::BruteForcePatternMatching(const String &string)
         return -1;
     }
 }
-int String::KMPPatternMatching(const String &string)
+int String::KMPPatternMatching(const String &string) const
 {
     int *failure = GetFailure(string);
     int i = 0;

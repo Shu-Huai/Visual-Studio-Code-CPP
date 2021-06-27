@@ -2,11 +2,11 @@
 int main()
 {
     char functionSelect = 0;
-    SequenceList<int> SL;
+    SequenceList<int> list;
     int elem = 0;
-    int i = 0;
-    double minimumValue = 0;
-    double maximumValue = 0;
+    int index = 0;
+    int minElem = 0;
+    int maxElem = 0;
     while (functionSelect != '0')
     {
         cout << "1. 生成顺序表。";
@@ -40,14 +40,14 @@ int main()
         switch (functionSelect)
         {
         case '1':
-            SL.Clear();
+            list.Clear();
             cout << "输入元素（输入0时停止）：";
             cin >> elem;
             while (elem)
             {
                 try
                 {
-                    SL.AppendElem(elem);
+                    list.AppendElem(elem);
                 }
                 catch (string &error)
                 {
@@ -58,14 +58,14 @@ int main()
             }
             break;
         case '2':
-            SL.Traverse();
+            list.Traverse();
             break;
         case '3':
             cout << "输入元素下标：";
-            cin >> i;
+            cin >> index;
             try
             {
-                elem = SL.GetElem(i);
+                elem = list.GetElem(index);
             }
             catch (string &error)
             {
@@ -76,12 +76,12 @@ int main()
             break;
         case '4':
             cout << "输入元素下标：";
-            cin >> i;
+            cin >> index;
             cout << "输入元素：";
             cin >> elem;
             try
             {
-                SL.SetElem(i, elem);
+                list.SetElem(index, elem);
             }
             catch (string &error)
             {
@@ -92,10 +92,10 @@ int main()
             break;
         case '5':
             cout << "输入元素下标：";
-            cin >> i;
+            cin >> index;
             try
             {
-                SL.DeleteElem(i);
+                list.DeleteElem(index);
             }
             catch (string &error)
             {
@@ -106,12 +106,12 @@ int main()
             break;
         case '6':
             cout << "输入元素下标：";
-            cin >> i;
+            cin >> index;
             cout << "输入元素：";
             cin >> elem;
             try
             {
-                SL.InsertElem(i, elem);
+                list.InsertElem(index, elem);
             }
             catch (string &error)
             {
@@ -123,10 +123,10 @@ int main()
         case '7':
             cout << "输入元素：";
             cin >> elem;
-            i = SL.GetIndex(elem);
-            if (i != 0)
+            index = list.GetIndex(elem);
+            if (index != 0)
             {
-                cout << "下标是：" << i << "。" << endl;
+                cout << "下标是：" << index << "。" << endl;
             }
             else
             {
@@ -134,34 +134,34 @@ int main()
             }
             break;
         case '8':
-            cout << "长度是：" << SL.GetLength() << endl;
+            cout << "长度是：" << list.GetLength() << endl;
             break;
         case '9':
-            SL.DeleteRepeat();
+            list.DeleteRepeat();
             cout << "成功。" << endl;
             break;
         case 'a':
-            SL.Reverse();
+            list.Reverse();
             cout << "成功。" << endl;
             break;
         case 'b':
             cout << "输入最小元素：";
-            cin >> minimumValue;
+            cin >> minElem;
             cout << "输入最大元素：";
-            cin >> maximumValue;
+            cin >> maxElem;
             try
             {
-                SL.DeleteBetween(minimumValue, maximumValue);
+                list.DeleteBetween(minElem, maxElem);
             }
             catch (string &error)
             {
                 cout << error << endl;
                 break;
             }
-            cout << "删除" << minimumValue << "和" << maximumValue << "之间的元素。" << endl;
+            cout << "删除" << minElem << "和" << maxElem << "之间的元素。" << endl;
             break;
         case 'c':
-            SL.Sort();
+            list.Sort();
             cout << "成功。" << endl;
             break;
         }

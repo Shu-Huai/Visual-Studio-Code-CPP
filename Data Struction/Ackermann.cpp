@@ -57,7 +57,7 @@ int main()
     {
         if (m == -1 && n == -1)
         {
-            cout << "Exit." << endl;
+            cout << "退出。" << endl;
             break;
         }
         cout << "递归的结果是：" << AkmWithRecursion(m, n) << endl

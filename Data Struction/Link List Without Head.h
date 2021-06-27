@@ -18,12 +18,12 @@ public:
     bool IsEmpty() const;
     void Display() const;
     void Traverse() const;
-    void AppendElem(const ElemType elem);
-    void InsertElem(int index, const ElemType elem);
+    void AppendElem(const ElemType &elem);
+    void InsertElem(int index, const ElemType &elem);
     void DeleteElem(int index);
-    void SetElem(int index, const ElemType elem);
+    void SetElem(int index, const ElemType &elem);
     int GetLength() const;
-    int GetIndex(const ElemType elem) const;
+    int GetIndex(const ElemType &elem) const;
     ElemType GetElem(int index) const;
     void Reverse();
     void Merge(LinkListWithoutHead<ElemType> &list);
@@ -106,7 +106,7 @@ void LinkListWithoutHead<ElemType>::Traverse() const
     cout << endl;
 }
 template <class ElemType>
-void LinkListWithoutHead<ElemType>::AppendElem(const ElemType elem)
+void LinkListWithoutHead<ElemType>::AppendElem(const ElemType &elem)
 {
     if (!head_)
     {
@@ -124,7 +124,7 @@ void LinkListWithoutHead<ElemType>::AppendElem(const ElemType elem)
     length_++;
 }
 template <class ElemType>
-void LinkListWithoutHead<ElemType>::InsertElem(int index, const ElemType elem)
+void LinkListWithoutHead<ElemType>::InsertElem(int index, const ElemType &elem)
 {
     if (index < 0 || index >= length_ + 1)
     {
@@ -174,7 +174,7 @@ void LinkListWithoutHead<ElemType>::DeleteElem(int index)
     length_--;
 }
 template <class ElemType>
-void LinkListWithoutHead<ElemType>::SetElem(int index, const ElemType elem)
+void LinkListWithoutHead<ElemType>::SetElem(int index, const ElemType &elem)
 {
     if (index < 0 || index >= length_)
     {
@@ -193,7 +193,7 @@ int LinkListWithoutHead<ElemType>::GetLength() const
     return length_;
 }
 template <class ElemType>
-int LinkListWithoutHead<ElemType>::GetIndex(const ElemType elem) const
+int LinkListWithoutHead<ElemType>::GetIndex(const ElemType &elem) const
 {
     LinkListNode<ElemType> *p = head_;
     int count = 0;

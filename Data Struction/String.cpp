@@ -7,6 +7,7 @@ int main()
     int index = 0;
     int length = 0;
     char character = 0;
+    int *times;
     while (functionSelect != '0')
     {
         cout << "1. 生成字符串。";
@@ -29,9 +30,11 @@ int main()
         cout << endl
              << "a. 模式匹配。";
         cout << endl
+             << "b. 统计频数。";
+        cout << endl
              << "0. 退出。";
         cout << endl
-             << "选择功能（0~a）：";
+             << "选择功能（0~b）：";
         cin >> functionSelect;
         switch (functionSelect)
         {
@@ -121,6 +124,18 @@ int main()
             {
                 cout << "下标是：" << index << "。" << endl;
             }
+            break;
+        case 'b':
+            times = string.GetFrequency();
+            for (int i = 0; i < 128; i++)
+            {
+                if (times[i])
+                {
+                    cout << char(i) << "：" << times[i] << " ";
+                }
+            }
+            delete[] times;
+            cout << endl;
             break;
         }
     }

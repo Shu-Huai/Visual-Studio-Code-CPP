@@ -18,7 +18,7 @@ public:
     bool IsEmpty() const;
     void Display() const;
     void Traverse() const;
-    void Push(const ElemType elem);
+    void Push(const ElemType &elem);
     void Pop();
     int GetLength() const;
     ElemType GetFront() const;
@@ -91,7 +91,7 @@ void LinkQueue<ElemType>::Traverse() const
     cout << endl;
 }
 template <class ElemType>
-void LinkQueue<ElemType>::Push(const ElemType elem)
+void LinkQueue<ElemType>::Push(const ElemType &elem)
 {
     LinkListNode<ElemType> *p = new LinkListNode<ElemType>(elem, NULL);
     rear_->next_ = p;

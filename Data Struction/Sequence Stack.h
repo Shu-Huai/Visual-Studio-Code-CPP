@@ -19,7 +19,7 @@ public:
     bool IsEmpty() const;
     void Display() const;
     void Traverse() const;
-    void Push(const ElemType elem);
+    void Push(const ElemType &elem);
     void Pop();
     int GetLength() const;
     ElemType GetTop() const;
@@ -78,7 +78,7 @@ void SequenceStack<ElemType>::Traverse() const
     cout << endl;
 }
 template <class ElemType>
-void SequenceStack<ElemType>::Push(const ElemType elem)
+void SequenceStack<ElemType>::Push(const ElemType &elem)
 {
     if (top_ == maxSize_)
     {

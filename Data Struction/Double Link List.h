@@ -19,12 +19,12 @@ public:
     bool IsEmpty() const;
     void Display() const;
     void Traverse() const;
-    void AppendElem(const ElemType elem);
-    void InsertElem(int index, const ElemType elem);
+    void AppendElem(const ElemType &elem);
+    void InsertElem(int index, const ElemType &elem);
     void DeleteElem(int index);
-    void SetElem(int index, const ElemType elem);
+    void SetElem(int index, const ElemType &elem);
     int GetLength() const;
-    int GetIndex(const ElemType elem) const;
+    int GetIndex(const ElemType &elem) const;
     ElemType GetElem(int index) const;
     void SwapElem(int positionA, int positionB);
     DoubleLinkList<ElemType> &operator=(const DoubleLinkList<ElemType> &list);
@@ -115,7 +115,7 @@ void DoubleLinkList<ElemType>::Traverse() const
     cout << endl;
 }
 template <class ElemType>
-void DoubleLinkList<ElemType>::AppendElem(const ElemType elem)
+void DoubleLinkList<ElemType>::AppendElem(const ElemType &elem)
 {
     DoubleLinkListNode<ElemType> *p = new DoubleLinkListNode<ElemType>(elem, head_->prior_, head_);
     head_->prior_->next_ = p;
@@ -123,7 +123,7 @@ void DoubleLinkList<ElemType>::AppendElem(const ElemType elem)
     length_++;
 }
 template <class ElemType>
-void DoubleLinkList<ElemType>::InsertElem(int index, const ElemType elem)
+void DoubleLinkList<ElemType>::InsertElem(int index, const ElemType &elem)
 {
     if (index < 0 || index >= length_ + 2)
     {
@@ -156,7 +156,7 @@ void DoubleLinkList<ElemType>::DeleteElem(int index)
     length_--;
 }
 template <class ElemType>
-void DoubleLinkList<ElemType>::SetElem(int index, const ElemType elem)
+void DoubleLinkList<ElemType>::SetElem(int index, const ElemType &elem)
 {
     if (index < 0 || index >= length_)
     {
@@ -175,7 +175,7 @@ int DoubleLinkList<ElemType>::GetLength() const
     return length_;
 }
 template <class ElemType>
-int DoubleLinkList<ElemType>::GetIndex(const ElemType elem) const
+int DoubleLinkList<ElemType>::GetIndex(const ElemType &elem) const
 {
     DoubleLinkListNode<ElemType> *p = head_->next_;
     int count = 0;

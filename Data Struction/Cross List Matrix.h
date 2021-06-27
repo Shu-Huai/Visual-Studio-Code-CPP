@@ -17,7 +17,7 @@ public:
     ~CrossListMatrix();
     void Clear();
     void Display() const;
-    void SetElem(int rowIndex, int colIndex, const ElemType elem);
+    void SetElem(int rowIndex, int colIndex, const ElemType &elem);
     int GetRowNum() const;
     int GetColNum() const;
     int GetElemNum() const;
@@ -120,7 +120,7 @@ void CrossListMatrix<ElemType>::Display() const
     cout << "行数是：" << rowNum_ << "，列数是：" << colNum_ << "，元素数是：" << elemNum_ << "。" << endl;
 }
 template <class ElemType>
-void CrossListMatrix<ElemType>::SetElem(int rowIndex, int colIndex, const ElemType elem)
+void CrossListMatrix<ElemType>::SetElem(int rowIndex, int colIndex, const ElemType &elem)
 {
     if (rowIndex >= rowNum_ || rowIndex < 0 || colIndex >= colNum_ || colIndex < 0)
     {

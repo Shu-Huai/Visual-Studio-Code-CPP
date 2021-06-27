@@ -27,7 +27,7 @@ public:
     BinaryTree(BinaryTreeNode<ElemType> *node);
     BinaryTree(const BinaryTree<ElemType> &tree);
     virtual ~BinaryTree();
-    void CreateByPreOrder(ElemType *elems, int length, ElemType referenceValue);
+    void CreateByPreOrder(ElemType *elems, int length, ElemType &referenceValue);
     void Clear();
     bool IsEmpty() const;
     void PreOrderTraverse() const;
@@ -44,9 +44,9 @@ public:
     ElemType GetElem(BinaryTreeNode<ElemType> *node) const;
     BinaryTreeNode<ElemType> *GetParent(const BinaryTreeNode<ElemType> *node) const;
     BinaryTreeNode<ElemType> *GetLeftChild(const BinaryTreeNode<ElemType> *node) const;
-    BinaryTreeNode<ElemType> *GetRightChild(const BinaryTreeNode<ElemType> *p) const;
-    BinaryTreeNode<ElemType> *GetLeftSibling(const BinaryTreeNode<ElemType> *p) const;
-    BinaryTreeNode<ElemType> *GetRightSibling(const BinaryTreeNode<ElemType> *p) const;
+    BinaryTreeNode<ElemType> *GetRightChild(const BinaryTreeNode<ElemType> *node) const;
+    BinaryTreeNode<ElemType> *GetLeftSibling(const BinaryTreeNode<ElemType> *node) const;
+    BinaryTreeNode<ElemType> *GetRightSibling(const BinaryTreeNode<ElemType> *node) const;
     int GetHeight() const;
     int GetWidth() const;
     int GetNodeNumber() const;
@@ -233,7 +233,7 @@ BinaryTree<ElemType>::~BinaryTree()
     Clear(root_);
 }
 template <class ElemType>
-void BinaryTree<ElemType>::CreateByPreOrder(ElemType *elems, int length, ElemType referenceValue)
+void BinaryTree<ElemType>::CreateByPreOrder(ElemType *elems, int length, ElemType &referenceValue)
 {
     int index = 0;
     CreateByPreOrder(root_, elems, index, length, referenceValue);

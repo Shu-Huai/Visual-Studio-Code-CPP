@@ -8,7 +8,7 @@ int main()
     int n = 9, size = 15;
     int i = 0;
     int j = 0;
-    SeqBinaryTree<char> bt;
+    SequenceBinaryTree<char> bt;
     bt = CreateBinaryTree(pre, in, n, size);
     cout << "由先序：A,B,D,E,G,H,C,F,I和中序：D,B,G,E,H,A,C,F,I构造的二叉树：" << endl;
     DisplayBTWithTreeShape<char>(bt);
@@ -90,7 +90,7 @@ int main()
             break;
         case '8':
             cout << endl;
-            cout << "二叉树的高度为：" << bt.Height() << endl;
+            cout << "二叉树的高度为：" << bt.GetHeight() << endl;
             break;
         case '9':
             cout << endl;

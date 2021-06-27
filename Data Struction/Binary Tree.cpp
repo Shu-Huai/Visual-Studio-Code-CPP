@@ -53,7 +53,8 @@ int main()
                 elems[index++] = elem;
                 cin >> elem;
             }
-            tree.CreateByPreOrder(elems, index, -1);
+            elem = -1;
+            tree.CreateByPreOrder(elems, index, elem);
             break;
         case '2':
             tree.PreOrderTraverse();

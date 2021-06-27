@@ -20,7 +20,7 @@ public:
     bool IsEmpty() const;
     void Create();
     void Display() const;
-    void Insert(const ElemType elem);
+    void Insert(const ElemType &elem);
     void Insert(GeneralizedList<ElemType> &list);
     void Delete(int index);
     int GetLength();
@@ -179,7 +179,7 @@ void GeneralizedList<ElemType>::Display() const
     Display(head_);
 }
 template <class ElemType>
-void GeneralizedList<ElemType>::Insert(const ElemType elem)
+void GeneralizedList<ElemType>::Insert(const ElemType &elem)
 {
     GeneralizedListNode<ElemType> *p = new GeneralizedListNode<ElemType>(1, head_->next_);
     p->elem_ = elem;

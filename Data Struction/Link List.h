@@ -19,16 +19,16 @@ public:
     bool IsEmpty() const;
     void Display() const;
     void Traverse() const;
-    void AppendElem(const ElemType elem);
-    void InsertElem(int index, const ElemType elem);
+    void AppendElem(const ElemType &elem);
+    void InsertElem(int index, const ElemType &elem);
     void DeleteElem(int index);
-    void SetElem(int index, const ElemType elem);
+    void SetElem(int index, const ElemType &elem);
     int GetLength() const;
-    int GetIndex(const ElemType elem) const;
+    int GetIndex(const ElemType &elem) const;
     ElemType GetElem(int index) const;
     void SwapElem(int indexA, int indexB);
     void Reverse();
-    void DeleteBetween(ElemType minELem, ElemType maxElem);
+    void DeleteBetween(ElemType &minELem, ElemType &maxElem);
     void Merge(LinkList<ElemType> &list);
     LinkList<ElemType> &operator=(const LinkList<ElemType> &list);
     ElemType &operator[](int index);
@@ -112,7 +112,7 @@ void LinkList<ElemType>::Traverse() const
     cout << endl;
 }
 template <class ElemType>
-void LinkList<ElemType>::AppendElem(const ElemType elem)
+void LinkList<ElemType>::AppendElem(const ElemType &elem)
 {
     LinkListNode<ElemType> *p = head_;
     while (p->next_)
@@ -123,7 +123,7 @@ void LinkList<ElemType>::AppendElem(const ElemType elem)
     length_++;
 }
 template <class ElemType>
-void LinkList<ElemType>::InsertElem(int index, const ElemType elem)
+void LinkList<ElemType>::InsertElem(int index, const ElemType &elem)
 {
     if (index < 0 || index >= length_ + 1)
     {
@@ -156,7 +156,7 @@ void LinkList<ElemType>::DeleteElem(int index)
     length_--;
 }
 template <class ElemType>
-void LinkList<ElemType>::SetElem(int index, const ElemType elem)
+void LinkList<ElemType>::SetElem(int index, const ElemType &elem)
 {
     if (index < 0 || index >= length_)
     {
@@ -175,7 +175,7 @@ int LinkList<ElemType>::GetLength() const
     return length_;
 }
 template <class ElemType>
-int LinkList<ElemType>::GetIndex(const ElemType elem) const
+int LinkList<ElemType>::GetIndex(const ElemType &elem) const
 {
     LinkListNode<ElemType> *p = head_->next_;
     int count = 0;
@@ -239,7 +239,7 @@ void LinkList<ElemType>::Reverse()
     }
 }
 template <class ElemType>
-void LinkList<ElemType>::DeleteBetween(ElemType minELem, ElemType maxElem)
+void LinkList<ElemType>::DeleteBetween(ElemType &minELem, ElemType &maxElem)
 {
     if (minELem > maxElem)
     {

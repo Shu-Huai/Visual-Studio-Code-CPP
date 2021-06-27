@@ -5,11 +5,21 @@
 template <class ElemType>
 class LinkListNode
 {
-public:
+protected:
     ElemType elem_;
     LinkListNode<ElemType> *next_;
+
+public:
     LinkListNode();
     LinkListNode(ElemType elem, LinkListNode<ElemType> *next = NULL);
+    template <class SubElemType>
+    friend class LinkList;
+    template <class SubElemType>
+    friend class LinkListWithoutHead;
+    template <class SubElemType>
+    friend class LinkStack;
+    template <class SubElemType>
+    friend class LinkQueue;
 };
 template <class ElemType>
 LinkListNode<ElemType>::LinkListNode() : next_(NULL)

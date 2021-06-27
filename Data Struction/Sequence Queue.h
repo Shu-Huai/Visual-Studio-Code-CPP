@@ -19,7 +19,7 @@ public:
     bool IsEmpty() const;
     void Display() const;
     void Traverse() const;
-    void Push(const ElemType elem);
+    void Push(const ElemType &elem);
     void Pop();
     int GetLength() const;
     ElemType GetFront() const;
@@ -79,7 +79,7 @@ void SequenceQueue<ElemType>::Traverse() const
     cout << endl;
 }
 template <class ElemType>
-void SequenceQueue<ElemType>::Push(const ElemType elem)
+void SequenceQueue<ElemType>::Push(const ElemType &elem)
 {
     if ((rear_ + 1) % maxSize_ == front_)
     {

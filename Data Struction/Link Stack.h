@@ -17,7 +17,7 @@ public:
     bool IsEmpty() const;
     void Display() const;
     void Traverse() const;
-    void Push(const ElemType elem);
+    void Push(const ElemType &elem);
     void Pop();
     int GetLength() const;
     ElemType GetTop() const;
@@ -107,7 +107,7 @@ void LinkStack<ElemType>::Traverse() const
     cout << endl;
 }
 template <class ElemType>
-void LinkStack<ElemType>::Push(const ElemType elem)
+void LinkStack<ElemType>::Push(const ElemType &elem)
 {
     LinkListNode<ElemType> *p = new LinkListNode<ElemType>(elem, top_);
     top_ = p;

@@ -19,7 +19,7 @@ public:
     bool IsEmpty() const;
     void Dispay();
     void Traverse();
-    void Push(const ElemType elem);
+    void Push(const ElemType &elem);
     void Pop();
     int GetLength() const;
     ElemType GetFront();
@@ -105,7 +105,7 @@ void StackSimulateQueue<ElemType>::Traverse()
     cout << endl;
 }
 template <class ElemType>
-void StackSimulateQueue<ElemType>::Push(const ElemType elem)
+void StackSimulateQueue<ElemType>::Push(const ElemType &elem)
 {
     firstStack_.push(elem);
 }

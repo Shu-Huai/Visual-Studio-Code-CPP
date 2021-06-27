@@ -17,7 +17,7 @@ public:
     TripleSparseMatrix(const TripleSparseMatrix<ElemType> &matrix);
     ~TripleSparseMatrix();
     void Display() const;
-    void SetElem(int rowIndex, int colIndex, const ElemType elem);
+    void SetElem(int rowIndex, int colIndex, const ElemType &elem);
     int GetRowNum() const;
     int GetColNum() const;
     int GetElemNum() const;
@@ -78,7 +78,7 @@ void TripleSparseMatrix<ElemType>::Display() const
     }
 }
 template <class ElemType>
-void TripleSparseMatrix<ElemType>::SetElem(int rowIndex, int colIndex, const ElemType elem)
+void TripleSparseMatrix<ElemType>::SetElem(int rowIndex, int colIndex, const ElemType &elem)
 {
     if (elemNum_ == maxSize_)
     {
