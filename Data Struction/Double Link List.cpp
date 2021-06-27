@@ -2,12 +2,12 @@
 int main()
 {
     char functionSelect = 0;
-    DoubleLinkList<double> doubleLinkList;
+    DoubleLinkList<double> list;
     double elem = 0;
     int index = 0;
     while (functionSelect != '0')
     {
-        cout << "1.生成链表。";
+        cout << "1. 生成链表。";
         cout << endl
              << "2. 遍历链表。";
         cout << endl
@@ -28,24 +28,24 @@ int main()
         switch (functionSelect)
         {
         case '1':
-            doubleLinkList.Clear();
+            list.Clear();
             cout << "输入元素（输入0时退出）：";
             cin >> elem;
             while (elem != 0)
             {
-                doubleLinkList.AppendElem(elem);
+                list.AppendElem(elem);
                 cin >> elem;
             }
             break;
         case '2':
-            doubleLinkList.Traverse();
+            list.Traverse();
             break;
         case '3':
             cout << "输入元素下标：";
             cin >> index;
             try
             {
-                elem = doubleLinkList.GetElem(index);
+                elem = list.GetElem(index);
             }
             catch (string &error)
             {
@@ -61,7 +61,7 @@ int main()
             cin >> elem;
             try
             {
-                doubleLinkList.SetElem(index, elem);
+                list.SetElem(index, elem);
             }
             catch (string &error)
             {
@@ -75,7 +75,7 @@ int main()
             cin >> index;
             try
             {
-                doubleLinkList.DeleteElem(index);
+                list.DeleteElem(index);
             }
             catch (string &error)
             {
@@ -91,7 +91,7 @@ int main()
             cin >> elem;
             try
             {
-                doubleLinkList.InsertElem(index, elem);
+                list.InsertElem(index, elem);
             }
             catch (string &error)
             {
@@ -103,7 +103,7 @@ int main()
         case '7':
             cout << "输入元素：";
             cin >> elem;
-            index = doubleLinkList.GetIndex(elem);
+            index = list.GetIndex(elem);
             if (index == 0)
                 cout << "元素不存在。" << endl;
             else

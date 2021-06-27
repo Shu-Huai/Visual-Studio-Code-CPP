@@ -17,7 +17,7 @@ protected:
 	//	辅助函数:
 	int NodeCount(int r) const;									  // 统计以r为根的二叉树中结点个数
 	void SetNodeEmpty(int p);									  // 将结点p置空
-	void Destroy(int r);										  // 删除以r为根的二叉树
+	void Clear(int r);										  // 删除以r为根的二叉树
 	void PreOrderTraverse(int r, void (*Visit)(const ElemType &)) const;  // 先序遍历以r为根的二叉树
 	void InOrderTraverse(int r, void (*Visit)(const ElemType &)) const;	  // 中序遍历以r为根的二叉树
 	void PostOrderTraverse(int r, void (*Visit)(const ElemType &)) const; // 后序遍历以r为根的二叉树
@@ -35,7 +35,7 @@ public:
 	void InOrderTraverse(void (*Visit)(const ElemType &)) const;	   // 中序遍历二叉树
 	void PreOrderTraverse(void (*Visit)(const ElemType &)) const;	   // 先序遍历二叉树
 	void PostOrderTraverse(void (*Visit)(const ElemType &)) const;	   // 后序遍历二叉树
-	void LevelOrder(void (*Visit)(const ElemType &)) const;	   // 层次遍历二叉树
+	void LevelOrderTraverse(void (*Visit)(const ElemType &)) const;	   // 层次遍历二叉树
 	int NodeCount() const;									   // 求二叉树的结点个数
 	int LeftChild(const int p) const;						   // 求二叉树中结点p的左孩子
 	int RightChild(const int p) const;						   // 求二叉树中结点p的右孩子
@@ -210,7 +210,7 @@ void SeqBinaryTree<ElemType>::PostOrderTraverse(void (*Visit)(const ElemType &))
 }
 
 template <class ElemType>
-void SeqBinaryTree<ElemType>::LevelOrder(void (*Visit)(const ElemType &)) const
+void SeqBinaryTree<ElemType>::LevelOrderTraverse(void (*Visit)(const ElemType &)) const
 // 操作结果：层次遍历二叉树
 {
 	LinkQueue<int> q; // 定义辅助队列
@@ -385,7 +385,7 @@ Status SeqBinaryTree<ElemType>::DeleteLeftChild(int p)
 		return FAIL;
 	else
 	{
-		Destroy(LeftChild(p));
+		Clear(LeftChild(p));
 		return SUCCESS;
 	}
 }
@@ -398,19 +398,19 @@ Status SeqBinaryTree<ElemType>::DeleteRightChild(int p)
 		return FAIL;
 	else
 	{
-		Destroy(RightChild(p));
+		Clear(RightChild(p));
 		return SUCCESS;
 	}
 }
 
 template <class ElemType>
-void SeqBinaryTree<ElemType>::Destroy(int r)
+void SeqBinaryTree<ElemType>::Clear(int r)
 // 操作结果：删除以r为根的二叉树
 {
 	if (r >= 0 && r < maxSize && !IsNodeEmpty(r))
 	{							// r非空,实施删除
-		Destroy(LeftChild(r));	// 删除左子树
-		Destroy(RightChild(r)); // 删除右子树
+		Clear(LeftChild(r));	// 删除左子树
+		Clear(RightChild(r)); // 删除右子树
 		tag[r] = 0;				// 将r置空
 	}
 }

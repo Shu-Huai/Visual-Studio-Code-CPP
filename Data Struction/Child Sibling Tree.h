@@ -10,7 +10,7 @@ protected:
     ChildSiblingTreeNode<ElemType> *root_;
     ChildSiblingTreeNode<ElemType> *Copy(ChildSiblingTreeNode<ElemType> *r);
     ChildSiblingTreeNode<ElemType> *Create(ElemType *datas, int *parents, int n, int rootIndex);
-    void Destroy(ChildSiblingTreeNode<ElemType> *&r);
+    void Clear(ChildSiblingTreeNode<ElemType> *&r);
     void PreOrderTraverse(ChildSiblingTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
     void PostOrderTraverse(ChildSiblingTreeNode<ElemType> *r, void (*Visit)(const ElemType &)) const;
     ChildSiblingTreeNode<ElemType> *GetParent(ChildSiblingTreeNode<ElemType> *r, ChildSiblingTreeNode<ElemType> *CSTN) const;
@@ -97,12 +97,12 @@ ChildSiblingTreeNode<ElemType> *ChildSiblingTree<ElemType>::Create(ElemType *dat
     return NULL;
 }
 template <class ElemType>
-void ChildSiblingTree<ElemType>::Destroy(ChildSiblingTreeNode<ElemType> *&r)
+void ChildSiblingTree<ElemType>::Clear(ChildSiblingTreeNode<ElemType> *&r)
 {
     if (r)
     {
-        Destroy(r->firstChild_);
-        Destroy(r->nextSibling_);
+        Clear(r->firstChild_);
+        Clear(r->nextSibling_);
         delete r;
         r = NULL;
     }
@@ -248,7 +248,7 @@ ChildSiblingTree<ElemType>::ChildSiblingTree(const ChildSiblingTree<ElemType> &C
 template <class ElemType>
 ChildSiblingTree<ElemType>::~ChildSiblingTree()
 {
-    Destroy(root_);
+    Clear(root_);
 }
 template <class ElemType>
 bool ChildSiblingTree<ElemType>::IsEmpty() const
@@ -357,7 +357,7 @@ Status ChildSiblingTree<ElemType>::DeleteChild(ChildSiblingTreeNode<ElemType> *C
         p->nextSibling_ = q->nextSibling_;
     }
     e = q->elem_;
-    Destroy(q);
+    Clear(q);
     return SUCCESS;
 }
 template <class ElemType>
@@ -385,7 +385,7 @@ ChildSiblingTree<ElemType> &ChildSiblingTree<ElemType>::operator=(const ChildSib
 {
     if (&CST != this)
     {
-        Destroy(root_);
+        Clear(root_);
         root_ = Copy(CST.GetRoot());
     }
     return *this;

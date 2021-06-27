@@ -70,7 +70,7 @@ int main()
             break;
         case '3':
             cout << endl;
-            bt.LevelOrder(Write<char>);
+            bt.LevelOrderTraverse(Write<char>);
             break;
         case '4':
             cout << endl;

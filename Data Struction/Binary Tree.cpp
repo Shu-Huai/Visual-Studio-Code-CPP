@@ -1,44 +1,54 @@
 #include "Binary Tree.h"
 int main()
 {
-    BinaryTree<int> test0(0);
-    BinaryTreeNode<int> *testnode0 = test0.GetRoot();
-    test0.InsertLeftChild(testnode0, 1);
-    test0.InsertRightChild(testnode0, 2);
-    BinaryTreeNode<int> *testnode1 = testnode0->leftChild_;
-    test0.InsertLeftChild(testnode1, 3);
-    test0.InsertRightChild(testnode1, 4);
-    testnode0 = testnode0->rightChild_;
-    test0.InsertLeftChild(testnode0, 5);
-    test0.InsertRightChild(testnode0, 6);
-    cout << "PreOrder: ";
-    test0.PreOrderTraverse();
-    cout << endl;
-    cout << "InOrder: ";
-    test0.InOrderTraverse();
-    cout << endl;
-    cout << "PostOrder: ";
-    test0.PostOrderTraverse();
-    cout << endl;
-    cout << "LevelOrder: ";
-    test0.LevelOrder();
-    cout << endl;
-    cout << "Width: ";
-    cout << test0.GetWidth() << endl;
-    cout << "Delete 5." << endl;
-    test0.DeleteLeftChild(testnode0);
-    cout << "PreOrder: ";
-    test0.PreOrderTraverse();
-    cout << endl;
-    test0.GetMirror(test0.GetRoot());
-    test0.PreOrderTraverse();
-    cout << endl;
-    cout << "Width: " << test0.GetWidth() << endl;
-    cout << "Height: " << test0.GetHeight() << endl;
-    cout << "LeafNumber: " << test0.GetNodeNumber() << endl;
-    cout << "Clone." << endl;
-    BinaryTree<int> test1(test0);
-    test1.PreOrderTraverse();
-    cout << endl;
+    char functionSelect = 0;
+    BinaryTree<int> tree;
+    int elems[1000];
+    int elem = 0;
+    int index = 0;
+    while (functionSelect != '0')
+    {
+        cout << "1. 生成树。";
+        cout << endl
+             << "2. 前序遍历树。";
+        cout << endl
+             << "3. 中序遍历树。";
+        cout << endl
+             << "4. 后序遍历树。";
+        cout << endl
+             << "5. 层序遍历树。";
+        cout << endl
+             << "0. 退出。";
+        cout << endl
+             << "选择功能（0~7）：";
+        cin >> functionSelect;
+        switch (functionSelect)
+        {
+        case '1':
+            tree.Clear();
+            cout << "输入元素（输入0时退出）：";
+            index = 0;
+            cin >> elem;
+            while (elem != 0)
+            {
+                elems[index++] = elem;
+                cin >> elem;
+            }
+            tree.CreateByPreOrder(elems, index, -1);
+            break;
+        case '2':
+            tree.PreOrderTraverse();
+            break;
+        case '3':
+            tree.InOrderTraverse();
+            break;
+        case '4':
+            tree.PostOrderTraverse();
+            break;
+        case '5':
+            tree.LevelOrderTraverse();
+            break;
+        }
+    }
     return 0;
 }
