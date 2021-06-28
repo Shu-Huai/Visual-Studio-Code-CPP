@@ -14,10 +14,10 @@ public:
     bool IsBinarySortTree() const;
     void InsertElem(const ElemType &elem);
     void FindAndInsert(const ElemType &elem);
-    void DeleteNode(BinaryTreeNode<ElemType> *&p);
+    void DeleteNode(BinaryTreeNode<ElemType> *&node);
     void DeleteElem(const ElemType &key);
     BinaryTreeNode<ElemType> *Find(const ElemType &key) const;
-    void GetElemsAbove(int key) const;
+    void GetElemsAbove(const ElemType &key) const;
 };
 template <class ElemType>
 BinaryTreeNode<ElemType> *BinarySortTree<ElemType>::Find(const ElemType &key, BinaryTreeNode<ElemType> *&parentNode) const
@@ -133,37 +133,37 @@ void BinarySortTree<ElemType>::FindAndInsert(const ElemType &elem)
     }
 }
 template <class ElemType>
-void BinarySortTree<ElemType>::DeleteNode(BinaryTreeNode<ElemType> *&p)
+void BinarySortTree<ElemType>::DeleteNode(BinaryTreeNode<ElemType> *&node)
 {
     BinaryTreeNode<ElemType> *tempNode;
     BinaryTreeNode<ElemType> *tempParentNode;
-    if (!p->leftChild_ && !p->rightChild_)
+    if (!node->leftChild_ && !node->rightChild_)
     {
-        delete p;
-        p = NULL;
+        delete node;
+        node = NULL;
     }
-    else if (!p->leftChild_)
+    else if (!node->leftChild_)
     {
-        tempNode = p;
-        p = p->rightChild_;
+        tempNode = node;
+        node = node->rightChild_;
         delete tempNode;
     }
-    else if (!p->rightChild_)
+    else if (!node->rightChild_)
     {
-        tempNode = p;
-        p = p->leftChild_;
+        tempNode = node;
+        node = node->leftChild_;
         delete tempNode;
     }
     else
     {
-        tempParentNode = p;
-        tempNode = p->leftChild_;
+        tempParentNode = node;
+        tempNode = node->leftChild_;
         while (tempNode->rightChild_)
         {
             tempParentNode = tempNode;
             tempNode = tempNode->rightChild_;
         }
-        p->elem_ = tempNode->elem_;
+        node->elem_ = tempNode->elem_;
         if (tempParentNode->rightChild_ == tempNode)
         {
             DeleteNode(tempParentNode->rightChild_);
@@ -192,7 +192,7 @@ BinaryTreeNode<ElemType> *BinarySortTree<ElemType>::Find(const ElemType &key) co
     return Find(key, parentNode);
 }
 template <class ElemType>
-void BinarySortTree<ElemType>::GetElemsAbove(int key) const
+void BinarySortTree<ElemType>::GetElemsAbove(const ElemType &key) const
 {
     if (!this->root_)
     {
