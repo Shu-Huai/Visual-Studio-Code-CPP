@@ -1,7 +1,7 @@
 #include <iomanip>
 #include <iostream>
 using namespace std;
-long double FactorialByLoop(int number)
+long double GetFactorialByLoop(int number)
 {
     if (number < 0)
     {
@@ -19,7 +19,7 @@ long double FactorialByLoop(int number)
     }
     return result;
 }
-long double FactorialByRecursion(long double number)
+long double GetFactorialByRecursion(long double number)
 {
     if (number < 0)
     {
@@ -29,7 +29,7 @@ long double FactorialByRecursion(long double number)
     {
         return 1;
     }
-    return number * FactorialByRecursion(number - 1);
+    return number * GetFactorialByRecursion(number - 1);
 }
 int main()
 {
@@ -45,7 +45,7 @@ int main()
             cout << " * ";
         }
     }
-    cout << " = " << fixed << setprecision(0) << FactorialByLoop(number) << endl;
+    cout << " = " << fixed << setprecision(0) << GetFactorialByLoop(number) << endl;
     cout << number << "!用递归求：";
     for (int i = number; i > 0; i--)
     {
@@ -55,6 +55,6 @@ int main()
             cout << " * ";
         }
     }
-    cout << " = " << fixed << setprecision(0) << FactorialByRecursion(number) << endl;
+    cout << " = " << fixed << setprecision(0) << GetFactorialByRecursion(number) << endl;
     return 0;
 }
