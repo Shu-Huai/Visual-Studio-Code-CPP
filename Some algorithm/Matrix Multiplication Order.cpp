@@ -69,6 +69,17 @@ int main()
              << minTimes[1][matrixNumber] << " ";
         ShowResult(1, matrixNumber, cutPosition, matrixNumber);
         cout << endl;
+        delete[] rowColNumber;
+        for (int i = 0; i < matrixNumber + 1; i++)
+        {
+            delete[] minTimes[i];
+        }
+        delete[] minTimes;
+        for (int i = 0; i < matrixNumber + 1; i++)
+        {
+            delete[] cutPosition[i];
+        }
+        delete[] cutPosition;
     }
     return 0;
 }
