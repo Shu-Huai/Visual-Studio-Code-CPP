@@ -44,7 +44,7 @@ void ShowResult(int i, int j, int **subCase, char *stringA, string result)
     {
         if (subCase[i][j] == 1)
         {
-            result = stringA[i - 1] + (string)" " + result;
+            result = stringA[i - 1] + (string) " " + result;
             i--;
             j--;
         }
@@ -63,7 +63,7 @@ void ShowResult(int i, int j, int **subCase, char *stringA, string result)
             return;
         }
     }
-    cout << result << endl;
+    cout << result;
 }
 int main()
 {
@@ -98,7 +98,7 @@ int main()
         cout << "Case " << i + 1 << endl
              << "最长公共子序列的长度:" << maxLength[lengthA][lengthB] << endl
              << "LCS(X,Y):" << endl;
-        string result = "";
+        string result = "\n";
         ShowResult(lengthA, lengthB, subCase, stringA, result);
         cout << endl;
         for (int i = 0; i <= lengthA; i++)
