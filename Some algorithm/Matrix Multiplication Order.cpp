@@ -55,12 +55,12 @@ int main()
             cin >> rowColNumber[i];
         }
         int **minTimes = new int *[matrixNumber + 1];
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < matrixNumber + 1; i++)
         {
             minTimes[i] = new int[matrixNumber + 1]{0};
         }
         int **cutPosition = new int *[matrixNumber + 1];
-        for (int i = 0; i < 5; i++)
+        for (int i = 0; i < matrixNumber + 1; i++)
         {
             cutPosition[i] = new int[matrixNumber + 1]{0};
         }
@@ -73,12 +73,9 @@ int main()
         for (int i = 0; i < matrixNumber + 1; i++)
         {
             delete[] minTimes[i];
-        }
-        delete[] minTimes;
-        for (int i = 0; i < matrixNumber + 1; i++)
-        {
             delete[] cutPosition[i];
         }
+        delete[] minTimes;
         delete[] cutPosition;
     }
     return 0;
