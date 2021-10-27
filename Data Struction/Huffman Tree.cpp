@@ -7,18 +7,24 @@ int main()
     {
         int number = 0;
         cin >> number;
-        int *weight = new int[number]{0};
+        int *weights = new int[number]{0};
         for (int j = 0; j < number; j++)
         {
-            cin >> weight[j];
+            cin >> weights[j];
         }
-        HuffmanTree<int, int> tree(weight, weight, 6);
+        int *chars = new int[number]{0};
+        for (int j = 0; j < number; j++)
+        {
+            chars[j] = j;
+        }
+        HuffmanTree<int, int> tree(chars, weights, number);
         cout << "Case " << i + 1 << endl;
         for (int j = 0; j < number; j++)
         {
-            cout << weight[j] << " " << tree.Encode(weight[j]) << endl;
+            cout << weights[j] << " " << tree.Encode(chars[j]) << endl;
         }
-        delete[] weight;
+        delete[] weights;
+        delete[] chars;
     }
     return 0;
 }
