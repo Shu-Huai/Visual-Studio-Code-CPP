@@ -6,7 +6,9 @@ class HuffmanTreeNode
 {
 protected:
     WeightType m_weight;
-    int m_parent, m_leftChild, m_rightChild;
+    int m_parent;
+    int m_leftChild;
+    int m_rightChild;
 
 public:
     HuffmanTreeNode();

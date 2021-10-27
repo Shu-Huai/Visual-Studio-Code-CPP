@@ -8,143 +8,135 @@ template <class CharType, class WeightType>
 class HuffmanTree
 {
 protected:
-    HuffmanTreeNode<WeightType> *nodes_;
-    CharType *leafchars_;
-    string *leafcharcodes_;
-    int num_;
-    void Select(int n, int &rl, int &r2);
-    void CreatHuffmanTree(CharType ch[], WeightType w[], int n);
+    HuffmanTreeNode<WeightType> *m_nodes;
+    CharType *m_leafChars;
+    string *m_leafCharCodes;
+    int m_number;
+    void Select(int number, int &rootA, int &rootB);
 
 public:
-    HuffmanTree(CharType ch[], WeightType w[], int n);
+    HuffmanTree(CharType *chars, WeightType *weights, int number);
     virtual ~HuffmanTree();
-    string Encode(CharType ch);
+    string Encode(CharType c);
     string Decode(string strCode);
-    HuffmanTree(const HuffmanTree<CharType, WeightType> &t);
-    HuffmanTree<CharType, WeightType> &operator=(const HuffmanTree<CharType, WeightType> &t);
 };
 template <class CharType, class WeightType>
-void HuffmanTree<CharType, WeightType>::Select(int n, int &r1, int &r2)
+void HuffmanTree<CharType, WeightType>::Select(int number, int &rootA, int &rootB)
 {
-    r1 = -1;
-    r2 = -1;
-    for (int i = 0; i < n; i++)
+    rootA = -1;
+    rootB = -1;
+    for (int i = 0; i < number; i++)
     {
-        if (nodes_[i].m_parent == -1)
+        if (m_nodes[i].m_parent == -1)
         {
-            if (r1 == -1)
+            if (rootA == -1)
             {
-                r1 = i;
+                rootA = i;
             }
-            else if (nodes_[i].m_weight < nodes_[r1].m_weight)
+            else if (m_nodes[i].m_weight < m_nodes[rootA].m_weight)
             {
-                r2 = r1;
-                r1 = i;
+                rootB = rootA;
+                rootA = i;
             }
-        }
-        else if (r2 == -1 || nodes_[i].m_weight < nodes_[r2].m_weight)
-        {
-            r2 = i;
+            else if (rootB == -1 || m_nodes[i].m_weight < m_nodes[rootB].m_weight)
+            {
+                rootB = i;
+            }
         }
     }
 }
 template <class CharType, class WeightType>
-void HuffmanTree<CharType, WeightType>::CreatHuffmanTree(CharType ch[], WeightType w[], int n)
+HuffmanTree<CharType, WeightType>::HuffmanTree(CharType *chars, WeightType *weights, int number) : m_number(number)
 {
-    num_ = n;
-    int m = 2 * n - 1;
-    nodes_ = new HuffmanTreeNode<WeightType>[m];
-    leafchars_ = new CharType[n];
-    leafcharcodes_ = new string[n];
-    int i, p, q;
-    for (i = 0; i < n; i++)
+    m_nodes = new HuffmanTreeNode<WeightType>[2 * number - 1];
+    m_leafChars = new CharType[number];
+    m_leafCharCodes = new string[number]{""};
+    for (int i = 0; i < number; i++)
     {
-        nodes_[i].m_weight = w[i];
-        nodes_[i].m_leftChild = -1;
-        nodes_[i].m_rightChild = -1;
-        nodes_[i].m_parent = -1;
-        leafchars_[i] = ch[i];
+        m_nodes[i].m_weight = weights[i];
+        m_nodes[i].m_leftChild = -1;
+        m_nodes[i].m_rightChild = -1;
+        m_nodes[i].m_parent = -1;
+        m_leafChars[i] = chars[i];
     }
-    for (i = n; i < m; i++)
+    for (int i = number; i < 2 * number - 1; i++)
     {
-        int rl, r2;
-        Select(i, rl, r2);
-        nodes_[rl].m_parent = nodes_[r2].m_parent = i;
-        nodes_[i].m_leftChild = rl;
-        nodes_[i].m_rightChild = r2;
-        nodes_[i].m_parent = -1;
-        nodes_[i].m_weight = nodes_[rl].m_weight + nodes_[r2].m_weight;
-    }
-    for (i = 0; i < n; i++)
-    {
-        string charCode;
-        q = i;
-        p = nodes_[q].m_parent;
-        while (p != -1)
+        int rootA, rootB;
+        Select(i, rootA, rootB);
+        if (m_nodes[rootA].m_weight < m_nodes[rootB].m_weight)
         {
-            if (nodes_[p].m_leftChild == q)
+            swap(rootA, rootB);
+        }
+        m_nodes[rootA].m_parent = i;
+        m_nodes[rootB].m_parent = i;
+        m_nodes[i].m_leftChild = rootA;
+        m_nodes[i].m_rightChild = rootB;
+        m_nodes[i].m_parent = -1;
+        m_nodes[i].m_weight = m_nodes[rootA].m_weight + m_nodes[rootB].m_weight;
+    }
+    for (int i = 0; i < number; i++)
+    {
+        int current = i;
+        int parent = m_nodes[current].m_parent;
+        while (parent != -1)
+        {
+            if (m_nodes[parent].m_leftChild == current)
             {
-                charCode = "0" + charCode;
+                m_leafCharCodes[i] = "0" + m_leafCharCodes[i];
             }
             else
             {
-                charCode = "1" + charCode;
+                m_leafCharCodes[i] = "1" + m_leafCharCodes[i];
             }
-            q = p;
-            p = nodes_[q].m_parent;
-        };
-        leafcharcodes_[i] = charCode;
+            current = parent;
+            parent = m_nodes[current].m_parent;
+        }
     }
-}
-template <class CharType, class WeightType>
-HuffmanTree<CharType, WeightType>::HuffmanTree(CharType ch[], WeightType w[], int n)
-{
-    CreatHuffmanTree(ch, w, n);
 }
 template <class CharType, class WeightType>
 HuffmanTree<CharType, WeightType>::~HuffmanTree()
 {
-    delete[] nodes_;
-    delete[] leafchars_;
-    delete[] leafcharcodes_;
+    delete[] m_nodes;
+    delete[] m_leafChars;
+    delete[] m_leafCharCodes;
 }
 template <class CharType, class WeightType>
-string HuffmanTree<CharType, WeightType>::Encode(CharType ch)
+string HuffmanTree<CharType, WeightType>::Encode(CharType c)
 {
-    for (int i = 0; i < num_; i++)
+    for (int i = 0; i < m_number; i++)
     {
-        if (leafchars_[i] == ch)
+        if (m_leafChars[i] == c)
         {
-            return leafcharcodes_[i];
+            return m_leafCharCodes[i];
         }
-        throw string("非法字符， 无法编码！");
     }
+    throw string("非法字符。");
 }
 template <class CharType, class WeightType>
 string HuffmanTree<CharType, WeightType>::Decode(string strCode)
 {
-    string charList;
-    int p = 2 * num_ - 2;
+    string result;
+    int parent = 2 * m_number - 2;
     for (int i = 0; i < strCode.length(); i++)
     {
         if (strCode[i] == '0')
         {
-            p = nodes_[p].m_leftChild;
+            parent = m_nodes[parent].m_leftChild;
         }
         else
         {
-            p = nodes_[p].m_rightChild;
+            parent = m_nodes[parent].m_rightChild;
         }
-        if (nodes_[p].m_leftChild == -1 && nodes_[p].m_rightChild == -1)
+        if (m_nodes[parent].m_leftChild == -1 && m_nodes[parent].m_rightChild == -1)
         {
-            charList += (string)leafchars_[p];
-            p = 2 * num_ - 2;
+            result += (string)m_leafChars[parent];
+            parent = 2 * m_number - 2;
         }
     }
-    if (p != 2 * num_ - 2)
+    if (parent != 2 * m_number - 2)
     {
         throw string("编码不对，无法译码！");
     }
-    return charList;
+    return result;
 }
 #endif
