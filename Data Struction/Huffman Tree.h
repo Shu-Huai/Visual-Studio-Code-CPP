@@ -135,7 +135,7 @@ string HuffmanTree<CharType, WeightType>::Decode(string strCode)
     }
     if (parent != 2 * m_number - 2)
     {
-        throw string("编码不对，无法译码！");
+        throw string("非法字符。");
     }
     return result;
 }
