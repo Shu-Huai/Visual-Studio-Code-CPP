@@ -89,6 +89,12 @@
         "cassert": "cpp",
         "charconv": "cpp",
         "format": "cpp",
-        "locale": "cpp"
+        "locale": "cpp",
+        "forward_list": "cpp",
+        "map": "cpp",
+        "optional": "cpp",
+        "xlocbuf": "cpp",
+        "xlocmes": "cpp",
+        "xtree": "cpp"
     },
 }
