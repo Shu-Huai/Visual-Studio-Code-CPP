@@ -12,13 +12,21 @@ public:
             {
                 if (nums[i] + nums[j] == target)
                 {
-                    vector<int> result;
-                    result.push_back(i);
-                    result.push_back(j);
-                    return result;
+                    return vector<int>({i, j});
                 }
             }
         }
         return vector<int>();
     }
 };
+int main()
+{
+    Solution solution;
+    vector<int> source({3, 2, 4});
+    vector<int> result = solution.twoSum(source, 6);
+    if (result.size())
+    {
+        cout << result[0] << ", " << result[1] << endl;
+    }
+    return 0;
+}
