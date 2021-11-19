@@ -1,47 +1,61 @@
-#include "Assistant.h"
+#include <iostream>
+using namespace std;
 template <class ElemType>
-void QuickSort(ElemType *array, int length)
+void QuickSort(ElemType *elems, int low, int high)
 {
-    static long long nComp = 0;
-    static long long nAssign = 0;
-    ElemType pivot, temp;
-    int left = 0, right = length - 1;
-    if (length <= 1)
+    if (low < high)
     {
-        return;
+        ElemType referenceValue = elems[low];
+        int i = low;
+        int j = high;
+        while (i < j)
+        {
+            while (i < j && elems[j] >= referenceValue)
+            {
+                j--;
+            }
+            if (i < j)
+            {
+                elems[i] = elems[j];
+                i++;
+            }
+            while (i < j && elems[i] <= referenceValue)
+            {
+                i++;
+            }
+            if (i < j)
+            {
+                elems[j] = elems[i];
+                j--;
+            }
+        }
+        elems[i] = referenceValue;
+        QuickSort(elems, low, i - 1);
+        QuickSort(elems, i + 1, high);
     }
-    pivot = array[right];
-    do
-    {
-        while (left < right && array[left] <= pivot)
-        {
-            left++;
-            nComp++;
-        }
-        while (left < right && array[right] >= pivot)
-        {
-            right--;
-            nComp++;
-        }
-        if (left < right)
-        {
-            temp = array[left];
-            array[left] = array[right];
-            array[right] = temp;
-            nAssign += 3;
-        }
-    } while (left < right);
-    array[length - 1] = array[left];
-    array[left] = pivot;
-    nAssign += 2;
-    QuickSort(array, left);
-    QuickSort(array + left + 1, length - left - 1);
 }
 int main()
 {
-    int array[N] = {0};
-    Begin(array, N);
-    QuickSort(array, N);
-    End(array, N);
+    int count = 0;
+    int n = 0;
+    while (cin >> n)
+    {
+        if (n <= 0)
+        {
+            break;
+        }
+        int *elems = new int[n];
+        for (int i = 0; i < n; i++)
+        {
+            cin >> elems[i];
+        }
+        QuickSort(elems, 0, n - 1);
+        cout << "Case " << ++count << endl;
+        for (int i = 0; i < n; i++)
+        {
+            cout << elems[i] << " ";
+        }
+        cout << endl;
+    }
     return 0;
 }
