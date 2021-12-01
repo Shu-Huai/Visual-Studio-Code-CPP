@@ -1,7 +1,7 @@
 #include "Status.h"
 class ProcessControlBlock
 {
-    friend class ProcessScheduling;
+    friend class ProcessSchedulingAlgorithm;
 
 public:
     ProcessControlBlock();

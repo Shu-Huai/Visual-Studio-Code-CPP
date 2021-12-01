@@ -1,10 +1,10 @@
 #include "Process Control Block.cpp"
 using namespace std;
-class ProcessScheduling
+class ProcessSchedulingAlgorithm
 {
 public:
-    ProcessScheduling(int number);
-    ~ProcessScheduling();
+    ProcessSchedulingAlgorithm(int number);
+    ~ProcessSchedulingAlgorithm();
     void Display();
     void PriorityScheduling();
     void RoundRobin();
