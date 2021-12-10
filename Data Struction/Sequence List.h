@@ -250,10 +250,7 @@ SequenceList<ElemType> &SequenceList<ElemType>::operator=(const SequenceList<Ele
         elems_ = new ElemType[maxSize_];
         for (int i = 0; i < length_; i++)
         {
-            for (int i = 0; i < length_; i++)
-            {
-                elems_[i] = list.elems_[i];
-            }
+            elems_[i] = list.elems_[i];
         }
     }
     return *this;
