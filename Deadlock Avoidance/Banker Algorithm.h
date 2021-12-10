@@ -15,6 +15,5 @@ public:
     void Begin();
     void DisplaySystem();
     void DisplaySafe(const Resource &work, int i);
-    bool NotNeed(int i);
     bool CheckSafe();
 };

@@ -24,76 +24,49 @@ void BankerAlgorithm::Begin()
 {
     DisplaySystem();
     cout << "系统安全情况分析：" << endl
-         << "PID\tWork\t\tAllocation\tNeed\t\tWork + Allocation\n";
+         << "PID\tWork\tNeed\tAllocation\tWork + Allocation\n";
     bool isStart = CheckSafe();
     while (isStart)
     {
-        cout << endl
-             << "------------------------------------------------------------------------------------" << endl
+        cout << "------------------------------------------------------------------------------------" << endl
              << "请输入想分配的进程：";
         int curProcess = 0;
         cin >> curProcess;
         cout << "请输入想分配的资源：";
         Resource request(m_resourceNumber);
         cin >> request;
-        int count = 0;
-        for (int i = 0; i < m_resourceNumber; i++)
+        if (request > m_need[curProcess] || request > m_available)
         {
-            if (request[i] <= m_need[curProcess][i] && request[i] <= m_available[i])
-            {
-                count++;
-            }
-            else
-            {
-                cout << "分配错误，想分配的资源大于该进程的最大需要或系统所剩的资源不够这次分配。" << endl;
-                break;
-            }
+            cout << "分配错误，想分配的资源大于该进程的最大需要或系统所剩的资源不够这次分配。" << endl;
+            continue;
         }
-        if (count == m_resourceNumber)
+        m_available -= request;
+        m_allocation[curProcess] += request;
+        m_need[curProcess] -= request;
+        if (m_need[curProcess].EqualsZero())
         {
-            count = 0;
-            for (int i = 0; i < m_resourceNumber; i++)
-            {
-                m_available[i] -= request[i];
-                m_allocation[curProcess][i] += request[i];
-                m_need[curProcess][i] -= request[i];
-                if (!m_need[curProcess][i])
-                {
-                    count++;
-                }
-            }
-            if (m_need[curProcess].IsFinished())
-            {
-                for (int i = 0; i < m_resourceNumber; i++)
-                {
-                    m_available[i] = m_available[i] + m_allocation[curProcess][i];
-                }
-                cout << "本次分配进程P" << curProcess << "完成，该进程占用资源全部释放完毕。" << endl;
-            }
-            else
-            {
-                cout << "本次分配进程P" << curProcess << "未完成。" << endl;
-            }
-            DisplaySystem();
-            cout << "系统安全情况分析：" << endl
-                 << "PID\tWork\t\tAllocation\tNeed\t\tWork + Allocation\n";
-            if (!CheckSafe())
-            {
-                for (int i = 0; i < m_resourceNumber; i++)
-                {
-                    m_available[i] += request[i];
-                    m_allocation[curProcess][i] -= request[i];
-                    m_need[curProcess][i] += request[i];
-                }
-                cout << "资源不足，分配失败。" << endl;
-            }
+            m_available += m_allocation[curProcess];
+            cout << "本次分配进程P" << curProcess << "完成，该进程占用资源全部释放完毕。" << endl;
+        }
+        else
+        {
+            cout << "本次分配进程P" << curProcess << "未完成。" << endl;
+        }
+        DisplaySystem();
+        cout << "系统安全情况分析：" << endl
+             << "PID\tWork\tNeed\tAllocation\tWork + Allocation\n";
+        if (!CheckSafe())
+        {
+            m_available += request;
+            m_allocation[curProcess] -= request;
+            m_need[curProcess] += request;
+            cout << "资源不足，分配失败。" << endl;
         }
     }
 }
 void BankerAlgorithm::DisplaySystem()
 {
-    cout << endl
-         << "------------------------------------------------------------------------------------" << endl
+    cout << "------------------------------------------------------------------------------------" << endl
          << "系统资源剩余情况：" << endl;
     for (int i = 0; i < m_resourceNumber; i++)
     {
@@ -109,12 +82,7 @@ void BankerAlgorithm::DisplaySystem()
 }
 void BankerAlgorithm::DisplaySafe(const Resource &work, int i)
 {
-    cout << "P" << i << "\t" << work << "\t\t" << m_allocation[i] << "\t\t" << m_need[i] << "\t\t"
-         << m_allocation[i] + work << endl;
-}
-bool BankerAlgorithm::NotNeed(int i)
-{
-    return m_need[i].IsFinished();
+    cout << "P" << i << "\t" << work << "\t" << m_need[i] << "\t" << m_allocation[i] << "\t\t" << m_allocation[i] + work << endl;
 }
 bool BankerAlgorithm::CheckSafe()
 {
@@ -123,7 +91,7 @@ bool BankerAlgorithm::CheckSafe()
     int finishNumber = 0;
     for (int i = 0; i < m_processNumber; i++)
     {
-        if (NotNeed(i))
+        if (m_need[i].EqualsZero())
         {
             finish[i] = true;
             finishNumber++;
@@ -140,18 +108,10 @@ bool BankerAlgorithm::CheckSafe()
     int *safeSeries = new int[m_processNumber]{0};
     while (finishNumber != m_processNumber)
     {
-        int count = 0;
-        for (int i = 0; i < m_resourceNumber; i++)
-        {
-            if (m_need[r][i] <= work[i] && !finish[r])
-            {
-                count++;
-            }
-        }
-        if (count == m_resourceNumber)
+        if (!(m_need[r] > work) && !finish[r])
         {
             DisplaySafe(work, r);
-            work = work + m_allocation[r];
+            work += m_allocation[r];
             finishNumber++;
             safeSeries[safeIndex] = r;
             safeIndex++;
@@ -184,7 +144,7 @@ bool BankerAlgorithm::CheckSafe()
          << "安全序列为：";
     for (int i = 0; i < m_processNumber; i++)
     {
-        if (NotNeed(i))
+        if (m_need[i].EqualsZero())
         {
             processNumber--;
         }

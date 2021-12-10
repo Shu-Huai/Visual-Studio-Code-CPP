@@ -31,7 +31,7 @@ Resource::~Resource()
         delete[] m_resources;
     }
 }
-bool Resource::IsFinished()
+bool Resource::EqualsZero()
 {
     for (int i = 0; i < m_number; i++)
     {
@@ -84,12 +84,12 @@ bool Resource::operator>(const Resource &resource)
 {
     for (int i = 0; i < m_number; i++)
     {
-        if (m_resources[i] <= resource.m_resources[i])
+        if (m_resources[i] > resource.m_resources[i])
         {
-            return false;
+            return true;
         }
     }
-    return true;
+    return false;
 }
 Resource &Resource::operator=(const Resource &resource)
 {

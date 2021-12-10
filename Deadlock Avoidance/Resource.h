@@ -10,7 +10,7 @@ public:
     Resource(int number = 0, int *resources = nullptr);
     Resource(const Resource &resource);
     ~Resource();
-    bool IsFinished();
+    bool EqualsZero();
     Resource operator+(const Resource &resource);
     Resource &operator+=(const Resource &resource);
     Resource &operator-=(const Resource &resource);
