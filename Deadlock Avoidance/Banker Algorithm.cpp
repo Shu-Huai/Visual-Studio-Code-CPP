@@ -1,22 +1,21 @@
 #include "Banker Algorithm.h"
 using namespace std;
-BankerAlgorithm::BankerAlgorithm(int processNumber, int resourceNumber, int **tempMax, int **tempAllocation, int **tempNeed)
+BankerAlgorithm::BankerAlgorithm(int processNumber, int resourceNumber, int *available, int **max, int **allocation, int **need)
     : m_processNumber(processNumber), m_resourceNumber(resourceNumber)
 {
-    m_available = new int[m_resourceNumber]{3, 3, 2};
+    m_available = Resource(3, available);
     m_max = new Resource[m_processNumber];
     m_allocation = new Resource[m_processNumber];
     m_need = new Resource[m_processNumber];
     for (int i = 0; i < m_processNumber; i++)
     {
-        m_max[i] = Resource(m_resourceNumber, tempMax[i]);
-        m_allocation[i] = Resource(m_resourceNumber, tempAllocation[i]);
-        m_need[i] = Resource(m_resourceNumber, tempNeed[i]);
+        m_max[i] = Resource(m_resourceNumber, max[i]);
+        m_allocation[i] = Resource(m_resourceNumber, allocation[i]);
+        m_need[i] = Resource(m_resourceNumber, need[i]);
     }
 }
 BankerAlgorithm::~BankerAlgorithm()
 {
-    delete[] m_available;
     delete[] m_max;
     delete[] m_allocation;
     delete[] m_need;
@@ -35,11 +34,8 @@ void BankerAlgorithm::Begin()
         int curProcess = 0;
         cin >> curProcess;
         cout << "请输入想分配的资源：";
-        int *request = new int[m_resourceNumber];
-        for (int i = 0; i < m_resourceNumber; i++)
-        {
-            cin >> request[i];
-        }
+        Resource request(m_resourceNumber);
+        cin >> request;
         int count = 0;
         for (int i = 0; i < m_resourceNumber; i++)
         {
@@ -66,7 +62,7 @@ void BankerAlgorithm::Begin()
                     count++;
                 }
             }
-            if (count == m_resourceNumber)
+            if (m_need[curProcess].IsFinished())
             {
                 for (int i = 0; i < m_resourceNumber; i++)
                 {
@@ -76,7 +72,7 @@ void BankerAlgorithm::Begin()
             }
             else
             {
-                cout << "本次分配进程P" << curProcess << "不可完成。" << endl;
+                cout << "本次分配进程P" << curProcess << "未完成。" << endl;
             }
             DisplaySystem();
             cout << "系统安全情况分析：" << endl
@@ -92,7 +88,6 @@ void BankerAlgorithm::Begin()
                 cout << "资源不足，分配失败。" << endl;
             }
         }
-        delete[] request;
     }
 }
 void BankerAlgorithm::DisplaySystem()
@@ -123,7 +118,7 @@ bool BankerAlgorithm::NotNeed(int i)
 }
 bool BankerAlgorithm::CheckSafe()
 {
-    Resource work(m_resourceNumber, m_available);
+    Resource work(m_available);
     bool *finish = new bool[m_processNumber]{false};
     int finishNumber = 0;
     for (int i = 0; i < m_processNumber; i++)
@@ -155,9 +150,9 @@ bool BankerAlgorithm::CheckSafe()
         }
         if (count == m_resourceNumber)
         {
+            DisplaySafe(work, r);
             work = work + m_allocation[r];
             finishNumber++;
-            DisplaySafe(work, r);
             safeSeries[safeIndex] = r;
             safeIndex++;
             finish[r] = true;
