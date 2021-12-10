@@ -2,16 +2,12 @@
 class BankerAlgorithm
 {
 private:
-    int processNum;
-    int resourceNum;
-    int *available;
-    Resource *maxRequest;
-    Resource *allocation;
-    Resource *need;
-    bool *Finish;
-    int *safeSeries;
-    int *request;
-    int num;
+    int m_processNumber;
+    int m_resourceNumber;
+    int *m_available;
+    Resource *m_maxRequest;
+    Resource *m_allocation;
+    Resource *m_need;
 
 public:
     BankerAlgorithm();

@@ -9,7 +9,7 @@ private:
 public:
     Resource(int number = 0, int *resources = nullptr);
     ~Resource();
-    bool IsAllZero();
+    bool IsFinished();
     Resource operator+(const Resource &resource);
     Resource &operator=(const Resource &resource);
     int &operator[](int i);

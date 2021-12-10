@@ -17,7 +17,7 @@ Resource::~Resource()
 {
     delete[] m_resources;
 }
-bool Resource::IsAllZero()
+bool Resource::IsFinished()
 {
     for (int i = 0; i < m_number; i++)
     {

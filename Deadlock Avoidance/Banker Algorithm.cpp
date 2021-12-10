@@ -2,40 +2,33 @@
 using namespace std;
 BankerAlgorithm::BankerAlgorithm()
 {
-    processNum = 5;
-    resourceNum = 3;
+    m_processNumber = 5;
+    m_resourceNumber = 3;
     const int tempProcessNum = 5;
     const int tempResourceNum = 3;
-    available = new int[resourceNum]{3, 3, 2};
-    maxRequest = new Resource[processNum];
+    m_available = new int[m_resourceNumber]{3, 3, 2};
+    m_maxRequest = new Resource[m_processNumber];
     int tempMax[tempProcessNum][tempResourceNum] = {{7, 5, 3}, {3, 2, 2}, {9, 0, 2}, {2, 2, 2}, {4, 3, 3}};
-    allocation = new Resource[processNum];
+    m_allocation = new Resource[m_processNumber];
     int tempAllocation[tempProcessNum][tempResourceNum] = {{0, 1, 0}, {2, 0, 0}, {3, 0, 2}, {2, 1, 1}, {0, 0, 2}};
-    need = new Resource[processNum];
+    m_need = new Resource[m_processNumber];
     int tempNeed[tempProcessNum][tempResourceNum] = {{7, 4, 3}, {1, 2, 2}, {6, 0, 0}, {0, 1, 1}, {4, 3, 1}};
-    for (int i = 0; i < processNum; i++)
+    for (int i = 0; i < m_processNumber; i++)
     {
-        maxRequest[i] = Resource(resourceNum, tempMax[i]);
-        allocation[i] = Resource(resourceNum, tempAllocation[i]);
-        need[i] = Resource(resourceNum, tempNeed[i]);
+        m_maxRequest[i] = Resource(m_resourceNumber, tempMax[i]);
+        m_allocation[i] = Resource(m_resourceNumber, tempAllocation[i]);
+        m_need[i] = Resource(m_resourceNumber, tempNeed[i]);
     }
-    Finish = new bool[processNum];
-    safeSeries = new int[processNum]{0};
-    request = new int[resourceNum];
 }
 BankerAlgorithm::~BankerAlgorithm()
 {
-    delete[] available;
-    delete[] maxRequest;
-    delete[] allocation;
-    delete[] need;
-    delete[] Finish;
-    delete[] safeSeries;
-    delete[] request;
+    delete[] m_available;
+    delete[] m_maxRequest;
+    delete[] m_allocation;
+    delete[] m_need;
 }
 void BankerAlgorithm::Begin()
 {
-    int curProcess = 0;
     DisplaySystem();
     cout << "系统安全情况分析：" << endl
          << "PID\tWork\t\tAllocation\tNeed\t\tWork+Allocation\n";
@@ -44,73 +37,68 @@ void BankerAlgorithm::Begin()
     {
         cout << endl
              << "------------------------------------------------------------------------------------" << endl
-             << "请输入分配的进程：";
+             << "请输入想分配的进程：";
+        int curProcess = 0;
         cin >> curProcess;
-        cout << "请输入分配的资源：";
-        for (int i = 0; i < resourceNum; i++)
+        cout << "请输入想分配的资源：";
+        int *request = new int[m_resourceNumber];
+        for (int i = 0; i < m_resourceNumber; i++)
         {
             cin >> request[i];
         }
-        num = 0;
-        for (int i = 0; i < resourceNum; i++)
+        int count = 0;
+        for (int i = 0; i < m_resourceNumber; i++)
         {
-            if (request[i] <= need[curProcess][i] && request[i] <= available[i])
+            if (request[i] <= m_need[curProcess][i] && request[i] <= m_available[i])
             {
-                num++;
+                count++;
             }
             else
             {
-                printf("\n发生错误！可能原因如下：\n(1)您请求分配的资源可能大于该进程的某些资源的最大需要！\n(2)系统所剩的资源已经不足了！\n");
+                cout << "分配错误。想分配的资源大于该进程的最大需要！或系统所剩的资源不够这次分配" << endl;
                 break;
             }
         }
-        if (num == resourceNum)
+        if (count == m_resourceNumber)
         {
-            num = 0;
-            for (int j = 0; j < resourceNum; j++)
+            count = 0;
+            for (int i = 0; i < m_resourceNumber; i++)
             {
-                //分配资源
-                available[j] = available[j] - request[j];
-                allocation[curProcess][j] = allocation[curProcess][j] + request[j];
-                need[curProcess][j] = need[curProcess][j] - request[j];
-                //记录分配以后，是否该进程需要值为0了
-                if (need[curProcess][j] == 0)
+                m_available[i] -= request[i];
+                m_allocation[curProcess][i] += request[i];
+                m_need[curProcess][i] -= request[i];
+                if (!m_need[curProcess][i])
                 {
-                    num++;
+                    count++;
                 }
             }
-            //如果分配以后出现该进程对所有资源的需求为0了，即刻释放该进程占用资源（视为完成）
-            if (num == resourceNum)
+            if (count == m_resourceNumber)
             {
-                //释放已完成资源
-                for (int i = 0; i < resourceNum; i++)
+                for (int i = 0; i < m_resourceNumber; i++)
                 {
-                    available[i] = available[i] + allocation[curProcess][i];
+                    m_available[i] = m_available[i] + m_allocation[curProcess][i];
                 }
-                printf("\n\n本次分配进程 P%d 完成,该进程占用资源全部释放完毕！\n", curProcess);
+                cout << "本次分配进程P" << curProcess << "完成，该进程占用资源全部释放完毕。" << endl;
             }
             else
             {
-                //资源分配可以不用一次性满足进程需求
-                printf("\n\n本次分配进程 P%d 未完成！\n", curProcess);
+                cout << "本次分配进程P" << curProcess << "不可完成。" << endl;
             }
-
             DisplaySystem();
-            printf("\n系统安全情况分析\n");
-            printf(" PID\t Work\t\tAllocation\t Need\t\tWork+Allocation\n");
-
-            //预分配完成以后，判断该系统是否安全，若安全，则可继续进行分配，若不安全，将已经分配的资源换回来
+            cout << "系统安全情况分析：" << endl
+                 << "PID\tWork\t\tAllocation\tNeed\t\tWork+Allocation\n";
             if (!CheckSafe())
             {
-                for (int j = 0; j < resourceNum; j++)
+                for (int i = 0; i < m_resourceNumber; i++)
                 {
-                    available[j] = available[j] + request[j];
-                    allocation[curProcess][j] = allocation[curProcess][j] - request[j];
-                    need[curProcess][j] = need[curProcess][j] + request[j];
+                    m_available[i] += request[i];
+                    m_allocation[curProcess][i] -= request[i];
+                    m_need[curProcess][i] += request[i];
                 }
-                printf("资源不足，等待中...\n\n分配失败！\n");
+                cout << "资源不足，分配失败。" << endl;
             }
         }
+        delete[] request;
     }
 }
 void BankerAlgorithm::DisplaySystem()
@@ -118,98 +106,104 @@ void BankerAlgorithm::DisplaySystem()
     cout << endl
          << "------------------------------------------------------------------------------------" << endl
          << "系统资源剩余情况：" << endl;
-    for (int i = 0; i < resourceNum; i++)
+    for (int i = 0; i < m_resourceNumber; i++)
     {
-        cout << available[i] << " ";
+        cout << m_available[i] << " ";
     }
     cout << endl
          << "进程资源分配情况：" << endl
          << "PID\tMax\t\tAllocation\tNeed" << endl;
-    for (int i = 0; i < processNum; i++)
+    for (int i = 0; i < m_processNumber; i++)
     {
-        cout << "P" << i << "\t" << maxRequest[i] << "\t\t" << allocation[i] << "\t\t" << need[i] << endl;
+        cout << "P" << i << "\t" << m_maxRequest[i] << "\t\t" << m_allocation[i] << "\t\t" << m_need[i] << endl;
     }
 }
 void BankerAlgorithm::DisplaySafe(const Resource &work, int i)
 {
-    cout << "P" << i << "\t" << work << "\t\t" << allocation[i] << "\t\t" << need[i] << "\t\t"
-         << allocation[i] + work << endl;
+    cout << "P" << i << "\t" << work << "\t\t" << m_allocation[i] << "\t\t" << m_need[i] << "\t\t"
+         << m_allocation[i] + work << endl;
 }
 bool BankerAlgorithm::NotNeed(int i)
 {
-    return need[i].IsAllZero();
+    return m_need[i].IsFinished();
 }
 bool BankerAlgorithm::CheckSafe()
 {
-    int safeIndex = 0;
-    int allFinish = 0;
-    Resource work(resourceNum, available);
-    int r = 0;
-    int temp = 0;
-    int pNum = 0;
-    for (int i = 0; i < processNum; i++)
+    Resource work(m_resourceNumber, m_available);
+    bool *finish = new bool[m_processNumber]{false};
+    int finishNumber = 0;
+    for (int i = 0; i < m_processNumber; i++)
     {
         if (NotNeed(i))
         {
-            Finish[i] = true;
-            allFinish++;
+            finish[i] = true;
+            finishNumber++;
         }
         else
         {
-            Finish[i] = false;
+            finish[i] = false;
         }
     }
-    while (allFinish != processNum)
+    int r = 0;
+    int temp = 0;
+    int processNumber = 0;
+    int safeIndex = 0;
+    int *safeSeries = new int[m_processNumber]{0};
+    while (finishNumber != m_processNumber)
     {
-        num = 0;
-        for (int i = 0; i < resourceNum; i++)
+        int count = 0;
+        for (int i = 0; i < m_resourceNumber; i++)
         {
-            if (need[r][i] <= work[i] && !Finish[r])
+            if (m_need[r][i] <= work[i] && !finish[r])
             {
-                num++;
+                count++;
             }
         }
-        if (num == resourceNum)
+        if (count == m_resourceNumber)
         {
-            work = work + allocation[r];
-            allFinish++;
+            work = work + m_allocation[r];
+            finishNumber++;
             DisplaySafe(work, r);
             safeSeries[safeIndex] = r;
             safeIndex++;
-            Finish[r] = true;
+            finish[r] = true;
         }
         r++;
-        if (r >= processNum)
+        if (r >= m_processNumber)
         {
-            r %= processNum;
-            if (temp == allFinish)
+            r %= m_processNumber;
+            if (temp == finishNumber)
             {
                 break;
             }
-            temp = allFinish;
+            temp = finishNumber;
         }
-        pNum = allFinish;
+        processNumber = finishNumber;
     }
-    for (int i = 0; i < processNum; i++)
+    for (int i = 0; i < m_processNumber; i++)
     {
-        if (!Finish[i])
+        if (!finish[i])
         {
             cout << "当前系统不安全。" << endl;
+            delete[] safeSeries;
+            delete[] finish;
             return false;
         }
     }
+    delete[] finish;
     cout << "当前系统安全。" << endl
          << "安全序列为：";
-    for (int i = 0; i < processNum; i++)
+    for (int i = 0; i < m_processNumber; i++)
     {
         if (NotNeed(i))
         {
-            pNum--;
+            processNumber--;
         }
     }
-    for (int i = 0; i < pNum; i++)
+    for (int i = 0; i < processNumber; i++)
     {
         cout << safeSeries[i] << " ";
     }
+    delete[] safeSeries;
     return true;
 }
