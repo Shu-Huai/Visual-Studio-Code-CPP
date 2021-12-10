@@ -1,21 +1,15 @@
 #include "Banker Algorithm.h"
 using namespace std;
-BankerAlgorithm::BankerAlgorithm()
+BankerAlgorithm::BankerAlgorithm(int processNumber, int resourceNumber, int **tempMax, int **tempAllocation, int **tempNeed)
+    : m_processNumber(processNumber), m_resourceNumber(resourceNumber)
 {
-    m_processNumber = 5;
-    m_resourceNumber = 3;
-    const int tempProcessNum = 5;
-    const int tempResourceNum = 3;
     m_available = new int[m_resourceNumber]{3, 3, 2};
-    m_maxRequest = new Resource[m_processNumber];
-    int tempMax[tempProcessNum][tempResourceNum] = {{7, 5, 3}, {3, 2, 2}, {9, 0, 2}, {2, 2, 2}, {4, 3, 3}};
+    m_max = new Resource[m_processNumber];
     m_allocation = new Resource[m_processNumber];
-    int tempAllocation[tempProcessNum][tempResourceNum] = {{0, 1, 0}, {2, 0, 0}, {3, 0, 2}, {2, 1, 1}, {0, 0, 2}};
     m_need = new Resource[m_processNumber];
-    int tempNeed[tempProcessNum][tempResourceNum] = {{7, 4, 3}, {1, 2, 2}, {6, 0, 0}, {0, 1, 1}, {4, 3, 1}};
     for (int i = 0; i < m_processNumber; i++)
     {
-        m_maxRequest[i] = Resource(m_resourceNumber, tempMax[i]);
+        m_max[i] = Resource(m_resourceNumber, tempMax[i]);
         m_allocation[i] = Resource(m_resourceNumber, tempAllocation[i]);
         m_need[i] = Resource(m_resourceNumber, tempNeed[i]);
     }
@@ -23,7 +17,7 @@ BankerAlgorithm::BankerAlgorithm()
 BankerAlgorithm::~BankerAlgorithm()
 {
     delete[] m_available;
-    delete[] m_maxRequest;
+    delete[] m_max;
     delete[] m_allocation;
     delete[] m_need;
 }
@@ -31,7 +25,7 @@ void BankerAlgorithm::Begin()
 {
     DisplaySystem();
     cout << "系统安全情况分析：" << endl
-         << "PID\tWork\t\tAllocation\tNeed\t\tWork+Allocation\n";
+         << "PID\tWork\t\tAllocation\tNeed\t\tWork + Allocation\n";
     bool isStart = CheckSafe();
     while (isStart)
     {
@@ -55,7 +49,7 @@ void BankerAlgorithm::Begin()
             }
             else
             {
-                cout << "分配错误。想分配的资源大于该进程的最大需要！或系统所剩的资源不够这次分配" << endl;
+                cout << "分配错误，想分配的资源大于该进程的最大需要或系统所剩的资源不够这次分配。" << endl;
                 break;
             }
         }
@@ -86,7 +80,7 @@ void BankerAlgorithm::Begin()
             }
             DisplaySystem();
             cout << "系统安全情况分析：" << endl
-                 << "PID\tWork\t\tAllocation\tNeed\t\tWork+Allocation\n";
+                 << "PID\tWork\t\tAllocation\tNeed\t\tWork + Allocation\n";
             if (!CheckSafe())
             {
                 for (int i = 0; i < m_resourceNumber; i++)
@@ -115,7 +109,7 @@ void BankerAlgorithm::DisplaySystem()
          << "PID\tMax\t\tAllocation\tNeed" << endl;
     for (int i = 0; i < m_processNumber; i++)
     {
-        cout << "P" << i << "\t" << m_maxRequest[i] << "\t\t" << m_allocation[i] << "\t\t" << m_need[i] << endl;
+        cout << "P" << i << "\t" << m_max[i] << "\t\t" << m_allocation[i] << "\t\t" << m_need[i] << endl;
     }
 }
 void BankerAlgorithm::DisplaySafe(const Resource &work, int i)

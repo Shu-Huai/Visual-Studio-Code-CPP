@@ -5,12 +5,12 @@ private:
     int m_processNumber;
     int m_resourceNumber;
     int *m_available;
-    Resource *m_maxRequest;
+    Resource *m_max;
     Resource *m_allocation;
     Resource *m_need;
 
 public:
-    BankerAlgorithm();
+    BankerAlgorithm(int processNumber, int resourceNumber, int **tempMax, int **tempAllocation, int **tempNeed);
     ~BankerAlgorithm();
     void Begin();
     void DisplaySystem();

@@ -7,7 +7,7 @@ Resource::Resource(int number, int *resources) : m_number(number)
         m_resources = nullptr;
         return;
     }
-    m_resources = new int[m_number];
+    m_resources = new int[m_number]{0};
     for (int i = 0; i < m_number; i++)
     {
         m_resources[i] = resources[i];
