@@ -28,8 +28,7 @@ void BankerAlgorithm::Begin()
     bool isStart = CheckSafe();
     while (isStart)
     {
-        cout << "------------------------------------------------------------------------------------" << endl
-             << "请输入想分配的进程：";
+        cout << "请输入想分配的进程：";
         int curProcess = 0;
         cin >> curProcess;
         cout << "请输入想分配的资源：";
@@ -66,8 +65,7 @@ void BankerAlgorithm::Begin()
 }
 void BankerAlgorithm::DisplaySystem()
 {
-    cout << "------------------------------------------------------------------------------------" << endl
-         << "系统资源剩余情况：" << endl;
+    cout << "系统资源剩余情况：" << endl;
     for (int i = 0; i < m_resourceNumber; i++)
     {
         cout << m_available[i] << " ";
@@ -153,6 +151,7 @@ bool BankerAlgorithm::CheckSafe()
     {
         cout << safeSeries[i] << " ";
     }
+    cout << endl;
     delete[] safeSeries;
     return true;
 }
