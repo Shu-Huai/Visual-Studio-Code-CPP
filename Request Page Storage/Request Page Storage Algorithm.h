@@ -1,24 +1,25 @@
 #include <vector>
+using namespace std;
 class RequestPageStorageAlgorithm
 {
 private:
-    int m_memorySize;
-    int m_addressNumber;
+    int m_virtualMemorySize;
+    int m_instructionNumber;
     int m_pageSize;
-    int m_tableSize;
+    int m_realMemorySize;
     vector<int> m_address;
     vector<int> m_page;
 
 public:
-    RequestPageStorageAlgorithm(int memorySize, int addressNumber, int pageSize, int windowSize);
+    RequestPageStorageAlgorithm(int virtualMemorySize, int instructionNumber, int pageSize, int realMemorySize);
     void CreateAddress();
     void CalcPage();
     void Optimal();
     void LeastRecentlyUsed();
-    int GetMemorySize();
-    int GetAddressNumber();
+    int GetVirtualMemorySize();
+    int GetInstructionNumber();
     int GetPageSize();
-    int GetTableSize();
+    int GetRealMemorySize();
     void ShowAddress();
     void ShowPage();
 };
