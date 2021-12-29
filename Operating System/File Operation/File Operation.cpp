@@ -29,9 +29,9 @@ void Initialize()
         p->m_next = user;
         user = p;
     }
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < openNumber; i++)
     {
-        ActiveFileDirectory *f = new ActiveFileDirectory(5 - i, ProtectCode(), nullptr, openFile);
+        ActiveFileDirectory *f = new ActiveFileDirectory(4 - i, ProtectCode(), nullptr, openFile);
         openFile = f;
     }
 }
@@ -74,6 +74,7 @@ void OpenMode(UserFileDirectory *p, string name)
             cout << "文件已经打开。" << endl;
             return;
         }
+        f = f->m_next;
     }
     for (int i = 0; i < openNumber; i++)
     {
