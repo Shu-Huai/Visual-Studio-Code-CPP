@@ -1,404 +1,267 @@
-#include <cstring>
+#include "Active File Directory.h"
+#include "Master File Directory.h"
 #include <iomanip>
 #include <iostream>
-using namespace std;
 string a[10] = {"carol", "Lily", "Lucy", "Bob", "A", "B", " C ", " D ", " E ", "F"};
 string command[7] = {"CREATE", "DELETE", "OPEN", " CLOSE ", " READ ", " WRITE ", " BYE "};
-struct UFD
+ActiveFileDirectory *openFile;
+MasterFileDirectory *user = nullptr;
+MasterFileDirectory *thisuser;
+int userNumber;
+int fileNumber;
+int openNumber;
+void Initialize()
 {
-    string filename;
-    int pro[3];
-    int codel;
-    UFD *next;
-};
-struct MFD
-{
-    string username;
-    UFD *file;
-    MFD *next;
-};
-struct AFD
-{
-    int filenum;
-    char filepro[3];
-    UFD *point;
-    AFD *next;
-};
-AFD *openfile = NULL;
-MFD *user = NULL;
-MFD *thisuser;
-void init()
-{
-    int x = 0;
-    for (int i = 0; i < 10; i++)
+    userNumber = 10;
+    fileNumber = 10;
+    openNumber = 5;
+    for (int i = 0; i < userNumber; i++)
     {
-        MFD *p;
-        p = new MFD;
-        p->username = a[x];
-        UFD *fhead = NULL;
-        for (int j = 0; j < 10; j++)
+        MasterFileDirectory *p = new MasterFileDirectory;
+        p->m_userName = a[i];
+        UserFileDirectory *head = nullptr;
+        for (int j = 0; j < fileNumber; j++)
         {
-            UFD *q;
-            q = new UFD;
-            q->filename = "******";
-            for (int a = 0; a < 3; a++)
-            {
-                q->pro[a] = 0;
-            }
-            q->codel = 0;
-            q->next = fhead;
-            fhead = q;
-            p->file = fhead;
-            if (j == 9)
-            {
-                UFD *r = fhead;
-                while (r->next != NULL)
-                {
-                    r = r->next;
-                }
-                r->next = fhead;
-            }
+            UserFileDirectory *q = new UserFileDirectory("", ProtectCode(), 0, head);
+            head = q;
+            p->m_file = head;
         }
-        p->next = user;
+        p->m_next = user;
         user = p;
-        x++;
     }
     for (int i = 0; i < 5; i++)
     {
-        AFD *f;
-        f = new AFD;
-        f->filenum = 5 - i;
-        for (int j = 0; j < 3; j++)
-        {
-            f->filepro[i] = 0;
-        }
-        f->point = NULL;
-        f->next = openfile;
-        openfile = f;
-        if (i == 4)
-        {
-            AFD *p = openfile;
-            while (p->next != NULL)
-            {
-                p = p->next;
-            }
-            p->next = openfile;
-        }
+        ActiveFileDirectory *f = new ActiveFileDirectory(5 - i, ProtectCode(), nullptr, openFile);
+        openFile = f;
     }
 }
-int checkUser(string username)
+bool CheckUser(string userName)
 {
-    MFD *p;
-    for (p = user; p != NULL; p = p->next)
+    MasterFileDirectory *p = user;
+    for (p = user; p; p = p->m_next)
     {
-        if (p->username == username)
+        if (p->m_userName == userName)
         {
-            break;
+            thisuser = p;
+            return true;
         }
     }
-    if (p != NULL)
-    {
-        thisuser = p;
-        return 1;
-    }
-    else
-    {
-        return 0;
-    }
+    return false;
 }
-void show()
+void Show()
 {
     cout << "YOUR FILE DIRECTORY" << endl;
     cout << setw(20) << setiosflags(ios::left) << setfill(' ') << "FILE NAME";
     cout << setw(20) << setiosflags(ios::left) << setfill(' ') << "PROTECTION";
     cout << setw(20) << setiosflags(ios::left) << setfill(' ') << "CODE LENGTH" << endl;
-    MFD *p = thisuser;
-    UFD *q = p->file;
-    for (int i = 0; i < 10; i++)
+    MasterFileDirectory *p = thisuser;
+    UserFileDirectory *q = p->m_file;
+    for (q = p->m_file; q; q = q->m_next)
     {
-        cout << setw(20) << setiosflags(ios::left) << setfill(' ') << q->filename;
-        cout << q->pro[0] << q->pro[1] << q->pro[2];
+        cout << setw(20) << setiosflags(ios::left) << setfill(' ') << q->m_name;
+        cout << q->m_proCode.m_write << q->m_proCode.m_read << q->m_proCode.m_execute;
         cout << setw(20) << setiosflags(ios::left) << setfill(' ') << " ";
-        cout << setw(20) << setiosflags(ios::left) << setfill(' ') << q->codel << endl;
-        q = q->next;
+        cout << setw(20) << setiosflags(ios::left) << setfill(' ') << q->m_length << endl;
     }
 }
-void OpenMode(UFD *p, string name)
+void OpenMode(UserFileDirectory *p, string name)
 {
-    AFD *f = openfile;
-    int i;
-    for (i = 0; i < 5; i++)
+    ActiveFileDirectory *f = openFile;
+    for (int i = 0; i < openNumber; i++)
     {
-        if (f->point != NULL && f->point->filename == name)
+        if (f->m_point && f->m_point->m_name == name)
         {
-            cout << "THIS FILE IS ALREADY OPENED !" << endl;
+            cout << "文件已经打开。" << endl;
             return;
         }
-        f = f->next;
     }
-    for (i = 0; i < 5; i++)
+    for (int i = 0; i < openNumber; i++)
     {
-        if (f->point == NULL)
+        if (!f->m_point)
         {
-            break;
-        }
-        f = f->next;
-    }
-    if (i == 5)
-    {
-        cout << "ERROR!YOU CAN'T OPEN THIS FILE, NUMBER MUST <=5!";
-    }
-    else
-    {
-        cout << "ENTER THE OPEN MODE?";
-        string protect;
-        cin >> protect;
-        int j;
-        for (j = 0; j < 3; j++)
-        {
-            if (p->pro[j] != protect[j] - 48)
+            cout << "输入文件保护码：";
+            string proCode;
+            cin >> proCode;
+            if (p->m_proCode.Check(proCode))
             {
-                break;
+                cout << "文件已打开，文件编号为" << f->m_fileIndex << "。" << endl;
+                f->m_point = p;
+                f->m_proCode = p->m_proCode;
             }
-        }
-        if (j != 3)
-        {
-            cout << "ERROR, OPEN MODE IS WRONG!" << endl;
+            else
+            {
+                cout << "保护码错误。" << endl;
+            }
             return;
         }
-        else
-        {
-            cout << "THIS FILE IS OPENED,ITS OPEN NUMBER IS ";
-            cout << f->filenum << endl;
-            f->point = p;
-            for (int j = 0; j < 3; j++)
-            {
-                f->filepro[j] = p->pro[j];
-            }
-        }
     }
-    return;
+    cout << "打开的文件数量已达上限。" << endl;
 }
 void Create()
 {
-
-    cout << "THE NEW FILE S NAME(LESS THAN 9 CHARS)?                ";
-    string name;
-    cin >> name;
-    cout << "THE NEW FILE'S PROTECTION CODE?                    ";
-    string protect;
-    cin >> protect;
-    UFD *p = thisuser->file;
-    UFD *q = p;
-    int n;
-    for (n = 0; n < 10; n++)
+    cout << "请输入文件名：";
+    string fileName;
+    cin >> fileName;
+    cout << "请输入保护码：";
+    string proCode;
+    cin >> proCode;
+    UserFileDirectory *p = thisuser->m_file;
+    UserFileDirectory *q = p;
+    for (int i = 0; i < fileNumber; i++)
     {
-        if (q->filename == "******")
+        if (p[i].m_name == "")
         {
-            break;
-        }
-        q = q->next;
-    }
-    if (n == 10)
-    {
-        cout << "CREAT FAILED!!THERE IS NO SPACE,FILE NUMBER MUST<=10!" << endl;
-        return;
-    }
-    else
-    {
-        q->filename = name;
-        for (int i = 0; i < 3; i++)
-        {
-            q->pro[i] = protect[i] - 48;
+            q->m_name = fileName;
+            q->m_proCode = proCode;
+            cout << "创建成功。" << endl;
+            OpenMode(q, fileName);
+            return;
         }
     }
-    cout << "THE NEW FILE IS CREATED." << endl;
-    OpenMode(q, name);
-    return;
+    cout << "文件数量达到上限，创建失败。" << endl;
 }
 void Open()
 {
-    cout << "FILE NAME TO BE OPENED?      ";
-    string name;
-    cin >> name;
-    UFD *p = thisuser->file;
-    UFD *q = p;
-    int n;
-    for (n = 0; n < 10; n++)
+    cout << "请输入文件名：";
+    string fileName;
+    cin >> fileName;
+    UserFileDirectory *p = thisuser->m_file;
+    UserFileDirectory *q = p;
+    for (int i = 0; i < fileNumber; i++)
     {
-        if (q->filename == name)
+        if (q->m_name == fileName)
         {
+            OpenMode(q, fileName);
             break;
         }
-        q = q->next;
+        q = q->m_next;
     }
-    if (n == 10)
-    {
-        cout << "ERROR!THIS FILE IS NOT EXISTS!" << endl;
-        return;
-    }
-    else
-    {
-        OpenMode(q, name);
-    }
-    return;
+    cout << "文件不存在。" << endl;
 }
-void Close1(AFD *f)
+void Close(ActiveFileDirectory *f)
 {
-    f->point = NULL;
-    for (int i = 0; i < 3; i++)
-    {
-        f->filepro[i] = 0;
-    }
+    f->m_point = NULL;
+    f->m_proCode = "000";
     cout << "SUCCESS!THIS FILE IS CLOSED!" << endl;
     return;
 }
 void Close()
 {
-    cout << "CLOSE THE FILE'S NAME:      ";
-    string name;
-    cin >> name;
-    UFD *p = thisuser->file;
-    UFD *q = p;
-    int n;
-    for (n = 0; n < 10; n++)
+    cout << "请输入文件名：";
+    string fileName;
+    cin >> fileName;
+    UserFileDirectory *p = thisuser->m_file;
+    UserFileDirectory *q = p;
+    for (int i = 0; i < fileNumber; i++)
     {
-        if (q->filename == name)
+        if (q->m_name == fileName)
         {
-            break;
-        }
-        q = q->next;
-    }
-    if (n == 10)
-    {
-        cout << "ERROR!CAN'T FIND THIS FILE!" << endl;
-        return;
-    }
-    else
-    {
-        AFD *f = openfile;
-        int i;
-        for (i = 0; i < 5; i++)
-        {
-            if (f->point == q)
+            ActiveFileDirectory *f = openFile;
+            int i;
+            for (i = 0; i < openNumber; i++)
             {
-                break;
+                if (f->m_point == q)
+                {
+                    Close(f);
+                    return;
+                }
+                f = f->m_next;
             }
-            f = f->next;
-        }
-        if (n == 5)
-        {
-            cout << "ERROR!THIS FILE IS NOT OPENED!" << endl;
+            cout << "文件未打开。" << endl;
             return;
         }
-        else
-        {
-            Close1(f);
-        }
+        q = q->m_next;
     }
-    return;
+    cout << "文件不存在。" << endl;
 }
 void Delete()
 {
-    cout << "DELETE FILENAME?              ";
-    string name;
-    cin >> name;
-    UFD *p = thisuser->file;
-    UFD *q = p;
+    cout << "请输入文件名：";
+    string fileName;
+    cin >> fileName;
+    UserFileDirectory *p = thisuser->m_file;
+    UserFileDirectory *q = p;
     int n;
     for (n = 0; n < 10; n++)
     {
-        if (q->filename == name)
+        if (q->m_name == fileName)
         {
             break;
         }
-        q = q->next;
+        q = q->m_next;
     }
     if (n == 10)
     {
-        cout << "ERROR!CAN'T FIND THIS FILE!" << endl;
+        cout << "文件不存在。" << endl;
         return;
     }
     else
     {
-        AFD *f = openfile;
+        ActiveFileDirectory *f = openFile;
         int i;
         for (i = 0; i < 5; i++)
         {
-            if (f->point == q)
+            if (f->m_point == q)
             {
-                cout << "ERROR!THIS FILE IS OPENED! CLOSED IT?(Y/N)" << endl;
-                char y;
-                cin >> y;
-                if (y == 'Y')
-                {
-                    Close1(f);
-                    break;
-                }
-                else
-                {
-                    return;
-                }
+                cout << "文件已打开，将关闭。" << endl;
+                Close(f);
             }
-            f = f->next;
+            f = f->m_next;
         }
-        q->filename = "******";
-        q->codel = 0;
-        for (int x = 0; x < 3; x++)
-        {
-            q->pro[x] = 0;
-        }
-        cout << "SUCCESS!THIS FILE IS BE DELETED! " << endl;
+        q->m_name = "";
+        q->m_length = 0;
+        q->m_proCode = "000";
+        cout << "文件已删除。" << endl;
     }
     return;
 }
 void Read()
 {
-    cout << "OPEN FILE NUMBER?        ";
+    cout << "请输入打开的文件编号：";
     int num;
     cin >> num;
-    AFD *f = openfile;
+    ActiveFileDirectory *f = openFile;
     int i;
     for (i = 0; i < 5; i++)
     {
-        if (f->filenum == num && f->point != NULL)
+        if (f->m_fileIndex == num && f->m_point != NULL)
         {
             break;
         }
-        f = f->next;
+        f = f->m_next;
     }
     if (i == 5)
     {
-        cout << "ERROR!THIS FILE IS NOT OPENED!" << endl;
+        cout << "文件未打开。" << endl;
         return;
     }
     else
     {
-        if (f->filepro[0] == 1)
+        if (f->m_proCode.m_read)
         {
-            cout << "SUCCESS!READING!" << endl;
+            cout << "已读取文件。" << endl;
         }
         else
         {
-            cout << "ERROR!THIS FILE CAN'T READ WITH READING RIGHT LIMITED!" << endl;
+            cout << "没有读取权限。" << endl;
         }
     }
     return;
 }
 void Write()
 {
-    cout << "OPEN FILE NUMBER?        ";
+    cout << "请输入打开的文件编号：";
     int num;
     cin >> num;
-    AFD *f = openfile;
+    ActiveFileDirectory *f = openFile;
     int i;
     for (i = 0; i < 5; i++)
     {
-        if (f->filenum == num && f->point != NULL)
+        if (f->m_fileIndex == num && f->m_point != NULL)
         {
             break;
         }
-        f = f->next;
+        f = f->m_next;
     }
     if (i == 5)
     {
@@ -407,12 +270,12 @@ void Write()
     }
     else
     {
-        if (f->filepro[1] == 1)
+        if (f->m_proCode.m_write == 1)
         {
             cout << "HOW MANY CHARACTERS TO BE WRITTEN INTO THAT FILE?          ";
             int code;
             cin >> code;
-            f->point->codel = code;
+            f->m_point->m_length = code;
         }
         else
         {
@@ -421,84 +284,79 @@ void Write()
     }
     return;
 }
-void FileWork(int com)
+void Exit()
 {
-    if (com == 1)
+    cout << "已退出。" << endl;
+}
+int FileWork(string instruction)
+{
+    if (instruction == "创建")
     {
         Create();
+        return 0;
     }
-    if (com == 2)
+    else if (instruction == "删除")
     {
         Delete();
+        return 1;
     }
-    if (com == 3)
+    else if (instruction == "打开")
     {
         Open();
+        return 2;
     }
-    if (com == 4)
+    else if (instruction == "关闭")
     {
         Close();
+        return 3;
     }
-    if (com == 5)
+    else if (instruction == "读取")
     {
         Read();
+        return 4;
     }
-    if (com == 6)
+    else if (instruction == "写入")
     {
         Write();
+        return 5;
     }
-    if (com == 7)
+    else if (instruction == "退出")
     {
-        cout << "NOW YOUR FILE DIRECTORY IS FOLLOWING:" << endl;
-        show();
+        Exit();
+        return 6;
     }
-    return;
+    else
+    {
+        return -1;
+    }
 }
 int main()
 {
     cout << "RUN" << endl;
-    init();
-    int x = 0;
-    while (x == 0)
+    Initialize();
+    bool authorized = false;
+    while (!authorized)
     {
-
-        cout << "YOUR NAME?"
-             << "      ";
-        string username;
-        cin >> username;
-        x = checkUser(username);
-        if (x == 0)
+        cout << "请输入用户名：";
+        string userName;
+        cin >> userName;
+        authorized = CheckUser(userName);
+        if (!authorized)
         {
-            cout << "YOUR NAME IS NOT IN THE USER NAME TABLE,TRY AGAIN." << endl;
+            cout << "用户名验证失败，请重新输入。" << endl;
         }
     }
-    show();
-    int com = 0;
-    while (com != 7)
+    Show();
+    int result = 0;
+    while (result != 6)
     {
-        cout << "COMMAND NAME?      ";
+        cout << "请输入文件指令：";
         string s;
         cin >> s;
-        int i;
-        for (i = 0; i < 7; i++)
+        result = FileWork(s);
+        if (result == -1)
         {
-
-            if (s == command[i])
-            {
-                com = i + 1;
-                break;
-            }
-        }
-        if (i == 7)
-        {
-            cout << "COMMAND NAME GIVEN IS WRONG!" << endl;
-            cout << "IT SHOULD BE ONE OF FOLLOWING : " << endl;
-            cout << "CREATE, DELETE, OPEN, CLOSE, READ, WRITE, BYE    .TRY AGAIN" << endl;
-            continue;
-        }
-        else
-        {
-            FileWork(com);
+            cout << "指令错误，请重新输入（创建、删除、打开、关闭、读取、写入、退出）。" << endl;
         }
     }
     return 0;
